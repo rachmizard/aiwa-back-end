@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test-api', 'UserController@test');
 // Route::group(['middleware' => 'web'], function(){
 // 	Route::get('/jamaah', 'JamaahController@index');
 // 	Route::get('/jamaah/{id}', 'JamaahController@show');
