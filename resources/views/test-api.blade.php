@@ -92,7 +92,6 @@
 <!-- Modal -->
 <?php for ($u=0; $u < $count ; $u++) { ?>
 @foreach($jadwals['data'][$u]['jadwal'] as $on)
-	@foreach($on['paket'] as $paket)
 <div class="modal fade" id="paket{{ $u+1 }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -103,13 +102,16 @@
         </button>
       </div>
       <div class="modal-body">
-		<strong>Nama Paket : </strong>{{ $paket['nama_paket'] }} <br>
-		<strong>Kamar :</strong>{{ $paket['kamar'] }} <br>
-		<strong>Hara :</strong>{{ $paket['harga'] }} <br>
-		<strong>Hotel Madinah :</strong>{{ $paket['hotel_madinah'] }} <br>
-		<strong>Bintang Madinah :</strong>{{ $paket['bintang_madinah'] }} <br>
-		<strong>Hotel Mekkah :</strong>{{ $paket['hotel_mekkah'] }} <br>
-		<strong>Bintang Mekkah :</strong>{{ $paket['bintang_mekkah'] }} <br>
+      		@foreach($on['paket'] as $oi)
+		<strong>Nama Paket : </strong>{{ $oi['nama_paket'] }} <br>
+		<strong>Kamar :</strong>{{ $oi['kamar'] }} <br>
+		<strong>Hara :</strong>{{ $oi['harga'] }} <br>
+		<strong>Hotel Madinah :</strong>{{ $oi['hotel_madinah'] }} <br>
+		<strong>Bintang Madinah :</strong>{{ $oi['bintang_madinah'] }} <br>
+		<strong>Hotel Mekkah :</strong>{{ $oi['hotel_mekkah'] }} <br>
+		<strong>Bintang Mekkah :</strong>{{ $oi['bintang_mekkah'] }} <br>
+		<hr>
+			@endforeach
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -118,7 +120,6 @@
     </div>
   </div>
 </div>
-	@endforeach
 @endforeach
 <?php } ?>
 <!-- SCRIPT -->
@@ -128,7 +129,7 @@
 <script>
 $(document).ready(function() {
     $('#myTable').DataTable( {
-        "scrollY": 700,
+        "scrollY": 300,
         "scrollX": true
     } );
 } );

@@ -33,8 +33,8 @@ class UserController extends Controller
         // return view('test-api', compact('jadwals'));
         $test = $jadwals['data'];
         $count = count($test);
-        // $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
-        // $countPaket = count($itungPaket);
+        $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
+        $countPaket = count($itungPaket);
         // for ($i=0; $i < $countPaket ; $i++) { 
         //     foreach ($jadwals['data'][$i] as $key) {
         //         dd($key);
@@ -44,7 +44,7 @@ class UserController extends Controller
         // foreach ($itungPaket as $hasilPaket) {
         //     // dd($hasilPaket['kamar']);
         // }
-        return view('test-api', compact('jadwals', 'test', 'count'));
+        return view('test-api', compact('jadwals', 'test', 'count','countPaket'));
     }
     /**
      * Show the form for creating a new resource.
