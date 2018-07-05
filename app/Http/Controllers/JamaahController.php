@@ -20,7 +20,7 @@ class JamaahController extends Controller
 
     public function index()
     {
-        $jamaah = Jamaah::paginate(15);
+        $jamaah = Jamaah::where('status', 'lunas')->paginate(15);
         return view('jamaah.index', compact('jamaah'));
     }
 
@@ -44,7 +44,7 @@ class JamaahController extends Controller
     public function store(Request $request)
     {
         $tambah = Jamaah::create($request->all());
-        return redirect()->route('aiwa.jamaah');
+        return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di tambahkan jamaah!');
     }
 
     /**

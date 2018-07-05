@@ -99,7 +99,7 @@
                                   </div>
                                   <div class="form-group">
                                       <div class="col-md-offset-2 col-md-10">
-                                          <button class="btn btn-sm btn-primary" type="submit">Tambah</button>
+                                          <button class="btn btn-md btn-success" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit">Tambah</button>
                                       </div>
                                   </div>
                               </form>
@@ -112,7 +112,6 @@
 
 
             </div>
-
             <!-- Page Content Ends -->
             <!-- ================== -->
 

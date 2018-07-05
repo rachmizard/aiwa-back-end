@@ -41,6 +41,9 @@
         <link href="{{asset('/assets/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
 
 
+        <!-- Plugins css -->
+        <link href="{{asset('/assets/modal-effect/css/component.css')}}" rel="stylesheet">
+
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
 <!--[if lt IE 9]>
   <script src="js/html5shiv.js"></script>
@@ -102,10 +105,6 @@
         <script src="{{asset('/assets/sparkline-chart/jquery.sparkline.min.js')}}" type="text/javascript"></script>
         <script src="{{asset('/assets/sparkline-chart/chart-sparkline.js')}}" type="text/javascript"></script>
 
-        <!-- sweet alerts -->
-        <script src="{{asset('assets/sweet-alert/sweet-alert.min.js')}}"></script>
-        <script src="{{asset('assets/sweet-alert/sweet-alert.init.js')}}"></script>
-
         <script src="{{asset('/js/jquery.app.js')}}"></script>
         <!-- Chat -->
         <script src="{{asset('/js/jquery.chat.js')}}"></script>
@@ -115,16 +114,24 @@
         <!-- Todo -->
         <script src="{{asset('/js/jquery.todo.js')}}"></script>
 
+
+        <!-- sweet-alert -->
+        <script src="{{asset('/assets/sweet-alert/sweet-alert.init.js')}}"></script>
+
         <!-- datatables -->
         <script src="{{asset('/assets/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('/assets/datatables/dataTables.bootstrap.js')}}"></script>
+
+        <!-- Modal-Effect -->
+        <script src="{{asset('/assets/modal-effect/js/classie.js')}}"></script>
+        <script src="{{asset('/assets/modal-effect/js/modalEffects.js')}}"></script>
 
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#datatable').dataTable();
             } );
         </script>
-        
+
         <script type="text/javascript">
         /* ==============================================
              Counter Up
@@ -134,6 +141,22 @@
                     delay: 100,
                     time: 1200
                 });
+            });
+
+            $('a[id="load-a"]').on('click', function() {
+                var $this = $(this);
+              $this.button('loading');
+                setTimeout(function() {
+                   $this.button('reset');
+               }, 1000);
+            });
+
+            $('button[id="load"]').on('click', function() {
+                var $this = $(this);
+              $this.button('loading');
+                setTimeout(function() {
+                   $this.button('reset');
+               }, 4500);
             });
         </script>
 
