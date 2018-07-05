@@ -129,11 +129,11 @@
                     </div>
                     <div class="form-group m-t-30">
                         <div class="col-sm-7">
-                            <a href="forgot-password.html"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
+                            <a href="password/reset"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
                         </div>
-                        <div class="col-sm-5 text-right">
+                        <!-- <div class="col-sm-5 text-right">
                             <a href="/register">Create an account</a>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
 

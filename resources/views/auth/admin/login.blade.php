@@ -17,24 +17,24 @@
 
 
         <!-- Bootstrap core CSS -->
-        <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
-        <link href="{{asset('css/bootstrap-reset.css')}}" rel="stylesheet">
+        <link href="{{asset('/css/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{asset('/css/bootstrap-reset.css')}}" rel="stylesheet">
 
         <!--Animation css-->
-        <link href="{{asset('css/animate.css')}}" rel="stylesheet">
+        <link href="{{asset('/css/animate.css')}}" rel="stylesheet">
 
         <!--Icon-fonts css-->
-        <link href="{{asset('assets/font-awesome/css/font-awesome.css')}}" rel="stylesheet" />
-        <link href="{{asset('assets/ionicon/css/ionicons.min.css')}}" rel="stylesheet" />
+        <link href="{{asset('/assets/font-awesome/css/font-awesome.css')}}" rel="stylesheet" />
+        <link href="{{asset('/assets/ionicon/css/ionicons.min.css')}}" rel="stylesheet" />
 
         <!--Morris Chart CSS -->
-        <link rel="stylesheet" href="{{asset('assets/morris/morris.css')}}">
+        <!-- <link rel="stylesheet" href="{{asset('assets/morris/morris.css')}}"> -->
 
 
         <!-- Custom styles for this template -->
-        <link href="{{asset('css/style.css')}}" rel="stylesheet">
-        <link href="{{asset('css/helper.css')}}" rel="stylesheet">
-        <link href="{{asset('css/style-responsive.css')}}" rel="stylesheet" />
+        <link href="{{asset('/css/style.css')}}" rel="stylesheet">
+        <link href="{{asset('/css/helper.css')}}" rel="stylesheet">
+        <link href="{{asset('/css/style-responsive.css')}}" rel="stylesheet" />
         <style>
 
           body {
@@ -61,7 +61,7 @@
   <script src="js/html5shiv.js"></script>
   <script src="js/respond.min.js"></script>
 <![endif]-->
-
+<!-- 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -71,7 +71,7 @@
   ga('create', 'UA-62751496-1', 'auto');
   ga('send', 'pageview');
 
-</script>
+</script> -->
 
     </head>
 
@@ -144,15 +144,15 @@
 
 
         <!-- js placed at the end of the document so the pages load faster -->
-        <script src="{{asset('js/jquery.js">')}}</script>
-        <script src="{{asset('js/bootstrap.min.js')}}"></script>
-        <script src="{{asset('js/pace.min.js')}}"></script>
-        <script src="{{asset('js/wow.min.js')}}"></script>
-        <script src="{{asset('js/jquery.nicescroll.js')}}" type="text/javascript"></script>
+        <script src="{{asset('/js/jquery.js">')}}</script>
+        <script src="{{asset('/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('/js/pace.min.js')}}"></script>
+        <script src="{{asset('/js/wow.min.js')}}"></script>
+        <script src="{{asset('/js/jquery.nicescroll.js')}}" type="text/javascript"></script>
 
 
         <!--common script for all pages-->
-        <script src="{{asset('js/jquery.app.js')}}"></script>
+        <script src="{{asset('/js/jquery.app.js')}}"></script>
 
 
     </body>

@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use Auth;
-use Illuminate\Http\Request;
 
-class AdminController extends Controller
+use Illuminate\Http\Request;
+use App\Jamaah;
+use App\Anggota;
+class JamaahController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,12 +15,13 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:admin');
+        $this->middleware('auth');
     }
 
     public function index()
     {
-        return view('admin.home');
+        $jamaah = Jamaah::paginate(15);
+        return view('jamaah.index', compact('jamaah'));
     }
 
     /**
@@ -29,7 +31,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        $anggota = Anggota::all();
+        return view('jamaah.add', compact('anggota'));
     }
 
     /**
@@ -40,7 +43,8 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tambah = Jamaah::create($request->all());
+        return redirect()->route('aiwa.jamaah');
     }
 
     /**
@@ -86,14 +90,5 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        // $request->session()->flush();
-        // $request->session()->regenerate();
-        return redirect()->route( 'admin.login' );
     }
 }
