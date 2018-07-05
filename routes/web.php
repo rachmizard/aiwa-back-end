@@ -13,9 +13,8 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
-Route::get('/test-api', 'UserController@test');
 // Route::group(['middleware' => 'web'], function(){
 // 	Route::get('/jamaah', 'JamaahController@index');
 // 	Route::get('/jamaah/{id}', 'JamaahController@show');
@@ -30,6 +29,6 @@ Route::get('/home', 'HomeController@index');
     Route::post('/login', 'AdminLoginController@login')->name('admin.login.submit');
     Route::get('/createadmin', 'AdminLoginController@create');
     Route::post('/create', 'AdminLoginController@store')->name('admin.register.submit');
-    Route::post('/logout', 'AdminController@logout')->name('admin.logout');
-    Route::get('/', 'AdminController@index')->name('admin.dashboard');
+    Route::post('/logout', 'AdminController@logout')->name('admin.logout')->middleware('auth:admin');
+    Route::get('/', 'AdminController@index')->name('admin.dashboard')->middleware('auth:admin')->middleware('auth:admin');
   });

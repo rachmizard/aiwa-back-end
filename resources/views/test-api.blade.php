@@ -7,13 +7,21 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css"> -->
+        <style>
+            /* Ensure that the demo table scrolls */
+            /*th, td { white-space: nowrap; }
+            div.dataTables_wrapper {
+                width: 800px;
+                margin: 0 auto;
+            }*/
+        </style>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<table id="myTable" class="table table-hover table-stripped display"  style="width:100%">
+				<table id="" class="table table-striped table-bordered display"  style="width:100%">
 					<thead>
 						<tr>
 							<th>No</th>
@@ -102,16 +110,40 @@
         </button>
       </div>
       <div class="modal-body">
-      		@foreach($on['paket'] as $oi)
-		<strong>Nama Paket : </strong>{{ $oi['nama_paket'] }} <br>
-		<strong>Kamar :</strong>{{ $oi['kamar'] }} <br>
-		<strong>Hara :</strong>{{ $oi['harga'] }} <br>
-		<strong>Hotel Madinah :</strong>{{ $oi['hotel_madinah'] }} <br>
-		<strong>Bintang Madinah :</strong>{{ $oi['bintang_madinah'] }} <br>
-		<strong>Hotel Mekkah :</strong>{{ $oi['hotel_mekkah'] }} <br>
-		<strong>Bintang Mekkah :</strong>{{ $oi['bintang_mekkah'] }} <br>
-		<hr>
-			@endforeach
+      		@if(!$on['paket'] == null)
+      		<table class="table table-bordered">
+      			<thead>
+      				<tr>
+      					<th>No</th>
+      					<th>Nama Paket</th>
+      					<th>Kamar</th>
+      					<th>Hara</th>
+      					<th>Hotel Madinah</th>
+      					<th>Bintang Madinah</th>
+      					<th>Hotel Mekkah</th>
+      					<th>Bintang Mekkah</th>
+      				</tr>
+      			</thead>
+      			<tbody>
+      			<?php $no = 1; ?>
+      			@foreach($on['paket'] as $oi)
+      				<tr>
+      					<td>{{ $no }}</td>
+      					<td>{{ $oi['nama_paket'] }}</td>
+      					<td>{{ $oi['kamar'] }}</td>
+      					<td>{{ $oi['harga'] }}</td>
+      					<td>{{ $oi['hotel_madinah'] }}</td>
+      					<td>{{ $oi['bintang_madinah'] }}</td>
+      					<td>{{ $oi['hotel_mekkah'] }}</td>
+      					<td>{{ $oi['bintang_mekkah'] }}</td>
+      				</tr>
+      			<?php $no++; ?>
+				@endforeach
+      			</tbody>
+      		</table>
+			@else
+			<strong class="text-center">Packet is not already exist for right now.</strong>
+			@endif
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -125,10 +157,11 @@
 <!-- SCRIPT -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#myTable').DataTable( {
+    $('table.display').DataTable( {
         "scrollY": 300,
         "scrollX": true
     } );
