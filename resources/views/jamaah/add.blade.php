@@ -24,10 +24,9 @@
                                       <label class="col-md-2 control-label" for="judul">Agen yang dituju</label>
                                       <div class="col-md-10">
                                           <select name="anggota_id" class="form-control" id="">
-                                          	<option value="1">1</option>
-                                          	<option value="2">2</option>
-                                          	<option value="3">3</option>
-                                          	<option value="4">4/option>
+                                            @foreach($anggota as $in)
+                                          	<option value="{{$in->id}}">{{$in->nama}}</option>
+                                            @endforeach
                                           </select>
                                       </div>
                                   </div>

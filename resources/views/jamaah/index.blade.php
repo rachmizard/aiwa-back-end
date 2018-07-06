@@ -87,7 +87,7 @@
                         <div class="panel panel-color panel-primary">
                             <div class="panel-heading"> 
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-                                <h3 class="panel-title">Detail Jamaah {{ $on->nama }}</h3> 
+                                <h3 class="panel-title">Detail Jamaah {{ $on->nama }} {{ $on->id }}</h3> 
                             </div> 
                             <div class="panel-body"> 
                                 

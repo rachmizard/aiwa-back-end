@@ -33,8 +33,8 @@ class JamaahController extends Controller
          $jamaah = Jamaah::with('anggota')->select('jamaah.*');
           return Datatables::of($jamaah)->addColumn('action', function($jamaah){
              return '
-                <a href="#'. $jamaah->id .'" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal'.$jamaah->id.'"><i class="fa fa-pencil"></i> Edit</a>
-                <a href="#'.$jamaah->id.'" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal'.$jamaah->id.'" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
+                <a href="'. route('aiwa.jamaah.edit', $jamaah->id) .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })->make(true);
     }
@@ -104,6 +104,10 @@ class JamaahController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $jamaah = Jamaah::find($id);
+        $jamaah->delete();
+        return redirect()->route('aiwa.jamaah')->with([
+            'message' => 'ID '.$jamaah->id. ' berhasil di hapus',
+        ]);
     }
 }

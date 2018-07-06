@@ -47,10 +47,22 @@ Route::get('/', function () {
     // after logged-in it'll be get an authenticated.
     Route::get('/', 'AdminController@index')->name('admin.dashboard')->middleware('auth:admin')->middleware('auth:admin');
     
+    // Jamaah
     Route::get('/jamaah', 'JamaahController@index')->name('aiwa.jamaah');
     Route::get('/jamaah/tambah', 'JamaahController@create')->name('aiwa.jamaah.add');
     Route::post('/jamaah', 'JamaahController@store')->name('aiwa.jamaah.store');
     Route::get('/caljam', 'JamaahController@indexCalJam')->name('aiwa.caljam');
+    Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.edit');
+    Route::post('/jamaah/{id}/edit', 'JamaahController@update')->name('aiwa.jamaah.edit');
+    Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.put');
+    Route::get('/jamaah/{id}/delete', 'JamaahController@destroy')->name('aiwa.jamaah.delete');
+    // End of Jamaah
+
+    // Retrieving API of Jadwal
+
+    Route::get('/jadwal', 'JadwalController@index')->name('aiwa.jadwal');
+
+    // End
   });
   Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
 

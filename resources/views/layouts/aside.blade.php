@@ -13,32 +13,34 @@
           <!-- Navbar Start -->
           <nav class="navigation">
               <ul class="list-unstyled">
-                  <li class="has-submenu active"><a href="index.html"><i class="ion-home"></i> <span class="nav-label">Dashboard</span></a>
+                  <li class="has-submenu"><a href="index.html"><i class="ion-home"></i> <span class="nav-label">Dashboard</span></a>
                   </li>
                   <li class="has-submenu"><a href="agent.html"><i class="fa fa-user"></i> <span class="nav-label">Data Agen</span></a>
                   </li>
-                  <li class="has-submenu"><a href="{{route('aiwa.jamaah')}}"><i class="fa fa-group"></i> <span class="nav-label">Data Jamaah</span></a>
+                  <li class="{{ Route::currentRouteNamed('aiwa.jamaah') ? 'active' : '' }}
+ has-submenu"><a href="{{route('aiwa.jamaah')}}"><i class="fa fa-group"></i> <span class="nav-label">Data Jamaah</span></a>
                   </li>
                   <li class="has-submenu"><a href="{{route('aiwa.caljam')}}"><i class="fa fa-group"></i> <span class="nav-label">Data Prospek</span></a>
                   </li>
                   <li class="has-submenu"><a href="#"><i class="ion-ios7-keypad"></i> <span class="nav-label">Data Master</span></a>
                       <ul class="list-unstyled">
-                          <li><a href="jadwal.html"><i class="fa fa-calendar"></i> Jadwal</a></li>
-                          <li><a href="komisi.html"><i class="fa fa-money"></i> Komisi</a></li>
-                          <li><a href="itenary.html"><i class="fa fa-book"></i>Itenary</a></li>
-                          <li><a href="brosur.html"><i class="ion-map"></i> Brosur</a></li>
-                          <li><a href="kalkulasi.html"><i class="ion-calculator"></i>Kalkulasi</a></li>
-                          <li><a href="broadcast.html"><i class="ion-speakerphone"></i> Broadcast</a></li>
-                          <li><a href="master-gallery.html"><i class="fa fa-file-image-o"></i>Gallery</a></li>
-                          <li><a href="master-hotel.html"><i class="fa fa-building-o"></i> Hotel</a></li>
-                          <li><a href="notifikasi.html"><i class="fa fa-bell-o"></i> Notifikasi</a></li>
+                          <li class="{{ Route::currentRouteNamed('aiwa.jadwal') ? 'active' : '' }}
+"><a href="{{route('aiwa.jadwal')}}"><i class="fa fa-calendar"></i> Jadwal</a></li>
+                          <li clas><a href="komisi.html"><i class="fa fa-money"></i> Komisi</a></li>
+                          <li clas><a href="itenary.html"><i class="fa fa-book"></i>Itenary</a></li>
+                          <li clas><a href="brosur.html"><i class="ion-map"></i> Brosur</a></li>
+                          <li clas><a href="kalkulasi.html"><i class="ion-calculator"></i>Kalkulasi</a></li>
+                          <li clas><a href="broadcast.html"><i class="ion-speakerphone"></i> Broadcast</a></li>
+                          <li clas><a href="master-gallery.html"><i class="fa fa-file-image-o"></i>Gallery</a></li>
+                          <li clas><a href="master-hotel.html"><i class="fa fa-building-o"></i> Hotel</a></li>
+                          <li clas><a href="notifikasi.html"><i class="fa fa-bell-o"></i> Notifikasi</a></li>
                           <!-- <li><a href="notification.html">Notification</a></li>
                           <li><a href="sweet-alert.html">Sweet-Alert</a></li> -->
                       </ul>
                   </li>
-                  <li class="has-submenu"><a href="#"><i class="fa fa-database"></i> <span class="nav-label">CRUD</span></a>
+                  <li class="has-submenu {{ Route::currentRouteNamed('aiwa.jamaah.add') ? 'active' : '' }}"><a href="#"><i class="fa fa-database"></i> <span class="nav-label">CRUD</span></a>
                     <ul class="list-unstyled">
-                        <li class=""><a href="input-jamaah.html"><i class="fa fa-plus"></i> Input Jamaah</a></li>
+                        <li class="{{ Route::currentRouteNamed('aiwa.jamaah.add') ? 'active' : '' }}"><a href="input-jamaah.html"><i class="fa fa-plus"></i> Input Jamaah</a></li>
                         <li class=""><a href="input-itenary.html"><i class="fa fa-plus"></i> Itenary</a></li>
                         <!-- <li><a href="komisi.html"><i class="fa fa-money"></i> Komisi</a></li>
                         <li><a href="itenary.html"><i class="fa fa-book"></i>Itenary</a></li> -->
