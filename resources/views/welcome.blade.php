@@ -66,10 +66,10 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            @if (Route::has('admin.login'))
                 <div class="top-right links">
-                    @auth
-                        <a href="{{ route('aiwa.home') }}">Home</a>
+                    @auth('admin')
+                        <a href="{{ route('admin.dashboard') }}">Home</a>
                     @else
                     <a href="{{ route('login') }}">Login</a>
                     <a href="{{ route('register') }}">Register</a>

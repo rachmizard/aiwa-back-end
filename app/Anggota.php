@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Jamaah;
 class Anggota extends Model
 {
 	protected $table = 'anggotas';
@@ -11,5 +11,8 @@ class Anggota extends Model
     public $timestamps = true;
     protected $primaryKey = 'id';
     
-
+	public function jamaah()
+    {
+    	return $this->hasMany('App\Jamaah');
+    }
 }

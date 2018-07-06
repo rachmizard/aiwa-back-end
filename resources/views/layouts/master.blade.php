@@ -128,7 +128,9 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#datatable').dataTable();
+                $('#datatable').dataTable({
+                    processing: true,
+                });
             } );
         </script>
 
@@ -159,6 +161,7 @@
                }, 4500);
             });
         </script>
+        @stack('dataTables')
 
 
     </body>

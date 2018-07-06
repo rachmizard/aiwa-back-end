@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Admin;
 use Lang;
+use Carbon\Carbon;
 
 class AdminLoginController extends Controller
 {
@@ -48,6 +49,10 @@ class AdminLoginController extends Controller
       // Attempt to log the user in
       if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
         // if successful, then redirect to their intended location
+        Carbon::setLocale('id');
+        $userActivity = Admin::find(Auth::guard('admin')->user()->id);
+        $userActivity->login_at = Carbon::now();
+        $userActivity->save();
         return redirect()->intended(route('admin.dashboard'));
       }
       // if unsuccessful, then redirect back to the login with the form data

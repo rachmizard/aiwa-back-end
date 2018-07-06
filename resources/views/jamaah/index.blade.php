@@ -14,39 +14,58 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table id="datatable" class="table table-striped table-bordered">
+                                <table id="jamaah" class="table table-striped table-bordered">
                                   <thead>
                                     <td>No</td>
+                                    <td>Agen</td>
                                     <td>Nama</td>
+                                    <td>Alamat</td>
                                     <td>Nomor Telepon</td>
+                                    <td>Jenis Kelamin</td>
+                                    <td>Jml Dewasa</td>
+                                    <td>Jml Balita</td>
+                                    <td>Jml Infant</td>
                                     <td>Pembayaran</td>
                                     <td>Status</td>
                                     <td>Aksi</td>
                                   </thead>
-                                  <tbody>
-                                    <?php $no = 1; ?>
-                                    @foreach($jamaah as $in)
-                                    <tr>
-                                        <td>{{ $no }}</td>
-                                        <td>{{ $in->nama }}</td>
-                                        <td>{{ $in->no_telp }}</td>
-                                        <td>Rp. {{ $in->pembayaran }}</td>
-                                        <td>{{ $in->status }}</td>
-                                        <td>
-                                            <a href="#{{ $in->id }}" id="load-a" class="btn btn-primary" data-target="#modal-{{ $in->id }}" data-toggle="modal"><i class="fa fa-eye"></i></a>
-                                            <a href="#" id="load-a" class="btn btn-danger"><i class="fa fa-pencil"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php $no++; ?>
-                                    @endforeach
-                                  </tbody>
                                 </table>
+                                <tbody>
+                                </tbody>
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- end col -->
 
             </div> <!-- END Wraper -->
         </div>
+
+         @push('dataTables')
+            <!-- Datatable Serverside -->
+            <script>
+                $(document).ready(function(){
+                    $('#jamaah').dataTable({
+                        "processing": true,
+                        "serverSide": true,
+                        "ajax": "http://localhost:8000/jamaah/loadTableJamaah", 
+                        "columns": [
+                            { data: "id", name: "id" },
+                            { data: "anggota.nama", name: "anggota_id" },
+                            { data: "nama", name: "nama" },
+                            { data: "alamat", name: "alamat" },
+                            { data: "no_telp", name: "no_telp" },
+                            { data: "jenis_kelamin", name: "jenis_kelamin" },
+                            { data: "jml_dewasa", name: "jml_dewasa" },
+                            { data: "jml_balita", name: "jml_balita" },
+                            { data: "jml_infant", name: "jml_infant" },
+                            { data: "pembayaran", name: "pembayaran" },
+                            { data: "status", name: "status" },
+                            { data: "action", name: "action"}
+                        ]
+                    });
+                });
+            </script>
+            <!-- End Datatable Serverside -->
+            @endpush
 
         <!-- Success notification -->
         @if(session('message'))
@@ -62,7 +81,7 @@
 
             <!-- MODAL DETAIL-->
             @foreach($jamaah as $on)
-            <div id="modal-{{ $on->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div id="modal{{ $on->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content p-0 b-0">
                         <div class="panel panel-color panel-primary">
@@ -81,4 +100,5 @@
             <!-- END MODAL DETAIL -->
             <!-- Page Content Ends -->
             <!-- ================== -->
+
 @endsection

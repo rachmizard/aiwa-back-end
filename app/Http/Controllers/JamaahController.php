@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Jamaah;
 use App\Anggota;
+use Yajra\Datatables\Datatables;
 class JamaahController extends Controller
 {
     /**
@@ -15,13 +16,27 @@ class JamaahController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:admin');
     }
 
     public function index()
     {
-        $jamaah = Jamaah::where('status', 'lunas')->paginate(15);
+        $jamaah = Jamaah::where('status', 'lunas')->get();
         return view('jamaah.index', compact('jamaah'));
+    }
+
+    // get data by serverside
+    public function getData()
+    {
+        // $jamaah =  Jamaah::select('id', 'anggota_id', 'nama', 'alamat', 'no_telp', 'jenis_kelamin', 'status');
+        // return Datatables::of($jamaah)->make(true);
+         $jamaah = Jamaah::with('anggota')->select('jamaah.*');
+          return Datatables::of($jamaah)->addColumn('action', function($jamaah){
+             return '
+                <a href="#'. $jamaah->id .'" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal'.$jamaah->id.'"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="#'.$jamaah->id.'" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal'.$jamaah->id.'" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
+                    ;
+                })->make(true);
     }
 
     /**

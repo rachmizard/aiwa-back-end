@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-})->middleware('auth');
+})->middleware('auth:admin');
 
 // Route::group(['middleware' => 'web'], function(){
 // 	Route::get('/jamaah', 'JamaahController@index');
@@ -22,14 +22,14 @@ Route::get('/', function () {
 // });
 
 
-Route::prefix('aiwa')->group(function(){
-	Auth::routes();
-	Route::get('/home', 'HomeController@index')->name('aiwa.home');
-	Route::get('/jamaah', 'JamaahController@index')->name('aiwa.jamaah');
-	Route::get('/jamaah/tambah', 'JamaahController@create')->name('aiwa.jamaah.add');
-	Route::post('/jamaah', 'JamaahController@store')->name('aiwa.jamaah.store');
-	Route::get('/caljam', 'JamaahController@indexCalJam')->name('aiwa.caljam');
-});
+// Route::prefix('aiwa')->group(function(){
+// 	// Auth::routes();
+// 	Route::get('/home', 'HomeController@index')->name('aiwa.home');
+// 	Route::get('/jamaah', 'JamaahController@index')->name('aiwa.jamaah');
+// 	Route::get('/jamaah/tambah', 'JamaahController@create')->name('aiwa.jamaah.add');
+// 	Route::post('/jamaah', 'JamaahController@store')->name('aiwa.jamaah.store');
+// 	Route::get('/caljam', 'JamaahController@indexCalJam')->name('aiwa.caljam');
+// });
 
 
 // for backup
@@ -46,7 +46,11 @@ Route::prefix('aiwa')->group(function(){
 
     // after logged-in it'll be get an authenticated.
     Route::get('/', 'AdminController@index')->name('admin.dashboard')->middleware('auth:admin')->middleware('auth:admin');
-
-    // Route::get('/');
+    
+    Route::get('/jamaah', 'JamaahController@index')->name('aiwa.jamaah');
+    Route::get('/jamaah/tambah', 'JamaahController@create')->name('aiwa.jamaah.add');
+    Route::post('/jamaah', 'JamaahController@store')->name('aiwa.jamaah.store');
+    Route::get('/caljam', 'JamaahController@indexCalJam')->name('aiwa.caljam');
   });
+  Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
 

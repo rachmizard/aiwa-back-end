@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
+use App\Admin;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -19,7 +21,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.home');
+        return view('home');
     }
 
     /**
@@ -91,9 +93,13 @@ class AdminController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        // $request->session()->flush();
-        // $request->session()->regenerate();
+        Carbon::setLocale('id');
+        $userActivity = Admin::find(Auth::guard('admin')->user()->id);
+        $userActivity->last_login = Carbon::now();
+        $userActivity->save();
+        Auth::guard('admin')->logout();
+        $request->session()->flush();
+        $request->session()->regenerate();
         return redirect()->route( 'admin.login' );
     }
 }
