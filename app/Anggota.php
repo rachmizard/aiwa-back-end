@@ -11,8 +11,8 @@ class Anggota extends Model
     public $timestamps = true;
     protected $primaryKey = 'id';
     
-	public function jamaah()
-    {
-    	return $this->hasMany('App\Jamaah');
-    }
+	// public function jamaah()
+ //    {
+ //    	return $this->hasMany('App\Jamaah');
+ //    }
 }

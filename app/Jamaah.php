@@ -14,6 +14,6 @@ class Jamaah extends Model
 
     public function anggota()
     {
-    	return $this->belongsTo('App\Anggota');
+    	return $this->belongsTo('App\User');
     }
 }

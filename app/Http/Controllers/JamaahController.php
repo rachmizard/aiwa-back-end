@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Jamaah;
-use App\Anggota;
+use App\User;
 use Yajra\Datatables\Datatables;
 class JamaahController extends Controller
 {
@@ -46,7 +46,7 @@ class JamaahController extends Controller
      */
     public function create()
     {
-        $anggota = Anggota::all();
+        $anggota = User::all();
         return view('jamaah.add', compact('anggota'));
     }
 
@@ -82,7 +82,7 @@ class JamaahController extends Controller
     public function edit(Request $request, $id)
     {
         $edit = Jamaah::find($id);
-        $anggota = Anggota::all();
+        $anggota = User::all();
         return view('jamaah.edit', compact('edit', 'anggota'));
     }
 

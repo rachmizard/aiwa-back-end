@@ -72,13 +72,13 @@ Route::get('/', function () {
 Route::get('/faker/agents',function(){
     $faker = Faker\Factory::create();
 
-        $limit = 33;
+        $limit = 50;
 
         for ($i = 0; $i < $limit; $i++) {
-            DB::table('anggotas')->insert([ //,
+            DB::table('users')->insert([ //,
                 'nama' => $faker->name,
                 'no_ktp' => rand(0,100),
-                'jenis_kelamin' => 'Laki-Laki',
+                'jenis_kelamin' => 'L',
                 'alamat' => $faker->address,
                 'no_telp' => $faker->phoneNumber,
                 'email' => $faker->unique()->email,

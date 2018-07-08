@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Anggota;
+use App\User;
 
 class AgenController extends Controller
 {
@@ -15,11 +15,11 @@ class AgenController extends Controller
     public function index(Request $request)
     {
         if ($request->input('search')) {
-            $agens = Anggota::paginate(10);
-            $hasil = Anggota::where('nama', 'LIKE', '%'.$request->search.'%')->get();
+            $agens = User::paginate(10);
+            $hasil = User::where('nama', 'LIKE', '%'.$request->search.'%')->get();
             return view('agen.index', compact('hasil', 'agens'));
         }
-            $agens = Anggota::paginate(10);
+            $agens = User::paginate(10);
             $hasil = null;
             return view('agen.index', compact('hasil', 'agens'));
 
