@@ -33,7 +33,7 @@ class JamaahController extends Controller
          $jamaah = Jamaah::with('anggota')->select('jamaah.*');
           return Datatables::of($jamaah)->addColumn('action', function($jamaah){
              return '
-                <a href="'. route('aiwa.jamaah.edit', $jamaah->id) .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="jamaah/'. $jamaah->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })->make(true);
@@ -79,9 +79,11 @@ class JamaahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $edit = Jamaah::find($id);
+        $anggota = Anggota::all();
+        return view('jamaah.edit', compact('edit', 'anggota'));
     }
 
     /**
@@ -93,7 +95,9 @@ class JamaahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $jamaah = Jamaah::find($id);
+        $jamaah->update($request->all()); 
+        return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di edit!');
     }
 
     /**

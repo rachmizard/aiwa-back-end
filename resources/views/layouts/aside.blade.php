@@ -15,7 +15,7 @@
               <ul class="list-unstyled">
                   <li class="has-submenu"><a href="index.html"><i class="ion-home"></i> <span class="nav-label">Dashboard</span></a>
                   </li>
-                  <li class="has-submenu"><a href="agent.html"><i class="fa fa-user"></i> <span class="nav-label">Data Agen</span></a>
+                  <li class="has-submenu"><a href="agenjamaah"><i class="fa fa-user"></i> <span class="nav-label">Data Agen</span></a>
                   </li>
                   <li class="{{ Route::currentRouteNamed('aiwa.jamaah') ? 'active' : '' }}
  has-submenu"><a href="{{route('aiwa.jamaah')}}"><i class="fa fa-group"></i> <span class="nav-label">Data Jamaah</span></a>

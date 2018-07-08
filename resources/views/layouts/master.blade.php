@@ -125,25 +125,10 @@
         <!-- Modal-Effect -->
         <script src="{{asset('/assets/modal-effect/js/classie.js')}}"></script>
         <script src="{{asset('/assets/modal-effect/js/modalEffects.js')}}"></script>
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#datatable').dataTable({
-                    processing: true,
-                });
-            } );
-        </script>
-
-        <script type="text/javascript">
-        /* ==============================================
-             Counter Up
-             =============================================== */
-            jQuery(document).ready(function($) {
-                $('.counter').counterUp({
-                    delay: 100,
-                    time: 1200
-                });
-            });
+        @stack('dataTables')
+        @stack('otherJavascript')
+        <script>
+            
 
             $('a[id="load-a"]').on('click', function() {
                 var $this = $(this);
@@ -161,8 +146,7 @@
                }, 4500);
             });
         </script>
-        @stack('dataTables')
-
+        </script>
 
     </body>
 
