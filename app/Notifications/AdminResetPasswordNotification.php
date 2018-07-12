@@ -43,8 +43,8 @@ class AdminResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Kami melihat anda ingin melakukan rest password, tindak lanjut dengan menekan tombol di bawah ini')
-                    ->action('Notification Action', route('admin.password.reset', $this->token))
+                    ->line('Tekan tombol di bawah ini untuk melanjutkan reset password')
+                    ->action('Rubah Password Baru', route('admin.password.reset', $this->token))
                     ->line('Thank you for using our application!');
     }
 
