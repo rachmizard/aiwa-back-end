@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\Admin;
 use Lang;
 use Carbon\Carbon;
+use App\LogActivity;
 
 class AdminLoginController extends Controller
 {
@@ -53,6 +55,12 @@ class AdminLoginController extends Controller
         $userActivity = Admin::find(Auth::guard('admin')->user()->id);
         $userActivity->login_at = Carbon::now();
         $userActivity->save();
+
+        LogActivity::create([
+            'subjek' => Auth::guard('admin')->user()->username. ' login ke website.',
+            'user_id' => Auth::guard('admin')->user()->id,
+            'tanggal' => Carbon::now()
+        ]);
         return redirect()->intended(route('admin.dashboard'));
       }
       // if unsuccessful, then redirect back to the login with the form data

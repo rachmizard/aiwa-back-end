@@ -49,7 +49,7 @@
                         "ajax": "http://localhost:8000/jamaah/loadTableJamaah", 
                         "columns": [
                             { data: "id", name: "id" },
-                            { data: "anggota.nama", name: "anggota_id" },
+                            { data: "anggota.nama", name: "anggota.nama" },
                             { data: "nama", name: "nama" },
                             { data: "alamat", name: "alamat" },
                             { data: "no_telp", name: "no_telp" },

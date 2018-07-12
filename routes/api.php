@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //test api jadwal
-Route::get('/test-api', 'UserController@test');
+Route::get('/test-api', 'API\JadwalController@test');
 
 // List users 
 Route::get('users', 'UserController@index');

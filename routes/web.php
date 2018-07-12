@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 
 // Route::prefix('aiwa')->group(function(){
-// 	// Auth::routes();
+	Auth::routes();
 // 	Route::get('/home', 'HomeController@index')->name('aiwa.home');
 // 	Route::get('/jamaah', 'JamaahController@index')->name('aiwa.jamaah');
 // 	Route::get('/jamaah/tambah', 'JamaahController@create')->name('aiwa.jamaah.add');
@@ -35,23 +35,32 @@ Route::get('/', function () {
 // for backup
   Route::prefix('admin')->group(function() {
   	// Login & logout's area
-    Route::get('/login', 'AdminLoginController@showLoginForm')->name('admin.login');
-    Route::post('/login', 'AdminLoginController@login')->name('admin.login.submit');
+    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::post('/logout', 'AdminController@logout')->name('admin.logout')->middleware('auth:admin');
     // end login's area
+
+    // Reset Password's area
+    // Password Reset Routes...
+    //admin password reset routes
+    Route::post('password/email','Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+    Route::get('password/reset','Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+    Route::post('password/reset','Auth\AdminResetPasswordController@reset');
+    Route::get('password/reset/{token}','Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
+    // end Reset Password's area
+
     // create admin's area
-    Route::get('/createadmin', 'AdminLoginController@create');
+    Route::get('/createadmin', 'AdminLoginController@create')->name('admin.register');
     Route::post('/create', 'AdminLoginController@store')->name('admin.register.submit');
     // end create admin's area 
 
     // after logged-in it'll be get an authenticated.
-    Route::get('/', 'AdminController@index')->name('admin.dashboard')->middleware('auth:admin')->middleware('auth:admin');
+    Route::get('/home', 'AdminController@index')->name('admin.dashboard')->middleware('auth:admin')->middleware('auth:admin');
     
     // Jamaah
     Route::get('/jamaah', 'JamaahController@index')->name('aiwa.jamaah');
     Route::get('/jamaah/tambah', 'JamaahController@create')->name('aiwa.jamaah.add');
     Route::post('/jamaah', 'JamaahController@store')->name('aiwa.jamaah.store');
-    Route::get('/caljam', 'JamaahController@indexCalJam')->name('aiwa.caljam');
     Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.edit-form');
     Route::post('/jamaah/{id}', 'JamaahController@update')->name('aiwa.jamaah.update');
     Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.put');
@@ -59,15 +68,31 @@ Route::get('/', function () {
     // End of Jamaah
 
     // Agen
-    Route::resource('/agenjamaah', 'AgenController');
+    Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
     // End of agen
 
-    // Retrieving API of Jadwal
-    Route::get('/jadwal', 'JadwalController@index')->name('aiwa.jadwal');
+    // Prospek / Cajam
+    Route::get('prospek', 'ProspekController@index')->name('aiwa.prospek');
+    // End
 
+    // Master Hotel
+    Route::get('master-hotel', 'HotelController@index')->name('aiwa.master-hotel');
+    Route::get('master-hotel/loadTableHotel', 'HotelController@getData')->name('aiwa.master-hotel.load.table');
+    Route::get('master-hotel/tambah', 'HotelController@create')->name('aiwa.master-hotel.add');
+    // End Master Hotel
+
+    // Log Activity
+    Route::get('log-activity', 'LogActivityController@index')->name('aiwa.log-activity');
+    // End Log
+
+    // Retrieving API of Jadwal
+    Route::get('master-jadwal', 'JadwalController@index')->name('aiwa.master-jadwal');
     // End
   });
   Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
+
+
+// TEST DATABAASE
 
 Route::get('/faker/agents',function(){
     $faker = Faker\Factory::create();
@@ -88,4 +113,22 @@ Route::get('/faker/agents',function(){
                 'koordinator' => $faker->name,
             ]);
         }
+});
+
+Route::get('/faker/hotels',function(){
+    $faker = Faker\Factory::create();
+
+        $limit = 90000;
+
+        for ($i = 0; $i < $limit; $i++) {
+            DB::table('master_hotels')->insert([ //,
+                'file' => $faker->name,
+                'kota' => $faker->address,
+                'nama' => $faker->name,
+                'lokasi_map' => $faker->address,
+                'skor' => rand(0,100)
+            ]);
+        }
+
+        return redirect()->route('aiwa.master-hotel')->with('message', $limit.' data hotel has been automatically added!');
 });

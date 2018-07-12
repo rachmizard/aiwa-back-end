@@ -13,7 +13,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table id="" class="table table-striped table-bordered display"  style="width:100%">
+                                <table id="jadwal" class="table table-hover table-bordered display"  style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -40,7 +40,7 @@
                                     </thead>
                                     <tbody>
                                         <?php for ($i=0; $i < $count; $i++) { ?>
-                                        @foreach($jadwals['data'][$i]['jadwal'] as $in)
+                                        @foreach($jadwals['data'][$i]['jadwal'] as $key => $in)
                                         <tr>
                                             <td>{{ $i+1 }}</td>
                                             <td>{{ $in['id'] }}</td>
@@ -90,7 +90,7 @@
       </div>
       <div class="modal-body">
             @if(!$on['paket'] == null)
-            <table class="table table-bordered">
+            <table id="paket23" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -138,7 +138,12 @@
 
 <script>
 $(document).ready(function() {
-    $('table.display').DataTable( {
+    $('#jadwal').DataTable( {
+        "scrollY": 300,
+        "scrollX": true
+    } );
+
+    $('#paket23').DataTable( {
         "scrollY": 300,
         "scrollX": true
     } );

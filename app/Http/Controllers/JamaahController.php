@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Jamaah;
 use App\User;
 use Yajra\Datatables\Datatables;
+use App\LogActivity;
+use Auth;
+use Carbon\Carbon;
 class JamaahController extends Controller
 {
     /**
@@ -30,7 +33,7 @@ class JamaahController extends Controller
     {
         // $jamaah =  Jamaah::select('id', 'anggota_id', 'nama', 'alamat', 'no_telp', 'jenis_kelamin', 'status');
         // return Datatables::of($jamaah)->make(true);
-         $jamaah = Jamaah::with('anggota')->select('jamaah.*');
+         $jamaah = Jamaah::with('anggota')->select('jamaah.*')->where('status', 'Lunas')->get();
           return Datatables::of($jamaah)->addColumn('action', function($jamaah){
              return '
                 <a href="jamaah/'. $jamaah->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
@@ -59,6 +62,11 @@ class JamaahController extends Controller
     public function store(Request $request)
     {
         $tambah = Jamaah::create($request->all());
+        LogActivity::create([
+            'subjek' => Auth::guard('admin')->user()->username.' menambahkan data di table jamaah.',
+            'user_id' => Auth::guard('admin')->user()->id,
+            'tanggal' => Carbon::now()
+        ]);
         return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di tambahkan jamaah!');
     }
 
@@ -96,6 +104,11 @@ class JamaahController extends Controller
     public function update(Request $request, $id)
     {
         $jamaah = Jamaah::find($id);
+        LogActivity::create([
+            'subjek' => Auth::guard('admin')->user()->username.' mengedit data di table jamaah.',
+            'user_id' => Auth::guard('admin')->user()->id,
+            'tanggal' => Carbon::now()
+        ]);
         $jamaah->update($request->all()); 
         return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di edit!');
     }
@@ -109,6 +122,11 @@ class JamaahController extends Controller
     public function destroy($id)
     {
         $jamaah = Jamaah::find($id);
+        LogActivity::create([
+            'subjek' => Auth::guard('admin')->user()->username.' menghapus data di table jamaah.',
+            'user_id' => Auth::guard('admin')->user()->id,
+            'tanggal' => Carbon::now()
+        ]);
         $jamaah->delete();
         return redirect()->route('aiwa.jamaah')->with([
             'message' => 'ID '.$jamaah->id. ' berhasil di hapus',

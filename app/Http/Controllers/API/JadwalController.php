@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\User;
 Use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Collection;
 
-class UserController extends Controller
+class JadwalController extends Controller
 {
     /**
      * Display a listing of the resource.

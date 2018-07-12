@@ -1,28 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use Auth;
-use Illuminate\Http\Request;
-use App\Admin;
-use Carbon\Carbon;
-use App\LogActivity;
 
-class AdminController extends Controller
+use App\LogActivity;
+use Illuminate\Http\Request;
+
+class LogActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
-
     public function index()
     {
-        return view('home');
+        $logs = LogActivity::all();
+        return view('log.index', compact('logs'));
     }
 
     /**
@@ -49,10 +42,10 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(LogActivity $logActivity)
     {
         //
     }
@@ -60,10 +53,10 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(LogActivity $logActivity)
     {
         //
     }
@@ -72,10 +65,10 @@ class AdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, LogActivity $logActivity)
     {
         //
     }
@@ -83,30 +76,11 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LogActivity $logActivity)
     {
         //
-    }
-
-
-    public function logout(Request $request)
-    {
-        Carbon::setLocale('id');
-        // send a log
-        LogActivity::create([
-            'subjek' => Auth::guard('admin')->user()->username.' logout dari website.',
-            'user_id' => Auth::guard('admin')->user()->id,
-            'tanggal' => Carbon::now()
-        ]);
-        $userActivity = Admin::find(Auth::guard('admin')->user()->id);
-        $userActivity->last_login = Carbon::now();
-        $userActivity->save();
-        Auth::guard('admin')->logout();
-        $request->session()->flush();
-        $request->session()->regenerate();
-        return redirect()->route( 'admin.login' );
     }
 }

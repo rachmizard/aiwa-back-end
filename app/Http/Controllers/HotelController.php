@@ -1,28 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-use Auth;
-use Illuminate\Http\Request;
-use App\Admin;
-use Carbon\Carbon;
-use App\LogActivity;
 
-class AdminController extends Controller
+use App\Master_Hotel;
+use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
+
+class HotelController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
-
     public function index()
     {
-        return view('home');
+        $hotels = Master_Hotel::all();
+        return view('hotel.index', compact('hotels'));
     }
 
     /**
@@ -30,9 +24,22 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getData(Request $request)
+    {
+        $hotels = Master_Hotel::all();
+         return Datatables::of($hotels)->addColumn('action', function($hotels)
+         {
+            return '
+                <a href="master-hotel/'. $hotels->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'. route('aiwa.master-hotel', $hotels->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
+         })
+         ->make(true);
+    }
+
     public function create()
     {
-        //
+        return view('hotel.add');
     }
 
     /**
@@ -49,10 +56,10 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Hotel $hotel)
     {
         //
     }
@@ -60,10 +67,10 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Hotel $hotel)
     {
         //
     }
@@ -72,10 +79,10 @@ class AdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Hotel $hotel)
     {
         //
     }
@@ -83,30 +90,11 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Hotel $hotel)
     {
         //
-    }
-
-
-    public function logout(Request $request)
-    {
-        Carbon::setLocale('id');
-        // send a log
-        LogActivity::create([
-            'subjek' => Auth::guard('admin')->user()->username.' logout dari website.',
-            'user_id' => Auth::guard('admin')->user()->id,
-            'tanggal' => Carbon::now()
-        ]);
-        $userActivity = Admin::find(Auth::guard('admin')->user()->id);
-        $userActivity->last_login = Carbon::now();
-        $userActivity->save();
-        Auth::guard('admin')->logout();
-        $request->session()->flush();
-        $request->session()->regenerate();
-        return redirect()->route( 'admin.login' );
     }
 }
