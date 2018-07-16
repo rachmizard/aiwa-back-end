@@ -1,28 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
-use Auth;
-use Illuminate\Http\Request;
-use App\Admin;
-use Carbon\Carbon;
-use App\LogActivity;
+namespace App\Http\Controllers\API;
 
-class AdminController extends Controller
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Jamaah;
+use App\User;
+use App\Http\Resources\JamaahResource;
+
+class JamaahControllerAPI extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct()
+    public function index(Jamaah $jamaah)
     {
-        $this->middleware('auth:admin');
-    }
-
-    public function index()
-    {
-        return view('home');
+        return JamaahResource::collection(Jamaah::with('anggota')->paginate(25));
     }
 
     /**
@@ -89,24 +84,5 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-
-    public function logout(Request $request)
-    {
-            Carbon::setLocale(config('app.locale'));
-        // send a log
-        LogActivity::create([
-            'subjek' => 'Logout dari website.',
-            'user_id' => Auth::guard('admin')->user()->id,
-            'tanggal' => Carbon::now()
-        ]);
-        $userActivity = Admin::find(Auth::guard('admin')->user()->id);
-        $userActivity->last_login = Carbon::now();
-        $userActivity->save();
-        Auth::guard('admin')->logout();
-        $request->session()->flush();
-        $request->session()->regenerate();
-        return redirect()->route( 'admin.login' );
     }
 }

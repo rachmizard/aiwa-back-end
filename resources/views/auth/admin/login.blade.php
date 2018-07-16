@@ -82,7 +82,7 @@
             <div class="panel panel-color panel-danger">
                 <div class="panel-heading text-center">
                    <img src="{{asset('/img/AiwaFontLogo.png')}}" class="" width="200" height="100" alt="">
-                   <h3 class="text-center m-t-10"> Sign In to <strong>AIWA </strong>(BACKUP)</h3>
+                   <h3 class="text-center m-t-10"> Log In to <strong>AIWA </strong></h3>
                 </div>
 
                 <form class="form-horizontal m-t-40" method="POST" action="{{ route('admin.login.submit') }}">
@@ -129,10 +129,7 @@
                     </div>
                     <div class="form-group m-t-30">
                         <div class="col-sm-7">
-                            <a href="forgot-password.html"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
-                        </div>
-                        <div class="col-sm-5 text-right">
-                            <a href="/register">Create an account</a>
+                            <a href="{{ route('admin.password.request') }}"><i class="fa fa-lock m-r-5"></i> Lupa password?</a>
                         </div>
                     </div>
                 </form>

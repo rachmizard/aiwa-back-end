@@ -51,13 +51,14 @@ class AdminLoginController extends Controller
       // Attempt to log the user in
       if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
         // if successful, then redirect to their intended location
-        Carbon::setLocale('id');
+        
+        Carbon::setLocale(config('app.locale'));
         $userActivity = Admin::find(Auth::guard('admin')->user()->id);
         $userActivity->login_at = Carbon::now();
         $userActivity->save();
 
         LogActivity::create([
-            'subjek' => Auth::guard('admin')->user()->username. ' login ke website.',
+            'subjek' => 'Login ke website.',
             'user_id' => Auth::guard('admin')->user()->id,
             'tanggal' => Carbon::now()
         ]);

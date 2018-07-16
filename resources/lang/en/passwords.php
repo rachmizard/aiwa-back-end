@@ -15,7 +15,7 @@ return [
 
     'password' => 'Password harus lebih dari 6 karakter.',
     'reset' => 'Link reset password telah di kirim.',
-    'sent' => 'Reset password telah di kirim ke email!',
+    'sent' => 'Reset password telah di kirim ke email! Cek sebelum 30 menit berakhir.',
     'token' => 'Token reset password salah.',
     'user' => "Email tidak di temukan.",
 

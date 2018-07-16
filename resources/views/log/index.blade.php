@@ -32,7 +32,7 @@
                                   		<td>{{ $no }}</td>
 	                                    <td><span class="text-success">{{ $log->subjek }}</span></td>
 	                                    <td>{{ $log->user_id }}</td>
-	                                    <td>{{ $log->tanggal }}</td>
+	                                    <td>{{ $log->tanggal }} atau sekitar {{ $log->created_at->diffForHumans() }}</td>
 	                                    <td>
 	                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
 	                                      <a href="#" class="btn btn-sm btn-danger">Hapus</a>

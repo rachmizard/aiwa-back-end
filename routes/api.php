@@ -30,3 +30,6 @@ Route::get('users/{id}', 'UserController@show');
 Route::post('users', 'UserController@store');
 
 Route::delete('users/delete/{id}', 'UserController@destroy');
+
+// Jamaah API Route
+Route::get('/jamaah', 'API\JamaahControllerAPI@index');
