@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     {
          Schema::defaultStringLength(191); //Solved by increasing StringLength
          // Resource::withoutWrapping();
+         \Carbon\Carbon::setlocale('id');
 
     }
 

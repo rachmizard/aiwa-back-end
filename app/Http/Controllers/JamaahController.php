@@ -63,10 +63,11 @@ class JamaahController extends Controller
     {
         $tambah = Jamaah::create($request->all());
         LogActivity::create([
-            'subjek' => Auth::guard('admin')->user()->username.' menambahkan data di table jamaah.',
+            'subjek' => 'Menambahkan '. $itung .' data di table jamaah.',
             'user_id' => Auth::guard('admin')->user()->id,
             'tanggal' => Carbon::now()
         ]);
+
         return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di tambahkan jamaah!');
     }
 
@@ -105,7 +106,7 @@ class JamaahController extends Controller
     {
         $jamaah = Jamaah::find($id);
         LogActivity::create([
-            'subjek' => Auth::guard('admin')->user()->username.' mengedit data di table jamaah.',
+            'subjek' =>'Mengedit data di table jamaah.',
             'user_id' => Auth::guard('admin')->user()->id,
             'tanggal' => Carbon::now()
         ]);
@@ -123,7 +124,7 @@ class JamaahController extends Controller
     {
         $jamaah = Jamaah::find($id);
         LogActivity::create([
-            'subjek' => Auth::guard('admin')->user()->username.' menghapus data di table jamaah.',
+            'subjek' => 'Menghapus data di table jamaah.',
             'user_id' => Auth::guard('admin')->user()->id,
             'tanggal' => Carbon::now()
         ]);

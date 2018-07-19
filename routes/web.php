@@ -75,6 +75,12 @@ Route::get('/', function () {
     Route::get('prospek', 'ProspekController@index')->name('aiwa.prospek');
     // End
 
+    // Master Itinerary
+    Route::resource('master-itinerary', 'ItineraryController');
+    Route::get('master-itinerary/{id}/delete', 'ItineraryController@destroy')->name('master-itinerary.destroy');
+    Route::get('getMasterItineraryData', 'ItineraryController@getData')->name('aiwa.master-itinerary.load');
+    // End Master Itinerary
+
     // Master Hotel
     Route::get('master-hotel', 'HotelController@index')->name('aiwa.master-hotel');
     Route::get('master-hotel/loadTableHotel', 'HotelController@getData')->name('aiwa.master-hotel.load.table');
@@ -90,7 +96,6 @@ Route::get('/', function () {
     // End
   });
   Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
-
 
 // TEST DATABAASE
 
@@ -118,7 +123,7 @@ Route::get('/faker/agents',function(){
 Route::get('/faker/hotels',function(){
     $faker = Faker\Factory::create();
 
-        $limit = 90000;
+        $limit = 10;
 
         for ($i = 0; $i < $limit; $i++) {
             DB::table('master_hotels')->insert([ //,

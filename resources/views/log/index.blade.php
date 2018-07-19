@@ -21,7 +21,7 @@
                                     	<td>No</td>
 	                                    <td>Subjek</td>
 	                                    <td>User ID</td>
-	                                    <td>Tanggal</td>
+	                                    <td>Tanggal & Jam</td>
 	                                    <td>Aksi</td>
                                     </tr>
                                   </thead>
@@ -34,7 +34,6 @@
 	                                    <td>{{ $log->user_id }}</td>
 	                                    <td>{{ $log->tanggal }} atau sekitar {{ $log->created_at->diffForHumans() }}</td>
 	                                    <td>
-	                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
 	                                      <a href="#" class="btn btn-sm btn-danger">Hapus</a>
 	                                    </td>
                                   	</tr>

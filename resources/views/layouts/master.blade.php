@@ -43,6 +43,13 @@
 
         <!-- Plugins css -->
         <link href="{{asset('/assets/modal-effect/css/component.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/tagsinput/jquery.tagsinput.css')}}" rel="stylesheet" />
+        <link href="{{asset('assets/toggles/toggles.css')}}" rel="stylesheet" />
+        <link href="{{asset('assets/timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet" />
+        <link href="{{asset('assets/timepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="{{asset('assets/colorpicker/colorpicker.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{asset('assets/jquery-multi-select/multi-select.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{asset('assets/select2/select2.css')}}" />
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
 <!--[if lt IE 9]>
@@ -125,6 +132,21 @@
         <!-- Modal-Effect -->
         <script src="{{asset('/assets/modal-effect/js/classie.js')}}"></script>
         <script src="{{asset('/assets/modal-effect/js/modalEffects.js')}}"></script>
+
+
+        <!--wizard initialization-->
+        <script src="{{asset('assets/form-wizard/wizard-init.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/tagsinput/jquery.tagsinput.min.js')}}"></script>
+        <script src="{{asset('assets/toggles/toggles.min.js')}}"></script>
+        <script src="{{asset('assets/timepicker/bootstrap-timepicker.min.js')}}"></script>
+        <script src="{{asset('assets/timepicker/bootstrap-datepicker.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/colorpicker/bootstrap-colorpicker.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/jquery-multi-select/jquery.multi-select.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/jquery-multi-select/jquery.quicksearch.js')}}"></script>
+        <script src="{{asset('assets/bootstrap-inputmask/bootstrap-inputmask.min.js')}}" type="text/javascript"></script>
+        <script type="text/javascript" src="{{asset('assets/spinner/spinner.min.js')}}"></script>
+        <!-- select2 -->
+        <script src="{{asset('assets/select2/select2.min.js')}}" type="text/javascript"></script>
         @stack('dataTables')
         @stack('otherJavascript')
         <script>
