@@ -123,7 +123,7 @@ Route::get('/faker/agents',function(){
 Route::get('/faker/hotels',function(){
     $faker = Faker\Factory::create();
 
-        $limit = 10;
+        $limit = 800;
 
         for ($i = 0; $i < $limit; $i++) {
             DB::table('master_hotels')->insert([ //,

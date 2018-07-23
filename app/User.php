@@ -29,6 +29,6 @@ class User extends Authenticatable
 
     public function jamaah()
     {
-        return $this->hasMany('App\Jamaah');
+        return $this->hasMany('App\Jamaah', 'id');
     }
 }

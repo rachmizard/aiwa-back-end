@@ -24,8 +24,9 @@ class JamaahController extends Controller
 
     public function index()
     {
-        $jamaah = Jamaah::where('status', 'lunas')->get();
-        return view('jamaah.index', compact('jamaah'));
+        // $jamaah = Jamaah::where('status', 'lunas')->get();
+        $agents = \App\User::all();
+        return view('jamaah.index', compact('agents'));
     }
 
     // get data by serverside
@@ -33,7 +34,7 @@ class JamaahController extends Controller
     {
         // $jamaah =  Jamaah::select('id', 'anggota_id', 'nama', 'alamat', 'no_telp', 'jenis_kelamin', 'status');
         // return Datatables::of($jamaah)->make(true);
-         $jamaah = Jamaah::with('anggota')->select('jamaah.*')->where('status', 'Lunas')->get();
+         $jamaah = Jamaah::with('anggota')->select('jamaah.*');
           return Datatables::of($jamaah)->addColumn('action', function($jamaah){
              return '
                 <a href="jamaah/'. $jamaah->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
@@ -62,6 +63,7 @@ class JamaahController extends Controller
     public function store(Request $request)
     {
         $tambah = Jamaah::create($request->all());
+        $itung = count($tambah);
         LogActivity::create([
             'subjek' => 'Menambahkan '. $itung .' data di table jamaah.',
             'user_id' => Auth::guard('admin')->user()->id,
@@ -106,7 +108,7 @@ class JamaahController extends Controller
     {
         $jamaah = Jamaah::find($id);
         LogActivity::create([
-            'subjek' =>'Mengedit data di table jamaah.',
+            'subjek' => 'Mengedit data di table jamaah.',
             'user_id' => Auth::guard('admin')->user()->id,
             'tanggal' => Carbon::now()
         ]);
