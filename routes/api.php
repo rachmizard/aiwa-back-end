@@ -33,3 +33,9 @@ Route::delete('users/delete/{id}', 'UserController@destroy');
 
 // Jamaah API Route
 Route::get('/jamaah', 'API\JamaahControllerAPI@index');
+Route::post('/jamaah', 'API\JamaahControllerAPI@store');
+
+// Prospek API Route
+Route::get('/prospek', 'API\ProspekControllerAPI@index');
+
+Route::post('/prospek', 'API\ProspekControllerAPI@store');

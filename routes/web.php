@@ -137,3 +137,37 @@ Route::get('/faker/hotels',function(){
 
         return redirect()->route('aiwa.master-hotel')->with('message', $limit.' data hotel has been automatically added!');
 });
+
+Route::get('/faker/prospeks',function(){
+    $faker = Faker\Factory::create();
+
+        $limit = 20;
+
+        for ($i = 0; $i < $limit; $i++) {
+            DB::table('prospeks')->insert([ //,
+                'anggota_id' => rand(0,10),
+                'pic' => $faker->name,
+                'no_telp' => rand(0,100),
+                'jml_dewasa' => rand(0,5),
+                'jml_infant' => rand(0,5),
+                'jml_balita' => rand(0,5),
+                'tgl_keberangkatan' => $faker->date,
+                'jenis' => 'quard',
+                'double' => 'ya',
+                'triple' => 'ya',
+                'quard' => 'ya',
+                'passport' => 'ya',
+                'meningitis' => 'ya',
+                'pas_foto' => 'ya',
+                'buku_nikah' => 'ya',
+                'fc_akta' => 'ya',
+                'visa_progresif' => 'ya',
+                'diskon' => rand(0,100),
+                'keterangan' => 'Nunggu konfirmasi',
+                'tanggal_followup' => $faker->date,
+                'pembayaran' => rand(0,100)
+            ]);
+        }
+
+        return redirect()->back()->with('message', $limit.' data prospeks has been automatically added!');
+});

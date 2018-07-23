@@ -16,18 +16,18 @@ class JamaahResource extends Resource
     {
         // return parent::toArray($request);
         return [
-            'anggota_id' => (int) $this->anggota_id,
-            'nama' => $this->nama,
-            'alamat'  => $this->alamat,
-            'no_telp'  => $this->no_telp,
-            'jenis_kelamin' => $this->jenis_kelamin,
-            'jml_dewasa' => $this->jml_dewasa,
-            'jml_balita' => $this->jml_balita,
-            'jml_infant' => $this->jml_infant,
-            'pembayaran' => $this->pembayaran,
-            'keterangan' => $this->keterangan,
-            'status' => $this->status,
-            'anggota' => new AnggotaResource($this->anggota),
+            'id_umrah' => $this->id_umrah,
+            'id_jamaah' => $this->id_jamaah,
+            'tgl_daftar'  => $this->tgl_daftar,
+            'nama'  => $this->nama,
+            'tgl_berangkat' => $this->tgl_berangkat,
+            'tgl_pulang' => $this->tgl_pulang,
+            'maskapai' => $this->maskapai,
+            'marketing' => new AnggotaResource($this->anggota),
+            'staff' => $this->staff,
+            'no_telp' => $this->no_telp,
+            'fee' => $this->fee,
+            'jumlah_fee' => $this->jumlah_fee,
         ];
     }
 }

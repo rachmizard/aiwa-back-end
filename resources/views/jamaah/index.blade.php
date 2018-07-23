@@ -154,18 +154,15 @@
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
-                                        <label class="col-md-2 control-label" for="fee">Jumlah Bayar Fee</label>
-                                        
-                                            <div class="checkbox">
-                                                <label class="cr-styled">
-                                                    <input type="checkbox" name="jumlah_fee" checked value="1">
-                                                    <i class="fa"></i>
-                                                </label>
-                                            </div>
+                                        <label class="col-md-2 control-label" for="jumlah_fee">Jumlah Fee</label>
+                                        <div class="col-md-7">
+                                            <select name="jumlah_fee" id="jumlah_fee" class="form-control">
+                                                <option value="Ya">Ya</option>
+                                                <option value="Tidak">Tidak</option>
+                                            </select>
+                                        </div>
                                     </div> <!-- form-group -->
-                                    <div class="form-group text-center">
-                                        <button class="btn btn-md btn-success col-lg-6 col-md-offset-3">Simpan</button>
-                                    </div> <!-- form-group -->
+                                    <button class="btn btn-md btn-success col-lg-6 col-md-offset-3" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit">Simpan</button> <!-- form-group -->
 
                                 </form>
 
@@ -188,7 +185,7 @@
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group text-center">
-                                        <button class="btn btn-md btn-success col-lg-6 col-md-offset-3">Upload & Simpan</button>
+                                        <button class="btn btn-md btn-success" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit">Upload & Simpan</button>
                                     </div> <!-- form-group -->
 
                                 </form>

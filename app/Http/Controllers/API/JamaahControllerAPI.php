@@ -38,7 +38,19 @@ class JamaahControllerAPI extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $jamaah = $request->isMethod('put') ? Jamaah::findOrFail($request->id) : new Jamaah;
+        // $jamaah->id_umrah = $request->input('id_umrah');
+        // $jamaah->id_jamaah = $request->input('id_jamaah');
+        // $jamaah->tgl_daftar = $request->input('tgl_daftar');
+        // $jamaah->nama = $request->input('nama');
+        // $jamaah->tgl_berangkat = $request->input('tgl_berangkat');
+        // $jamaah->tgl_pulang = $request->input('tgl_pulang');
+        // $jamaah->maskapai = $request->input('maskapai');
+        // $jamaah->marketing = $request->input('marketing');
+        // $jamaah->staff = $request->input('staff');
+        // $jamaah->no_telp = $request->input('no_telp');
+        // $jamaah->fee = $request->input('fee');
+        // $jamaah->jumlah_fee = $request->input('jumlah_fee');
     }
 
     /**

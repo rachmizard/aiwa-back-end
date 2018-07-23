@@ -92,9 +92,9 @@ class JamaahController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $edit = Jamaah::find($id);
-        $anggota = User::all();
-        return view('jamaah.edit', compact('edit', 'anggota'));
+        $jamaah = Jamaah::find($id);
+        $agents = User::all();
+        return view('jamaah.edit', compact('jamaah', 'agents'));
     }
 
     /**
