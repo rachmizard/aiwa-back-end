@@ -47,7 +47,7 @@ class ProspekControllerAPI extends Controller
         $prospek->jml_balita = $request->input('jml_balita');
         $prospek->tgl_keberangkatan = $request->input('tgl_keberangkatan');
         $prospek->jenis = $request->input('jenis');
-        $prospek->double = $request->input('double');
+        $prospek->dobel = $request->input('dobel');
         $prospek->triple = $request->input('triple');
         $prospek->quard = $request->input('quard');
         $prospek->passport = $request->input('passport');
@@ -61,7 +61,7 @@ class ProspekControllerAPI extends Controller
         $prospek->tanggal_followup = $request->input('tanggal_followup');
         $prospek->pembayaran = $request->input('pembayaran');
         if ($prospek->save()) {
-            return new ProspekResource($prospek);
+            return response()->json(['success' => 'Berhasil di tambahkan!']);
         }
     }
 
@@ -71,9 +71,10 @@ class ProspekControllerAPI extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        // $prospek = Prospek::findOrFail($request->id);
+        return new ProspekResource(Prospek::findOrFail($request->id));
     }
 
     /**
@@ -105,8 +106,11 @@ class ProspekControllerAPI extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $prospek = Prospek::findOrFail($request->id);
+        if ($prospek->delete()) {
+            return response()->json(['success' => 'Berhasil di hapus!']);
+        }
     }
 }

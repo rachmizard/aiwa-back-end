@@ -12,6 +12,11 @@ class ProspekController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+    
     public function index()
     {
         return view('prospek.index');
@@ -22,6 +27,12 @@ class ProspekController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getData()
+    {
+        
+    }
+
     public function create()
     {
         //

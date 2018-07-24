@@ -25,7 +25,7 @@ class ProspekResource extends Resource
             'jml_balita' => $this->jml_balita,
             'tgl_keberangkatan' => $this->tgl_keberangkatan,
             'jenis' => $this->jenis,
-            'double' => $this->double,
+            'dobel' => $this->dobel,
             'triple' => $this->triple,
             'quard' => $this->quard,
             'passport' => $this->passport,

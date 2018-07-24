@@ -65,6 +65,7 @@ Route::get('/', function () {
     Route::post('/jamaah/{id}', 'JamaahController@update')->name('aiwa.jamaah.update');
     Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.put');
     Route::get('/jamaah/{id}/delete', 'JamaahController@destroy')->name('aiwa.jamaah.delete');
+    Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
     // End of Jamaah
 
     // Agen
@@ -87,6 +88,10 @@ Route::get('/', function () {
     Route::get('master-hotel/tambah', 'HotelController@create')->name('aiwa.master-hotel.add');
     // End Master Hotel
 
+    // Master Brosur
+    Route::resource('master-brosur', 'MasterBrosurController');
+    Route::get('master-brosur/loadTableBrosur', 'MasterBrosurController@getData')->name('aiwa.master-brosur.load');
+
     // Log Activity
     Route::get('log-activity', 'LogActivityController@index')->name('aiwa.log-activity');
     // End Log
@@ -95,9 +100,8 @@ Route::get('/', function () {
     Route::get('master-jadwal', 'JadwalController@index')->name('aiwa.master-jadwal');
     // End
   });
-  Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
 
-// TEST DATABAASE
+// SECRET ROUTE!
 
 Route::get('/faker/agents',function(){
     $faker = Faker\Factory::create();

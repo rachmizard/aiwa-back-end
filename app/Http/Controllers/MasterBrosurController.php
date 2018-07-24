@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\LogActivity;
 use Illuminate\Http\Request;
+use App\MasterBrosur;
+use Yajra\Datatables\Datatables;
 
-class LogActivityController extends Controller
+class MasterBrosurController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
-    
     public function index()
     {
-        $logs = LogActivity::all();
-        return view('log.index', compact('logs'));
+        $brosurs = MasterBrosur::all();
+        return view('brosur.index', compact('brosurs'));
     }
 
     /**
@@ -28,6 +24,25 @@ class LogActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+    
+    public function getData(Request $request)
+    {
+         $brosurs = MasterBrosur::all();
+         return Datatables::of($brosurs)->addColumn('action', function($brosur)
+         {
+            return '
+                <a href="master-brosur/'. $brosur->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'. route('master-brosur.destroy', $brosur->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
+         })
+         ->make(true);
+
+    }
+
     public function create()
     {
         //
@@ -47,10 +62,10 @@ class LogActivityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\LogActivity  $logActivity
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(LogActivity $logActivity)
+    public function show($id)
     {
         //
     }
@@ -58,10 +73,10 @@ class LogActivityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\LogActivity  $logActivity
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(LogActivity $logActivity)
+    public function edit($id)
     {
         //
     }
@@ -70,10 +85,10 @@ class LogActivityController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LogActivity  $logActivity
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LogActivity $logActivity)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -81,10 +96,10 @@ class LogActivityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\LogActivity  $logActivity
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LogActivity $logActivity)
+    public function destroy($id)
     {
         //
     }
