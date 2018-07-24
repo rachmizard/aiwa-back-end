@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Prospek;
+use App\Anggota;
+use Yajra\Datatables\Datatables;
+use DB;
 
 class ProspekController extends Controller
 {
@@ -19,7 +22,8 @@ class ProspekController extends Controller
     
     public function index()
     {
-        return view('prospek.index');
+        $agents = \App\User::all();
+        return view('prospek.index', compact('agents'));
     }
 
     /**
@@ -30,7 +34,21 @@ class ProspekController extends Controller
 
     public function getData()
     {
-        
+         $prospeks = Prospek::with('anggota')->select('prospeks.*');
+          return Datatables::of($prospeks)->addColumn('action', function($prospeks){
+             return '
+                <a href="'. route('aiwa.prospek.edit-form', $prospeks->id) .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'. route('aiwa.prospek.delete', $prospeks->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
+                    ;
+                })
+          ->editColumn('qty', function($prospeks){
+                $jml_dewasa = $prospeks->jml_dewasa;
+                $jml_balita = $prospeks->jml_balita;
+                $jml_infant = $prospeks->jml_infant;
+                $total = $jml_dewasa+$jml_balita+$jml_infant;
+                return $total;
+          })
+          ->make(true);
     }
 
     public function create()

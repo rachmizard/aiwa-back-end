@@ -15,13 +15,13 @@ class User extends Resource
     public function toArray($request)
     {
         return parent::toArray($request);
-        // return [
-        //     'id' => $this->id,
-        //     'name' => $this->name,
-        //     'email' => $this->email,
-        //     'login_at' => $this->login_at,
-        //     'last_login' => $this->last_login,
-        // ];
+        return [
+            'id' => $this->id,
+            'nama' => $this->nama,
+            'email' => $this->email,
+            'login_at' => $this->login_at,
+            'last_login' => $this->last_login,
+        ];
     }
 
     public function with($request){

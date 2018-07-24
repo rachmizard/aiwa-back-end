@@ -16,11 +16,6 @@ class JamaahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
     
     public function __construct()
     {
@@ -35,7 +30,7 @@ class JamaahController extends Controller
     }
 
     // get data by serverside
-    public function getData()
+    public function getData(Request $request)
     {
         // $jamaah =  Jamaah::select('id', 'anggota_id', 'nama', 'alamat', 'no_telp', 'jenis_kelamin', 'status');
         // return Datatables::of($jamaah)->make(true);

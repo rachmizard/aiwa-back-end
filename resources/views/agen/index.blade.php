@@ -6,7 +6,7 @@
 
             <div class="wraper container-fluid">
                 <div class="page-title">
-                    <h3 class="title"><strong>Daftar Agen</strong></h3>
+                    <h3 class="title"><strong><i class="fa fa-user"></i> DAFTAR AGEN</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
                     <!-- <a href="tambah-gallery.html" class="btn btn-sm btn-primary">Tambah Dokumen Foto/Video</a> -->
@@ -34,11 +34,6 @@
                                         <th>Telp</th>
                                         <th>Domisli</th>
                                         <th>Koordinator</th>
-                                        <th>Tgl Web Mulai</th>
-                                        <th>Tgl Web Akhir</th>
-                                        <th>Tgl Iklan Mulai</th>
-                                        <th>Tgl Iklan Akhir</th>
-                                        <th>QTY</th>
                                         <th>Aksi</th>
                                     </tr>
                                   </thead>
@@ -54,11 +49,27 @@
             <!-- Page Content Ends -->
             <!-- ================== -->
         @push('dataTables')
-        <script>
-            $(document).ready(function(){
-                $('#agent').dataTable();
-            });
-        </script>
-        @endpush
+            <!-- Datatable Serverside -->
+            <script>
+                $(document).ready(function(){
+                    $('#agent').dataTable({
+                        serverSide: true,
+                        ordering: true,
+                        searching: true,
+                        processing: true,
+                        "ajax": "{{route('aiwa.anggota.load')}}", 
+                        "columns": [
+                            { data: "id", name: "id" },
+                            { data: "nama", name: "nama"},
+                            { data: "no_telp", name: "no_telp" },
+                            { data: "alamat", name: "alamat" },
+                            { data: "koordinator", name: "koordinator" },
+                            { data: "action", name: "action"}
+                        ]
+                    });
+                });
+            </script>
+            <!-- End Datatable Serverside -->
+            @endpush
 
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Yajra\Datatables\Datatables;
 
 class AgenController extends Controller
 {
@@ -19,15 +20,19 @@ class AgenController extends Controller
     
     public function index(Request $request)
     {
-        if ($request->input('search')) {
-            $agens = User::paginate(10);
-            $hasil = User::where('nama', 'LIKE', '%'.$request->search.'%')->get();
-            return view('agen.index', compact('hasil', 'agens'));
-        }
-            $agens = User::paginate(10);
-            $hasil = null;
-            return view('agen.index', compact('hasil', 'agens'));
+        return view('agen.index');
+    }
 
+    public function getData(Request $request)
+    {
+        $agents = User::all();
+         return Datatables::of($agents)->addColumn('action', function($agents)
+         {
+            return '
+                <a href="master-hotel/'. $agents->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'. route('aiwa.master-hotel', $agents->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
+         })
+         ->make(true);
     }
 
     public function filter(Request $request)

@@ -203,7 +203,7 @@
                     $('#jamaah').DataTable({
                         "processing": true,
                         "serverSide": true,
-                        "ajax": "http://localhost:8000/jamaah/loadTableJamaah", 
+                        "ajax": "{{ route('aiwa.jamaah.load') }}", 
                         "columns": [
                             { data: "id", name: "id" },
                             { data: "tgl_daftar", name: "tgl_daftar" },

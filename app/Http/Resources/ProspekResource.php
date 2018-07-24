@@ -38,7 +38,7 @@ class ProspekResource extends Resource
             'keterangan' => $this->keterangan,
             'tanggal_followup' => $this->tanggal_followup,
             'pembayaran' => $this->pembayaran,
-            'anggota' => new AnggotaResource($this->prospek),
+            'anggota' => new AgenResource($this->prospek),
         ];
     }
 }

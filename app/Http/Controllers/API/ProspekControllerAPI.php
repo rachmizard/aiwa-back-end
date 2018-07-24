@@ -97,7 +97,31 @@ class ProspekControllerAPI extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $prospek = $request->isMethod('put') ? Prospek::findOrFail($request->id) : new Prospek;
+        $prospek->anggota_id = $request->input('anggota_id');
+        $prospek->pic = $request->input('pic');
+        $prospek->no_telp = $request->input('no_telp');
+        $prospek->jml_dewasa = $request->input('jml_dewasa');
+        $prospek->jml_infant = $request->input('jml_infant');
+        $prospek->jml_balita = $request->input('jml_balita');
+        $prospek->tgl_keberangkatan = $request->input('tgl_keberangkatan');
+        $prospek->jenis = $request->input('jenis');
+        $prospek->dobel = $request->input('dobel');
+        $prospek->triple = $request->input('triple');
+        $prospek->quard = $request->input('quard');
+        $prospek->passport = $request->input('passport');
+        $prospek->meningitis = $request->input('meningitis');
+        $prospek->pas_foto = $request->input('pas_foto');
+        $prospek->buku_nikah = $request->input('buku_nikah');
+        $prospek->fc_akta = $request->input('fc_akta');
+        $prospek->visa_progresif = $request->input('visa_progresif');
+        $prospek->diskon = $request->input('diskon');
+        $prospek->keterangan = $request->input('keterangan');
+        $prospek->tanggal_followup = $request->input('tanggal_followup');
+        $prospek->pembayaran = $request->input('pembayaran');
+        if ($prospek->save()) {
+            return response()->json(['success' => 'Berhasil di edit!']);
+        }
     }
 
     /**

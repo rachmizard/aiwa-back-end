@@ -11,7 +11,7 @@ class Prospek extends Model
     protected $primaryKey = 'id';
 
 
-    public function prospek()
+    public function anggota()
     {
         return $this->belongsTo('App\User', 'anggota_id', 'id');
     }

@@ -70,10 +70,17 @@ Route::get('/', function () {
 
     // Agen
     Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
+    Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
+    Route::get('agenjamaah/loadTableAnggota', 'AgenController@getData')->name('aiwa.anggota.load');
     // End of agen
 
-    // Prospek / Cajam
+    // Prospek / Caljam
     Route::get('prospek', 'ProspekController@index')->name('aiwa.prospek');
+    Route::post('prospek', 'ProspekController@store')->name('aiwa.prospek.store');
+    Route::get('prospek/{id}/edit', 'ProspekController@edit')->name('aiwa.prospek.edit-form');
+    Route::post('prospek/{id}', 'ProspekController@update')->name('aiwa.prospek.update');
+    Route::get('prospek/{id}/delete', 'ProspekController@edit')->name('aiwa.prospek.delete');
+    Route::get('prospek/loadTableProspek', 'ProspekController@getData')->name('aiwa.prospek.load');
     // End
 
     // Master Itinerary
@@ -120,6 +127,8 @@ Route::get('/faker/agents',function(){
                 'password' => bcrypt('baguvix'),
                 'status' => '1',
                 'koordinator' => $faker->name,
+                'created_at' => Carbon\Carbon::now(),
+                'updated_at' => Carbon\Carbon::now(),
             ]);
         }
 });

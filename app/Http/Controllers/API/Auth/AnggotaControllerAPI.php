@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class AnggotaControllerAPI extends Controller
-{
+{    
+
+    public $successStatus = 200;
+
     public function login()
     {
     	 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
             $success['token'] =  $user->createToken('nApp')->accessToken;
-            return response()->json(['success' => $success]);
+            return response()->json(['success' => $success,
+                                    'user' => $user], $this->successStatus);
         }
         else{
             return response()->json(['error'=>'Unauthorised'], 401);
@@ -45,14 +49,21 @@ class AnggotaControllerAPI extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['token'] =  $user->createToken('nApp')->accessToken;
-        $success['name'] =  $user->name;
+        $success['nama'] =  $user->nama;
 
-        return response()->json(['success'=>$success]);
+        return response()->json(['success'=>$success], $this->successStatus);
     }
 
     public function details()
     {
         $user = Auth::user();
-        return response()->json(['success' => $user]);
+        return response()->json(['success' => $user], $this->successStatus);
     }
+
+    public function logout()
+    {
+         $user = Auth::user();
+         return response()->json(['success' => $user], $this->successStatus);   
+    }
+
 }
