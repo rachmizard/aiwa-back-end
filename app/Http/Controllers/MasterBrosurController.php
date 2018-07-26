@@ -13,6 +13,12 @@ class MasterBrosurController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     public function index()
     {
         $brosurs = MasterBrosur::all();
@@ -24,24 +30,6 @@ class MasterBrosurController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
-    
-    public function getData(Request $request)
-    {
-         $brosurs = MasterBrosur::all();
-         return Datatables::of($brosurs)->addColumn('action', function($brosur)
-         {
-            return '
-                <a href="master-brosur/'. $brosur->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-                <a href="'. route('master-brosur.destroy', $brosur->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
-         })
-         ->make(true);
-
-    }
 
     public function create()
     {
@@ -56,7 +44,8 @@ class MasterBrosurController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $brosur = MasterBrosur::create($request->all());
+        return redirect()->back()->with('message', 'Berhasil di tambakan!');
     }
 
     /**
@@ -78,7 +67,9 @@ class MasterBrosurController extends Controller
      */
     public function edit($id)
     {
-        //
+        $edit = MasterBrosur::findOrFail($id);
+        $brosurs = MasterBrosur::all();
+        return view('brosur.edit', compact('edit', 'brosurs'));
     }
 
     /**
@@ -90,7 +81,9 @@ class MasterBrosurController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $brosur = MasterBrosur::findOrFail($id);
+        $brosur->update($request->all());
+        return redirect()->back()->with('message', 'Berhasil di update!');
     }
 
     /**
@@ -101,6 +94,8 @@ class MasterBrosurController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $brosur = MasterBrosur::findOrFail($id);
+        $brosur->delete();
+        return redirect()->back()->with('message', 'Berhasil di hapus!');
     }
 }

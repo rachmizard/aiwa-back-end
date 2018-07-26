@@ -32,7 +32,8 @@ Route::get('/test-api', 'API\JadwalController@test');
 
 // Agen/Anggota API Route
 Route::get('/agen', 'API\AgenControllerAPI@index');
-Route::post('/agen', 'API\AgenControllerAPI@store');
+Route::post('/agen', 'API\Auth\AnggotaControllerAPI@register');
+Route::post('/agen/login', 'API\Auth\AnggotaControllerAPI@login');
 Route::get('/agen/{id}/show', 'API\AgenControllerAPI@show');
 Route::put('/agen/{id}/edit', 'API\AgenControllerAPI@update');
 Route::delete('/agen/{id}/delete', 'API\AgenControllerAPI@destroy');

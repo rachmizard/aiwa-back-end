@@ -97,7 +97,7 @@ Route::get('/', function () {
 
     // Master Brosur
     Route::resource('master-brosur', 'MasterBrosurController');
-    Route::get('master-brosur/loadTableBrosur', 'MasterBrosurController@getData')->name('aiwa.master-brosur.load');
+    Route::get('master-brosur/loadBrosur', 'MasterBrosurController@getData');
 
     // Log Activity
     Route::get('log-activity', 'LogActivityController@index')->name('aiwa.log-activity');
