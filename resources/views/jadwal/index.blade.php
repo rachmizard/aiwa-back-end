@@ -44,11 +44,11 @@
                                         <tr>
                                             <td>{{ $i+1 }}</td>
                                             <td>{{ $in['id'] }}</td>
-                                            <td>{{ $in['tgl_berangkat'] }}</td>
+                                            <td>{{ date('d-M-Y', strtotime($in['tgl_berangkat'])) }}</td>
                                             <td>{{ $in['jam_berangkat'] }}</td>
                                             <td>{{ $in['rute_berangkat'] }}</td>
                                             <td>{{ $in['pesawat_berangkat'] }}</td>
-                                            <td>{{ $in['tgl_pulang'] }}</td>
+                                            <td>{{ date('d-M-Y', strtotime($in['tgl_pulang'])) }}</td>
                                             <td>{{ $in['jam_pulang'] }}</td>
                                             <td>{{ $in['rute_pulang'] }}</td>
                                             <td>{{ $in['pesawat_pulang'] }}</td>

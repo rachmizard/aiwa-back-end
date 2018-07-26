@@ -10,6 +10,6 @@ class MasterBrosur extends Model
     protected $table = 'master_brosurs';
     public $timestamps = true;
     protected $primaryKey = 'id';
-    public $fillable = ['id', 'file_brosur', 'description'];
+    public $fillable = ['file_brosur', 'description'];
 
 }

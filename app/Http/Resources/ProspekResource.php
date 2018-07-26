@@ -33,6 +33,7 @@ class ProspekResource extends Resource
             'pas_foto' => $this->pas_foto,
             'buku_nikah' => $this->buku_nikah,
             'fc_akta' => $this->fc_akta,
+            'perlengkapan' => $this->perlengkapan,
             'visa_progresif' => $this->visa_progresif,
             'diskon' => $this->diskon,
             'keterangan' => $this->keterangan,

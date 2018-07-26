@@ -34,9 +34,14 @@
                                             <td>{{ $brosur->id }}</td>
                                             <td>{{ $brosur->file_brosur }}</td>
                                             <td>{{ $brosur->description }}</td>
-                                            <td>
+                                            <td class="text-center">
                                                 <a href="{{ route('master-brosur.edit', $brosur->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                                <a href="{{ route('master-brosur.destroy', $brosur->id) }}" class="btn btn-sm btn-danger">Hapus</a>
+                                                <a onclick="event.preventDefault();
+                                                     document.getElementById('delete-form').submit();" href="#" class="btn btn-sm btn-danger">Hapus</a>
+                                                <form id="delete-form" action="{{ route('master-brosur.destroy', $brosur->id) }}" method="POST" style="display: none;">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                </form>
                                             </td>
                                         </tr>
                                         @else

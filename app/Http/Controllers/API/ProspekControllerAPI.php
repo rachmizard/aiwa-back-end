@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Prospek;
 use App\User;
 use App\Http\Resources\ProspekResource;
-
+use Validator;
 class ProspekControllerAPI extends Controller
 {
     /**
@@ -38,6 +38,33 @@ class ProspekControllerAPI extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'anggota_id' => 'required',
+            'pic' => 'required',
+            'no_telp' => 'required',
+            'jml_dewasa' => 'required',
+            'jml_infant' => 'required',
+            'jml_balita' => 'required',
+            'jml_visa' => 'required',
+            'jml_balita_kasur' => 'required',
+            'tgl_keberangkatan' => 'required',
+            'jenis' => 'required',
+            'dobel' => 'required',
+            'triple' => 'required',
+            'quard' => 'required',
+            'passport' => 'required',
+            'meningitis' => 'required',
+            'pas_foto' => 'required',
+            'buku_nikah' => 'required',
+            'fc_akta' => 'required',
+            'perlengkapan' => 'required',
+            'visa_progresif' => 'required',
+            'diskon' => 'required',
+            'keterangan' => 'required',
+            'tanggal_followup' => 'required',
+            'pembayaran' => 'required',
+
+        ]);
         $prospek = $request->isMethod('put') ? Prospek::findOrFail($request->id) : new Prospek;
         $prospek->anggota_id = $request->input('anggota_id');
         $prospek->pic = $request->input('pic');
@@ -55,6 +82,7 @@ class ProspekControllerAPI extends Controller
         $prospek->pas_foto = $request->input('pas_foto');
         $prospek->buku_nikah = $request->input('buku_nikah');
         $prospek->fc_akta = $request->input('fc_akta');
+        $prospek->perlengkapan = $request->input('perlengkapan');
         $prospek->visa_progresif = $request->input('visa_progresif');
         $prospek->diskon = $request->input('diskon');
         $prospek->keterangan = $request->input('keterangan');
@@ -114,6 +142,7 @@ class ProspekControllerAPI extends Controller
         $prospek->pas_foto = $request->input('pas_foto');
         $prospek->buku_nikah = $request->input('buku_nikah');
         $prospek->fc_akta = $request->input('fc_akta');
+        $prospek->perlengkapan = $request->input('perlengkapan');
         $prospek->visa_progresif = $request->input('visa_progresif');
         $prospek->diskon = $request->input('diskon');
         $prospek->keterangan = $request->input('keterangan');

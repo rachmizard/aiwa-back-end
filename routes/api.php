@@ -49,6 +49,8 @@ Route::get('/prospek/{id}/show', 'API\ProspekControllerAPI@show');
 Route::delete('/prospek/{id}/delete', 'API\ProspekControllerAPI@destroy');
 Route::put('/prospek/{id}/edit', 'API\ProspekControllerAPI@update');
 
+// Master Brosur API Route with resource
+Route::resource('master-brosur', 'API\MasterBrosurControllerAPI');
 
 // Login API
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');

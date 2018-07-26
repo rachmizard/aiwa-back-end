@@ -1,44 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-class JadwalController extends Controller
+use App\Http\Controllers\Controller;
+use App\MasterBrosur;
+use App\Http\Resources\MasterBrosurResource;
+
+class MasterBrosurControllerAPI extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
-
     public function index()
     {
-        
-        $url = 'http://115.124.86.218/aiw/jadwal/1440';
-        $json = file_get_contents($url);
-        $jadwals = collect(json_decode($json, true));
-        
-        // dd($jadwals['data'][1]['jadwal']); // Ieu bisa
-        // return view('test-api', compact('jadwals'));
-        $test = $jadwals['data'];
-        $count = count($test);
-        $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
-        $countPaket = count($itungPaket);
-        // for ($i=0; $i < $countPaket ; $i++) { 
-        //     foreach ($jadwals['data'][$i] as $key) {
-        //         dd($key);
-        //     }
-        // }
-        // $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
-        // foreach ($itungPaket as $hasilPaket) {
-        //     // dd($hasilPaket['kamar']);
-        // }
-        return view('jadwal.index', compact('jadwals', 'test', 'count','countPaket'));
+        return MasterBrosurResource::collection(MasterBrosur::paginate(25));
     }
 
     /**
@@ -59,7 +37,12 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $brosur = $request->isMethod('put') ? MasterBrosur::findOrFail($request->id) : new MasterBrosur;
+        $brosur->file_brosur = $request->file_brosur;
+        $brosur->description = $request->description;
+        if ($brosur->save()) {
+            return response()->json(['success' => 'Brosur berhasil di tambahkan!']);
+        }
     }
 
     /**
@@ -70,7 +53,7 @@ class JadwalController extends Controller
      */
     public function show($id)
     {
-        //
+        return new MasterBrosurResource(MasterBrosur::findOrFail($id));
     }
 
     /**
@@ -93,7 +76,12 @@ class JadwalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $brosur = $request->isMethod('patch') ? MasterBrosur::findOrFail($request->id) : new MasterBrosur;
+        $brosur->file_brosur = $request->file_brosur;
+        $brosur->description = $request->description;
+        if ($brosur->save()) {
+            return response()->json(['success' => 'Brosur berhasil di update!']);
+        }
     }
 
     /**
@@ -102,8 +90,11 @@ class JadwalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $brosur = MasterBrosur::findOrFail($request->id);
+        if ($brosur->delete()) {
+            return response()->json(['success' => 'Brosur berhasil di hapus!']);
+        }
     }
 }

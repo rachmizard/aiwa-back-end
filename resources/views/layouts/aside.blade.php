@@ -42,6 +42,7 @@
                     <ul class="list-unstyled">
                         <li class="{{ Route::currentRouteNamed('aiwa.jamaah.add') ? 'active' : '' }}"><a href="{{route('aiwa.jamaah.add')}}"><i class="fa fa-plus"></i> Input Jamaah</a></li>
                         <li class="{{ Route::currentRouteNamed('master-itinerary.index') ? 'active' : '' }}"><a href="{{route('master-itinerary.index')}}"><i class="fa fa-plus"></i> Itenary</a></li>
+                        <li class="{{ Route::currentRouteNamed('master-brosur.index') ? 'active' : '' }}"><a href="{{route('master-brosur.index')}}"><i class="fa fa-plus"></i> Brosur</a></li>
                         <!-- <li><a href="komisi.html"><i class="fa fa-money"></i> Komisi</a></li>
                         <li><a href="itenary.html"><i class="fa fa-book"></i>Itenary</a></li> -->
                         <!-- <li><a href="notification.html">Notification</a></li>

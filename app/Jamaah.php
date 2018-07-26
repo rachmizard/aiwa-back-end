@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Anggota;
+use Carbon\Carbon;
 
 class Jamaah extends Model
 {

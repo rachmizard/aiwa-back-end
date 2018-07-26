@@ -34,7 +34,7 @@
                                             <td>{{ $brosur->id }}</td>
                                             <td>{{ $brosur->file_brosur }}</td>
                                             <td>{{ $brosur->description }}</td>
-                                            <td>
+                                            <td class="text-center">
                                                 <a href="{{ route('master-brosur.edit', $brosur->id) }}" class="btn btn-sm btn-info">Edit</a>
                                                 <a onclick="event.preventDefault();
                                                      document.getElementById('delete-form').submit();" href="#" class="btn btn-sm btn-danger">Hapus</a>
