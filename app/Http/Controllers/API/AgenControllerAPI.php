@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Anggota;
 use App\Http\Resources\AgenResource;
+use Hash;
 
 class AgenControllerAPI extends Controller
 {
@@ -42,7 +43,7 @@ class AgenControllerAPI extends Controller
         $agent->nama = $request->input('nama');
         $agent->email = $request->input('email');
         $agent->username = $request->input('username');
-        $agent->password = $request->input('password');
+        $agent->password = Hash::make($request->input('password'));
         $agent->jenis_kelamin = $request->input('jenis_kelamin');
         $agent->no_ktp = $request->input('no_ktp');
         $agent->alamat = $request->input('alamat');

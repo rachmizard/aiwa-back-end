@@ -56,3 +56,8 @@ Route::post('register', 'API\Auth\AnggotaControllerAPI@register');
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('details', 'API\Auth\AnggotaControllerAPI@details');
 });
+
+// Reset Password API
+
+Route::post('/password/email', 'API\Auth\ForgotPasswordControllerAPI@getResetToken');
+Route::post('/password/reset', 'API\Auth\ResetPasswordControllerAPI@reset');
