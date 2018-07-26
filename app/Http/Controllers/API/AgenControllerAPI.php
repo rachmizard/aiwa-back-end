@@ -61,9 +61,9 @@ class AgenControllerAPI extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($id)
     {
-        return new AgenResource(User::findOrFail($request->id));
+        return new AgenResource(User::findOrFail($id));
     }
 
     /**

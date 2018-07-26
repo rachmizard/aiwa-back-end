@@ -17,7 +17,7 @@ class ProspekControllerAPI extends Controller
      */
     public function index()
     {
-        return ProspekResource::collection(Prospek::with('prospek')->paginate(25));
+        return ProspekResource::collection(Prospek::with('anggota')->paginate(25));
     }
 
     /**
@@ -57,7 +57,6 @@ class ProspekControllerAPI extends Controller
             'pas_foto' => 'required',
             'buku_nikah' => 'required',
             'fc_akta' => 'required',
-            'perlengkapan' => 'required',
             'visa_progresif' => 'required',
             'diskon' => 'required',
             'keterangan' => 'required',
@@ -65,6 +64,11 @@ class ProspekControllerAPI extends Controller
             'pembayaran' => 'required',
 
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+
         $prospek = $request->isMethod('put') ? Prospek::findOrFail($request->id) : new Prospek;
         $prospek->anggota_id = $request->input('anggota_id');
         $prospek->pic = $request->input('pic');
@@ -82,7 +86,6 @@ class ProspekControllerAPI extends Controller
         $prospek->pas_foto = $request->input('pas_foto');
         $prospek->buku_nikah = $request->input('buku_nikah');
         $prospek->fc_akta = $request->input('fc_akta');
-        $prospek->perlengkapan = $request->input('perlengkapan');
         $prospek->visa_progresif = $request->input('visa_progresif');
         $prospek->diskon = $request->input('diskon');
         $prospek->keterangan = $request->input('keterangan');
@@ -125,7 +128,7 @@ class ProspekControllerAPI extends Controller
      */
     public function update(Request $request, $id)
     {
-        $prospek = $request->isMethod('put') ? Prospek::findOrFail($request->id) : new Prospek;
+        $prospek = $request->isMethod('put') ? Prospek::findOrFail($id) : new Prospek;
         $prospek->anggota_id = $request->input('anggota_id');
         $prospek->pic = $request->input('pic');
         $prospek->no_telp = $request->input('no_telp');
@@ -142,13 +145,12 @@ class ProspekControllerAPI extends Controller
         $prospek->pas_foto = $request->input('pas_foto');
         $prospek->buku_nikah = $request->input('buku_nikah');
         $prospek->fc_akta = $request->input('fc_akta');
-        $prospek->perlengkapan = $request->input('perlengkapan');
         $prospek->visa_progresif = $request->input('visa_progresif');
         $prospek->diskon = $request->input('diskon');
         $prospek->keterangan = $request->input('keterangan');
         $prospek->tanggal_followup = $request->input('tanggal_followup');
         $prospek->pembayaran = $request->input('pembayaran');
-        if ($prospek->save()) {
+        if ($prospek->update()) {
             return response()->json(['success' => 'Berhasil di edit!']);
         }
     }
