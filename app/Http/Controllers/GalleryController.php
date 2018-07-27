@@ -40,8 +40,9 @@ class GalleryController extends Controller
         {
             return '<a class="btn btn-sm btn-info" href="'. route('aiwa.master-gallery.edit', $galleries->id) .'">Edit</a>
                     <form class="form-group" action="'. route('aiwa.master-gallery.destroy', $galleries->id) .'" method="POST">
-                    <input type="hidden" name="_token" value="'. csrd_token() .'">
-                    <button class="btn btn-sm btn-danger" type="submit"><i class="glyphicon glyphicon-trash"></i>Delete</button>
+                    <input type="hidden" name="_token" value="'. csrf_token() .'">
+                    <input type="hidden" name="_method" value="POST">
+                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="glyphicon glyphicon-trash"></i>Delete</button>
                     </form>
                     ';
         })
@@ -116,17 +117,56 @@ class GalleryController extends Controller
     public function update(Request $request, $id)
     {
         $gallery = MasterGallery::findOrFail($id);
-        if ($gallery->update($request->all())) { 
-            $itung = count($gallery);
-            LogActivity::create([
-                'subjek' => 'Mengedit '. $itung .' data di table Gallery.',
-                'user_id' => Auth::guard('admin')->user()->id,
-                'tanggal' => Carbon::now()
+        if ($request->file('file')) {
+            $uploadedFile = $request->file('file');        
+            $name = rand(111,9999) . '.' . $uploadedFile->getClientOriginalExtension();
+            $loc = public_path('/storage/gallery/');
+            $path = $uploadedFile->move($loc, $name);
+            $gallery->update([
+                    'file' => $name,
+                    'judul' => $request->judul,
+                    'tanggal' => $request->tanggal,
+                    'deskripsi' => $request->deskripsi
             ]);
-            return redirect()->back()->with('message', 'Gallery Berhasil diedit!');
+            if ($gallery) {
+                LogActivity::create([
+                    'subjek' => 'Mengedit data di table Gallery.',
+                    'user_id' => Auth::guard('admin')->user()->id,
+                    'tanggal' => Carbon::now()
+                ]);
+                return redirect()->back()->with('message', 'Berhasil di edit!');
+            }else{
+                return redirect()->back()->with('messageError', 'Ooops something error!');
+            }
         }else{
-            return redirect()->back()->with('messageError', 'Error!');
+            $gallery->update([
+                'file' => $request->old_file_name,
+                'judul' => $request->judul,
+                'tanggal' => $request->tanggal,
+                'deskripsi' => $request->deskripsi
+            ]);
+            if ($gallery) {
+                LogActivity::create([
+                    'subjek' => 'Mengedit data di table Gallery.',
+                    'user_id' => Auth::guard('admin')->user()->id,
+                    'tanggal' => Carbon::now()
+                ]);
+                return redirect()->back()->with('message', 'Berhasil di edit!');
+            }else{
+                return redirect()->back()->with('messageError', 'Ooops something error!');
+            }
         }
+        // if ($gallery->update($request->all())) { 
+        //     $itung = count($gallery);
+        //     LogActivity::create([
+        //         'subjek' => 'Mengedit '. $itung .' data di table Gallery.',
+        //         'user_id' => Auth::guard('admin')->user()->id,
+        //         'tanggal' => Carbon::now()
+        //     ]);
+        //     return redirect()->back()->with('message', 'Gallery Berhasil diedit!');
+        // }else{
+        //     return redirect()->back()->with('messageError', 'Error!');
+        // }
     }
 
     /**
@@ -145,6 +185,9 @@ class GalleryController extends Controller
                 'user_id' => Auth::guard('admin')->user()->id,
                 'tanggal' => Carbon::now()
             ]);
+            return redirect()->back()->with('message', 'Berhasil di hapus!');
+        }else{
+            return redirect()->back()->with('messageError', 'Ooops something error!');
         }
     }
 }

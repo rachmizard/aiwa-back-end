@@ -105,7 +105,7 @@ Route::get('/', function () {
     Route::post('master-gallery', 'GalleryController@store')->name('aiwa.master-gallery.store');
     Route::get('master-gallery/{id}/edit', 'GalleryController@edit')->name('aiwa.master-gallery.edit');
     Route::post('master-gallery/{id}/edit', 'GalleryController@update')->name('aiwa.master-gallery.update');
-    Route::post('master-gallery/{id}/delete', 'GalleryController@delete')->name('aiwa.master-gallery.destroy');
+    Route::post('master-gallery/{id}/delete', 'GalleryController@destroy')->name('aiwa.master-gallery.destroy');
     Route::get('master-gallery/loadTableGallery', 'GalleryController@getData')->name('aiwa.master-gallery.load');
     // End Master Gallery
     // Log Activity

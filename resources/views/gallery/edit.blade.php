@@ -12,6 +12,7 @@
                     <h3 class="title"><strong><i class="fa fa-image"></i> Master Gallery</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
+                    <a href="{{ route('aiwa.master-gallery') }}" class="btn btn-success"><i class="fa fa-signout"></i> Kembali</a>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -35,13 +36,46 @@
                     </div> <!-- end col -->
                     <div class="col-sm-6">
                         <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-pencil"></i> Edit Gallery ID : {{ $gallery->id }}</h3></div>
+                            <div class="panel-body">
+                                <form role="form" method="POST" action="{{route('aiwa.master-gallery.update', $gallery->id)}}" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <div class="text-center">
+                                        <img src="/storage/gallery/{{ $gallery->file }}" class="" width="80" height="80" alt="">
+                                        <input type="hidden" name="old_file_name" value="{{ $gallery->file }}" style="display: none;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="file">File/Gambar/Video</label>
+                                        <input type="file" name="file" id="file" class="form-control" data-placeholder="File..">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Judul">Judul</label>
+                                        <input type="text" class="form-control" id="Judul" placeholder="Judul.." name="judul" required="" value="{{ $gallery->judul }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tanggal">Tanggal</label>
+                                        <input type="text" class="form-control datepicker" id="tanggal" placeholder="Tanggal.." name="tanggal" required="" value="{{ $gallery->tanggal }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="deskripsi">Deskripsi Gallery</label>
+                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi">{{ $gallery->deskripsi }}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-purple col-md-12"><i class="fa fa-check"></i> Edit</button>
+                                    </div>
+                                </form>
+                            </div><!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- end col -->
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Tambah Gallery</h3></div>
                             <div class="panel-body">
-                                <form role="form" method="POST" action="master-gallery" enctype="multipart/form-data">
+                                <form role="form" method="POST" action="{{route('aiwa.master-gallery.store')}}" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <label for="file">File/Gambar/Video</label>
-                                        <input type="file" name="file" id="file" class="form-control" required="" data-placeholder="File.." required="">
+                                        <input type="file" name="file" id="file" class="form-control" data-placeholder="File.." required>
                                     </div>
                                     <div class="form-group">
                                         <label for="Judul">Judul</label>
@@ -56,7 +90,7 @@
                                         <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-purple col-md-12">Simpan</button>
+                                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-success col-md-12"><i class="fa fa-plus"></i> Tambah</button>
                                     </div>
                                 </form>
                             </div><!-- panel-body -->
@@ -72,8 +106,7 @@
 $(document).ready(function() {
     $('#itinerary').DataTable({
         "scroll": true,
-        "processing": false,
-        "deferRender": true,
+        "processing": true,
         "serverSide": true,
         "ajax": "{{route('aiwa.master-gallery.load')}}", 
         "columns": [
@@ -102,11 +135,6 @@ jQuery('.datepicker').datepicker();
 jQuery(".select2").select2({
     width: '100%'
 });
-
-function confirmBtn() {
-      if(!confirm("Are You Sure to delete this?"))
-      event.preventDefault();
-}
 </script>
 @endpush
 
