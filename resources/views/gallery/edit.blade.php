@@ -135,6 +135,11 @@ jQuery('.datepicker').datepicker();
 jQuery(".select2").select2({
     width: '100%'
 });
+
+function confirmBtn() {
+      if(!confirm("Are You Sure to delete this?"))
+      event.preventDefault();
+}
 </script>
 @endpush
 
