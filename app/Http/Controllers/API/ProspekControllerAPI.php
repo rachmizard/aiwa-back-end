@@ -38,36 +38,38 @@ class ProspekControllerAPI extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'anggota_id' => 'required',
-            'pic' => 'required',
-            'no_telp' => 'required',
-            'jml_dewasa' => 'required',
-            'jml_infant' => 'required',
-            'jml_balita' => 'required',
-            'jml_visa' => 'required',
-            'jml_balita_kasur' => 'required',
-            'tgl_keberangkatan' => 'required',
-            'jenis' => 'required',
-            'dobel' => 'required',
-            'triple' => 'required',
-            'quard' => 'required',
-            'passport' => 'required',
-            'meningitis' => 'required',
-            'pas_foto' => 'required',
-            'buku_nikah' => 'required',
-            'fc_akta' => 'required',
-            'visa_progresif' => 'required',
-            'diskon' => 'required',
-            'keterangan' => 'required',
-            'tanggal_followup' => 'required',
-            'pembayaran' => 'required',
+        // $validator = Validator::make($request->all(), [
+        //     'anggota_id' => 'required',
+        //     'pic' => 'required',
+        //     'no_telp' => 'required',
+        //     'jml_dewasa' => 'required',
+        //     'jml_infant' => 'required',
+        //     'jml_balita' => 'required',
+        //     'jml_visa' => 'required',
+        //     'jml_balita_kasur' => 'required',
+        //     'tgl_keberangkatan' => 'required',
+        //     'jenis' => 'required',
+        //     'dobel' => 'required',
+        //     'triple' => 'required',
+        //     'quard' => 'required',
+        //     'passport' => 'required',
+        //     'meningitis' => 'required',
+        //     'pas_foto' => 'required',
+        //     'buku_nikah' => 'required',
+        //     'fc_akta' => 'required',
+        //     'visa_progresif' => 'required',
+        //     'diskon' => 'required',
+        //     'keterangan' => 'required',
+        //     'tanggal_followup' => 'required',
+        //     'pembayaran' => 'required',
+        //     'perlengkapan_balita' => 'required',
+        //     'perlengkapan_dewasa' => 'required',
 
-        ]);
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);            
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['error'=>$validator->errors()], 401);            
+        // }
 
         $prospek = $request->isMethod('put') ? Prospek::findOrFail($request->id) : new Prospek;
         $prospek->anggota_id = $request->input('anggota_id');
@@ -76,6 +78,8 @@ class ProspekControllerAPI extends Controller
         $prospek->jml_dewasa = $request->input('jml_dewasa');
         $prospek->jml_infant = $request->input('jml_infant');
         $prospek->jml_balita = $request->input('jml_balita');
+        $prospek->jml_visa = $request->input('jml_visa');
+        $prospek->jml_balita_kasur = $request->input('jml_balita_kasur');
         $prospek->tgl_keberangkatan = $request->input('tgl_keberangkatan');
         $prospek->jenis = $request->input('jenis');
         $prospek->dobel = $request->input('dobel');
@@ -91,6 +95,8 @@ class ProspekControllerAPI extends Controller
         $prospek->keterangan = $request->input('keterangan');
         $prospek->tanggal_followup = $request->input('tanggal_followup');
         $prospek->pembayaran = $request->input('pembayaran');
+        $prospek->perlengkapan_balita = $request->input('perlengkapan_balita');
+        $prospek->perlengkapan_dewasa = $request->input('perlengkapan_dewasa');
         if ($prospek->save()) {
             return response()->json(['success' => 'Berhasil di tambahkan!']);
         }
@@ -135,6 +141,8 @@ class ProspekControllerAPI extends Controller
         $prospek->jml_dewasa = $request->input('jml_dewasa');
         $prospek->jml_infant = $request->input('jml_infant');
         $prospek->jml_balita = $request->input('jml_balita');
+        $prospek->jml_visa = $request->input('jml_visa');
+        $prospek->jml_balita_kasur = $request->input('jml_balita_kasur');
         $prospek->tgl_keberangkatan = $request->input('tgl_keberangkatan');
         $prospek->jenis = $request->input('jenis');
         $prospek->dobel = $request->input('dobel');
@@ -150,6 +158,8 @@ class ProspekControllerAPI extends Controller
         $prospek->keterangan = $request->input('keterangan');
         $prospek->tanggal_followup = $request->input('tanggal_followup');
         $prospek->pembayaran = $request->input('pembayaran');
+        $prospek->perlengkapan_balita = $request->input('perlengkapan_balita');
+        $prospek->perlengkapan_dewasa = $request->input('perlengkapan_dewasa');
         if ($prospek->update()) {
             return response()->json(['success' => 'Berhasil di edit!']);
         }

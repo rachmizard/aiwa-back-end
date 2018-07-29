@@ -23,6 +23,8 @@ class ProspekResource extends Resource
             'jml_dewasa' => $this->jml_dewasa,
             'jml_infant' => $this->jml_infant,
             'jml_balita' => $this->jml_balita,
+            'jml_visa' => $this->jml_visa,
+            'jml_balita_kasur' => $this->jml_balita_kasur,
             'tgl_keberangkatan' => $this->tgl_keberangkatan,
             'jenis' => $this->jenis,
             'dobel' => $this->dobel,
@@ -33,13 +35,16 @@ class ProspekResource extends Resource
             'pas_foto' => $this->pas_foto,
             'buku_nikah' => $this->buku_nikah,
             'fc_akta' => $this->fc_akta,
-            'perlengkapan' => $this->perlengkapan,
             'visa_progresif' => $this->visa_progresif,
             'diskon' => $this->diskon,
             'keterangan' => $this->keterangan,
             'tanggal_followup' => $this->tanggal_followup,
             'pembayaran' => $this->pembayaran,
-            'anggota' => new AgenResource($this->prospek),
+            'perlengkapan_balita' => $this->perlengkapan_balita,
+            'perlengkapan_dewasa' => $this->perlengkapan_dewasa,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'anggota' => new AgenResource($this->anggota),
         ];
     }
 }

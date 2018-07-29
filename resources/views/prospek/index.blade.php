@@ -34,7 +34,36 @@
 
             </div> <!-- END Wraper -->
         </div>
-
+        <!-- Detail of Prospek's Modal -->
+        @foreach($prospeks as $prospek)
+        <div class="modal fade detailQtyProspek{{ $prospek->id }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="mySmallModalLabel">Jumlah Prospek </h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>Jumlah Dewasa</th>
+                                <td>{{ $prospek->jml_dewasa == 0 ? 'Kosong' : $prospek->jml_dewasa  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Jumlah Infant</th>
+                                <td>{{ $prospek->jml_infant == 0 ? 'Kosong' : $prospek->jml_infant }}</td>
+                            </tr>
+                            <tr>
+                                <th>Jumlah Balita</th>
+                                <td>{{ $prospek->jml_balita == 0 ? 'Kosong' : $prospek->jml_balita }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        @endforeach
+        <!-- End Modal -->
          @push('dataTables')
             <!-- Datatable Serverside -->
             <script>
@@ -46,7 +75,7 @@
                         "columns": [
                             { data: "id", name: "id" },
                             { data: "anggota.nama", name: "anggota.nama" },
-                            { data: "nama", name: "nama" },
+                            { data: "pic", name: "pic" },
                             { data: "no_telp", name: "no_telp" },
                             { data: "tgl_keberangkatan", name: "tgl_keberangkatan" },
                             { data: "qty", name: "qty" },

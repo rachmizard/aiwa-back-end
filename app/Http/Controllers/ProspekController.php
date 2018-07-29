@@ -23,7 +23,8 @@ class ProspekController extends Controller
     public function index()
     {
         $agents = \App\User::all();
-        return view('prospek.index', compact('agents'));
+        $prospeks = Prospek::all();
+        return view('prospek.index', compact('agents', 'prospeks'));
     }
 
     /**
@@ -41,13 +42,16 @@ class ProspekController extends Controller
                 <a href="'. route('aiwa.prospek.delete', $prospeks->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })
-          ->editColumn('qty', function($prospeks){
+          ->addColumn('qty', function($prospeks){
                 $jml_dewasa = $prospeks->jml_dewasa;
                 $jml_balita = $prospeks->jml_balita;
                 $jml_infant = $prospeks->jml_infant;
                 $total = $jml_dewasa+$jml_balita+$jml_infant;
-                return $total;
+                return '
+                        <a href="#" data-toggle="modal" data-target=".detailQtyProspek'. $prospeks->id .'" class="btn btn-md btn-info">'. $total .'</a>
+                ';
           })
+          ->rawColumns(['qty', 'action'])
           ->make(true);
     }
 
