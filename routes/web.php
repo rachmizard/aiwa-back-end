@@ -40,6 +40,8 @@ Route::get('/', function () {
     Route::post('/logout', 'AdminController@logout')->name('admin.logout')->middleware('auth:admin');
     // end login's area
 
+    Route::get('/profile', 'AdminProfileController@index')->name('aiwa.admin.profile');
+
     // Reset Password's area
     // Password Reset Routes...
     //admin password reset routes
@@ -108,6 +110,11 @@ Route::get('/', function () {
     Route::post('master-gallery/{id}/delete', 'GalleryController@destroy')->name('aiwa.master-gallery.destroy');
     Route::get('master-gallery/loadTableGallery', 'GalleryController@getData')->name('aiwa.master-gallery.load');
     // End Master Gallery
+
+    Route::get('master-kalkulasi', 'MasterKalkulasiController@edit')->name('aiwa.master-kalkulasi');
+    Route::post('master-kalkulasi/{id}', 'MasterKalkulasiController@update')->name('aiwa.master-kalkulasi.update');
+    Route::get('master-kalkulasi/loadTableKalkulasi', 'MasterKalkulasiController@getData')->name('aiwa.master-kalkulasi.load');
+
     // Log Activity
     Route::get('log-activity', 'LogActivityController@index')->name('aiwa.log-activity');
     // End Log

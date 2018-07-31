@@ -44,10 +44,15 @@ Route::post('/jamaah', 'API\JamaahControllerAPI@store');
 
 // Prospek API Route
 Route::get('/prospek', 'API\ProspekControllerAPI@index');
+Route::get('/prospek/{id}/agen', 'API\ProspekControllerAPI@retrieveByAgen');
 Route::post('/prospek', 'API\ProspekControllerAPI@store');
 Route::get('/prospek/{id}/show', 'API\ProspekControllerAPI@show');
 Route::delete('/prospek/{id}/delete', 'API\ProspekControllerAPI@destroy');
 Route::put('/prospek/{id}/edit', 'API\ProspekControllerAPI@update');
+
+// Kalkulasi API Route
+Route::get('/kalkulasi', 'API\MasterKalkulasiControllerAPI@index');
+Route::put('/kalkulasi/{id}/edit', 'API\MasterKalkulasiControllerAPI@update');
 
 // Master Brosur API Route with resource
 Route::resource('master-brosur', 'API\MasterBrosurControllerAPI');

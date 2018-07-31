@@ -15,14 +15,21 @@ class AnggotaControllerAPI extends Controller
 
     public function login()
     {
-    	 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('nApp')->accessToken;
-            return response()->json(['success' => $success,
-                                    'user' => $user], $this->successStatus);
+            if (!$user->status == 0) {
+                $success['token'] =  $user->createToken('nApp')->accessToken;
+                $success['status'] =  'success';
+                return response()->json(['response' => $success,
+                                        'user' => $user], $this->successStatus);
+            }else{
+                $response['status'] = 'Anda belum terverifikasi oleh admin!';
+                return response()->json(['response' => $response], 401);
+            }
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            $response['status'] = 'failed';
+            return response()->json(['response'=> $response], 401);
         }
     } 
 
@@ -57,7 +64,9 @@ class AnggotaControllerAPI extends Controller
     public function details()
     {
         $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+        $success['status'] = 'You are Authorized!';
+        return response()->json(['response' => $success,
+                                'user' => $user], $this->successStatus);
     }
 
     public function logout()

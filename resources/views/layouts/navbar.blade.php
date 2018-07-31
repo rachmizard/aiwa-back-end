@@ -56,9 +56,7 @@
                             <span class="username">{{Auth::guard('admin')->user()->username}} </span> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu extended pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;">
-                            <li><a href="profile.html"><i class="fa fa-briefcase"></i>Profile</a></li>
-                            <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                            <li><a href="#"><i class="fa fa-bell"></i> Friends <span class="label label-info pull-right mail-info">5</span></a></li>
+                            <li><a href="{{route('aiwa.admin.profile')}}"><i class="fa fa-user"></i>Profile</a></li>
                             <li>
                                 <a href="#"
                                             onclick="event.preventDefault();

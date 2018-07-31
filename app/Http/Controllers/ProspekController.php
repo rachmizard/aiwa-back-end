@@ -20,10 +20,10 @@ class ProspekController extends Controller
         $this->middleware('auth:admin');
     }
     
-    public function index()
+    public function index(Request $request)
     {
         $agents = \App\User::all();
-        $prospeks = Prospek::all();
+        $prospeks = Prospek::where(request);
         return view('prospek.index', compact('agents', 'prospeks'));
     }
 

@@ -17,7 +17,7 @@ class ProspekControllerAPI extends Controller
      */
     public function index()
     {
-        return ProspekResource::collection(Prospek::with('anggota')->paginate(25));
+        return ProspekResource::collection(Prospek::with('anggota')->get(25));
     }
 
     /**
@@ -25,6 +25,15 @@ class ProspekControllerAPI extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function retrieveByAgen($id)
+    {
+        $prospeks = Prospek::where(['anggota_id' => $id, 'pembayaran' => 'BELUM'])->get();
+        return response()->json($prospeks);
+    }
+
+
     public function create()
     {
         //
