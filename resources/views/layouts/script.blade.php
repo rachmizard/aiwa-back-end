@@ -6,9 +6,9 @@
                 $('#datatable').dataTable({
                     processing: true,
                 });
-            } );
+            });
         </script>
-
+        
         <script type="text/javascript">
         /* ==============================================
              Counter Up

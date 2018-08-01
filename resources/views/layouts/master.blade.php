@@ -89,7 +89,7 @@
         <script src="{{asset('/js/jquery.scrollTo.min.js')}}"></script>
         <script src="{{asset('/js/jquery.nicescroll.js')}}" type="text/javascript"></script>
         <script src="{{asset('/assets/chat/moment-2.2.1.js')}}"></script>
-
+        
         <!-- Counter-up -->
         <script src="{{asset('/js/waypoints.min.js')}}" type="text/javascript"></script>
         <script src="{{asset('/js/jquery.counterup.min.js')}}" type="text/javascript"></script>
@@ -150,7 +150,10 @@
         @stack('dataTables')
         @stack('otherJavascript')
         <script>
-            
+            $('#イロドリ-ea').click(function(){
+                $('#logo-full').toggle(0); 
+                $('#logo-mini').toggle(0);
+            });
 
             $('a[id="load-a"]').on('click', function() {
                 var $this = $(this);
