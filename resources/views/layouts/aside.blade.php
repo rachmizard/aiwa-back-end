@@ -3,7 +3,11 @@
 
           <!-- brand -->
           <div class="logo">
+<<<<<<< HEAD
               <a href="index-2.html" class="logo-expanded">
+=======
+              <a href="#" class="logo-expanded">
+>>>>>>> 9798ccb29d3d51d4861fc90d16d9a290bfaa5d6f
                   <img src="/img/kaaba_Ccl_icon.ico" alt="logo" width="20" height="20" id="logo-mini" class="hiden">
                   <img src="/img/AiwaFontLogo.png" alt="logo" width="170" height="90" id="logo-full"> 
               </a>
@@ -29,12 +33,16 @@
                           <li class><a href="#"><i class="fa fa-money"></i> Komisi</a></li>
                           <li class="{{ Route::currentRouteNamed('master-itinerary.index') ? 'active' : '' }}"><a href="{{route('master-itinerary.index')}}"><i class="fa fa-book"></i>Itenary</a></li>
                           <li class="{{ Route::currentRouteNamed('master-brosur.index') ? 'active' : '' }}"><a href="{{route('master-brosur.index')}}"><i class="ion-map"></i> Brosur</a></li>
-                          <li class><a href="{{ route('aiwa.master-kalkulasi', 1) }}"><i class="ion-calculator"></i>Kalkulasi</a></li>
+                          <li class><a href="{{ route('aiwa.master-kalkulasi') }}"><i class="ion-calculator"></i>Kalkulasi</a></li>
                           <li class><a href="#"><i class="ion-speakerphone"></i> Broadcast</a></li>
                           <li class="{{ Route::currentRouteNamed('aiwa.master-gallery') ? 'active' : '' }}"><a href="{{ route('aiwa.master-gallery') }}"><i class="fa fa-file-image-o"></i>Gallery</a></li>
                           <li class="{{ Route::currentRouteNamed('aiwa.master-hotel') ? 'active' : '' }} {{ Route::currentRouteNamed('aiwa.master-hotel.add') ? 'active' : '' }}"><a href="{{route('aiwa.master-hotel')}}"><i class="fa fa-building-o"></i> Hotel</a></li>
                           <li class><a href="#"><i class="fa fa-bell-o"></i> Notifikasi</a></li>
+<<<<<<< HEAD
                           <li class="{{ Route::currentRouteNamed('master-voucher.index') ? 'active' : '' }} {{ Route::currentRouteNamed('aiwa.master-voucher.add') ? 'active' : '' }}"><a href="{{route('master-voucher.index')}}"><i class="fa fa-ticket"></i> Voucher</a></li>
+=======
+                          <li class="{{ Route::currentRouteNamed('faq.index') ? 'active' : '' }}"><a href="{{ route('faq.index') }}"><i class="fa fa-question-circle"></i> F.A.Q</a></li>
+>>>>>>> 9798ccb29d3d51d4861fc90d16d9a290bfaa5d6f
                           <!-- <li><a href="notification.html">Notification</a></li>
                           <li><a href="sweet-alert.html">Sweet-Alert</a></li> -->
                       </ul>
@@ -55,6 +63,7 @@
                 <ul class="list-unstyled">
                     <li class="{{ Route::currentRouteNamed('aiwa.log-activity') ? 'active' : '' }}"><a href="{{route('aiwa.log-activity')}}"><i class="fa fa-clock-o"></i> Log Activity</a></li>
                     <li><a href="#"><i class="fa fa-user-plus"></i> User Level</a></li>
+                    <li><a href="{{ route('aiwa.approval') }}"><i class="fa fa-user-plus"></i> Approval Agen</a></li>
                     <li><a href="#"><i class="fa fa-bell"></i> Notifikasi</a></li>
                 </ul>
               </li>

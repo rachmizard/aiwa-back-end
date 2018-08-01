@@ -20,7 +20,7 @@ class ItineraryController extends Controller
     
     public function index()
     {
-         $url = 'http://115.124.86.218/aiw/jadwal/1440';
+        $url = 'http://115.124.86.218/aiw/jadwal/1440';
         $json = file_get_contents($url);
         $jadwals = collect(json_decode($json, true));
         
@@ -48,7 +48,15 @@ class ItineraryController extends Controller
                 <a href="'. route('master-itinerary.edit', $itinerary->id) .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
                 <a href="'. route('master-itinerary.destroy', $itinerary->id) .'" class="btn btn-sm btn-danger" onclick="confirm("Anda yakin?")"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
-                })->toJson();
+                })
+        ->editColumn('link', function($itinerary){
+            return '<a href="'. $itinerary->link .'">'. str_limit($itinerary->link, 20) .'</a>';
+        })
+        ->editColumn('detailjadwal_id', function($itinerary){
+            return '<p>'. date('d-M-Y', strtotime($itinerary->detailjadwal_id)) .'</p>';
+        })
+        ->rawColumns(['link', 'action', 'detailjadwal_id'])
+        ->toJson();
     }
     /**
      * Show the form for creating a new resource.
@@ -92,7 +100,17 @@ class ItineraryController extends Controller
      */
     public function edit($id)
     {
-        //
+        
+        $url = 'http://115.124.86.218/aiw/jadwal/1440';
+        $json = file_get_contents($url);
+        $jadwals = collect(json_decode($json, true));
+        $test = $jadwals['data'];
+        $count = count($test);
+        $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
+        $countPaket = count($itungPaket);
+        $itinerary = MasterItinerary::findOrFail($id);
+        
+        return view('itinerary.edit', compact('jadwals', 'test', 'count','countPaket', 'itinerary'));
     }
 
     /**
@@ -104,7 +122,9 @@ class ItineraryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $itinerary = MasterItinerary::findOrFail($id);
+        $itinerary->update($request->all());
+        return redirect()->back()->with('message', 'Berhasil di edit!');
     }
 
     /**

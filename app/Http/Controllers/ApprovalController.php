@@ -3,42 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
 use Yajra\Datatables\Datatables;
+use App\User;
 
-class AgenController extends Controller
+class ApprovalController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function index()
     {
-        $this->middleware('auth:admin');
-    }
-    
-    public function index(Request $request)
-    {
-        return view('agen.index');
-    }
-
-    public function getData(Request $request)
-    {
-        $agents = User::where('status', '=', '1')->get();
+        $agents = User::where('status', '=', '0')->get();
          return Datatables::of($agents)->addColumn('action', function($agents)
          {
             return '
-                <a href="master-hotel/'. $agents->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-                <a href="'. route('aiwa.master-hotel', $agents->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
+                <form class="form-group" action="'. route('aiwa.approved', $agents->id) .'" method="POST">
+                    <input type="hidden" name="_token" value="'. csrf_token() .'">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-success" type="submit"><i class="fa fa-check"></i>Approve</button>
+                    </form>
+                ';
          })
          ->make(true);
     }
 
-    public function filter(Request $request)
-    {
-
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -91,7 +81,15 @@ class AgenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $approveStatus = 1;
+        $agen = User::findOrFail($id);
+        if ($agen->update(['status' => $approveStatus])) {
+            return redirect()->back()->with('message', 'Akun berhasil di approved (Agen '. $agen->nama .')');
+        }else{
+            return redirect()->back()->with('messageError', 'Terjadi masalah di server!');
+        }
+
+
     }
 
     /**

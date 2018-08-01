@@ -71,7 +71,7 @@
                     $('#prospek').dataTable({
                         "processing": true,
                         "serverSide": true,
-                        "ajax": "{{route('aiwa.prospek.load')}}", 
+                        "ajax": "{{ route('aiwa.prospek.load') }}", 
                         "columns": [
                             { data: "id", name: "id" },
                             { data: "anggota.nama", name: "anggota.nama" },

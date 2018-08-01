@@ -33,7 +33,7 @@ Route::get('/', function () {
 
 
 // for backup
-  Route::prefix('admin')->group(function() {
+  Route::prefix('admin-section')->group(function() {
   	// Login & logout's area
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
@@ -107,6 +107,9 @@ Route::get('/', function () {
     Route::get('master-voucher/loadBrosur', 'MasterVoucherController@getData');
     // End Master Voucher
 
+    Route::resource('faq', 'FAQController');
+    Route::get('faq/loadFaq', 'FAQController@getDataFuckersPlease');
+
     // Master Gallery
     Route::get('master-gallery', 'GalleryController@index')->name('aiwa.master-gallery');
     Route::post('master-gallery', 'GalleryController@store')->name('aiwa.master-gallery.store');
@@ -123,6 +126,10 @@ Route::get('/', function () {
     // Log Activity
     Route::get('log-activity', 'LogActivityController@index')->name('aiwa.log-activity');
     // End Log
+
+    Route::get('approval', 'AdminController@approval')->name('aiwa.approval');
+    Route::get('approval/loadTableApproval', 'ApprovalController@index')->name('aiwa.approval.load');
+    Route::put('approval/{id}/approve', 'ApprovalController@update')->name('aiwa.approved');
 
     // Retrieving API of Jadwal
     Route::get('master-jadwal', 'JadwalController@index')->name('aiwa.master-jadwal');
