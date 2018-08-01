@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FAQResource;
-use App\FAQ;
+use App\Http\Resources\GalleryResource;
+use App\MasterGallery;
 
-class FAQControllerAPI extends Controller
+class GalleryControllerAPI extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class FAQControllerAPI extends Controller
      */
     public function index()
     {
-        return FAQResource::collection(FAQ::all());
+        return GalleryResource::collection(MasterGallery::all());
     }
 
     /**

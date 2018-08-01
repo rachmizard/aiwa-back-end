@@ -52,8 +52,15 @@
                                         <input type="text" class="form-control datepicker" id="tanggal" placeholder="Tanggal.." name="tanggal" required="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="deskripsi">Deskripsi Gallery</label>
+                                        <label for="deskripsi">Deskripsi/Link Url Video (Youtube)</label>
                                         <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tipe">Tipe Gallery</label>
+                                        <select class="form-control" id="tipe" data-placeholder="Tipe.." name="tipe" required="">
+                                            <option value="foto">Foto</option>
+                                            <option value="video">Video</option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-purple col-md-12">Simpan</button>

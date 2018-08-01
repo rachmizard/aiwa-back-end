@@ -57,6 +57,12 @@ Route::put('/kalkulasi/{id}/edit', 'API\MasterKalkulasiControllerAPI@update');
 // Master Brosur API Route with resource
 Route::resource('master-brosur', 'API\MasterBrosurControllerAPI');
 
+// FAQ's Route
+Route::get('/faq', 'API\FAQControllerAPI@index');
+
+// Galleriess' Route
+Route::get('/gallery', 'API\GalleryControllerAPI@index');
+
 // Login API
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');
 Route::post('register', 'API\Auth\AnggotaControllerAPI@register');
