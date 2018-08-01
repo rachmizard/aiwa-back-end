@@ -17,8 +17,7 @@ class CreateMasterVouchersTable extends Migration
             $table->increments('id');
             $table->integer('anggota_id');
             $table->string('file');
-            $table->string('potongan');
-            $table->string('tipe');
+            $table->string('deskripsi');
             $table->timestamps();
         });
     }

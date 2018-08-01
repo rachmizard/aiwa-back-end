@@ -95,7 +95,7 @@
         <script src="{{asset('/js/jquery.scrollTo.min.js')}}"></script>
         <script src="{{asset('/js/jquery.nicescroll.js')}}" type="text/javascript"></script>
         <script src="{{asset('/assets/chat/moment-2.2.1.js')}}"></script>
-
+        
         <!-- Counter-up -->
         <script src="{{asset('/js/waypoints.min.js')}}" type="text/javascript"></script>
         <script src="{{asset('/js/jquery.counterup.min.js')}}" type="text/javascript"></script>

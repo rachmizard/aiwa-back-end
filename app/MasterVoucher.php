@@ -10,4 +10,5 @@ class MasterVoucher extends Model
     protected $table = 'master_vouchers';
     public $timestamps = true;
     protected $primaryKey = 'id';
+    public $fillable = ['anggota_id', 'file', 'deskripsi'];
 }

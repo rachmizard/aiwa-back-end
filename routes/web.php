@@ -101,6 +101,11 @@ Route::get('/', function () {
     Route::resource('master-brosur', 'MasterBrosurController');
     Route::get('master-brosur/loadBrosur', 'MasterBrosurController@getData');
     // End Master Brosur
+      
+    // Master Voucher
+    Route::resource('master-voucher', 'MasterVoucherController');
+    Route::get('master-voucher/loadBrosur', 'MasterVoucherController@getData');
+    // End Master Voucher
 
     Route::resource('faq', 'FAQController');
     Route::get('faq/loadFaq', 'FAQController@getDataFuckersPlease');

@@ -276,21 +276,24 @@ aside:not(.collapsed) .navigation ul li.active ul {
 /******************** 3.Top Header ****************/
 
 header {
-  background-color: #fff;
-  border-bottom: 1px solid #ececee;
+  background-color: #ef5350  ;
+/*  border-bottom: 1px solid #ececee;*/
   padding-top: 4px;
   padding-bottom: 4px;
 }
-
+header.menes{padding-bottom: 0px !important;padding-top: 0px !important;}
 .navbar-toggle {
-  margin: 8px 20px 8px 0px;
+  margin: 8px -10px 8px 0px;
   display: block;
-  padding-left: 0px;
+  padding-left: 5px;
 }
 
 .navbar-toggle .icon-bar {
-  background-color: #b3b3be;
+/*  background-color: #b3b3be;*/
+  background-color: #f1f1f1;
 }
+
+nav.navbar-default {margin-bottom: 10px;}
 
 .app-search {
   position: relative;
@@ -396,14 +399,19 @@ header {
 }
 
 .top-menu li >a {
+  color: #f1f1f1;
+  text-align: center;
+  padding: 22px 15px;
+  font-size: 16px;
+}
+.top-menu li >ul a {
   color: #979898;
   text-align: center;
   padding: 22px 15px;
   font-size: 16px;
 }
-
 .top-menu li >a:hover,.top-menu li >a:focus,.top-menu li >a:active {
-  background-color: #edf1f2;
+  background-color: #e53935;
 }
 
 .top-menu .dropdown-menu li {
@@ -1982,4 +1990,15 @@ ul.p-social-link li a {
 CUSTOM CSS
 =========*/
 .hiden {display: none;}
+<<<<<<< HEAD
 .unhide {display: block;}
+
+img.dapenbi-logo {
+    width: 20px;
+    height: auto;
+    margin: 0px 0px 0px 0px;
+    padding: 0px;
+}
+=======
+.unhide {display: block;}
+>>>>>>> 9798ccb29d3d51d4861fc90d16d9a290bfaa5d6f
