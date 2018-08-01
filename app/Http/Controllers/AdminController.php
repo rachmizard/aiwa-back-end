@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Admin;
 use Carbon\Carbon;
 use App\LogActivity;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -23,6 +24,11 @@ class AdminController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function approval()
+    {
+        return view('approval.index');
     }
 
     /**

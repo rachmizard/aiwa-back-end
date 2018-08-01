@@ -50,7 +50,13 @@
         <link rel="stylesheet" type="text/css" href="{{asset('assets/colorpicker/colorpicker.css')}}" />
         <link rel="stylesheet" type="text/css" href="{{asset('assets/jquery-multi-select/multi-select.css')}}" />
         <link rel="stylesheet" type="text/css" href="{{asset('assets/select2/select2.css')}}" />
-
+        <style>
+        /*=======
+        CUSTOM CSS
+        =========*/
+        .hiden {display: none;}
+        .unhide {display: block;}
+        </style>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
 <!--[if lt IE 9]>
   <script src="js/html5shiv.js"></script>
@@ -150,7 +156,10 @@
         @stack('dataTables')
         @stack('otherJavascript')
         <script>
-            
+            $('#イロドリ-ea').click(function(){
+                $('#logo-full').toggle(0); 
+                $('#logo-mini').toggle(0);
+            });
 
             $('a[id="load-a"]').on('click', function() {
                 var $this = $(this);

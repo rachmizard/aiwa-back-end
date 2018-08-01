@@ -21,6 +21,7 @@ class MasterKalkulasiResource extends Resource
             'harga_promo' => $this->harga_promo,
             'harga_infant' => $this->harga_infant,
             'harga_full' => $this->harga_full,
+            'harga_lite' => $this->harga_lite,
             'diskon_balita_uhud' => $this->diskon_balita_uhud,
             'diskon_balita_nur' => $this->diskon_balita_nur,
             'diskon_balita_rhm' => $this->diskon_balita_rhm,

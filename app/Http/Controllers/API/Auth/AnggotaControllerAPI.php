@@ -23,13 +23,15 @@ class AnggotaControllerAPI extends Controller
                 return response()->json(['response' => $success,
                                         'user' => $user], $this->successStatus);
             }else{
+                $response['token'] = null;
                 $response['status'] = 'Anda belum terverifikasi oleh admin!';
-                return response()->json(['response' => $response], 401);
+                return response()->json(['response' => $response]);
             }
         }
         else{
+            $response['token'] = null;
             $response['status'] = 'failed';
-            return response()->json(['response'=> $response], 401);
+            return response()->json(['response'=> $response]);
         }
     } 
 

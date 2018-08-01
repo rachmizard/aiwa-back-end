@@ -23,7 +23,7 @@ class ProspekController extends Controller
     public function index(Request $request)
     {
         $agents = \App\User::all();
-        $prospeks = Prospek::where(request);
+        $prospeks = Prospek::all();
         return view('prospek.index', compact('agents', 'prospeks'));
     }
 

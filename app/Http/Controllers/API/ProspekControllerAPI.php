@@ -17,7 +17,7 @@ class ProspekControllerAPI extends Controller
      */
     public function index()
     {
-        return ProspekResource::collection(Prospek::with('anggota')->get(25));
+        return ProspekResource::collection(Prospek::with('anggota')->paginate(100000));
     }
 
     /**
@@ -29,8 +29,7 @@ class ProspekControllerAPI extends Controller
 
     public function retrieveByAgen($id)
     {
-        $prospeks = Prospek::where(['anggota_id' => $id, 'pembayaran' => 'BELUM'])->get();
-        return response()->json($prospeks);
+        return ProspekResource::collection(Prospek::where(['anggota_id' => $id, 'pembayaran' => 'BELUM'])->get());
     }
 
 
@@ -174,6 +173,15 @@ class ProspekControllerAPI extends Controller
         }
     }
 
+    public function pembayaran(Request $request, $id)
+    {
+        $statusPembayaran = 1; // Menyatakan status sudah di DP
+        $prospek = $request->isMethod('put') ? Prospek::findOrFail($id) : new Prospek;
+        $prospek->pembayaran = $statusPembayaran;
+        if ($prospek->update()) {
+            return response()->json(['success' => 'Berhasil di edit pembayaran!']);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *

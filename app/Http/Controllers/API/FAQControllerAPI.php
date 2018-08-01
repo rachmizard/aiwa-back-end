@@ -1,44 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use App\User;
-use Yajra\Datatables\Datatables;
+use App\Http\Controllers\Controller;
 
-class AgenController extends Controller
+class FAQControllerAPI extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function index()
     {
-        $this->middleware('auth:admin');
-    }
-    
-    public function index(Request $request)
-    {
-        return view('agen.index');
+        //
     }
 
-    public function getData(Request $request)
-    {
-        $agents = User::where('status', '=', '1')->get();
-         return Datatables::of($agents)->addColumn('action', function($agents)
-         {
-            return '
-                <a href="master-hotel/'. $agents->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-                <a href="'. route('aiwa.master-hotel', $agents->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
-         })
-         ->make(true);
-    }
-
-    public function filter(Request $request)
-    {
-
-    }
     /**
      * Show the form for creating a new resource.
      *

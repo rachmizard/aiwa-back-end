@@ -1977,3 +1977,9 @@ ul.p-social-link li a {
 #legend .line {
   color: #333;
 }
+
+/*=======
+CUSTOM CSS
+=========*/
+.hiden {display: none;}
+.unhide {display: block;}

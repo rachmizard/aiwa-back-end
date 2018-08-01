@@ -35,7 +35,7 @@ aside.left-panel.collapsed span.nav-label  {
     z-index: 3;
     left: 100%;
     top: 0px;
-    background-color: #162338;
+    background-color: #d32f2f;
     box-shadow: none;
     padding: 10px 0px;
     min-width: 200px;
@@ -47,7 +47,7 @@ aside.left-panel.collapsed span.nav-label  {
 
   aside.left-panel.collapsed .navigation ul li ul li a {
     border: 0px;
-    color: #b4b6bd;
+    color: #eee;
     padding: 8px 25px 8px 40px;
   }
 
