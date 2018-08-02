@@ -19,6 +19,16 @@ class GalleryControllerAPI extends Controller
         return GalleryResource::collection(MasterGallery::all());
     }
 
+    public function retrieveByFoto(Request $request)
+    {
+        return GalleryResource::collection(MasterGallery::where('tipe', '=', 'foto')->get());
+    }
+
+    public function retrieveByVideo(Request $request)
+    {
+        return GalleryResource::collection(MasterGallery::where('tipe', '=', 'video')->get());
+    }
+
     /**
      * Show the form for creating a new resource.
      *

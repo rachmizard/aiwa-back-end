@@ -16,7 +16,7 @@ class MasterBrosurControllerAPI extends Controller
      */
     public function index()
     {
-        return MasterBrosurResource::collection(MasterBrosur::paginate(25));
+        return MasterBrosurResource::collection(MasterBrosur::all());
     }
 
     /**

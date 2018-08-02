@@ -30,6 +30,11 @@ class JamaahControllerAPI extends Controller
         //
     }
 
+    public function retrieveByAgen(Request $request)
+    {
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

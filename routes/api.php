@@ -38,6 +38,9 @@ Route::get('/agen/{id}/show', 'API\AgenControllerAPI@show');
 Route::put('/agen/{id}/edit', 'API\AgenControllerAPI@update');
 Route::delete('/agen/{id}/delete', 'API\AgenControllerAPI@destroy');
 
+// Agen Retrieving by approved's account.
+Route::get('/agen/approved', 'API\AgenControllerAPI@retrieveByApproved');
+
 // Jamaah API Route
 Route::get('/jamaah', 'API\JamaahControllerAPI@index');
 Route::post('/jamaah', 'API\JamaahControllerAPI@store');
@@ -49,19 +52,22 @@ Route::post('/prospek', 'API\ProspekControllerAPI@store');
 Route::get('/prospek/{id}/show', 'API\ProspekControllerAPI@show');
 Route::delete('/prospek/{id}/delete', 'API\ProspekControllerAPI@destroy');
 Route::put('/prospek/{id}/edit', 'API\ProspekControllerAPI@update');
+Route::put('/prospek/{id}/bayar', 'API\ProspekControllerAPI@bayar');
 
 // Kalkulasi API Route
 Route::get('/kalkulasi', 'API\MasterKalkulasiControllerAPI@index');
 Route::put('/kalkulasi/{id}/edit', 'API\MasterKalkulasiControllerAPI@update');
 
 // Master Brosur API Route with resource
-Route::resource('master-brosur', 'API\MasterBrosurControllerAPI');
+Route::resource('brosur', 'API\MasterBrosurControllerAPI');
 
 // FAQ's Route
 Route::get('/faq', 'API\FAQControllerAPI@index');
 
 // Galleriess' Route
 Route::get('/gallery', 'API\GalleryControllerAPI@index');
+Route::get('/gallery/foto', 'API\GalleryControllerAPI@retrieveByFoto');
+Route::get('/gallery/video', 'API\GalleryControllerAPI@retrieveByVideo');
 
 // Login API
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');

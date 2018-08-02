@@ -8,7 +8,7 @@
                     <h3 class="title"><strong><i class="fa fa-user"></i> LAPORAN JAMAAH UMRAH</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
-                    <!--     -->
+                    <a href="jamaah/download/csv" class="btn btn-sm btn-info"><i class="fa fa-file-excel-o"></i> Download CSV</a>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -42,7 +42,6 @@
                 <h3 class="title text-center"><strong><i class="fa fa-user-plus"></i> TAMBAH JAMAAH</strong></h3>
             </div>
             <div class="divider" style="margin-bottom: 10px;">
-                <!--     -->
             </div>
             <div class="row">
                     <div class="col-sm-6">
@@ -177,13 +176,13 @@
                             <div class="panel-heading"><h3 class="panel-title text-center"><i class="fa fa-file-excel-o"></i> Input Jamaah Via Excel</h3></div>
                             <div class="panel-body">
 
-                                <form class="form-horizontal" role="form">
+                                <form class="form-horizontal" role="form" method="POST" action="{{ route('aiwa.jamaah.store.import') }}" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
                                     <div class="form-group">
-
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-excel-o"></i></span>
-                                                <input type="file" id="tanggal_daftar" name="file_excel" class="form-control" placeholder="File excel.xlsx">
+                                                <input type="file" id="import_file_jamaah" name="import_file_jamaah" class="form-control" placeholder="File excel.xlsx">
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Prospek;
+use App\Jamaah;
 use App\User;
 use App\Http\Resources\ProspekResource;
 use Validator;
@@ -173,12 +174,53 @@ class ProspekControllerAPI extends Controller
         }
     }
 
-    public function pembayaran(Request $request, $id)
+    public function bayar(Request $request, $id)
     {
         $statusPembayaran = 1; // Menyatakan status sudah di DP
         $prospek = $request->isMethod('put') ? Prospek::findOrFail($id) : new Prospek;
         $prospek->pembayaran = $statusPembayaran;
+        $pax = $prospek->jml_dewasa+$prospek->jml_infant+$prospek->jml_balita+$prospek->jml_balita_kasur;
+        $pic = $prospek->pic;
+        $anggota_id = $prospek->anggota_id;
+        $findKoordinator = User::find($anggota_id);
         if ($prospek->update()) {
+            for ($i=0; $i < $pax ; $i++) { 
+                if ($findKoordinator->koordinator == 0 ) {
+                    $jamaah = Jamaah::create([
+                        'nama' => $pic . '_' . $i,
+                        'marketing' => $anggota_id,
+                        'marketing_fee' => 2250000,
+                        'koordinator' => 0,
+                        'koordinator_fee' => 0,
+                        'top' => 1,
+                        'top_fee' => 2250000,
+                        'status' => 'POTENSI'
+                    ]);
+                }else if($findKoordinator->koordinator == 1)
+                {
+                    $jamaah = Jamaah::create([
+                        'nama' => $pic . '_' . $i,
+                        'marketing' => $anggota_id,
+                        'marketing_fee' => $findKoordinator->fee_reguler,
+                        'koordinator' => $findKoordinator->koordinator,
+                        'koordinator_fee' => 450000,
+                        'top' => 1,
+                        'top_fee' => 450000,
+                        'status' => 'POTENSI'
+                    ]);                    
+                }else{
+                    $jamaah = Jamaah::create([
+                        'nama' => $pic . '_' . $i,
+                        'marketing' => $anggota_id,
+                        'marketing_fee' => $findKoordinator->fee_reguler,
+                        'koordinator' => $findKoordinator->koordinator,
+                        'koordinator_fee' => 200000,
+                        'top' => 1,
+                        'top_fee' => 250000,
+                        'status' => 'POTENSI'
+                    ]);
+                }
+            }
             return response()->json(['success' => 'Berhasil di edit pembayaran!']);
         }
     }

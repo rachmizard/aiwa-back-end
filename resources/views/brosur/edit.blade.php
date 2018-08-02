@@ -32,7 +32,7 @@
                                         @if(count($brosur) > 0)
                                         <tr>
                                             <td>{{ $brosur->id }}</td>
-                                            <td>{{ $brosur->file_brosur }}</td>
+                                            <td><img src="/storage/brosur/{{ $brosur->file_brosur }}" width="70" height="70" alt=""></td>
                                             <td>{{ $brosur->description }}</td>
                                             <td class="text-center">
                                                 <a href="{{ route('master-brosur.edit', $brosur->id) }}" class="btn btn-sm btn-info">Edit</a>
@@ -59,12 +59,16 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-pencil"></i> Edit Brosur ID: {{ $edit->id }}</h3></div>
                             <div class="panel-body panel-info">
-                                <form role="form" method="POST" action="{{route('master-brosur.update', $edit->id)}}">
+                                <form role="form" method="POST" action="{{route('master-brosur.update', $edit->id)}}" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     {{ method_field('PATCH') }}
+                                    <div class="form-group text-center">
+                                        <img src="/storage/brosur/{{ $edit->file_brosur }}" width="100" height="100" alt="">
+                                        <input type="hidden" name="old_file_brosur" value="{{ $edit->file_brosur }}" style="display: none;">
+                                    </div>
                                     <div class="form-group">
                                         <label for="file_brosur">File</label>
-                                        <input type="file" class="form-control" name="file_brosur" placeholder="File.." value="{{ $edit->file_brosur }}" required="">
+                                        <input type="file" class="form-control" name="file_brosur" required="">
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Deskripsi</label>

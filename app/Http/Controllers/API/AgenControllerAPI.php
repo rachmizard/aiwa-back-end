@@ -18,7 +18,12 @@ class AgenControllerAPI extends Controller
      */
     public function index()
     {
-        return AgenResource::collection(User::paginate(25));
+        return AgenResource::collection(User::all());
+    }
+
+    public function retrieveByApproved()
+    {
+        return AgenResource::collection(User::where('status', '=', '1')->get());
     }
 
     /**
@@ -49,6 +54,12 @@ class AgenControllerAPI extends Controller
         $agent->alamat = $request->input('alamat');
         $agent->no_telp = $request->input('no_telp');
         $agent->status = $request->input('status');
+        $agent->bank = $request->input('bank');
+        $agent->no_rekening = $request->input('no_rekening');
+        $agent->fee_reguler = $request->input('fee_reguler');
+        $agent->fee_promo = $request->input('fee_promo');
+        $agent->nama_rek_beda = $request->input('nama_rek_beda');
+        $agent->website = $request->input('website');
         $agent->koordinator = $request->input('koordinator');
         if ($agent->save()) {
             return response()->json(['success' => 'Berhasil di tambahkan!']);
@@ -90,14 +101,20 @@ class AgenControllerAPI extends Controller
         $agent->nama = $request->input('nama');
         $agent->email = $request->input('email');
         $agent->username = $request->input('username');
-        $agent->password = $request->input('password');
+        $agent->password = Hash::make($request->input('password'));
         $agent->jenis_kelamin = $request->input('jenis_kelamin');
         $agent->no_ktp = $request->input('no_ktp');
         $agent->alamat = $request->input('alamat');
         $agent->no_telp = $request->input('no_telp');
         $agent->status = $request->input('status');
+        $agent->bank = $request->input('bank');
+        $agent->no_rekening = $request->input('no_rekening');
+        $agent->fee_reguler = $request->input('fee_reguler');
+        $agent->fee_promo = $request->input('fee_promo');
+        $agent->nama_rek_beda = $request->input('nama_rek_beda');
+        $agent->website = $request->input('website');
         $agent->koordinator = $request->input('koordinator');
-        if ($agent->save()) {
+        if ($agent->update()) {
             return response()->json(['success' => 'Berhasil di edit!']);
         }
     }
