@@ -71,7 +71,7 @@ class GalleryController extends Controller
             'judul' => $request->judul,
             'tanggal' => $request->tanggal,
             'deskripsi' => $request->deskripsi,
-            'tipe' => $uploadedFile->getClientOriginalExtension()
+            'tipe' => $request->tipe
         ]);
         if ($file) { 
         $itung = count($file);
@@ -126,7 +126,8 @@ class GalleryController extends Controller
                     'file' => $name,
                     'judul' => $request->judul,
                     'tanggal' => $request->tanggal,
-                    'deskripsi' => $request->deskripsi
+                    'deskripsi' => $request->deskripsi,
+                    'tipe' => $request->tipe
             ]);
             if ($gallery) {
                 LogActivity::create([
@@ -143,7 +144,8 @@ class GalleryController extends Controller
                 'file' => $request->old_file_name,
                 'judul' => $request->judul,
                 'tanggal' => $request->tanggal,
-                'deskripsi' => $request->deskripsi
+                'deskripsi' => $request->deskripsi,
+                'tipe' => $request->tipe
             ]);
             if ($gallery) {
                 LogActivity::create([

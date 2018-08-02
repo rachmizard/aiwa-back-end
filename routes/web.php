@@ -64,17 +64,29 @@ Route::get('/', function () {
     Route::get('/jamaah/tambah', 'JamaahController@create')->name('aiwa.jamaah.add');
     Route::post('/jamaah', 'JamaahController@store')->name('aiwa.jamaah.store');
     Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.edit-form');
-    Route::post('/jamaah/{id}', 'JamaahController@update')->name('aiwa.jamaah.update');
+    // Route::post('/jamaah/{id}', 'JamaahController@update')->name('aiwa.jamaah.update'); // Will be continued!
     Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.put');
     Route::get('/jamaah/{id}/delete', 'JamaahController@destroy')->name('aiwa.jamaah.delete');
     Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
     // End of Jamaah
 
+    // Import Jamaah Excel
+    Route::post('/jamaah/import', 'ImportJamaahController@importExcelJamaah')->name('aiwa.jamaah.store.import');
+    Route::get('/jamaah/download/{type}', 'ImportJamaahController@downloadExcel')->name('aiwa.jamaah.download');
+    // End Import Jamaah
+
     // Agen
-    Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
     Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
     Route::get('agenjamaah/loadTableAnggota', 'AgenController@getData')->name('aiwa.anggota.load');
     // End of agen
+
+    // Import agen account
+    Route::get('agenjamaah/import', 'AdminController@showImportForm')->name('aiwa.anggota.import');
+    Route::post('agenjamaah/import/process', 'AdminController@importExcel')->name('aiwa.anggota.store.import');
+
+
+    // Export Agen
+Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->name('aiwa.anggota.download.excel');
 
     // Prospek / Caljam
     Route::get('prospek', 'ProspekController@index')->name('aiwa.prospek');

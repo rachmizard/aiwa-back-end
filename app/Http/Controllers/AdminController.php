@@ -7,6 +7,8 @@ use App\Admin;
 use Carbon\Carbon;
 use App\LogActivity;
 use App\User;
+use Excel;
+use DB;
 
 class AdminController extends Controller
 {
@@ -29,6 +31,66 @@ class AdminController extends Controller
     public function approval()
     {
         return view('approval.index');
+    }
+    /**
+    * For upload
+    **/
+
+    public function showImportForm(Request $request)
+    {
+        return view('agen.import');
+    }
+
+    // Export Coding
+    public function downloadExcel($type)
+    {
+        $data = User::get()->toArray();
+        return Excel::create('data_agen', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
+    }
+
+    // Import COding
+    public function importExcel(Request $request)
+    {
+        if($request->hasFile('import_file')){
+            Excel::load($request->file('import_file')->getRealPath(), function ($reader) {
+                foreach ($reader->toArray() as $key => $row) {
+                    $data['id'] = $row['id'];
+                    $data['nama'] = $row['nama'];
+                    // $data['email'] = $row['email'];
+                    // $data['username'] = $row['username'];
+                    // $data['password'] = bcrypt('testpassword123');
+                    // $data['jenis_kelamin'] = $row['jenis_kelamin'];
+                    // $data['no_ktp'] = $row['no_ktp'];
+                    $data['alamat'] = $row['alamat'];
+                    $data['no_telp'] = $row['no_telp'];
+                    $data['status'] = 1;
+                    $data['koordinator'] = $row['koordinator'];
+                    $data['bank'] = $row['bank'];
+                    $data['no_rekening'] = $row['no_rekening'];
+                    $data['fee_reguler'] = $row['fee_reguler'];
+                    $data['fee_promo'] = $row['fee_promo'];
+                    $data['nama_rek_beda'] = $row['nama_rek_beda'];
+                    $data['website'] = $row['website'];
+
+                    if(!empty($data)) {
+                        $validator = User::where('id', $data['id'])->first();
+                        if($validator){
+                            DB::table('users')->where('id', $data['id'])->update($data);
+                            // Session::put('message', 'Your file is succesfully updated!');
+                        }else {
+                            DB::table('users')->insert($data);
+                            // Session::put('message', 'Your file is succesfully imported!');
+                        }
+                    }
+                }
+            });
+        }
+        return back();
     }
 
     /**

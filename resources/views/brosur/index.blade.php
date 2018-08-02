@@ -32,7 +32,7 @@
                                         @if(count($brosur) > 0)
                                         <tr>
                                             <td>{{ $brosur->id }}</td>
-                                            <td>{{ $brosur->file_brosur }}</td>
+                                            <td><img src="/storage/brosur/{{ $brosur->file_brosur }}" width="70" height="70" alt=""></td>
                                             <td>{{ $brosur->description }}</td>
                                             <td class="text-center">
                                                 <a href="{{ route('master-brosur.edit', $brosur->id) }}" class="btn btn-sm btn-info">Edit</a>
@@ -59,7 +59,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Tambah Brosur</h3></div>
                             <div class="panel-body panel-info">
-                                <form role="form" method="POST" action="{{route('master-brosur.store')}}">
+                                <form role="form" method="POST" action="{{route('master-brosur.store')}}" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <label for="file_brosur">File</label>

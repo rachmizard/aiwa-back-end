@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Jamaah;
 use App\User;
 use App\Http\Resources\JamaahResource;
+use App\Http\Resources\CountOfMarketingFeeResource;
+use DB;
 
 class JamaahControllerAPI extends Controller
 {
@@ -28,6 +30,60 @@ class JamaahControllerAPI extends Controller
     public function create()
     {
         //
+    }
+
+    public function retrieveByAgen(Request $request, $id)
+    {
+        return JamaahResource::collection(Jamaah::where('marketing', $id)->get());
+    }
+
+    public function feeByAgenPotensi(Request $request, $id)
+    {
+        $countFee = DB::table('jamaah')->where(['marketing' => $id, 'status' => 'POTENSI'])->sum('marketing_fee');
+        return response()->json($countFee);
+    }
+
+    public function retrieveByKoordinator(Request $request, $id)
+    {
+        return JamaahResource::collection(Jamaah::where('koordinator', $id)->get());
+    }
+
+    public function feeByKoordinatorFeePotensi(Request $request, $id)
+    {
+        $countFeeByKoordinator = DB::table('jamaah')->where('koordinator', $id)->where('status', '=', 'POTENSI')->sum('koordinator_fee');
+        return response()->json($countFeeByKoordinator);
+    }
+
+    public function feeByAgenKomisi(Request $request, $id)
+    {
+        $countFeeByAgenKomisi = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->sum('marketing_fee');
+        return response()->json($countFeeByAgenKomisi);   
+    }
+
+    public function feeByKoordinatorKomisi(Request $request, $id)
+    {
+        $countFeeByKoordinatorKomisi = DB::table('jamaah')->where('koordinator', $id)->where('status', '!=', 'POTENSI')->sum('koordinator_fee');
+        return response()->json($countFeeByKoordinatorKomisi);   
+    }
+
+    public function koordinatorPotensi(Request $request, $id)
+    {
+        return JamaahResource::collection(Jamaah::where('koordinator', $id)->where('status', '=', 'POTENSI')->get());
+    }
+
+    public function koordinatorKomisi(Request $request, $id)
+    {
+        return JamaahResource::collection(Jamaah::where('koordinator', $id)->where('status', '!=', 'POTENSI')->get());
+    }
+
+    public function agenPotensi(Request $request, $id)
+    {
+        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '=', 'POTENSI')->get());
+    }
+
+    public function agenKomisi(Request $request, $id)
+    {
+        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '!=', 'POTENSI')->get());        
     }
 
     /**

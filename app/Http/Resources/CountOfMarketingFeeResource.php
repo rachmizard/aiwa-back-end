@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class FAQResource extends Resource
+class CountOfMarketingFeeResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -12,13 +12,13 @@ class FAQResource extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public $sum;
+
+    public function toArray($request, $sum)
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'judul' => $this->judul,
-            'jawaban' => $this->jawaban
+            'total' => $this->marketing_fee
         ];
     }
 }
