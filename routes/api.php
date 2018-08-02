@@ -44,6 +44,18 @@ Route::get('/agen/approved', 'API\AgenControllerAPI@retrieveByApproved');
 // Jamaah API Route
 Route::get('/jamaah', 'API\JamaahControllerAPI@index');
 Route::post('/jamaah', 'API\JamaahControllerAPI@store');
+Route::get('/jamaah/{id}/agen', 'API\JamaahControllerAPI@retrieveByAgen');
+Route::get('/jamaah/{id}/agenfee/potensi', 'API\JamaahControllerAPI@feeByAgenPotensi');
+Route::get('/jamaah/{id}/koordinator', 'API\JamaahControllerAPI@retrieveByKoordinator');
+Route::get('/jamaah/{id}/koordinatorfee/potensi', 'API\JamaahControllerAPI@feeByKoordinatorFeePotensi');
+Route::get('/jamaah/{id}/agenfee/komisi', 'API\JamaahControllerAPI@feeByAgenKomisi');
+Route::get('/jamaah/{id}/koordinatorfee/komisi', 'API\JamaahControllerAPI@feeByKoordinatorKomisi');
+
+Route::get('/jamaah/{id}/koordinator/potensi', 'API\JamaahControllerAPI@koordinatorPotensi');
+Route::get('/jamaah/{id}/koordinator/komisi', 'API\JamaahControllerAPI@koordinatorKomisi');
+Route::get('/jamaah/{id}/agen/potensi', 'API\JamaahControllerAPI@agenPotensi');
+Route::get('/jamaah/{id}/agen/komisi', 'API\JamaahControllerAPI@agenKomisi');
+
 
 // Prospek API Route
 Route::get('/prospek', 'API\ProspekControllerAPI@index');
