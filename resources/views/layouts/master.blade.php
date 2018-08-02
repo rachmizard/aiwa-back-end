@@ -159,6 +159,7 @@
             $('#イロドリ-ea').click(function(){
                 $('#logo-full').toggle(0); 
                 $('#logo-mini').toggle(0);
+                $('.navigation ul li ul').hide(0);
             });
 
             $('a[id="load-a"]').on('click', function() {

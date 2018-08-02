@@ -3,11 +3,7 @@
 
           <!-- brand -->
           <div class="logo">
-<<<<<<< HEAD
               <a href="index-2.html" class="logo-expanded">
-=======
-              <a href="#" class="logo-expanded">
->>>>>>> 9798ccb29d3d51d4861fc90d16d9a290bfaa5d6f
                   <img src="/img/kaaba_Ccl_icon.ico" alt="logo" width="20" height="20" id="logo-mini" class="hiden">
                   <img src="/img/AiwaFontLogo.png" alt="logo" width="170" height="90" id="logo-full"> 
               </a>
