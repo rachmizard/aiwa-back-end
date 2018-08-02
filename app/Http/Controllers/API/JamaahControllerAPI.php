@@ -40,7 +40,9 @@ class JamaahControllerAPI extends Controller
     public function feeByAgenPotensi(Request $request, $id)
     {
         $countFee = DB::table('jamaah')->where(['marketing' => $id, 'status' => 'POTENSI'])->sum('marketing_fee');
-        return response()->json($countFee);
+         $success['nama'] =  'potensi';
+         $success['total'] =  $countFee;
+        return response()->json(['response' => $success]); 
     }
 
     public function retrieveByKoordinator(Request $request, $id)
@@ -57,7 +59,9 @@ class JamaahControllerAPI extends Controller
     public function feeByAgenKomisi(Request $request, $id)
     {
         $countFeeByAgenKomisi = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->sum('marketing_fee');
-        return response()->json($countFeeByAgenKomisi);   
+         $success['nama'] =  'komisi';
+         $success['total'] =  $countFeeByAgenKomisi;
+        return response()->json(['response' => $success]);   
     }
 
     public function feeByKoordinatorKomisi(Request $request, $id)
@@ -84,6 +88,14 @@ class JamaahControllerAPI extends Controller
     public function agenKomisi(Request $request, $id)
     {
         return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '!=', 'POTENSI')->get());        
+    }
+
+    public function totalJamaahByAgen(Request $request, $id)
+    {
+         $countTotalJamaahByAgen = DB::table('jamaah')->where('marketing', $id)->count();
+         $success['nama'] =  'jamaah';
+         $success['total'] =  $countTotalJamaahByAgen;
+         return response()->json(['response' => $success]);
     }
 
     /**

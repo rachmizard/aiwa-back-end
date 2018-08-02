@@ -56,6 +56,9 @@ Route::get('/jamaah/{id}/koordinator/komisi', 'API\JamaahControllerAPI@koordinat
 Route::get('/jamaah/{id}/agen/potensi', 'API\JamaahControllerAPI@agenPotensi');
 Route::get('/jamaah/{id}/agen/komisi', 'API\JamaahControllerAPI@agenKomisi');
 
+Route::get('/jamaah/{id}/agen/total', 'API\JamaahControllerAPI@totalJamaahByAgen');
+Route::get('/prospek/{id}/agen/total', 'API\ProspekControllerAPI@totalProspekByAgen');
+
 
 // Prospek API Route
 Route::get('/prospek', 'API\ProspekControllerAPI@index');

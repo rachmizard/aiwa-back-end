@@ -33,6 +33,13 @@ class ProspekControllerAPI extends Controller
         return ProspekResource::collection(Prospek::where(['anggota_id' => $id, 'pembayaran' => 'BELUM'])->get());
     }
 
+    public function totalProspekByAgen(Request $request, $id)
+    {
+        $totalProspekByAgen = Prospek::where('anggota_id', '=', $id)->where('pembayaran', '!=', '1')->count();
+        $success['nama'] =  'prospek';
+        $success['total'] =  $totalProspekByAgen;
+        return response()->json(['response' => $success]);
+    }
 
     public function create()
     {
