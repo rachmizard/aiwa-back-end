@@ -81,6 +81,7 @@ class MasterKalkulasiControllerAPI extends Controller
                 'diskon_balita_uhud' => $request->input('diskon_balita_uhud'),
                 'diskon_balita_nur' => $request->input('diskon_balita_nur'),
                 'diskon_balita_rhm' => $request->input('diskon_balita_rhm'),
+                'diskon_balita_standar' => $request->input('diskon_balita_standar'),
                 'harga_visa' => $request->input('harga_visa'),
             ]);
             return response()->json(['success' => 'Berhasil di update!']);

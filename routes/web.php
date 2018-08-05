@@ -73,6 +73,7 @@ Route::get('/', function () {
     // Import Jamaah Excel
     Route::post('/jamaah/import', 'ImportJamaahController@importExcelJamaah')->name('aiwa.jamaah.store.import');
     Route::get('/jamaah/download/{type}', 'ImportJamaahController@downloadExcel')->name('aiwa.jamaah.download');
+    Route::get('/jamaah/download/format/csv', 'DownloadFormatExcelController@downloadFormatJamaah')->name('aiwa.jamaah.format.download');
     // End Import Jamaah
 
     // Agen
@@ -110,13 +111,13 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     // End Master Hotel
 
     // Master Brosur
-    Route::resource('master-brosur', 'MasterBrosurController');
-    Route::get('master-brosur/loadBrosur', 'MasterBrosurController@getData');
+    // Route::resource('master-brosur', 'MasterBrosurController'); // DEPRECIATED
+    // Route::get('master-brosur/loadBrosur', 'MasterBrosurController@getData');// DEPRECIATED
     // End Master Brosur
       
     // Master Voucher
-    Route::resource('master-voucher', 'MasterVoucherController');
-    Route::get('master-voucher/loadBrosur', 'MasterVoucherController@getData');
+    // Route::resource('master-voucher', 'MasterVoucherController'); // DEPRECIATED
+    // Route::get('master-voucher/loadBrosur', 'MasterVoucherController@getData'); // DEPRECIATED
     // End Master Voucher
 
     Route::resource('faq', 'FAQController');

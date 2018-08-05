@@ -74,7 +74,7 @@ Route::get('/kalkulasi', 'API\MasterKalkulasiControllerAPI@index');
 Route::put('/kalkulasi/{id}/edit', 'API\MasterKalkulasiControllerAPI@update');
 
 // Master Brosur API Route with resource
-Route::resource('brosur', 'API\MasterBrosurControllerAPI');
+// Route::resource('brosur', 'API\MasterBrosurControllerAPI'); // DEPRECIATED
 
 // FAQ's Route
 Route::get('/faq', 'API\FAQControllerAPI@index');

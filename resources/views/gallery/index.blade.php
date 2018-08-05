@@ -60,6 +60,7 @@
                                         <select class="form-control" id="tipe" data-placeholder="Tipe.." name="tipe" required="">
                                             <option value="foto">Foto</option>
                                             <option value="video">Video</option>
+                                            <option value="brosur">Brosur</option>
                                         </select>
                                     </div>
                                     <div class="form-group">

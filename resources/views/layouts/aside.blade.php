@@ -29,13 +29,11 @@
 "><a href="{{route('aiwa.master-jadwal')}}"><i class="fa fa-calendar"></i> Jadwal</a></li>
                           <li class><a href="#"><i class="fa fa-money"></i> Komisi</a></li>
                           <li class="{{ Route::currentRouteNamed('master-itinerary.index') ? 'active' : '' }}"><a href="{{route('master-itinerary.index')}}"><i class="fa fa-book"></i>Itenary</a></li>
-                          <li class="{{ Route::currentRouteNamed('master-brosur.index') ? 'active' : '' }}"><a href="{{route('master-brosur.index')}}"><i class="ion-map"></i> Brosur</a></li>
                           <li class><a href="{{ route('aiwa.master-kalkulasi') }}"><i class="ion-calculator"></i>Kalkulasi</a></li>
                           <li class><a href="#"><i class="ion-speakerphone"></i> Broadcast</a></li>
                           <li class="{{ Route::currentRouteNamed('aiwa.master-gallery') ? 'active' : '' }}"><a href="{{ route('aiwa.master-gallery') }}"><i class="fa fa-file-image-o"></i>Gallery</a></li>
                           <li class="{{ Route::currentRouteNamed('aiwa.master-hotel') ? 'active' : '' }} {{ Route::currentRouteNamed('aiwa.master-hotel.add') ? 'active' : '' }}"><a href="{{route('aiwa.master-hotel')}}"><i class="fa fa-building-o"></i> Hotel</a></li>
                           <li class><a href="#"><i class="fa fa-bell-o"></i> Notifikasi</a></li>
-                          <li class="{{ Route::currentRouteNamed('master-voucher.index') ? 'active' : '' }} {{ Route::currentRouteNamed('aiwa.master-voucher.add') ? 'active' : '' }}"><a href="{{route('master-voucher.index')}}"><i class="fa fa-ticket"></i> Voucher</a></li>
                           <li class="{{ Route::currentRouteNamed('faq.index') ? 'active' : '' }}"><a href="{{ route('faq.index') }}"><i class="fa fa-question-circle"></i> F.A.Q</a></li>
                           <!-- <li><a href="notification.html">Notification</a></li>
                           <li><a href="sweet-alert.html">Sweet-Alert</a></li> -->
@@ -45,7 +43,6 @@
                     <ul class="list-unstyled">
                         <li class="{{ Route::currentRouteNamed('aiwa.jamaah.add') ? 'active' : '' }}"><a href="{{route('aiwa.jamaah.add')}}"><i class="fa fa-plus"></i> Input Jamaah</a></li>
                         <li class="{{ Route::currentRouteNamed('master-itinerary.index') ? 'active' : '' }}"><a href="{{route('master-itinerary.index')}}"><i class="fa fa-plus"></i> Itenary</a></li>
-                        <li class="{{ Route::currentRouteNamed('master-brosur.index') ? 'active' : '' }}"><a href="{{route('master-brosur.index')}}"><i class="fa fa-plus"></i> Brosur</a></li>
                         <!-- <li><a href="komisi.html"><i class="fa fa-money"></i> Komisi</a></li>
                         <li><a href="itenary.html"><i class="fa fa-book"></i>Itenary</a></li> -->
                         <!-- <li><a href="notification.html">Notification</a></li>

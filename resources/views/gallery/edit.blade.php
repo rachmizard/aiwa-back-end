@@ -65,6 +65,7 @@
                                         <select class="form-control datepicker" id="tipe" data-placeholder="Tipe.." name="tipe" required="">
                                             <option {{ $gallery->tipe == 'foto' ? 'selected' : ''}} value="foto" >Foto</option>
                                             <option {{ $gallery->tipe == 'video' ? 'selected' : ''}} value="video">Video</option>
+                                            <option {{ $gallery->tipe == 'brosur' ? 'selected' : ''}} value="brosur">Brosur</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -101,6 +102,7 @@
                                         <select class="form-control" id="tipe" data-placeholder="Tipe.." name="tipe" required="">
                                             <option value="foto">Foto</option>
                                             <option value="video">Video</option>
+                                            <option value="brosur">Brosur</option>
                                         </select>
                                     </div>
                                     <div class="form-group">

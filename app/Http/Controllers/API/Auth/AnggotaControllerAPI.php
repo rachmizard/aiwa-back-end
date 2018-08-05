@@ -15,7 +15,7 @@ class AnggotaControllerAPI extends Controller
 
     public function login()
     {
-         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+         if(Auth::attempt(['username' => request('username'), 'password' => request('password')])){
             $user = Auth::user();
             if (!$user->status == 0) {
                 $success['token'] =  $user->createToken('nApp')->accessToken;
@@ -54,13 +54,23 @@ class AnggotaControllerAPI extends Controller
             return response()->json(['error'=>$validator->errors()], 401);            
         }
 
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('nApp')->accessToken;
-        $success['nama'] =  $user->nama;
+        // Validator of email
+        $emailValidation = User::where('email', request('email'))->get();
+        if (count($emailValidation) > 0) {
+            $success['token'] = null;
+            // $success['nama'] =  null;
+            $success['status'] =  'fail';
+            return response()->json(['response'=>$success]);
+        }else{
+            $input = $request->all();
+            $input['password'] = bcrypt($input['password']);
+            $user = User::create($input);
+            $success['token'] =  $user->createToken('nApp')->accessToken;
+            // $success['nama'] =  $user->nama;
+            $success['status'] =  'success';
 
-        return response()->json(['success'=>$success], $this->successStatus);
+            return response()->json(['response'=>$success], $this->successStatus);
+        }
     }
 
     public function details()

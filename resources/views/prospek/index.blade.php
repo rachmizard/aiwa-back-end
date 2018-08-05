@@ -68,8 +68,8 @@
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
-                    $('#prospek').dataTable({
-                        "processing": true,
+                    var table = $('#prospek').DataTable({
+                        "processing": false,
                         "serverSide": true,
                         "ajax": "{{ route('aiwa.prospek.load') }}", 
                         "columns": [
@@ -82,7 +82,10 @@
                             { data: "tanggal_followup", name: "tanggal_followup" },
                             { data: "action", name: "action"}
                         ]
-                    });
+                    })
+                    setInterval( function () {
+                        table.ajax.reload( null, false ); // user paging is not reset on reload
+                    }, 3500 );
                 });
             </script>
             <!-- End Datatable Serverside -->

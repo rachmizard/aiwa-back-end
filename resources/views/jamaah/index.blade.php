@@ -173,7 +173,7 @@
                     </div> <!-- col -->
                     <div class="col-sm-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title text-center"><i class="fa fa-file-excel-o"></i> Input Jamaah Via Excel</h3></div>
+                            <div class="panel-heading"><h3 class="panel-title text-center"><i class="fa fa-file-excel-o"></i> Import Jamaah Via Excel</h3></div>
                             <div class="panel-body">
 
                                 <form class="form-horizontal" role="form" method="POST" action="{{ route('aiwa.jamaah.store.import') }}" enctype="multipart/form-data">
@@ -187,7 +187,8 @@
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group text-center">
-                                        <button class="btn btn-md btn-success" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit">Upload & Simpan</button>
+                                        <button class="btn btn-md btn-success" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" title="Pastikan anda sudah mendownload format jamaah untuk di upload.">Upload & Simpan</button>
+                                        <!-- <a href="jamaah/download/format/csv" class="btn btn-md btn-info"><i class="fa fa-download"></i> Download Format</a> -->
                                     </div> <!-- form-group -->
 
                                 </form>

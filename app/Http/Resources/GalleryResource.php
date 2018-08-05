@@ -17,7 +17,7 @@ class GalleryResource extends Resource
         // return parent::toArray($request);
         return [
                 'id' => $this->id, 
-                'file' => 'test.heksasecurity.com/storage/gallery/'. $this->file, 
+                'file' => 'aiwaapps.com/storage/gallery/'. $this->file, 
                 'tanggal' => $this->tanggal, 
                 'judul' => $this->judul, 
                 'deskripsi' => $this->deskripsi, 
