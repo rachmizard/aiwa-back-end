@@ -112,6 +112,7 @@ class MasterKalkulasiController extends Controller
                         'diskon_balita_uhud' => $request->diskon_balita_uhud,
                         'diskon_balita_nur' => $request->diskon_balita_nur,
                         'diskon_balita_rhm' => $request->diskon_balita_rhm,
+                        'diskon_balita_standar' => $request->diskon_balita_standar,
                         'harga_visa' => $request->harga_visa
                     ]);
         if ($kalkulasi) {

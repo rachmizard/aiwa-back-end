@@ -36,6 +36,7 @@
         </div>
         <!-- Detail of Prospek's Modal -->
         @foreach($prospeks as $prospek)
+        <?php if ($prospek->id == 0) ?>
         <div class="modal fade detailQtyProspek{{ $prospek->id }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -62,6 +63,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+        <?php continue; ?>
         @endforeach
         <!-- End Modal -->
          @push('dataTables')

@@ -92,6 +92,18 @@ class ApprovalController extends Controller
 
     }
 
+    public function unapproved(Request $request, $id)
+    {
+        $approveStatus = 0;
+        $agen = User::findOrFail($id);
+        if ($agen->update(['status' => $approveStatus])) {
+            return redirect()->back();
+        }else{
+            return redirect()->back()->with('messageError', 'Terjadi masalah di server!');
+        }
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *

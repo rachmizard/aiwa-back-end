@@ -37,6 +37,7 @@ Route::post('/agen/login', 'API\Auth\AnggotaControllerAPI@login');
 Route::get('/agen/{id}/show', 'API\AgenControllerAPI@show');
 Route::put('/agen/{id}/edit', 'API\AgenControllerAPI@update');
 Route::delete('/agen/{id}/delete', 'API\AgenControllerAPI@destroy');
+Route::get('/agen/{id}/subagen', 'API\AgenControllerAPI@retrieveMySubAgen');
 
 // Agen Retrieving by approved's account.
 Route::get('/agen/approved', 'API\AgenControllerAPI@retrieveByApproved');

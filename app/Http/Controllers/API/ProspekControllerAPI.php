@@ -18,7 +18,7 @@ class ProspekControllerAPI extends Controller
      */
     public function index()
     {
-        return ProspekResource::collection(Prospek::with('anggota')->paginate(100000));
+        return ProspekResource::collection(Prospek::orderBy('id', 'DESC')->with('anggota')->paginate(100000));
     }
 
     /**
@@ -30,7 +30,7 @@ class ProspekControllerAPI extends Controller
 
     public function retrieveByAgen($id)
     {
-        return ProspekResource::collection(Prospek::where(['anggota_id' => $id, 'pembayaran' => 'BELUM'])->get());
+        return ProspekResource::collection(Prospek::orderBy('id', 'DESC')->where(['anggota_id' => $id, 'pembayaran' => 'BELUM'])->get());
     }
 
     public function totalProspekByAgen(Request $request, $id)

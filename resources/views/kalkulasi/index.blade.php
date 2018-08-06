@@ -53,6 +53,10 @@
                                         <input type="text" class="form-control" name="diskon_balita_rhm" required="" value="{{ $kalkulasi->diskon_balita_rhm }}">
                                     </div>
                                     <div class="form-group">
+                                        <label for="diskon_balita_rhm">Diskon Balita Standar</label>
+                                        <input type="text" class="form-control" name="diskon_balita_standar" required="" value="{{ $kalkulasi->diskon_balita_standar }}">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="diskon_balita_uhud">Harga Visa</label>
                                         <input type="text" class="form-control" name="harga_visa" required="" value="{{ $kalkulasi->harga_visa }}">
                                     </div>

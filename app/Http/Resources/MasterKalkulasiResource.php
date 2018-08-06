@@ -25,7 +25,7 @@ class MasterKalkulasiResource extends Resource
             'diskon_balita_uhud' => $this->diskon_balita_uhud,
             'diskon_balita_nur' => $this->diskon_balita_nur,
             'diskon_balita_rhm' => $this->diskon_balita_rhm,
-            'diskon_balita_standar' => $this->diskon_balita_rhm,
+            'diskon_balita_standar' => (int) $this->diskon_balita_standar,
             'harga_visa' => $this->harga_visa
         ];
     }

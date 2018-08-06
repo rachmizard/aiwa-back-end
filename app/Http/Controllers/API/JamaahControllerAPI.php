@@ -19,7 +19,7 @@ class JamaahControllerAPI extends Controller
      */
     public function index(Jamaah $jamaah)
     {
-        return JamaahResource::collection(Jamaah::with('anggota')->paginate(25));
+        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->with('anggota')->paginate(25));
     }
 
     /**
@@ -34,7 +34,7 @@ class JamaahControllerAPI extends Controller
 
     public function retrieveByAgen(Request $request, $id)
     {
-        return JamaahResource::collection(Jamaah::where('marketing', $id)->get());
+        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->get());
     }
 
     public function feeByAgenPotensi(Request $request, $id)

@@ -19,7 +19,7 @@ class LogActivityController extends Controller
     
     public function index()
     {
-        $logs = LogActivity::all();
+        $logs = LogActivity::orderBy('id', 'DESC')->get();
         return view('log.index', compact('logs'));
     }
 

@@ -26,6 +26,11 @@ class AgenControllerAPI extends Controller
         return AgenResource::collection(User::where('status', '=', '1')->get());
     }
 
+    public function retrieveMySubAgen(Request $request, $id)
+    {
+        return AgenResource::collection(User::where(['status' => '1', 'koordinator' => $id])->get());
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -29,8 +29,13 @@ class AgenController extends Controller
          return Datatables::of($agents)->addColumn('action', function($agents)
          {
             return '
-                <a href="master-hotel/'. $agents->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-                <a href="'. route('aiwa.master-hotel', $agents->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
+                <a href="#" data-toggle="modal" data-target="#detailAgen'. $agents->id .'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Detail</a>
+                <form class="form-group" action="'. route('aiwa.unapproved', $agents->id) .'" method="POST">
+                    <input type="hidden" name="_token" value="'. csrf_token() .'">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="fa fa-cross"></i>Batal Approve</button>
+                    </form>
+                    ';
          })
          ->make(true);
     }

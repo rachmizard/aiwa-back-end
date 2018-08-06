@@ -36,7 +36,7 @@ class JamaahController extends Controller
     {
         // $jamaah =  Jamaah::select('id', 'anggota_id', 'nama', 'alamat', 'no_telp', 'jenis_kelamin', 'status');
         // return Datatables::of($jamaah)->make(true);
-         $jamaah = Jamaah::with('anggota')->select('jamaah.*');
+         $jamaah = Jamaah::orderBy('id', 'DESC')->with('anggota')->select('jamaah.*');
           return Datatables::of($jamaah)->addColumn('action', function($jamaah){
              return '
                 <a href="jamaah/'. $jamaah->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>

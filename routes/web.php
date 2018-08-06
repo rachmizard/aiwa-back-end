@@ -143,6 +143,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::get('approval', 'AdminController@approval')->name('aiwa.approval');
     Route::get('approval/loadTableApproval', 'ApprovalController@index')->name('aiwa.approval.load');
     Route::put('approval/{id}/approve', 'ApprovalController@update')->name('aiwa.approved');
+    Route::put('approval/{id}/unapproved', 'ApprovalController@unapproved')->name('aiwa.unapproved');
 
     // Retrieving API of Jadwal
     Route::get('master-jadwal', 'JadwalController@index')->name('aiwa.master-jadwal');
