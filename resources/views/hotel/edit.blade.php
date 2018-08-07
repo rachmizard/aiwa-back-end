@@ -67,34 +67,35 @@
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Input Hotel</h3>
+                                <h3 class="panel-title">Edit Hotel ID : <strong>{{ $edit->id }}</strong></h3>
                             </div>
                             <div class="panel-body">
-                              <form class="form-horizontal" role="form" method="POST" action="{{ route('aiwa.master-hotel.store') }}">
+                              <form class="form-horizontal" role="form" method="POST" action="{{ route('aiwa.master-hotel.update', $edit->id) }}">
                                 {{ csrf_field() }}
+                                <input type="hidden" name="_method" value="PUT">
                                   <div class="form-group">
                                       <label class="col-md-2 control-label">Nama Hotel</label>
                                       <div class="col-md-10">
-                                          <input type="text" class="form-control" name="nama_hotel" required="">
+                                          <input type="text" class="form-control" name="nama_hotel" required="" value="{{ $edit->nama_hotel }}">
                                       </div>
                                   </div>
                                   <div class="form-group">
                                       <label class="col-md-2 control-label" for="kota">Kota</label>
                                       <div class="col-md-10">
-                                          <input type="kota" id="kota" name="kota" class="form-control" name="kota" required>
+                                          <input type="kota" id="kota" name="kota" class="form-control" name="kota" required value="{{ $edit->kota }}">
                                       </div>
                                   </div>
                                   <div class="form-group">
                                       <label class="col-md-2 control-label">Lokasi Map</label>
                                       <div class="col-md-10">
-                                          <input type="text" class="form-control" name="link_map" id="coordinate" required>
+                                          <input type="text" class="form-control" name="link_map" id="coordinate" required value="{{ $edit->link_map }}">
                                       </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-2 control-label">Wifi</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="wifi" value="true">
+                                            <input type="checkbox" name="wifi" {{ $edit->wifi == 'true' ? 'checked  value="true"' : 'unchecked value="false"' }} >
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -103,7 +104,7 @@
                                     <label class="col-md-2 control-label">Park</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="park" value="true">
+                                            <input type="checkbox" name="park" {{ $edit->park == 'true' ? 'checked value="true"' : 'unchecked value="false"' }} >
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -112,7 +113,7 @@
                                     <label class="col-md-2 control-label">Kamar Bebas Rokok</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="kamar_rokok" value="true">
+                                            <input type="checkbox" name="kamar_rokok" {{ $edit->kamar_rokok == 'true' ? 'checked value="true"' : 'unchecked  value="false"' }}  >
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -121,7 +122,7 @@
                                     <label class="col-md-2 control-label">Kamar AC</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="kamar_ac" value="true">
+                                            <input type="checkbox" name="kamar_ac" {{ $edit->kamar_ac == 'true' ? 'checked value="true"' : 'unchecked value="false"' }}  >
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -130,7 +131,7 @@
                                     <label class="col-md-2 control-label">Kamar Keluarga</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="kamar_keluarga" value="true">
+                                            <input type="checkbox" name="kamar_keluarga" {{ $edit->kamar_keluarga == 'true' ? 'checked value="true"' : 'unchecked value="false"' }}>
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -139,7 +140,7 @@
                                     <label class="col-md-2 control-label">Makanan Enak</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="makanan_enak" value="true">
+                                            <input type="checkbox" name="makanan_enak" {{ $edit->makanan_enak == 'true' ? 'checked value="true"' : 'unchecked value="false"' }}  >
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -149,35 +150,35 @@
                                       <div class="col-md-10">
                                         <div class="radio-inline">
                                               <label class="cr-styled" for="example-radio4">
-                                                  <input type="radio" id="example-radio4" name="skor" value="1">
+                                                  <input type="radio" id="example-radio4" name="skor" {{ $edit->skor == '1' ? 'checked' : '' }} value="1" >
                                                   <i class="fa"></i>
                                                   1
                                               </label>
                                           </div>
                                           <div class="radio-inline">
                                               <label class="cr-styled" for="example-radio5">
-                                                  <input type="radio" id="example-radio5" name="skor" value="2">
+                                                  <input type="radio" id="example-radio5" name="skor" {{ $edit->skor == '2' ? 'checked' : '' }} value="2">
                                                   <i class="fa"></i>
                                                   2
                                               </label>
                                           </div>
                                           <div class="radio-inline">
                                               <label class="cr-styled" for="example-radio6">
-                                                  <input type="radio" id="example-radio6" name="skor" value="3">
+                                                  <input type="radio" id="example-radio6" name="skor" {{ $edit->skor == '3' ? 'checked' : '' }} value="3">
                                                   <i class="fa"></i>
                                                   3
                                               </label>
                                           </div>
                                           <div class="radio-inline">
                                               <label class="cr-styled" for="example-radio7">
-                                                  <input type="radio" id="example-radio7" name="skor" value="4">
+                                                  <input type="radio" id="example-radio7" name="skor" {{ $edit->skor == '4' ? 'checked' : '' }} value="4">
                                                   <i class="fa"></i>
                                                   4
                                               </label>
                                           </div>
                                           <div class="radio-inline">
                                               <label class="cr-styled" for="example-radio8">
-                                                  <input type="radio" id="example-radio8" name="skor" value="5">
+                                                  <input type="radio" id="example-radio8" name="skor" {{ $edit->skor == '5' ? 'checked' : '' }} value="5">
                                                   <i class="fa"></i>
                                                   5
                                               </label>
@@ -187,11 +188,11 @@
                                   <div class="form-group">
                                       <label class="col-md-2 control-label" for="info">Deskripsi Hotel/Info Lanjut</label>
                                       <div class="col-md-10">
-                                          <textarea name="info" id="info" class="form-control" cols="30" rows="10"></textarea>
+                                          <textarea name="info" id="info" class="form-control" cols="30" rows="10">{{ $edit->info }}</textarea>
                                       </div>
                                   </div>
                                   <div class="form-group m-b-0">
-                                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-success col-md-12">Simpan</button>
+                                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-success col-md-12">Edit</button>
                                   </div>
 
                               </form>

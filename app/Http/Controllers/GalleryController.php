@@ -7,6 +7,7 @@ use App\MasterGallery;
 use App\LogActivity;
 use Yajra\Datatables\Datatables;
 use Auth;
+use App\Master_Hotel;
 use Carbon\Carbon;
 
 class GalleryController extends Controller
@@ -23,9 +24,31 @@ class GalleryController extends Controller
 
     public function index()
     {
-        return view('gallery.index');
+        return view('gallery.index', compact('hotels'));
     }
 
+    public function indexGalleryHotel()
+    {
+        $hotels = Master_Hotel::orderBy('id', 'DESC')->get();
+        return view('gallery.hotel', compact('hotels'));
+    }
+
+    public function getDataGalleryHotel()
+    {
+        $galleries = MasterGallery::with('hotel')->where('tipe', '=', 'foto_hotel')->orWhere('tipe', '=', 'video_hotel')->get();
+        return Datatables::of($galleries)
+        ->addColumn('action', function($galleries)
+        {
+            return '<a class="btn btn-sm btn-info" href="'. route('aiwa.master-gallery.edit', $galleries->id) .'">Edit</a>
+                    <form class="form-group" action="'. route('aiwa.master-gallery.destroy', $galleries->id) .'" method="POST">
+                    <input type="hidden" name="_token" value="'. csrf_token() .'">
+                    <input type="hidden" name="_method" value="POST">
+                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="glyphicon glyphicon-trash"></i>Delete</button>
+                    </form>
+                    ';
+        })
+        ->make(true);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -69,7 +92,7 @@ class GalleryController extends Controller
         $file = MasterGallery::create([
             'file' => $name,
             'judul' => $request->judul,
-            'tanggal' => $request->tanggal,
+            'tanggal' => Carbon::now(),
             'deskripsi' => $request->deskripsi,
             'tipe' => $request->tipe
         ]);

@@ -53,7 +53,9 @@ class JamaahControllerAPI extends Controller
     public function feeByKoordinatorFeePotensi(Request $request, $id)
     {
         $countFeeByKoordinator = DB::table('jamaah')->where('koordinator', $id)->where('status', '=', 'POTENSI')->sum('koordinator_fee');
-        return response()->json($countFeeByKoordinator);
+         $success['nama'] =  'potensi';
+         $success['total'] =  $countFeeByKoordinator;
+        return response()->json(['response' => $success]);  
     }
 
     public function feeByAgenKomisi(Request $request, $id)
@@ -67,7 +69,9 @@ class JamaahControllerAPI extends Controller
     public function feeByKoordinatorKomisi(Request $request, $id)
     {
         $countFeeByKoordinatorKomisi = DB::table('jamaah')->where('koordinator', $id)->where('status', '!=', 'POTENSI')->sum('koordinator_fee');
-        return response()->json($countFeeByKoordinatorKomisi);   
+         $success['nama'] =  'komisi';
+         $success['total'] =  $countFeeByKoordinatorKomisi;
+        return response()->json(['response' => $success]); 
     }
 
     public function koordinatorPotensi(Request $request, $id)
@@ -82,7 +86,7 @@ class JamaahControllerAPI extends Controller
 
     public function agenPotensi(Request $request, $id)
     {
-        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '=', 'POTENSI')->get());
+        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '=', 'POTENSI')->paginate(10));
     }
 
     public function agenKomisi(Request $request, $id)

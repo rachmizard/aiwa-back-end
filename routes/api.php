@@ -36,6 +36,8 @@ Route::post('/agen', 'API\Auth\AnggotaControllerAPI@register');
 Route::post('/agen/login', 'API\Auth\AnggotaControllerAPI@login');
 Route::get('/agen/{id}/show', 'API\AgenControllerAPI@show');
 Route::put('/agen/{id}/edit', 'API\AgenControllerAPI@update');
+Route::post('/agen/{id}/updatephoto', 'API\AgenControllerAPI@profile');
+// Route::post('/post', 'API\AgenControllerAPI@profile');
 Route::delete('/agen/{id}/delete', 'API\AgenControllerAPI@destroy');
 Route::get('/agen/{id}/subagen', 'API\AgenControllerAPI@retrieveMySubAgen');
 
@@ -84,6 +86,9 @@ Route::get('/faq', 'API\FAQControllerAPI@index');
 Route::get('/gallery', 'API\GalleryControllerAPI@index');
 Route::get('/gallery/foto', 'API\GalleryControllerAPI@retrieveByFoto');
 Route::get('/gallery/video', 'API\GalleryControllerAPI@retrieveByVideo');
+
+// Hotel's API's Route 
+Route::get('/hotel/kota', 'API\MasterHotelControllerAPI@index');
 
 // Login API
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');

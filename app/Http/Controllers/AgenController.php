@@ -37,6 +37,15 @@ class AgenController extends Controller
                     </form>
                     ';
          })
+         ->addColumn('foto', function($agents)
+         {
+            if ($agents->foto != null) {       
+                return '<img src="/storage/images/'. $agents->foto .'" width="50" height="50" alt="">';
+            }else{
+                return '<img src="/storage/images/default.png" width="50" height="50" alt="">';
+            }
+         })
+         ->rawColumns(['action', 'foto'])
          ->make(true);
     }
 

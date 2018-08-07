@@ -81,6 +81,7 @@ class AnggotaControllerAPI extends Controller
                                 'user' => $user], $this->successStatus);
     }
 
+
     public function logout()
     {
          $user = Auth::user();

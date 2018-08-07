@@ -33,6 +33,7 @@ class AgenResource extends Resource
             'nama_rek_beda' => $this->nama_rek_beda,
             'website' => $this->website,
             'koordinator' => $this->koordinator,
+            'foto' => 'http://aiwaapps.com/storage/images/'. $this->foto,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

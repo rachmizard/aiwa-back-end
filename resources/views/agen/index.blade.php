@@ -34,6 +34,7 @@
                                         <th>Telp</th>
                                         <th>Domisli</th>
                                         <th>Koordinator</th>
+                                        <th>Foto</th>
                                         <th>Aksi</th>
                                     </tr>
                                   </thead>
@@ -56,7 +57,7 @@
                         serverSide: true,
                         ordering: true,
                         searching: true,
-                        processing: true,
+                        processing: false,
                         "ajax": "{{route('aiwa.anggota.load')}}", 
                         "columns": [
                             { data: "id", name: "id" },
@@ -64,7 +65,8 @@
                             { data: "no_telp", name: "no_telp" },
                             { data: "alamat", name: "alamat" },
                             { data: "koordinator", name: "koordinator" },
-                            { data: "action", name: "action"}
+                            { data: "foto", name: "foto", orderable: false, searchable: false},
+                            { data: "action", name: "action", orderable: false, searchable: false}
                         ]
                     });
                 });

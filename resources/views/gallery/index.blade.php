@@ -35,7 +35,7 @@
                     </div> <!-- end col -->
                     <div class="col-sm-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Tambah Gallery</h3></div>
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Tambah Foto/Hotel</h3></div>
                             <div class="panel-body">
                                 <form role="form" method="POST" action="master-gallery" enctype="multipart/form-data">
                                     {{ csrf_field() }}
@@ -47,24 +47,47 @@
                                         <label for="Judul">Judul</label>
                                         <input type="text" class="form-control" id="Judul" placeholder="Judul.." name="judul" required="">
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="tanggal">Tanggal</label>
                                         <input type="text" class="form-control datepicker" id="tanggal" placeholder="Tanggal.." name="tanggal" required="">
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
-                                        <label for="deskripsi">Deskripsi/Link Url Video (Youtube)</label>
+                                        <label for="deskripsi">Deskripsi</label>
                                         <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi"></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="tipe">Tipe Gallery</label>
-                                        <select class="form-control" id="tipe" data-placeholder="Tipe.." name="tipe" required="">
-                                            <option value="foto">Foto</option>
-                                            <option value="video">Video</option>
-                                            <option value="brosur">Brosur</option>
-                                        </select>
-                                    </div>
+                                    <input type="hidden" hidden name="tipe" value="foto">
                                     <div class="form-group">
                                         <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-purple col-md-12">Simpan</button>
+                                    </div>
+                                </form>
+                            </div><!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- end col -->
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Tambah Video</h3></div>
+                            <div class="panel-body">
+                                <form role="form" method="POST" action="master-gallery" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <div class="form-group">
+                                        <label for="file">File Thumbnail/Gambar</label>
+                                        <input type="file" name="file" id="file" class="form-control" required="" data-placeholder="File.." required="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Judul">Judul</label>
+                                        <input type="text" class="form-control" id="Judul" placeholder="Judul.." name="judul" required="">
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <label for="tanggal">Tanggal</label>
+                                        <input type="text" class="form-control datepicker" id="tanggal" placeholder="Tanggal.." name="tanggal" required="">
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label for="deskripsi">Link Url Video (Youtube)</label>
+                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi"></textarea>
+                                    </div>
+                                    <input type="hidden" value="video" name="tipe">
+                                    <div class="form-group">
+                                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-success col-md-12">Simpan</button>
                                     </div>
                                 </form>
                             </div><!-- panel-body -->

@@ -11,4 +11,10 @@ class MasterGallery extends Model
     public $timestamps = true;
     protected $primaryKey = 'id';
     public $fillable = ['id', 'file', 'tanggal', 'judul', 'deskripsi', 'tipe'];
+
+    public function hotel()
+    {
+    	return $this->belongsTo(Master_Hotel::class, 'judul', 'id');
+    }
+
 }

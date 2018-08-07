@@ -8,6 +8,8 @@ use App\User;
 use App\Anggota;
 use App\Http\Resources\AgenResource;
 use Hash;
+use Storage;
+use Illuminate\Support\Facades\Input;
 
 class AgenControllerAPI extends Controller
 {
@@ -122,6 +124,30 @@ class AgenControllerAPI extends Controller
         if ($agent->update()) {
             return response()->json(['success' => 'Berhasil di edit!']);
         }
+    }
+
+    public function profile(Request $request, $id)
+    {
+       $agen = User::find($id);
+       $files = Input::file('upload');
+       if ($request->file('upload')) {
+           $name = str_random(15). '.' .$files->getClientOriginalExtension();
+           if (file_exists(public_path('storage/images/'. $agen->foto))) {
+                Storage::delete(public_path('storage/images/'. $agen->foto));
+                   $path = public_path('storage/images/');
+                   $files->move($path, $name);
+                   $agen->foto = $name;
+                   $agen->save();
+                   return response()->json(['success' => 'Success']);
+           }else{
+               $path = public_path('storage/images/');
+               $files->move($path, $name);
+               $agen->foto = $name;
+               $agen->save();
+               return response()->json(['success' => 'Success']);
+           }
+       }
+
     }
 
     /**

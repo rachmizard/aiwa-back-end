@@ -36,7 +36,7 @@ class HotelController extends Controller
          return Datatables::of($hotels)->addColumn('action', function($hotels)
          {
             return '
-                <a href="master-hotel/'. $hotels->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'. route('aiwa.master-hotel.edit-form', $hotels->id) .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
                 <a href="'. route('aiwa.master-hotel', $hotels->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
          })
          ->make(true);
@@ -55,7 +55,8 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $hotel = Master_Hotel::create($request->all());
+        return redirect()->back();
     }
 
     /**
@@ -64,7 +65,7 @@ class HotelController extends Controller
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function show(Hotel $hotel)
+    public function show($id)
     {
         //
     }
@@ -75,9 +76,10 @@ class HotelController extends Controller
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function edit(Hotel $hotel)
+    public function edit($id)
     {
-        //
+        $edit = Master_Hotel::findOrFail($id);
+        return view('hotel.edit', compact('edit'));
     }
 
     /**
@@ -87,9 +89,11 @@ class HotelController extends Controller
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Hotel $hotel)
+    public function update(Request $request, $id)
     {
-        //
+        $hotel = Master_Hotel::findOrFail($id);
+        $hotel->update($request->all());
+        return redirect()->back();
     }
 
     /**
@@ -98,7 +102,7 @@ class HotelController extends Controller
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Hotel $hotel)
+    public function destroy(Master_Hotel $hotel)
     {
         //
     }

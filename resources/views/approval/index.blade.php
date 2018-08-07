@@ -60,11 +60,11 @@
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
-                    $('#agent').DataTable({
+                    var table = $('#agent').DataTable({
                         "serverSide": true,
                         "ordering": true,
                         "searching": true,
-                        "processing": true,
+                        "processing": false,
                         "ajax": "{{ route('aiwa.approval.load') }}", 
                         "columns": [
                             { data: "id", name: "id" },
@@ -75,6 +75,10 @@
                             { data: "action", name: "action"}
                         ]
                     });
+
+                    setInterval( function () {
+                        table.ajax.reload( null, false ); // user paging is not reset on reload
+                    }, 3500 );
                 });
             </script>
             <!-- End Datatable Serverside -->

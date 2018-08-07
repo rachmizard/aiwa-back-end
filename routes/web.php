@@ -33,7 +33,7 @@ Route::get('/', function () {
 
 
 // for backup
-  Route::prefix('admin-section')->group(function() {
+  Route::prefix('admin')->group(function() {
   	// Login & logout's area
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
@@ -108,6 +108,9 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::get('master-hotel', 'HotelController@index')->name('aiwa.master-hotel');
     Route::get('master-hotel/loadTableHotel', 'HotelController@getData')->name('aiwa.master-hotel.load.table');
     Route::get('master-hotel/tambah', 'HotelController@create')->name('aiwa.master-hotel.add');
+    Route::post('master-hotel/tambah', 'HotelController@store')->name('aiwa.master-hotel.store');
+    Route::get('master-hotel/{id}/edit', 'HotelController@edit')->name('aiwa.master-hotel.edit-form');
+    Route::put('master-hotel/{id}', 'HotelController@update')->name('aiwa.master-hotel.update');
     // End Master Hotel
 
     // Master Brosur
@@ -130,6 +133,8 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::post('master-gallery/{id}/edit', 'GalleryController@update')->name('aiwa.master-gallery.update');
     Route::post('master-gallery/{id}/delete', 'GalleryController@destroy')->name('aiwa.master-gallery.destroy');
     Route::get('master-gallery/loadTableGallery', 'GalleryController@getData')->name('aiwa.master-gallery.load');
+    Route::get('master-gallery/hotels', 'GalleryController@indexGalleryHotel')->name('aiwa.master-gallery.index.hotel');
+    Route::get('master-gallery/hotels/loadTableGalleryHotel', 'GalleryController@getDataGalleryHotel')->name('aiwa.master-gallery.load.hotel');
     // End Master Gallery
 
     Route::get('master-kalkulasi', 'MasterKalkulasiController@edit')->name('aiwa.master-kalkulasi');
