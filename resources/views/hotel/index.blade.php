@@ -78,12 +78,21 @@
                                           <input type="text" class="form-control" name="nama_hotel" required="">
                                       </div>
                                   </div>
-                                  <div class="form-group">
-                                      <label class="col-md-2 control-label" for="kota">Kota</label>
-                                      <div class="col-md-10">
-                                          <input type="kota" id="kota" name="kota" class="form-control" name="kota" required>
-                                      </div>
-                                  </div>
+                                    <div class="form-group">
+
+                                        <label class="control-label" for="kota">Kota</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                            <select id="kota" name="kota" class="select2" data-placeholder="Kota..." style="width: 100%;">
+                                              <option value="mekkah">Mekkah</option>
+                                              <option value="madinah">Madinah</option>
+                                              <option value="palestina">Palestina</option>
+                                              <option value="turki">Turki</option>
+                                              <option value="dubai">Dubai</option>
+                                              <option value="cairo">Cairo</option>
+                                            </select>
+                                        </div>
+                                    </div> <!-- form-group -->
                                   <div class="form-group">
                                       <label class="col-md-2 control-label">Lokasi Map</label>
                                       <div class="col-md-10">

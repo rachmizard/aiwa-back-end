@@ -79,12 +79,21 @@
                                           <input type="text" class="form-control" name="nama_hotel" required="" value="{{ $edit->nama_hotel }}">
                                       </div>
                                   </div>
-                                  <div class="form-group">
-                                      <label class="col-md-2 control-label" for="kota">Kota</label>
-                                      <div class="col-md-10">
-                                          <input type="kota" id="kota" name="kota" class="form-control" name="kota" required value="{{ $edit->kota }}">
-                                      </div>
-                                  </div>
+                                    <div class="form-group">
+
+                                        <label class="control-label" for="kota">Kota</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                            <select id="kota" name="kota" class="select2" data-placeholder="Kota..." style="width: 100%;">
+                                              <option value="mekkah" {{ $edit->mekkah == 'mekkah' ? 'selected' : '' }} >Mekkah</option>
+                                              <option value="madinah" {{ $edit->madinah == 'madinah' ? 'selected' : '' }} >Madinah</option>
+                                              <option value="palestina" {{ $edit->palestina == 'palestina' ? 'selected' : '' }} >Palestina</option>
+                                              <option value="turki" {{ $edit->turki == 'turki' ? 'selected' : '' }} >Turki</option>
+                                              <option value="dubai" {{ $edit->dubai == 'dubai' ? 'selected' : '' }} >Dubai</option>
+                                              <option value="cairo" {{ $edit->cairo == 'cairo' ? 'selected' : '' }} >Cairo</option>
+                                            </select>
+                                        </div>
+                                    </div> <!-- form-group -->
                                   <div class="form-group">
                                       <label class="col-md-2 control-label">Lokasi Map</label>
                                       <div class="col-md-10">

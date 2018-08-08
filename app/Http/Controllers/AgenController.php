@@ -20,7 +20,8 @@ class AgenController extends Controller
     
     public function index(Request $request)
     {
-        return view('agen.index');
+        $agens = User::all();
+        return view('agen.index', compact('agens'));
     }
 
     public function getData(Request $request)

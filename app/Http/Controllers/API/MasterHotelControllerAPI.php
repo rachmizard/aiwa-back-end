@@ -4,6 +4,10 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MasterHotelResource;
+use App\Http\Resources\GalleryResource;
+use App\MasterGallery;
+use App\Master_Hotel;
 
 class MasterHotelControllerAPI extends Controller
 {
@@ -12,9 +16,9 @@ class MasterHotelControllerAPI extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function retrieveHotelByKota(Request $request, $kota)
     {
-        //
+        return MasterHotelResource::collection(Master_Hotel::where('kota', $kota)->paginate(20));
     }
 
     /**
@@ -44,9 +48,21 @@ class MasterHotelControllerAPI extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function retrieveHotelByKotaDetail($id)
     {
-        //
+        return new MasterHotelResource(Master_Hotel::findOrFail($id));
+    }
+
+
+    public function retrieveFotoByHotel($id)
+    {
+        // return new MasterHotelResource(Master_Hotel::with('gallery')->where('kota', $kota)->findOrFail($id));
+        return GalleryResource::collection(MasterGallery::where('judul', '=', $id)->where('tipe', 'foto_hotel')->get());
+    }
+
+    public function retrieveVideoByHotel($id)
+    {
+        return GalleryResource::collection(MasterGallery::where('judul', '=', $id)->where('tipe', 'video_hotel')->get());   
     }
 
     /**

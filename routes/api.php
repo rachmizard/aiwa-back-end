@@ -88,7 +88,11 @@ Route::get('/gallery/foto', 'API\GalleryControllerAPI@retrieveByFoto');
 Route::get('/gallery/video', 'API\GalleryControllerAPI@retrieveByVideo');
 
 // Hotel's API's Route 
-Route::get('/hotel/kota', 'API\MasterHotelControllerAPI@index');
+Route::get('/hotel/{kota}', 'API\MasterHotelControllerAPI@retrieveHotelByKota');
+Route::get('/hotel/{id}/show', 'API\MasterHotelControllerAPI@retrieveHotelByKotaDetail');
+Route::get('/hotel/{id}/foto', 'API\MasterHotelControllerAPI@retrieveFotoByHotel');
+Route::get('/hotel/{id}/video', 'API\MasterHotelControllerAPI@retrieveVideoByHotel');
+
 
 // Login API
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');

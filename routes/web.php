@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('auth:admin');
 
+Route::get('/send/{token}', 'AdminController@sendNotify');
 // Route::group(['middleware' => 'web'], function(){
 // 	Route::get('/jamaah', 'JamaahController@index');
 // 	Route::get('/jamaah/{id}', 'JamaahController@show');

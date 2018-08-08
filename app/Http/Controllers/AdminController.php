@@ -9,6 +9,7 @@ use App\LogActivity;
 use App\User;
 use Excel;
 use DB;
+use fcm;
 
 class AdminController extends Controller
 {
@@ -26,6 +27,56 @@ class AdminController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function sendNotify($token)
+    {
+        $dt = Carbon::create(2018, 8, 8, 3);
+        $dt->addMinutes('5');
+        $timeEnd = Carbon::now();
+        // $now = Carbon::create('');
+        // $now->addSeconds('8');
+        if ($timeEnd > $dt) {
+            
+            $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+            $token = $token;
+            
+
+            $notification = [
+                'body' => 'Anda mendapatkan komisi, cek segera!',
+                'sound' => true,
+            ];
+            
+            $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
+
+            $fcmNotification = [
+                //'registration_ids' => $tokenList, //multple token array
+                'to'        => $token, //single token
+                'notification' => $notification,
+                'data' => $extraNotificationData
+            ];
+
+            $headers = [
+                'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
+                'Content-Type: application/json'
+            ];
+
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,$fcmUrl);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+
+            return response()->json($result);
+        }else{
+            return 'wait until '. $dt;
+        }
     }
 
     public function approval()

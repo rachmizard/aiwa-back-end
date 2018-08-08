@@ -47,13 +47,114 @@
 
             </div> <!-- END Wraper -->
         </div>
+
+    @foreach($agens as $agen)
+        <div id="detailAgen{{ $agen->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content p-0">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li class="active">
+                                <a href="#home-{{ $agen->id }}" data-toggle="tab" aria-expanded="false"> 
+                                    <span class="visible-xs"><i class="fa fa-home"></i></span> 
+                                    <span class="hidden-xs">Personal</span> 
+                                </a> 
+                            </li> 
+                            <li class=""> 
+                                <a href="#profile-{{ $agen->id }}" data-toggle="tab" aria-expanded="false"> 
+                                    <span class="visible-xs"><i class="fa fa-user"></i></span> 
+                                    <span class="hidden-xs">Akun</span> 
+                                </a> 
+                            </li> 
+                        </ul> 
+                        <div class="tab-content"> 
+                            <div class="tab-pane active" id="home-{{ $agen->id }}"> 
+                                <table class="table table-hovered table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th>Nama Lengkap</th>
+                                            <td>{{ $agen->nama }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Domisili</th>
+                                            <td>{{ $agen->alamat }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Jenis Kelamin</th>
+                                            <td>{{ $agen->jenis_kelamin }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>No KTP</th>
+                                            <td>{{ $agen->no_ktp }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>No TELP</th>
+                                            <td>{{ $agen->no_telp }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Koordinator</th>
+                                            <td>{{ $agen->koordinator }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>{{ $agen->email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BANK</th>
+                                            <td>{{ $agen->bank }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>No REKENING</th>
+                                            <td>{{ $agen->no_rekening }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fee Reguler</th>
+                                            <td>{{ $agen->fee_reguler }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fee Promo</th>
+                                            <td>{{ $agen->fee_promo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nama Rekening Beda</th>
+                                            <td>{{ $agen->nama_rek_beda }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Website</th>
+                                            <td>{{ $agen->website }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> 
+                            <div class="tab-pane" id="profile-{{ $agen->id }}">
+                                <table class="table table-hovered table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th>Username</th>
+                                            <td>{{ $agen->username }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>{{ $agen->email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status Approval</th>
+                                            <td>{{ $agen->status == '1' ? 'Approved' : '' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> 
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+    @endforeach
             <!-- Page Content Ends -->
             <!-- ================== -->
         @push('dataTables')
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
-                    $('#agent').dataTable({
+                   var table = $('#agent').DataTable({
                         serverSide: true,
                         ordering: true,
                         searching: true,
@@ -69,6 +170,10 @@
                             { data: "action", name: "action", orderable: false, searchable: false}
                         ]
                     });
+
+                    setInterval( function () {
+                        table.ajax.reload( null, false ); // user paging is not reset on reload
+                    }, 3500 );
                 });
             </script>
             <!-- End Datatable Serverside -->
