@@ -13,12 +13,15 @@ class AnggotaControllerAPI extends Controller
 
     public $successStatus = 200;
 
-    public function login()
+    public function login(Request $request)
     {
          if(Auth::attempt(['username' => request('username'), 'password' => request('password')])){
             $user = Auth::user();
+            $getId = $user->id;
             if (!$user->status == 0) {
                 $success['token'] =  $user->createToken('nApp')->accessToken;
+                $refreshDeviceToken = User::findOrFail($getId);
+                $refreshDeviceToken->update(['device_token' => $request->input('device_token')]);
                 $success['status'] =  'success';
                 return response()->json(['response' => $success,
                                         'user' => $user], $this->successStatus);
@@ -64,9 +67,11 @@ class AnggotaControllerAPI extends Controller
         }else{
             $input = $request->all();
             $input['password'] = bcrypt($input['password']);
+            $input['device_token'] = $request->input('device_token');
             $user = User::create($input);
             $success['token'] =  $user->createToken('nApp')->accessToken;
             // $success['nama'] =  $user->nama;
+            $success['device_token'] = $request->input('device_token');
             $success['status'] =  'success';
 
             return response()->json(['response'=>$success], $this->successStatus);

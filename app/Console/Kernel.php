@@ -1,5 +1,9 @@
 <?php
 
+// FORMAT FOR CRON JOBS
+// /usr/local/bin/php -q /home/u2853205/public_html/aiwaapps/artisan schedule:run 1>> /dev/null 2>&1
+
+
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -14,7 +18,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        'App\Console\Commands\SendNotification'
+        \App\Console\Commands\SendNotification::class
     ];
 
     /**
@@ -25,6 +29,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // $schedule->command('sendnotify:followup')
+        //          ->everyMinute();
         $schedule->command('sendnotify:followup')
                  ->everyMinute();
     }

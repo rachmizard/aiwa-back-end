@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use DB;
 use Illuminate\Notifications\Notification;
 use App\User;
+use App\Prospek;
 use Faker\Factory;
 use Carbon\Carbon;
 
@@ -42,26 +43,102 @@ class SendNotification extends Command
      */
     public function handle()
     {
-        $faker = Factory::create();
-        DB::table('users')->insert([ //,
-                'nama' => $faker->name,
-                'no_ktp' => rand(0,100),
-                'jenis_kelamin' => 'L',
-                'alamat' => $faker->address,
-                'no_telp' => $faker->phoneNumber,
-                'email' => $faker->unique()->email,
-                'username' => $faker->username,
-                'password' => bcrypt('baguvix'),
-                'status' => '0',
-                'koordinator' => $faker->name,
-                'bank' => $faker->name,
-                'no_rekening' => $faker->phoneNumber,
-                'fee_reguler' => $faker->phoneNumber,
-                'fee_promo' => $faker->phoneNumber,
-                'nama_rek_beda' => $faker->phoneNumber,
-                'website' => $faker->name,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
+            // $agents = User::where('device_token', '!=', null)->get();
+            $now = Carbon::now();
+            $year = $now->year;
+            $month = $now->month;
+            $day = $now->day;
+            $prospeks = Prospek::where('tanggal_followup', '=', $day.'/'.$month.'/'.$year)->where('pembayaran', '=', 'BELUM')->get();
+            $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+            foreach ($prospeks as $prospek) {
+
+                $recepient = User::find($prospek->anggota_id);
+                $token = $recepient->device_token;
+                
+                $notification = [
+                    'body' => $recepient->nama .' segera FollowUp PIC '. $prospek->pic,
+                    'sound' => true,
+                ];
+                
+                $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
+
+                $fcmNotification = [
+                    // 'registration_ids' => $token, //multple token array
+                    'to'        => $token, //single token
+                    'notification' => $notification,
+                    'data' => $extraNotificationData
+                ];
+
+                $headers = [
+                    'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
+                    'Content-Type: application/json'
+                ];
+
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,$fcmUrl);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+                $result = curl_exec($ch);
+                curl_close($ch);
+
+
+                // return response()->json($result);
+            }
     }
+
+// public function handle()
+//     {
+//             $prospeks = Prospek::where('tanggal_followup', '=', '8/8/2018')->get();
+//             $agentssss = User::where('device_token', '!=', null)->get();
+//             $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+//             foreach ($prospeks as $prospek) {
+//                 $agents = User::where('id', $prospek->anggota_id)->get();\
+
+//                 if (Carbon::now() == $prospek->tanggal_followup) {
+                    
+//                     foreach ($agents as $agent) {
+//                         $token = $agent->device_token;
+
+//                         $notification = [
+//                             'body' => $agent->nama .'mendapatkan komisi, cek segera!',
+//                             'sound' => true,
+//                         ];
+                        
+//                         $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
+
+//                         $fcmNotification = [
+//                             // 'registration_ids' => $token, //multple token array
+//                             'to'        => $token, //single token
+//                             'notification' => $notification,
+//                             'data' => $extraNotificationData
+//                         ];
+
+//                         $headers = [
+//                             'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
+//                             'Content-Type: application/json'
+//                         ];
+
+
+//                         $ch = curl_init();
+//                         curl_setopt($ch, CURLOPT_URL,$fcmUrl);
+//                         curl_setopt($ch, CURLOPT_POST, true);
+//                         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+//                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//                         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//                         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+//                         $result = curl_exec($ch);
+//                         curl_close($ch);
+
+
+//                         // return response()->json($result);
+//                     }
+//                 }
+//             }
+//     }
+// }
+
 }

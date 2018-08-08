@@ -5,6 +5,8 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\AgenResetPasswordNotification;
+use Notification;
 
 class User extends Authenticatable
 {
@@ -16,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nama', 'email', 'password', 'username', 'password', 'jenis_kelamin', 'no_ktp', 'alamat', 'no_telp', 'status', 'koordinator', 'bank', 'no_rekening', 'fee_reguler', 'fee_promo', 'nama_rek_beda', 'website'
+        'nama', 'email', 'password', 'username', 'password', 'jenis_kelamin', 'no_ktp', 'alamat', 'no_telp', 'status', 'koordinator', 'bank', 'no_rekening', 'fee_reguler', 'fee_promo', 'nama_rek_beda', 'website', 'device_token'
     ];
 
     /**
@@ -37,4 +39,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Prospek', 'id');
     }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AgenResetPasswordNotification($token));
+    }
+
 }

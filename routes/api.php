@@ -106,3 +106,11 @@ Route::group(['middleware' => 'auth:api'], function(){
 
 Route::post('/password/email', 'API\Auth\ForgotPasswordControllerAPI@getResetToken');
 Route::post('/password/reset', 'API\Auth\ResetPasswordControllerAPI@reset');
+
+
+Route::get('/get', function(){
+	$prospeks = App\Prospek::where('tanggal_followup', '8/8/2018')->get();
+	// $agents = \App\User::where('device_token', '!=', null)->get();
+	return $prospeks;
+	
+});
