@@ -9,6 +9,7 @@ use App\User;
 use App\Prospek;
 use Faker\Factory;
 use Carbon\Carbon;
+use App\MasterNotifikasi;
 
 class SendNotification extends Command
 {
@@ -59,6 +60,13 @@ class SendNotification extends Command
                     'body' => $recepient->nama .' segera FollowUp PIC '. $prospek->pic,
                     'sound' => true,
                 ];
+
+
+                $sendNotify = MasterNotifikasi::create([
+                                                        'anggota_id' => $prospek->anggota_id,
+                                                        'pesan' => $notification['body'],
+                                                        'status' => 'delivered'
+                                                        ]);
                 
                 $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
 

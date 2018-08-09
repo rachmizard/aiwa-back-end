@@ -93,6 +93,8 @@ Route::get('/hotel/{id}/show', 'API\MasterHotelControllerAPI@retrieveHotelByKota
 Route::get('/hotel/{id}/foto', 'API\MasterHotelControllerAPI@retrieveFotoByHotel');
 Route::get('/hotel/{id}/video', 'API\MasterHotelControllerAPI@retrieveVideoByHotel');
 
+// Master Notifikasi's API Route
+Route::get('/notif/{id}/delivered', 'API\MasterNotifikasiControllerAPI@retrieveByDelivered');
 
 // Login API
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');

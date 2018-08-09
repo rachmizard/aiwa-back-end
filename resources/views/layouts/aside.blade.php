@@ -39,17 +39,6 @@
                           <li><a href="sweet-alert.html">Sweet-Alert</a></li> -->
                       </ul>
                   </li>
-                  <li class="has-submenu {{ Route::currentRouteNamed('aiwa.jamaah.add') ? 'active' : '' }}"><a href="#"><i class="fa fa-database"></i> <span class="nav-label">CRUD</span></a>
-                    <ul class="list-unstyled">
-                        <li class="{{ Route::currentRouteNamed('aiwa.jamaah.add') ? 'active' : '' }}"><a href="{{route('aiwa.jamaah.add')}}"><i class="fa fa-plus"></i> Input Jamaah</a></li>
-                        <li class="{{ Route::currentRouteNamed('master-itinerary.index') ? 'active' : '' }}"><a href="{{route('master-itinerary.index')}}"><i class="fa fa-plus"></i> Itenary</a></li>
-                        <!-- <li><a href="komisi.html"><i class="fa fa-money"></i> Komisi</a></li>
-                        <li><a href="itenary.html"><i class="fa fa-book"></i>Itenary</a></li> -->
-                        <!-- <li><a href="notification.html">Notification</a></li>
-                        <li><a href="sweet-alert.html">Sweet-Alert</a></li>
-                    </ul> -->
-                    </ul>
-                </li>
               <li class="has-submenu"><a href="#"><i class="ion-ios7-person"></i> <span class="nav-label">Admin Authorize</span></a>
                 <ul class="list-unstyled">
                     <li class="{{ Route::currentRouteNamed('aiwa.log-activity') ? 'active' : '' }}"><a href="{{route('aiwa.log-activity')}}"><i class="fa fa-clock-o"></i> Log Activity</a></li>

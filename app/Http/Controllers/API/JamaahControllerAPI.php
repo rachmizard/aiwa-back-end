@@ -76,12 +76,12 @@ class JamaahControllerAPI extends Controller
 
     public function koordinatorPotensi(Request $request, $id)
     {
-        return JamaahResource::collection(Jamaah::where('koordinator', $id)->where('status', '=', 'POTENSI')->get());
+        return JamaahResource::collection(Jamaah::where('koordinator', $id)->where('status', '=', 'POTENSI')->paginate(10));
     }
 
     public function koordinatorKomisi(Request $request, $id)
     {
-        return JamaahResource::collection(Jamaah::where('koordinator', $id)->where('status', '!=', 'POTENSI')->get());
+        return JamaahResource::collection(Jamaah::where('koordinator', $id)->where('status', '!=', 'POTENSI')->paginate(10));
     }
 
     public function agenPotensi(Request $request, $id)
@@ -91,7 +91,7 @@ class JamaahControllerAPI extends Controller
 
     public function agenKomisi(Request $request, $id)
     {
-        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '!=', 'POTENSI')->get());        
+        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '!=', 'POTENSI')->paginate(10));        
     }
 
     public function totalJamaahByAgen(Request $request, $id)
