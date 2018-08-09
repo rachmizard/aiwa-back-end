@@ -25,7 +25,7 @@ class SendNotification extends Command
      *
      * @var string
      */
-    protected $description = 'Follow up for each date';
+    protected $description = 'Follow up successfully sent!';
 
     /**
      * Create a new command instance.

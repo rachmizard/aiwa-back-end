@@ -15,7 +15,7 @@
                         <div class="panel">
                             <div class="panel-body p-t-10">
                                 <table id="jamaah" class="table table-bordered">
-                                  <thead class="bg-info text-white">
+                                  <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Tanggal Daftar</th>
@@ -204,7 +204,7 @@
             <script>
                 $(document).ready(function(){
                     $('#jamaah').DataTable({
-                        "scrollX": true,
+                        "scroll": true,
                         "processing": true,
                         "serverSide": true,
                         "ajax": "{{ route('aiwa.jamaah.load') }}", 

@@ -12,7 +12,7 @@
                     <h3 class="title"><i class="fa fa-building-o"></i><strong> MASTER HOTEL</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
-                    <!-- <a href="{{ route('aiwa.master-hotel.add') }}" class="btn btn-sm btn-primary">Tambah Hotel</a> -->
+                    <a href="{{ route('aiwa.master-gallery.index.hotel') }}" class="btn btn-sm btn-primary"><i class="fa fa-file-image-o"></i> Lihat Gallery Hotel</a>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -80,8 +80,8 @@
                                   </div>
                                     <div class="form-group">
 
-                                        <label class="control-label" for="kota">Kota</label>
-                                        <div class="input-group">
+                                        <label class="col-md-2 control-label" for="kota">Kota</label>
+                                        <div class="col-md-10 input-group">
                                             <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                             <select id="kota" name="kota" class="select2" data-placeholder="Kota..." style="width: 100%;">
                                               <option value="mekkah">Mekkah</option>
@@ -235,6 +235,11 @@
             <!-- End Datatable Serverside -->
             @endpush
         @push('otherJavascript')
+        <script>
+          jQuery(".select2").select2({
+              width: '100%'
+          });
+        </script>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=&sensor=false&language=id&region=EG"></script>
         <script type="text/javascript">
 var geocoder = new google.maps.Geocoder();

@@ -52,10 +52,7 @@ class JamaahController extends Controller
           ->editColumn('tgl_pulang', function($jamaah){
             return date('d-M-Y', strtotime($jamaah->tgl_pulang));
           })
-          ->editColumn('nama', function($jamaah){
-            return '<input type="text" value="'. $jamaah->nama .'">';
-          })
-          ->rawColumns(['action', 'tgl_daftar', 'tgl_berangkat', 'tgl_pulang', 'nama'])
+          ->rawColumns(['action', 'tgl_daftar', 'tgl_berangkat', 'tgl_pulang'])
           ->make(true);
     }
 

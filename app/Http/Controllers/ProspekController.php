@@ -38,7 +38,7 @@ class ProspekController extends Controller
          $prospeks = Prospek::orderBy('id', 'DESC')->with('anggota')->select('prospeks.*');
           return Datatables::of($prospeks)->addColumn('action', function($prospeks){
              return '
-                <a href="'. route('aiwa.prospek.edit-form', $prospeks->id) .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="#" data-toggle="modal" data-target="#editProspek'. $prospeks->id .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
                 <a href="'. route('aiwa.prospek.delete', $prospeks->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })
@@ -47,9 +47,7 @@ class ProspekController extends Controller
                 $jml_balita = $prospeks->jml_balita;
                 $jml_infant = $prospeks->jml_infant;
                 $total = $jml_dewasa+$jml_balita+$jml_infant;
-                return '
-                        <a href="#" data-toggle="modal" data-target=".detailQtyProspek'. $prospeks->id .'" class="btn btn-md btn-info">'. $total .'</a>
-                ';
+                return $total;
           })
           ->rawColumns(['qty', 'action'])
           ->make(true);
@@ -113,6 +111,8 @@ class ProspekController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $prospek = Prospek::findOrFail($id);
+        $prospeks->delete();
+        return redirect()->back();
     }
 }

@@ -50,7 +50,9 @@ class ForgotPasswordControllerAPI extends Controller
             $email = $request->input('email');
             $token = $this->broker()->createToken($user);
             Notification::route('mail', $email)->notify(new AgenResetPasswordNotification($token));
-            return response()->json(Json::response(['token' => $token]));
+            $success['token'] = $token;
+            $success['status'] = 'success';
+            return response()->json(['response' => $success]);
         }
     }
 }

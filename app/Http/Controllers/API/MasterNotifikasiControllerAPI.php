@@ -12,12 +12,12 @@ class MasterNotifikasiControllerAPI extends Controller
 
     public function retrieveByDelivered(Request $request, $id)
     {
-        return MasterNotifikasiResource::collection(MasterNotifikasi::where('anggota_id', '=', $id)->where('status', '=', 'delivered')->get());
+        return MasterNotifikasiResource::collection(MasterNotifikasi::orderBy('id', 'DESC')->where('anggota_id', '=', $id)->where('status', '=', 'delivered')->get());
     }
 
     public function retrieveByRead(Request $request, $id)
     {
-        return MasterNotifikasiResource::collection(MasterNotifikasi::where('anggota_id', '=', $id)->where('status', '=', 'read')->get());
+        return MasterNotifikasiResource::collection(MasterNotifikasi::orderBy('id', 'DESC')->where('anggota_id', '=', $id)->where('status', '=', 'read')->get());
     }
 
     public function markAsRead(Request $request, $id)

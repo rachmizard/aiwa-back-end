@@ -16,14 +16,14 @@
                             <div class="panel-body p-t-10">
                                 <table id="prospek" class="table table-striped table-bordered">
                                   <thead>
-                                    <td>No</td>
-                                    <td>Nama Agent</td>
-                                    <td>Nama Caljam (PIC)</td>
-                                    <td>No telepon</td>
-                                    <td>Tanggal Keberangkatan</td>
-                                    <td>QTY</td>
-                                    <td>Tanggal Follow Up</td>
-                                    <td>Aksi</td>
+                                    <th>No</th>
+                                    <th>Nama Agent</th>
+                                    <th>Nama Caljam (PIC)</th>
+                                    <th>No telepon</th>
+                                    <th>Tanggal Keberangkatan</th>
+                                    <th>PAX</th>
+                                    <th>Tanggal Follow Up</th>
+                                    <th>Aksi</th>
                                   </thead>
                                 </table>
                                 <tbody>
@@ -34,38 +34,35 @@
 
             </div> <!-- END Wraper -->
         </div>
-        <!-- Detail of Prospek's Modal -->
         @foreach($prospeks as $prospek)
-        <?php if ($prospek->id == 0) ?>
-        <div class="modal fade detailQtyProspek{{ $prospek->id }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="mySmallModalLabel">Jumlah Prospek </h4>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-bordered table-striped">
-                            <tr>
-                                <th>Jumlah Dewasa</th>
-                                <td>{{ $prospek->jml_dewasa == 0 ? 'Kosong' : $prospek->jml_dewasa  }}</td>
-                            </tr>
-                            <tr>
-                                <th>Jumlah Infant</th>
-                                <td>{{ $prospek->jml_infant == 0 ? 'Kosong' : $prospek->jml_infant }}</td>
-                            </tr>
-                            <tr>
-                                <th>Jumlah Balita</th>
-                                <td>{{ $prospek->jml_balita == 0 ? 'Kosong' : $prospek->jml_balita }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
+        <div id="editProspek{{ $prospek->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog"> 
+                <div class="modal-content"> 
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+                        <h4 class="modal-title">Edit tanggal follow up PIC : {{ $prospek->pic }}</h4> 
+                    </div> 
+                    <form action="{{ route('aiwa.prospek.update', $prospek->id) }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="modal-body"> 
+                            <div class="row"> 
+                                <div class="col-md-6"> 
+                                    <div class="form-group"> 
+                                        <label for="field-1" class="control-label">Tanggal FollowUp</label>
+                                        <input type="text" class="form-control datepicker" id="field-1" placeholder="Tanggal" value="{{ $prospek->tanggal_followup }}"> 
+                                    </div> 
+                                </div> 
+                            </div>
+                        </div> 
+                        <div class="modal-footer"> 
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button> 
+                            <button type="submit" class="btn btn-info">Simpan</button> 
+                        </div>
+                    </form> 
+                </div> 
+            </div>
         </div><!-- /.modal -->
-        <?php continue; ?>
         @endforeach
-        <!-- End Modal -->
          @push('dataTables')
             <!-- Datatable Serverside -->
             <script>
@@ -91,7 +88,13 @@
                 });
             </script>
             <!-- End Datatable Serverside -->
-            @endpush
+        @endpush
+        @push('otherJavascript')
+        <script>    
+            jQuery('.datepicker').datepicker();
+        </script>
+        @endpush
+
 
         <!-- Success notification -->
         @if(session('message'))

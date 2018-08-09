@@ -113,8 +113,50 @@ Route::post('/password/reset', 'API\Auth\ResetPasswordControllerAPI@reset');
 
 
 Route::get('/get', function(){
-	$prospeks = App\Prospek::where('tanggal_followup', '8/8/2018')->get();
-	// $agents = \App\User::where('device_token', '!=', null)->get();
-	return $prospeks;
+	$agents = App\User::where('device_token', '!=', null)->get();
+    $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+	foreach ($agents as $agent) {
+		$token = $agent->device_token;
+                
+                $notification = [
+                    'body' => 'Asd345',
+                    'sound' => true,
+                ];
+
+
+                // $sendNotify = MasterNotifikasi::create([
+                //                                         'anggota_id' => $agent->anggota_id,
+                //                                         'pesan' => $notification['body'],
+                //                                         'status' => 'delivered'
+                //                                         ]);
+                
+                $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
+
+                $fcmNotification = [
+                    // 'registration_ids' => $token, //multple token array
+                    'to'        => $token, //single token
+                    'notification' => $notification,
+                    'data' => $extraNotificationData
+                ];
+
+                $headers = [
+                    'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
+                    'Content-Type: application/json'
+                ];
+
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,$fcmUrl);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+                $result = curl_exec($ch);
+                curl_close($ch);
+
+
+                // return response()->json($result);
+	}
 	
 });

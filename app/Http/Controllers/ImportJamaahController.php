@@ -39,10 +39,6 @@ class ImportJamaahController extends Controller
                     $data['maskapai'] = $row['maskapai'];
                     $data['marketing'] = $row['marketing'];
                     $data['staff'] = $row['staff'];
-                    $data['no_telp'] = $row['no_telp'];
-                    $data['bulan_daftar'] = $row['bulan_daftar'];
-                    $data['bulan_berangkat'] = $row['bulan_berangkat'];
-                    $data['bulan_pulang'] = $row['bulan_pulang'];
                     $data['marketing_fee'] = $row['marketing_fee'];
                     $data['koordinator'] = $row['koordinator'];
                     $data['koordinator_fee'] = $row['koordinator_fee'];
