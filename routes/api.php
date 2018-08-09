@@ -95,6 +95,8 @@ Route::get('/hotel/{id}/video', 'API\MasterHotelControllerAPI@retrieveVideoByHot
 
 // Master Notifikasi's API Route
 Route::get('/notif/{id}/delivered', 'API\MasterNotifikasiControllerAPI@retrieveByDelivered');
+Route::get('/notif/{id}/read', 'API\MasterNotifikasiControllerAPI@retrieveByRead');
+Route::put('/notif/{id}/edit', 'API\MasterNotifikasiControllerAPI@markAsRead');
 
 // Login API
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');

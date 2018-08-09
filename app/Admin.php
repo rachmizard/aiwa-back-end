@@ -15,9 +15,9 @@ class Admin extends Authenticatable
     protected $fillable = ['username', 'password', 'email', 'last_login', 'login_at'];
     protected $primaryKey = 'id';
 
-	public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new AdminResetPasswordNotification($token));
-    }
+	// public function sendPasswordResetNotification($token)
+ //    {
+ //        $this->notify(new AdminResetPasswordNotification($token));
+ //    }
 
 }

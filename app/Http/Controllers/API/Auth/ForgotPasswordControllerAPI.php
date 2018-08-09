@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Transformers\Json;
 use App\User;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\AgenResetPasswordNotification;
+use Notification;
 
 class ForgotPasswordControllerAPI extends Controller
 {
@@ -20,7 +23,7 @@ class ForgotPasswordControllerAPI extends Controller
     | your application to your users. Feel free to explore this trait.
     |
      */
-    use SendsPasswordResetEmails;
+    use Notifiable, SendsPasswordResetEmails;
     /**
      * Create a new controller instance.
      *
@@ -44,7 +47,9 @@ class ForgotPasswordControllerAPI extends Controller
             if (!$user) {
                 return response()->json(Json::response(null, trans('passwords.user')), 400);
             }
+            $email = $request->input('email');
             $token = $this->broker()->createToken($user);
+            Notification::route('mail', $email)->notify(new AgenResetPasswordNotification($token));
             return response()->json(Json::response(['token' => $token]));
         }
     }

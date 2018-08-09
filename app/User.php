@@ -40,9 +40,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Prospek', 'id');
     }
 
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new AgenResetPasswordNotification($token));
-    }
+    // public function sendPasswordResetNotification($token)
+    // {
+    //     $this->notify(new AgenResetPasswordNotification($token));
+    // }
 
 }

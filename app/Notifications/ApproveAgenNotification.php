@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Admin;
+use App\User;
 
 class ApproveAgenNotification extends Notification
 {
@@ -17,11 +18,11 @@ class ApproveAgenNotification extends Notification
      *
      * @return void
      */
-    private $admin;
+    private $data;
 
-    public function __construct(Admin $admin)
+    public function __construct(User $data)
     {
-        $this->admin = $admin;
+        $this->data = $data;
     }
 
     /**
@@ -58,7 +59,8 @@ class ApproveAgenNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'id' => $this->nama,
+            'id' => $this->data->id,
+            'nama' => $this->data->nama,
             'data' => 'meminta approval sebagai agen!'
         ];
     }

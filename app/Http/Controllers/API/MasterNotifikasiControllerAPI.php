@@ -9,83 +9,25 @@ use App\MasterNotifikasi;
 
 class MasterNotifikasiControllerAPI extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function retrieveByDelivered(Request $request, $id)
     {
         return MasterNotifikasiResource::collection(MasterNotifikasi::where('anggota_id', '=', $id)->where('status', '=', 'delivered')->get());
     }
 
-    public function create()
+    public function retrieveByRead(Request $request, $id)
     {
-        //
+        return MasterNotifikasiResource::collection(MasterNotifikasi::where('anggota_id', '=', $id)->where('status', '=', 'read')->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function markAsRead(Request $request, $id)
     {
-        //
+        $read = MasterNotifikasi::findOrFail($id);
+        $read->update(['status' => $request->input('status')]);
+        $success['status'] = 'success';
+        return response()->json(['response' => $success]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

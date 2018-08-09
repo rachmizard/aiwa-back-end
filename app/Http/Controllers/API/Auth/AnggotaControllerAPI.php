@@ -5,8 +5,11 @@ namespace App\Http\Controllers\API\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Admin;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use App\Notifications\ApproveAgenNotification;
+use Notification;
 
 class AnggotaControllerAPI extends Controller
 {    
@@ -57,6 +60,11 @@ class AnggotaControllerAPI extends Controller
             return response()->json(['error'=>$validator->errors()], 401);            
         }
 
+        // $toAdmins = Admin::all();
+        // $admin = $toAdmin->id;
+        // $anggota = Admin::find(2);
+        // $anggota->notify(new ApproveAgenNotification($anggota->id));
+        
         // Validator of email
         $emailValidation = User::where('email', request('email'))->get();
         if (count($emailValidation) > 0) {
@@ -69,6 +77,9 @@ class AnggotaControllerAPI extends Controller
             $input['password'] = bcrypt($input['password']);
             $input['device_token'] = $request->input('device_token');
             $user = User::create($input);
+            
+            $admin = Admin::find(1);
+            $admin->notify(new ApproveAgenNotification($user));
             $success['token'] =  $user->createToken('nApp')->accessToken;
             // $success['nama'] =  $user->nama;
             $success['device_token'] = $request->input('device_token');
