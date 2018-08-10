@@ -20,36 +20,6 @@
                                     {{ csrf_field() }}
                                     <div class="form-group">
 
-                                        <label class="col-md-2 control-label" for="id_umrah">ID Umrah</label>
-                                        <div class="col-md-7">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                                <input type="text" id="id_umrah" name="id_umrah" class="form-control" placeholder="ID Umrah.." required value="{{ $jamaah->id_umrah }}">
-                                            </div>
-                                        </div>
-                                    </div> <!-- form-group -->
-                                    <div class="form-group">
-
-                                        <label class="col-md-2 control-label" for="id_jamaah">ID Jamaah</label>
-                                        <div class="col-md-7">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                                <input type="text" id="id_jamaah" name="id_jamaah" class="form-control" placeholder="ID Jamaah.." required value="{{ $jamaah->id_jamaah }}">
-                                            </div>
-                                        </div>
-                                    </div> <!-- form-group -->
-                                    <div class="form-group">
-
-                                        <label class="col-md-2 control-label" for="tgl_daftar">Tanggal Daftar</label>
-                                        <div class="col-md-7">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" id="tgl_daftar" name="tgl_daftar" class="form-control datepicker" placeholder="Tanggal Daftar" required value="{{ $jamaah->tgl_daftar }}">
-                                            </div>
-                                        </div>
-                                    </div> <!-- form-group -->
-                                    <div class="form-group">
-
                                         <label class="col-md-2 control-label" for="nama">Nama</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
@@ -80,17 +50,6 @@
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
-                                        <label class="col-md-2 control-label" for="maskapai">Maskapai</label>
-                                        <div class="col-md-7">
-                                            <select name="maskapai" class="select2" data-placeholder="Pilih maskapai.." style="width: 100%;" required>
-                                                <option value="SAUDIA" {{ $jamaah->maskapai == 'SAUDIA' ? 'selected' : '' }}>SAUDIA</option>
-                                                <option value="TURKI" {{ $jamaah->maskapai == 'TURKI' ? 'selected' : '' }}>TURKI</option>
-                                                <option value="LEBANON" {{ $jamaah->maskapai == 'LEBANON' ? 'selected' : '' }}>LEBANON</option>
-                                            </select>
-                                        </div>
-                                    </div> <!-- form-group -->
-                                    <div class="form-group">
-
                                         <label class="col-md-2 control-label" for="maskapai">Marketing</label>
                                         <div class="col-md-7">
                                             <select name="marketing" class="select2" data-placeholder="Pilih Agen.." style="width: 100%;" required>
@@ -112,26 +71,6 @@
                                         <label class="col-md-2 control-label" for="no_telp">No. Telp</label>
                                         <div class="col-md-7">
                                             <input type="number" id="no_telp" name="no_telp" class="form-control" placeholder="No telepon.." required value="{{ $jamaah->no_telp }}">
-                                        </div>
-                                    </div> <!-- form-group -->
-                                    <div class="form-group">
-
-                                        <label class="col-md-2 control-label" for="fee">Fee</label>
-                                        <div class="col-md-7">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                                <input type="number" id="fee" name="fee" class="form-control" placeholder="Rp." required value="{{ $jamaah->fee }}">
-                                            </div>
-                                        </div>
-                                    </div> <!-- form-group -->
-                                    <div class="form-group">
-
-                                        <label class="col-md-2 control-label" for="jumlah_fee">Jumlah Fee</label>
-                                        <div class="col-md-7">
-                                            <select name="jumlah_fee" id="jumlah_fee" class="form-control">
-                                                <option value="Ya" {{ $jamaah->jumlah_fee  == 'Ya' ? 'selected' : '' }}>Ya</option>
-                                                <option value="Tidak" {{ $jamaah->jumlah_fee  == 'Tidak' ? 'selected' : '' }}>Tidak</option>
-                                            </select>
                                         </div>
                                     </div> <!-- form-group -->
                                     <button class="btn btn-md btn-success col-lg-6 col-md-offset-3" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit">Simpan</button> <!-- form-group -->

@@ -27,8 +27,9 @@ class JamaahController extends Controller
     public function index()
     {
         // $jamaah = Jamaah::where('status', 'lunas')->get();
-        $agents = \App\User::all();
-        return view('jamaah.index', compact('agents'));
+        $agents = \App\User::where('status', '=', '1')->get();
+        $jamaah = Jamaah::all();
+        return view('jamaah.index', compact('agents', 'jamaah'));
     }
 
     // get data by serverside

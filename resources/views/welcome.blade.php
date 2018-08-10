@@ -9,6 +9,9 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <!--Icon-fonts css-->
+        <link href="{{asset('/assets/font-awesome/css/font-awesome.css')}}" rel="stylesheet" />
+        <link href="{{asset('/assets/ionicon/css/ionicons.min.css')}}" rel="stylesheet" />
 
         <!-- Styles -->
         <style>
@@ -86,6 +89,7 @@
                 <div class="links">
                     <a href="/api/test-api">API Jadwal</a>
                     <a href="http://alhijazindowisata.com/v3/index.php/jadwal-umroh-2017-2018/">Al Hijaz</a>
+                    <a href="https://drive.google.com/file/d/1beBq8PEvWX1ngnF7SA9_E1i0vIPeKs7J/view"><i class="fa fa-download"></i> Download Aiwa Apps</a>
                 </div>
                 @endauth
             </div>

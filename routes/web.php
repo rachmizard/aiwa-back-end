@@ -80,6 +80,7 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
     // Agen
     Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
     Route::get('agenjamaah/loadTableAnggota', 'AgenController@getData')->name('aiwa.anggota.load');
+    Route::put('agenjamaah/{id}/edit', 'AgenController@update')->name('aiwa.anggota.update');
     // End of agen
 
     // Import agen account
@@ -159,6 +160,10 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::post('sendtoagen/all', 'MasterBroadcastController@sendtoAllAgen')->name('master-broadcast.store.sendtoagen');
 
   });
+
+Route::get('/download', function(){
+    return redirect('https://drive.google.com/open?id=1lU1VFBiBRI5MDjpzAFXtBMx55E9FTYc2');
+});
 
 // SECRET ROUTE!
 

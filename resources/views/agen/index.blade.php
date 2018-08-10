@@ -69,60 +69,67 @@
                         <div class="tab-content"> 
                             <div class="tab-pane active" id="home-{{ $agen->id }}"> 
                                 <table class="table table-hovered table-striped">
-                                    <tbody>
-                                        <tr>
-                                            <th>Nama Lengkap</th>
-                                            <td>{{ $agen->nama }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Domisili</th>
-                                            <td>{{ $agen->alamat }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Jenis Kelamin</th>
-                                            <td>{{ $agen->jenis_kelamin }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>No KTP</th>
-                                            <td>{{ $agen->no_ktp }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>No TELP</th>
-                                            <td>{{ $agen->no_telp }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Koordinator</th>
-                                            <td>{{ $agen->koordinator }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Email</th>
-                                            <td>{{ $agen->email }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>BANK</th>
-                                            <td>{{ $agen->bank }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>No REKENING</th>
-                                            <td>{{ $agen->no_rekening }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Fee Reguler</th>
-                                            <td>{{ $agen->fee_reguler }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Fee Promo</th>
-                                            <td>{{ $agen->fee_promo }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Nama Rekening Beda</th>
-                                            <td>{{ $agen->nama_rek_beda }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Website</th>
-                                            <td>{{ $agen->website }}</td>
-                                        </tr>
-                                    </tbody>
+                                    <form action="{{ route('aiwa.anggota.update', $agen->id) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <tbody>
+                                            <tr>
+                                                <th>Nama Lengkap</th>
+                                                <td>{{ $agen->nama }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Domisili</th>
+                                                <td>{{ $agen->alamat }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Jenis Kelamin</th>
+                                                <td>{{ $agen->jenis_kelamin }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>No KTP</th>
+                                                <td>{{ $agen->no_ktp }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>No TELP</th>
+                                                <td>{{ $agen->no_telp }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Koordinator</th>
+                                                <td>{{ $agen->koordinator }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Email</th>
+                                                <td>{{ $agen->email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>BANK</th>
+                                                <td>{{ $agen->bank }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>No REKENING</th>
+                                                <td>{{ $agen->no_rekening }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Fee Reguler</th>
+                                                <td><input type="text" class="form-control" value="{{ $agen->fee_reguler }}" name="fee_reguler"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Fee Promo</th>
+                                                <td><input type="text" class="form-control" value="{{ $agen->fee_promo }}" name="fee_promo"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Nama Rekening Beda</th>
+                                                <td>{{ $agen->nama_rek_beda }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Website</th>
+                                                <td>{{ $agen->website }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><button type="submit" class="btn btn-sm btn-info">Simpan</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </form>
                                 </table>
                             </div> 
                             <div class="tab-pane" id="profile-{{ $agen->id }}">

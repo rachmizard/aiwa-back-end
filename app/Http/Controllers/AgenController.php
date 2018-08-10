@@ -30,7 +30,7 @@ class AgenController extends Controller
          return Datatables::of($agents)->addColumn('action', function($agents)
          {
             return '
-                <a href="#" data-toggle="modal" data-target="#detailAgen'. $agents->id .'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Detail</a>
+                <a href="#" data-toggle="modal" data-target="#detailAgen'. $agents->id .'" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i> Edit</a>
                 <form class="form-group" action="'. route('aiwa.unapproved', $agents->id) .'" method="POST">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
                     <input type="hidden" name="_method" value="PUT">
@@ -106,7 +106,12 @@ class AgenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $agen = User::findOrFail($id);
+        $agen->update([
+                    'fee_reguler' => $request->fee_reguler,
+                    'fee_promo' => $request->fee_promo
+                ]);
+        return redirect()->back();
     }
 
     /**
