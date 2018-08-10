@@ -58,9 +58,10 @@ Route::get('/jamaah/{id}/koordinator/potensi', 'API\JamaahControllerAPI@koordina
 Route::get('/jamaah/{id}/koordinator/komisi', 'API\JamaahControllerAPI@koordinatorKomisi');
 Route::get('/jamaah/{id}/agen/potensi', 'API\JamaahControllerAPI@agenPotensi');
 Route::get('/jamaah/{id}/agen/komisi', 'API\JamaahControllerAPI@agenKomisi');
-
 Route::get('/jamaah/{id}/agen/total', 'API\JamaahControllerAPI@totalJamaahByAgen');
-Route::get('/prospek/{id}/agen/total', 'API\ProspekControllerAPI@totalProspekByAgen');
+Route::get('/jamaah/{id}/agen/berangkat', 'API\JamaahControllerAPI@retrieveJamaahBerangkatByAgen');
+Route::get('/jamaah/{id}/agen/pulang', 'API\JamaahControllerAPI@retrieveJamaahPulangByAgen');
+
 
 
 // Prospek API Route
@@ -71,6 +72,7 @@ Route::get('/prospek/{id}/show', 'API\ProspekControllerAPI@show');
 Route::delete('/prospek/{id}/delete', 'API\ProspekControllerAPI@destroy');
 Route::put('/prospek/{id}/edit', 'API\ProspekControllerAPI@update');
 Route::put('/prospek/{id}/bayar', 'API\ProspekControllerAPI@bayar');
+Route::get('/prospek/{id}/agen/total', 'API\ProspekControllerAPI@totalProspekByAgen');
 
 // Kalkulasi API Route
 Route::get('/kalkulasi', 'API\MasterKalkulasiControllerAPI@index');
@@ -112,23 +114,30 @@ Route::post('/password/email', 'API\Auth\ForgotPasswordControllerAPI@getResetTok
 Route::post('/password/reset', 'API\Auth\ResetPasswordControllerAPI@reset');
 
 
-Route::get('/get', function(){
-	$agents = App\User::where('device_token', '!=', null)->get();
-    $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-	foreach ($agents as $agent) {
-		$token = $agent->device_token;
+Route::get('/indit', function(){
+	$now = Carbon\Carbon::now();
+            $year = $now->year;
+            $month = $now->month;
+            $day = $now->day;
+            $jamaah = \App\Jamaah::where('tgl_berangkat', '=', $day.'/'.$month.'/'.$year)->get();
+            $totalJamaahBerangkat = count($jamaah);
+            $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+            foreach ($jamaah as $in) {
+
+                $recepient = \App\User::find($in->marketing);
+                $token = $recepient->device_token;
                 
                 $notification = [
-                    'body' => 'Asd345',
+                    'body' => $in->nama .' akan berangkat hari ini '. $in->tgl_berangkat,
                     'sound' => true,
                 ];
 
 
-                // $sendNotify = MasterNotifikasi::create([
-                //                                         'anggota_id' => $agent->anggota_id,
-                //                                         'pesan' => $notification['body'],
-                //                                         'status' => 'delivered'
-                //                                         ]);
+                $sendNotify = MasterNotifikasi::create([
+                                                        'anggota_id' => $in->marketing,
+                                                        'pesan' => $notification['body'],
+                                                        'status' => 'delivered'
+                                                        ]);
                 
                 $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
 
@@ -157,6 +166,63 @@ Route::get('/get', function(){
 
 
                 // return response()->json($result);
-	}
+            }
 	
+});
+
+
+Route::get('/balik', function(){
+    $now = Carbon\Carbon::now();
+            $year = $now->year;
+            $month = $now->month;
+            $day = $now->day;
+            $jamaah = \App\Jamaah::where('tgl_pulang', '=', $day.'/'.$month.'/'.$year)->get();
+            $totalJamaahBerangkat = count($jamaah);
+            $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+            foreach ($jamaah as $in) {
+
+                $recepient = \App\User::find($in->marketing);
+                $token = $recepient->device_token;
+                
+                $notification = [
+                    'body' => $in->nama .' akan pulang hari ini '. $in->tgl_pulang,
+                    'sound' => true,
+                ];
+
+
+                $sendNotify = MasterNotifikasi::create([
+                                                        'anggota_id' => $in->marketing,
+                                                        'pesan' => $notification['body'],
+                                                        'status' => 'delivered'
+                                                        ]);
+                
+                $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
+
+                $fcmNotification = [
+                    // 'registration_ids' => $token, //multple token array
+                    'to'        => $token, //single token
+                    'notification' => $notification,
+                    'data' => $extraNotificationData
+                ];
+
+                $headers = [
+                    'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
+                    'Content-Type: application/json'
+                ];
+
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,$fcmUrl);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+                $result = curl_exec($ch);
+                curl_close($ch);
+
+
+                // return response()->json($result);
+            }
+    
 });

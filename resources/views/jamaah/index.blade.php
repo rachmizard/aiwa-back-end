@@ -20,11 +20,9 @@
                                         <th>No</th>
                                         <th>Tanggal Daftar</th>
                                         <th>ID Umrah</th>
-                                        <th>ID Jamaah</th>
                                         <th>Nama</th>
                                         <th>Tanggal Keberangkatan</th>
                                         <th>Tanggal Kepulangan</th>
-                                        <th>Maskapai</th>
                                         <th>Marketing</th>
                                         <th>Staff</th>
                                         <th>Aksi</th>
@@ -212,11 +210,9 @@
                             { data: "id", name: "id" },
                             { data: "tgl_daftar", name: "tgl_daftar" },
                             { data: "id_umrah", name: "id_umrah" },
-                            { data: "id_jamaah", name: "id_jamaah" },
                             { data: "nama", name: "nama" },
                             { data: "tgl_berangkat", name: "tgl_berangkat" },
                             { data: "tgl_pulang", name: "tgl_pulang" },
-                            { data: "maskapai", name: "maskapai" },
                             { data: "anggota.nama", name: "anggota.nama" },
                             { data: "staff", name: "staff" },
                             { data: "action", name: "action"}

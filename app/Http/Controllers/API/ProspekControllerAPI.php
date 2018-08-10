@@ -30,7 +30,7 @@ class ProspekControllerAPI extends Controller
 
     public function retrieveByAgen($id)
     {
-        return ProspekResource::collection(Prospek::orderBy('id', 'DESC')->where(['anggota_id' => $id, 'pembayaran' => 'BELUM'])->get());
+        return ProspekResource::collection(Prospek::orderBy('updated_at', 'DESC')->where(['anggota_id' => $id, 'pembayaran' => 'BELUM'])->get());
     }
 
     public function totalProspekByAgen(Request $request, $id)
@@ -183,6 +183,9 @@ class ProspekControllerAPI extends Controller
 
     public function bayar(Request $request, $id)
     {
+
+        $reference = 2250000;
+
         $statusPembayaran = 1; // Menyatakan status sudah di DP
         $prospek = $request->isMethod('put') ? Prospek::findOrFail($id) : new Prospek;
         $prospek->pembayaran = $statusPembayaran;
@@ -196,32 +199,34 @@ class ProspekControllerAPI extends Controller
                     $jamaah = Jamaah::create([
                         'nama' => $pic . '_' . $i,
                         'marketing' => $anggota_id,
-                        'marketing_fee' => 2250000,
+                        'marketing_fee' => $reference,
                         'koordinator' => 0,
                         'koordinator_fee' => 0,
                         'top' => 1,
-                        'top_fee' => 2250000,
+                        'top_fee' => $reference,
                         'status' => 'POTENSI'
                     ]);
                 }else if($findKoordinator->koordinator == 1)
                 {
+                    $totalLevel2 = $reference - $findKoordinator->fee_reguler;
                     $jamaah = Jamaah::create([
                         'nama' => $pic . '_' . $i,
                         'marketing' => $anggota_id,
                         'marketing_fee' => $findKoordinator->fee_reguler,
                         'koordinator' => $findKoordinator->koordinator,
-                        'koordinator_fee' => 450000,
+                        'koordinator_fee' => $totalLevel2 ,
                         'top' => 1,
-                        'top_fee' => 450000,
+                        'top_fee' => $totalLevel2 ,
                         'status' => 'POTENSI'
                     ]);                    
                 }else{
+                    $totalLevel3 = $reference - ($findKoordinator->fee_reguler + 250000);
                     $jamaah = Jamaah::create([
                         'nama' => $pic . '_' . $i,
                         'marketing' => $anggota_id,
                         'marketing_fee' => $findKoordinator->fee_reguler,
                         'koordinator' => $findKoordinator->koordinator,
-                        'koordinator_fee' => 200000,
+                        'koordinator_fee' => $totalLevel3,
                         'top' => 1,
                         'top_fee' => 250000,
                         'status' => 'POTENSI'

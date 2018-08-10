@@ -9,6 +9,7 @@ use App\User;
 use App\Http\Resources\JamaahResource;
 use App\Http\Resources\CountOfMarketingFeeResource;
 use DB;
+use Carbon\Carbon;
 
 class JamaahControllerAPI extends Controller
 {
@@ -100,6 +101,24 @@ class JamaahControllerAPI extends Controller
          $success['nama'] =  'jamaah';
          $success['total'] =  $countTotalJamaahByAgen;
          return response()->json(['response' => $success]);
+    }
+
+    public function retrieveJamaahBerangkatByAgen(Request $request, $id)
+    {
+        $now = Carbon::now();
+        $year = $now->year;
+        $month = $now->month;
+        $day = $now->day;
+        return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('tgl_berangkat', '=', $day.'/'.$month.'/'.$year)->get());
+    }
+
+    public function retrieveJamaahPulangByAgen(Request $request, $id)
+    {
+        $now = Carbon::now();
+        $year = $now->year;
+        $month = $now->month;
+        $day = $now->day;
+        return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('tgl_pulang', '=', $day.'/'.$month.'/'.$year)->get());
     }
 
     /**

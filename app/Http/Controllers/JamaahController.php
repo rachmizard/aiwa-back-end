@@ -123,17 +123,17 @@ class JamaahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, $id)
-    // {
-    //     $jamaah = Jamaah::find($id);
-    //     LogActivity::create([
-    //         'subjek' => 'Mengedit data di table jamaah.',
-    //         'user_id' => Auth::guard('admin')->user()->id,
-    //         'tanggal' => Carbon::now()
-    //     ]);
-    //     $jamaah->update($request->all()); 
-    //     return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di edit!');
-    // }
+    public function update(Request $request, $id)
+    {
+        $jamaah = Jamaah::find($id);
+        LogActivity::create([
+            'subjek' => 'Mengedit data di table jamaah.',
+            'user_id' => Auth::guard('admin')->user()->id,
+            'tanggal' => Carbon::now()
+        ]);
+        $jamaah->update($request->all()); 
+        return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di edit!');
+    }
 
     /**
      * Remove the specified resource from storage.
