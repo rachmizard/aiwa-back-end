@@ -81,6 +81,7 @@ class AdminController extends Controller
 
     public function approval()
     {
+        Auth()->guard('admin')->user()->unreadNotifications->markAsRead();
         return view('approval.index');
     }
     /**

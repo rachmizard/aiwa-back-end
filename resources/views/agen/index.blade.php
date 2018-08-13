@@ -111,11 +111,21 @@
                                             </tr>
                                             <tr>
                                                 <th>Fee Reguler</th>
-                                                <td><input type="text" class="form-control" value="{{ $agen->fee_reguler }}" name="fee_reguler"></td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">Rp.</span>
+                                                        <input type="text" class="form-control rupiah" value="{{ $agen->fee_reguler }}" name="fee_reguler">
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Fee Promo</th>
-                                                <td><input type="text" class="form-control" value="{{ $agen->fee_promo }}" name="fee_promo"></td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">Rp.</span>
+                                                        <input type="text" class="form-control rupiah" value="{{ $agen->fee_promo }}" name="fee_promo">
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Nama Rekening Beda</th>
@@ -184,6 +194,13 @@
                 });
             </script>
             <!-- End Datatable Serverside -->
+            @endpush
+            @push('otherJavascript')
+            <script src="https://cdn.rawgit.com/igorescobar/jQuery-Mask-Plugin/1ef022ab/dist/jquery.mask.min.js"></script>
+            <script>
+                // Mask Input
+                $( '.rupiah' ).mask('0.000.000.000', {reverse: true});
+            </script>
             @endpush
 
 @endsection

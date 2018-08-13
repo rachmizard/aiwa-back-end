@@ -74,24 +74,20 @@
                     @auth('admin')
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     @else
-                    <a href="{{ route('login') }}">Login</a>
-                    <a href="{{ route('register') }}">Register</a>
+                    <a href="{{ route('admin.login') }}">Login</a>
                     @endauth
                 </div>
             @endif
 
             <div class="content">
-                @auth
                 <div class="title m-b-md text-center">
                     <img src="{{asset('/img/AiwaFontLogo.png')}}" class="" width="400" height="200" alt="">
                 </div>
 
                 <div class="links">
-                    <a href="/api/test-api">API Jadwal</a>
-                    <a href="http://alhijazindowisata.com/v3/index.php/jadwal-umroh-2017-2018/">Al Hijaz</a>
+                    <!-- <a href="/api/test-api">API Jadwal</a> -->
                     <a href="https://drive.google.com/file/d/1beBq8PEvWX1ngnF7SA9_E1i0vIPeKs7J/view"><i class="fa fa-download"></i> Download Aiwa Apps</a>
                 </div>
-                @endauth
             </div>
         </div>
     </body>

@@ -27,7 +27,6 @@
                       <ul class="list-unstyled">
                           <li class="{{ Route::currentRouteNamed('aiwa.jadwal') ? 'active' : '' }}
 "><a href="{{route('aiwa.master-jadwal')}}"><i class="fa fa-calendar"></i> Jadwal</a></li>
-                          <li class><a href="#"><i class="fa fa-money"></i> Komisi</a></li>
                           <li class="{{ Route::currentRouteNamed('master-itinerary.index') ? 'active' : '' }}"><a href="{{route('master-itinerary.index')}}"><i class="fa fa-book"></i>Itenary</a></li>
                           <li class><a href="{{ route('aiwa.master-kalkulasi') }}"><i class="ion-calculator"></i>Kalkulasi</a></li>
                           <li class><a href="{{ route('master-broadcast.index') }}"><i class="ion-speakerphone"></i> Broadcast</a></li>
@@ -39,11 +38,22 @@
                           <li><a href="sweet-alert.html">Sweet-Alert</a></li> -->
                       </ul>
                   </li>
-              <li class="has-submenu"><a href="#"><i class="ion-ios7-person"></i> <span class="nav-label">Admin Authorize</span></a>
+              <li class="has-submenu"><a href="#"><i class="ion-ios7-person"></i> <span class="nav-label">Admin Authorize</span>
+                @if(Auth::guard('admin')->user()->unreadNotifications->count() > 0)
+                      <span class="badge badge-sm bg-pink">
+                          {{Auth::guard('admin')->user()->unreadNotifications->count() > '0' ? 'new' : ''}}
+                      </span>
+                @endif
+                    </a>
                 <ul class="list-unstyled">
                     <li class="{{ Route::currentRouteNamed('aiwa.log-activity') ? 'active' : '' }}"><a href="{{route('aiwa.log-activity')}}"><i class="fa fa-clock-o"></i> Log Activity</a></li>
                     <li class="{{ Route::currentRouteNamed('aiwa.anggota.import') ? 'active' : '' }}"><a href="{{ route('aiwa.anggota.import') }}"><i class="fa fa-user-plus"></i> Import Akun Agen</a></li>
-                    <li><a href="{{ route('aiwa.approval') }}"><i class="fa fa-check"></i> Approval Agen</a></li>
+                    <li><a href="{{ route('aiwa.approval') }}"><i class="fa fa-check"></i> Approval Agen
+                      @if(Auth::guard('admin')->user()->unreadNotifications->count() > 0)
+                      <span class="badge bg-pink">{{Auth::guard('admin')->user()->unreadNotifications->count() > '0' ? 'new' : ''}}</span>
+                      @endif
+                      </a>
+                    </li>
                     <li><a href="#"><i class="fa fa-bell"></i> Notifikasi</a></li>
                 </ul>
               </li>

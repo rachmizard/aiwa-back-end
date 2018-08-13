@@ -153,6 +153,8 @@
         <script type="text/javascript" src="{{asset('assets/spinner/spinner.min.js')}}"></script>
         <!-- select2 -->
         <script src="{{asset('assets/select2/select2.min.js')}}" type="text/javascript"></script>
+        <!-- Masked Input -->
+        <!-- <script src="{{asset('assets/bootstrap-inputmask/bootstrap-inputmask.min.js')}}" type="text/javascript"></script> -->
         @stack('dataTables')
         @stack('otherJavascript')
         <script>

@@ -22,43 +22,73 @@
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <label for="harga_default">Harga Perlengkapan Dewasa (Default)</label>
-                                        <input type="text" name="harga_default" id="harga_default" class="form-control" required="" data-placeholder="Rp. 1200000" required="" value="{{ $kalkulasi->harga_default }}">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp.</span>
+                                                <input type="text" name="harga_default" id="harga_default" class="form-control rupiah" required=""  data-placeholder="Nominal Uang" required="" value="{{ $kalkulasi->harga_default }}">
+                                            </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="harga_promo">Perlengkapan Dewasa (Promo)</label>
-                                        <input type="text" class="form-control" id="harga_promo" name="harga_promo" required="" value="{{ $kalkulasi->harga_promo }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" class="form-control rupiah" id="harga_promo" name="harga_promo" required=""  value="{{ $kalkulasi->harga_promo }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="harga_infant">Harga Infant</label>
-                                        <input type="text" class="form-control" id="harga_infant" name="harga_infant" required="" value="{{ $kalkulasi->harga_infant }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" class="form-control rupiah" id="harga_infant" name="harga_infant" required=""  value="{{ $kalkulasi->harga_infant }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="harga_full">Harga Full</label>
-                                        <input type="text" name="harga_full" class="form-control" required="" value="{{ $kalkulasi->harga_full }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" name="harga_full" class="form-control rupiah" required=""  value="{{ $kalkulasi->harga_full }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="harga_lite">Harga Lite</label>
-                                        <input type="text" class="form-control" name="harga_lite" required="" value="{{ $kalkulasi->harga_lite }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" class="form-control rupiah" name="harga_lite" required=""  value="{{ $kalkulasi->harga_lite }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="diskon_balita_uhud">Diskon Balita Uhud</label>
-                                        <input type="text" class="form-control" name="diskon_balita_uhud" required="" value="{{ $kalkulasi->diskon_balita_uhud }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" class="form-control rupiah" name="diskon_balita_uhud" required=""  value="{{ $kalkulasi->diskon_balita_uhud }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="diskon_balita_nur">Diskon Balita Nur</label>
-                                        <input type="text" class="form-control" name="diskon_balita_nur" required="" value="{{ $kalkulasi->diskon_balita_nur }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" class="form-control rupiah" name="diskon_balita_nur" required=""  value="{{ $kalkulasi->diskon_balita_nur }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="diskon_balita_rhm">Diskon Balita Rahmah</label>
-                                        <input type="text" class="form-control" name="diskon_balita_rhm" required="" value="{{ $kalkulasi->diskon_balita_rhm }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" class="form-control rupiah" name="diskon_balita_rhm" required=""  value="{{ $kalkulasi->diskon_balita_rhm }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="diskon_balita_rhm">Diskon Balita Standar</label>
-                                        <input type="text" class="form-control" name="diskon_balita_standar" required="" value="{{ $kalkulasi->diskon_balita_standar }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" class="form-control rupiah" name="diskon_balita_standar" required=""  value="{{ $kalkulasi->diskon_balita_standar }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="diskon_balita_uhud">Harga Visa</label>
-                                        <input type="text" class="form-control" name="harga_visa" required="" value="{{ $kalkulasi->harga_visa }}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp.</span>
+                                            <input type="text" class="form-control rupiah" name="harga_visa" required=""  value="{{ $kalkulasi->harga_visa }}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-purple col-md-12">Sinkronkan</button>
@@ -71,7 +101,12 @@
             </div> <!-- END Wraper -->
         </div>
 @push('otherJavascript')
+<script src="https://cdn.rawgit.com/igorescobar/jQuery-Mask-Plugin/1ef022ab/dist/jquery.mask.min.js"></script>
 <script>
+
+// Mask Input
+$( '.rupiah' ).mask('0.000.000.000', {reverse: true});
+
 jQuery('.datepicker').datepicker();
 // Select2
 jQuery(".select2").select2({

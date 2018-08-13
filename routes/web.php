@@ -13,7 +13,13 @@
 
 Route::get('/', function () {
     return view('welcome');
-})->middleware('auth:admin');
+});
+
+// Read Notification
+Route::get('readAllNotifications', function(){
+    Auth()->guard('admin')->user()->unreadNotifications->markAsRead();
+    return redirect()->back();
+})->name('read.all.notification');
 
 Route::get('/send/{token}', 'AdminController@sendNotify');
 // Route::group(['middleware' => 'web'], function(){
