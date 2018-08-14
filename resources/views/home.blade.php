@@ -13,28 +13,28 @@
                     <div class="col-lg-3 col-sm-6">
                         <div class="widget-panel widget-style-2 bg-pink">
                             <i class="ion-eye"></i>
-                            <h2 class="m-0 counter">50</h2>
+                            <h2 class="m-0 counter">{{ $totalAgen->count() }}</h2>
                             <div>Total Agent</div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="widget-panel widget-style-2 bg-purple">
                             <i class="ion-paper-airplane"></i>
-                            <h2 class="m-0 counter">12055</h2>
+                            <h2 class="m-0 counter">{{ $totalJamaah->count() }}</h2>
                             <div>Total Jamaah</div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="widget-panel widget-style-2 bg-info">
                             <i class="ion-ios7-pricetag"></i>
-                            <h2 class="m-0 counter">1268</h2>
+                            <h2 class="m-0 counter">{{ $totalProspek->count() }}</h2>
                             <div>Total Prospek</div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="widget-panel widget-style-2 bg-success">
                             <i class="ion-android-contacts"></i>
-                            <h2 class="m-0 counter">145</h2>
+                            <h2 class="m-0 counter">Rp. 0</h2>
                             <div>Total Potensi</div>
                         </div>
                     </div>

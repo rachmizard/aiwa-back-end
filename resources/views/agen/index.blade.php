@@ -136,7 +136,7 @@
                                                 <td>{{ $agen->website }}</td>
                                             </tr>
                                             <tr>
-                                                <td><button type="submit" class="btn btn-sm btn-info">Simpan</button></td>
+                                                <td><button id="load" type="submit" class="btn btn-sm btn-info">Simpan</button></td>
                                             </tr>
                                         </tbody>
                                     </form>
@@ -200,6 +200,9 @@
             <script>
                 // Mask Input
                 $( '.rupiah' ).mask('0.000.000.000', {reverse: true});
+                $('#load').click(function(){
+                    $( '.rupiah' ).unmask();
+                });
             </script>
             @endpush
 

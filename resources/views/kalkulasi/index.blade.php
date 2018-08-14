@@ -106,6 +106,9 @@
 
 // Mask Input
 $( '.rupiah' ).mask('0.000.000.000', {reverse: true});
+$('#load').click(function(){
+    $( '.rupiah' ).unmask();
+});
 
 jQuery('.datepicker').datepicker();
 // Select2

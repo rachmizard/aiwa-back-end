@@ -109,6 +109,7 @@ class MasterKalkulasiController extends Controller
                         'harga_promo' => $request->harga_promo,
                         'harga_infant' => $request->harga_infant,
                         'harga_full' => $request->harga_full,
+                        'harga_lite' => $request->harga_lite,
                         'diskon_balita_uhud' => $request->diskon_balita_uhud,
                         'diskon_balita_nur' => $request->diskon_balita_nur,
                         'diskon_balita_rhm' => $request->diskon_balita_rhm,

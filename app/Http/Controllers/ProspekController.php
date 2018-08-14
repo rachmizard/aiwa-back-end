@@ -100,7 +100,10 @@ class ProspekController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $prospek = Prospek::findOrFail($id);
+        $prospek->tanggal_followup = $request->tanggal_followup;
+        $prospek->update();
+        return redirect()->back();
     }
 
     /**

@@ -7,6 +7,8 @@ use App\Admin;
 use Carbon\Carbon;
 use App\LogActivity;
 use App\User;
+use App\Jamaah;
+use App\Prospek;
 use Excel;
 use DB;
 use fcm;
@@ -26,7 +28,10 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('home');
+        $totalAgen = User::where('status', '=', '1')->get();
+        $totalJamaah = Jamaah::all();
+        $totalProspek = Prospek::all();
+        return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek'));
     }
 
     public function sendNotify($token)

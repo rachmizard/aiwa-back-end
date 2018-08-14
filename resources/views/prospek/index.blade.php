@@ -46,10 +46,10 @@
                         {{ csrf_field() }}
                         <div class="modal-body"> 
                             <div class="row"> 
-                                <div class="col-md-6"> 
+                                <div class="col-md-6 col-md-offset-2"> 
                                     <div class="form-group"> 
                                         <label for="field-1" class="control-label">Tanggal FollowUp</label>
-                                        <input type="text" class="form-control datepicker" id="field-1" placeholder="Tanggal" value="{{ $prospek->tanggal_followup }}"> 
+                                        <input type="text" name="tanggal_followup" class="form-control datepickeranjay" id="field-1" placeholder="Tanggal" value="{{ $prospek->tanggal_followup }}"> 
                                     </div> 
                                 </div> 
                             </div>
@@ -90,9 +90,15 @@
             <!-- End Datatable Serverside -->
         @endpush
         @push('otherJavascript')
-        <script>    
-            jQuery('.datepicker').datepicker();
-        </script>
+       <script type="text/javascript">
+       $('.datepickeranjay').datepicker({
+           todayBtn: "linked",
+           language: "it",
+           autoclose: true,
+           todayHighlight: true,
+           format: 'd/m/yyyy' 
+       });
+    </script>
         @endpush
 
 

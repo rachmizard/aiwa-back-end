@@ -127,12 +127,12 @@ class JamaahController extends Controller
     public function update(Request $request, $id)
     {
         $jamaah = Jamaah::find($id);
+        $jamaah->update($request->all()); 
         LogActivity::create([
             'subjek' => 'Mengedit data di table jamaah.',
             'user_id' => Auth::guard('admin')->user()->id,
             'tanggal' => Carbon::now()
         ]);
-        $jamaah->update($request->all()); 
         return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di edit!');
     }
 
