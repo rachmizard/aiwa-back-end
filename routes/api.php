@@ -17,6 +17,101 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/diskonkantor', function(){
+    
+        $url = 'http://115.124.86.218/aiw/pendaftaran/1440';
+        $json = file_get_contents($url);
+        $diskons = collect(json_decode($json, true));
+        
+        // dd($diskons['data'][1]['jadwal']); // Ieu bisa
+        // return view('test-api', compact('diskons'));
+        $test = $diskons['data'];
+        $count = count($test);
+        // $itungPaket = $diskons['data'][0]['jadwal'][0]['paket'];
+        // $countPaket = count($test);
+        echo "<a href='/api/sync'>Sync to database</a>";
+        echo "<table border='1'>
+                    <tr>
+                            <td>Pax</td>
+                            <td>Tgl Daftar</td>
+                            <td>Id Umrah</td>
+                            <td>Id Jamaah</td>
+                            <td>Tgl Keberangkatan</td>
+                            <td>Nama jamaah</td>
+                            <td>Staff</td>
+                            <td>Id Marketing</td>
+                            <td>Diskon Kantor</td>
+                            <td>Diskon Marketing</td>
+                            <td>Fee koordinator</td>
+                            <td>Fee marketing</td>
+                    </tr>";
+        for ($i=0; $i < $count ; $i++) { 
+            $itung = count($diskons['data'][$i]['pendaftaran']);
+            foreach($diskons['data'][$i]['pendaftaran'] as $key => $diskon)
+                {
+                    
+                    echo "
+                    <tr>
+                        <td>". $itung ."</td>
+                        <td>". $diskon['tgl_pendaftaran'] ."</td>
+                        <td>". $diskon['id_umrah'] ."</td>
+                        <td>". $diskon['id_jamaah'] ."</td>
+                        <td>". $diskon['tgl_keberangkatan'] ."</td>
+                        <td>". $diskon['nama_jamaah'] ."</td>
+                        <td>". $diskon['staf_kantor'] ."</td>
+                        <td>". $diskon['id_marketing'] ."</td>
+                        <td>". $diskon['diskon_kantor'] ."</td>
+                        <td>". $diskon['diskon_marketing'] ."</td>
+                        <td>". $diskon['fee_koordinator'] ."</td>
+                        <td>". $diskon['fee_marketing'] ."</td>
+                    </tr>";   
+                }
+        }
+        echo "</table>";
+
+        // $itungPaket = $diskons['data'][0]['jadwal'][0]['paket']; 
+        // for ($i=0; $i < $count ; $i++) { 
+        //     foreach ($diskons['data'][$i]['pendaftaran'] as $key => $diskon) {
+        //         echo json_encode($i);
+        //         echo json_encode($diskon['id_marketing']);
+        //         echo json_encode($diskon['diskon_marketing']);
+        //         echo json_encode($diskon['diskon_kantor']);
+        //     }
+        // }
+});
+
+// Latihan Diskon
+Route::get('/sync', function(){
+        $url = 'http://115.124.86.218/aiw/pendaftaran/1440';
+        $json = file_get_contents($url);
+        $diskons = collect(json_decode($json, true));
+        
+        // dd($diskons['data'][1]['jadwal']); // Ieu bisa
+        // return view('test-api', compact('diskons'));
+        $test = $diskons['data'];
+        $count = count($test);
+
+        for ($i=0; $i < $count ; $i++) { 
+            foreach ($diskons['data'][$i]['pendaftaran'] as $key => $diskon) {
+                DB::table('master_pendaftaran')->insert([   
+                    'tgl_pendaftaran' => $diskon['tgl_pendaftaran'],
+                    'id_umrah' => $diskon['id_umrah'],
+                    'id_jamaah' => $diskon['id_jamaah'],
+                    'nama_jamaah' => $diskon['nama_jamaah'],
+                    'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
+                    'staf_kantor' => $diskon['staf_kantor'],
+                    'id_marketing' => $diskon['id_marketing'],
+                    'diskon_kantor' => $diskon['diskon_kantor'],
+                    'diskon_marketing' => $diskon['diskon_marketing'],
+                    'fee_koordinator' => $diskon['fee_koordinator'],
+                    'fee_marketing' => $diskon['fee_marketing']
+                ]);
+            }
+        }
+        return redirect()->back();
+
+});
+
 //test api jadwal
 Route::get('/test-api', 'API\JadwalController@test');
 

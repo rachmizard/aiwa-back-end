@@ -22,7 +22,8 @@ class AnggotaControllerAPI extends Controller
             $user = Auth::user();
             $getId = $user->id;
             if (!$user->status == 0) {
-                $success['token'] =  $user->createToken('nApp')->accessToken;
+                $success['token'] =  null;
+                // $user->createToken('nApp')->accessToken
                 $refreshDeviceToken = User::findOrFail($getId);
                 $refreshDeviceToken->update(['device_token' => $request->input('device_token')]);
                 $success['status'] =  'success';

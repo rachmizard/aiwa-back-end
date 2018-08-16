@@ -26,6 +26,11 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button id="refreshAgen" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
+                                    </div>
+                                </div>
                                 <table id="agent" class="stripe row-border order-column table table-striped table-bordered">
                                   <thead>
                                     <tr>
@@ -136,7 +141,7 @@
                                                 <td>{{ $agen->website }}</td>
                                             </tr>
                                             <tr>
-                                                <td><button id="load" type="submit" class="btn btn-sm btn-info">Simpan</button></td>
+                                                <td><button id="loadAgen" type="submit" class="btn btn-sm btn-info">Simpan</button></td>
                                             </tr>
                                         </tbody>
                                     </form>
@@ -167,6 +172,15 @@
     @endforeach
             <!-- Page Content Ends -->
             <!-- ================== -->
+            @push('otherJavascript')
+            <script>
+                // Mask Input
+                $('.rupiah').mask('0.000.000.000', {reverse: true});
+                $('#loadAgen').click(function(){
+                    $('.rupiah').unmask();
+                });
+            </script>
+            @endpush
         @push('dataTables')
             <!-- Datatable Serverside -->
             <script>
@@ -187,6 +201,10 @@
                             { data: "action", name: "action", orderable: false, searchable: false}
                         ]
                     });
+                   // Refresh Table
+                   $('#refreshAgen').click(function(){
+                        table.ajax.url("{{ route('aiwa.anggota.load') }}").load();
+                   });
 
                     setInterval( function () {
                         table.ajax.reload( null, false ); // user paging is not reset on reload
@@ -194,16 +212,6 @@
                 });
             </script>
             <!-- End Datatable Serverside -->
-            @endpush
-            @push('otherJavascript')
-            <script src="https://cdn.rawgit.com/igorescobar/jQuery-Mask-Plugin/1ef022ab/dist/jquery.mask.min.js"></script>
-            <script>
-                // Mask Input
-                $( '.rupiah' ).mask('0.000.000.000', {reverse: true});
-                $('#load').click(function(){
-                    $( '.rupiah' ).unmask();
-                });
-            </script>
             @endpush
 
 @endsection

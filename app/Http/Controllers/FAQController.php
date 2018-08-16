@@ -83,9 +83,10 @@ class FAQController extends Controller
      * @param  \App\FAQ  $fAQ
      * @return \Illuminate\Http\Response
      */
-    public function edit(FAQ $fAQ)
+    public function edit($id)
     {
-        //
+        $faq = FAQ::findOrFail($id);
+        return view('faq.edit', compact('faq'));
     }
 
     /**
@@ -95,9 +96,11 @@ class FAQController extends Controller
      * @param  \App\FAQ  $fAQ
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FAQ $fAQ)
+    public function update(Request $request, $id)
     {
-        //
+        $faq = FAQ::findOrFail($id);
+        $faq->update(['judul' => $request->judul, 'jawaban' => $request->jawaban]);
+        return back();
     }
 
     /**

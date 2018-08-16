@@ -10,7 +10,10 @@ use Notification;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    // HasApiTokens
+    use Notifiable;
+
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.

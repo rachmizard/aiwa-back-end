@@ -189,52 +189,54 @@ class ProspekControllerAPI extends Controller
         $statusPembayaran = 1; // Menyatakan status sudah di DP
         $prospek = $request->isMethod('put') ? Prospek::findOrFail($id) : new Prospek;
         $prospek->pembayaran = $statusPembayaran;
-        $pax = $prospek->jml_dewasa+$prospek->jml_infant+$prospek->jml_balita+$prospek->jml_balita_kasur;
-        $pic = $prospek->pic;
-        $anggota_id = $prospek->anggota_id;
-        $findKoordinator = User::find($anggota_id);
-        if ($prospek->update()) {
-            for ($i=0; $i < $pax ; $i++) { 
-                if ($findKoordinator->koordinator == 0 ) {
-                    $jamaah = Jamaah::create([
-                        'nama' => $pic . '_' . $i,
-                        'marketing' => $anggota_id,
-                        'marketing_fee' => $reference,
-                        'koordinator' => 0,
-                        'koordinator_fee' => 0,
-                        'top' => 1,
-                        'top_fee' => $reference,
-                        'status' => 'POTENSI'
-                    ]);
-                }else if($findKoordinator->koordinator == 1)
-                {
-                    $totalLevel2 = $reference - $findKoordinator->fee_reguler;
-                    $jamaah = Jamaah::create([
-                        'nama' => $pic . '_' . $i,
-                        'marketing' => $anggota_id,
-                        'marketing_fee' => $findKoordinator->fee_reguler,
-                        'koordinator' => $findKoordinator->koordinator,
-                        'koordinator_fee' => $totalLevel2 ,
-                        'top' => 1,
-                        'top_fee' => $totalLevel2 ,
-                        'status' => 'POTENSI'
-                    ]);                    
-                }else{
-                    $totalLevel3 = $reference - ($findKoordinator->fee_reguler + 250000);
-                    $jamaah = Jamaah::create([
-                        'nama' => $pic . '_' . $i,
-                        'marketing' => $anggota_id,
-                        'marketing_fee' => $findKoordinator->fee_reguler,
-                        'koordinator' => $findKoordinator->koordinator,
-                        'koordinator_fee' => $totalLevel3,
-                        'top' => 1,
-                        'top_fee' => 250000,
-                        'status' => 'POTENSI'
-                    ]);
-                }
-            }
-            return response()->json(['success' => 'Berhasil di edit pembayaran!']);
-        }
+        $prospek->update();
+        
+        // $pax = $prospek->jml_dewasa+$prospek->jml_infant+$prospek->jml_balita+$prospek->jml_balita_kasur;
+        // $pic = $prospek->pic;
+        // $anggota_id = $prospek->anggota_id;
+        // $findKoordinator = User::find($anggota_id);
+        // if ($prospek->update()) {
+        //     for ($i=0; $i < $pax ; $i++) { 
+        //         if ($findKoordinator->koordinator == 0 ) {
+        //             $jamaah = Jamaah::create([
+        //                 'nama' => $pic . '_' . $i,
+        //                 'marketing' => $anggota_id,
+        //                 'marketing_fee' => $reference,
+        //                 'koordinator' => 0,
+        //                 'koordinator_fee' => 0,
+        //                 'top' => 1,
+        //                 'top_fee' => $reference,
+        //                 'status' => 'POTENSI'
+        //             ]);
+        //         }else if($findKoordinator->koordinator == 1)
+        //         {
+        //             $totalLevel2 = $reference - $findKoordinator->fee_reguler;
+        //             $jamaah = Jamaah::create([
+        //                 'nama' => $pic . '_' . $i,
+        //                 'marketing' => $anggota_id,
+        //                 'marketing_fee' => $findKoordinator->fee_reguler,
+        //                 'koordinator' => $findKoordinator->koordinator,
+        //                 'koordinator_fee' => $totalLevel2 ,
+        //                 'top' => 1,
+        //                 'top_fee' => $totalLevel2 ,
+        //                 'status' => 'POTENSI'
+        //             ]);                    
+        //         }else{
+        //             $totalLevel3 = $reference - ($findKoordinator->fee_reguler + 250000);
+        //             $jamaah = Jamaah::create([
+        //                 'nama' => $pic . '_' . $i,
+        //                 'marketing' => $anggota_id,
+        //                 'marketing_fee' => $findKoordinator->fee_reguler,
+        //                 'koordinator' => $findKoordinator->koordinator,
+        //                 'koordinator_fee' => $totalLevel3,
+        //                 'top' => 1,
+        //                 'top_fee' => 250000,
+        //                 'status' => 'POTENSI'
+        //             ]);
+        //         }
+        //     }
+        //     return response()->json(['success' => 'Berhasil di edit pembayaran!']);
+        // }
     }
     /**
      * Remove the specified resource from storage.

@@ -9,6 +9,7 @@
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
                     <a href="jamaah/download/csv" class="btn btn-sm btn-info"><i class="fa fa-file-excel-o"></i> Download CSV</a>
+                    <button id="refreshJamaah" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -203,7 +204,7 @@
                 $(document).ready(function(){
                     $('#jamaah').DataTable({
                         "scroll": true,
-                        "processing": true,
+                        "processing": false,
                         "serverSide": true,
                         "ajax": "{{ route('aiwa.jamaah.load') }}", 
                         "columns": [
@@ -224,6 +225,12 @@
             @endpush
             @push('otherJavascript')
             <script>
+
+               // Refresh Table
+               $('#refreshJamaah').click(function(){
+                    table.ajax.url("{{ route('aiwa.jamaah.load') }}").load();
+               });
+               
                 // Select2
                 jQuery(".select2").select2({
                     width: '100%'

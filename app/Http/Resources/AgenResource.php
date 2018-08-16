@@ -16,7 +16,7 @@ class AgenResource extends Resource
     {
         // return parent::toArray($request);
         return [
-            'id' => (int) $this->id,
+            'id' => $this->id,
             'no_ktp' => $this->no_ktp,
             'nama' => $this->nama,
             'jenis_kelamin' => $this->jenis_kelamin,

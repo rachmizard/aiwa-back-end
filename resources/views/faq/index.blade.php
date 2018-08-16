@@ -34,7 +34,7 @@
                                                 <td>{{ $faq->judul }}</td>
                                                 <td>{{ $faq->jawaban }}</td>
                                                 <td>
-                                                    <a href="{{ route('faq.edit', $faq->id) }}" class="btn"></a>
+                                                    <a href="{{ route('faq.edit', $faq->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                                     <a onclick="event.preventDefault();
                                                      document.getElementById('delete-form').submit();" href="#" class="btn btn-sm btn-danger">Hapus</a>
                                                     <form id="delete-form" action="{{ route('faq.destroy', $faq->id) }}" method="POST" style="display: none;">
