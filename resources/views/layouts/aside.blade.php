@@ -21,7 +21,13 @@
                   <li class="{{ Route::currentRouteNamed('aiwa.jamaah') ? 'active' : '' }}
  has-submenu"><a href="{{route('aiwa.jamaah')}}"><i class="fa fa-group"></i> <span class="nav-label">Data Jamaah</span></a>
                   </li>
-                  <li class="has-submenu"><a href="{{route('aiwa.prospek')}}"><i class="fa fa-group"></i> <span class="nav-label">Data Prospek</span></a>
+                  <li class="has-submenu"><a href="{{route('aiwa.prospek')}}"><i class="fa fa-group"></i> <span class="nav-label">Data Prospek</span>
+                  @if(Auth::guard('admin')->user()->unreadNotifications()->where('type', 'App\Notifications\ProspekNewNotification')->count() > 0)
+                        <span class="badge badge-sm bg-pink">
+                            {{Auth::guard('admin')->user()->unreadNotifications()->where('type', 'App\Notifications\ProspekNewNotification')->count() > '0' ? 'new' : ''}}
+                        </span>
+                  @endif
+              </a>
                   </li>
                   <li class="has-submenu"><a href="#"><i class="ion-ios7-keypad"></i> <span class="nav-label">Data Master</span></a>
                       <ul class="list-unstyled">
@@ -39,9 +45,9 @@
                       </ul>
                   </li>
               <li class="has-submenu"><a href="#"><i class="ion-ios7-person"></i> <span class="nav-label">Admin Authorize</span>
-                @if(Auth::guard('admin')->user()->unreadNotifications->count() > 0)
+                @if(Auth::guard('admin')->user()->unreadNotifications->where('notifiable_type', 'App\Notifications\ApproveAgenNotification')->count() > 0)
                       <span class="badge badge-sm bg-pink">
-                          {{Auth::guard('admin')->user()->unreadNotifications->count() > '0' ? 'new' : ''}}
+                          {{Auth::guard('admin')->user()->unreadNotifications->where('notifiable_type', 'App\Notifications\ApproveAgenNotification')->count() > '0' ? 'new' : ''}}
                       </span>
                 @endif
                     </a>

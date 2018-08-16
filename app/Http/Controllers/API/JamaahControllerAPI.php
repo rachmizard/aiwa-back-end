@@ -87,7 +87,7 @@ class JamaahControllerAPI extends Controller
 
     public function agenPotensi(Request $request, $id)
     {
-        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '=', 'POTENSI')->paginate(10));
+        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '=', 'POTENSI')->paginate(2));
     }
 
     public function agenKomisi(Request $request, $id)

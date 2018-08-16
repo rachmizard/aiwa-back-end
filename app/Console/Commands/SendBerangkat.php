@@ -53,11 +53,11 @@ class SendBerangkat extends Command
             $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
             foreach ($jamaah as $in) {
 
-                $recepient = User::find($in->marketing);
+                $recepient = User::where('id', $in->marketing)->first();
                 $token = $recepient->device_token;
                 
                 $notification = [
-                    'body' => $totalJamaahBerangkat .' jamaah akan berangkat pada tanggal '. $in->tgl_berangkat .' (sekarang)',
+                    'body' => $in->nama .' jamaah akan berangkat pada tanggal '. $in->tgl_berangkat .' (sekarang)',
                     'sound' => true,
                 ];
 

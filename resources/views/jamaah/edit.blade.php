@@ -16,7 +16,7 @@
                             <div class="panel-heading"><h3 class="panel-title text-center"><i class="fa fa-pencil"></i> Edit Jamaah</h3></div>
                             <div class="panel-body">
 
-                                <form class="form-horizontal" role="form" method="POST" action="{{route('aiwa.jamaah.update', $jamaah->id)}}">
+                                <form class="form-horizontal" role="form" method="POST" action="{{ route('aiwa.jamaah.updatecuy', $jamaah->id) }}">
                                     {{ csrf_field() }}
                                     <div class="form-group">
 
@@ -113,7 +113,13 @@
                     width: '100%'
                 });
                 // DatePicker
-                jQuery('.datepicker').datepicker();
+                jQuery('.datepicker').datepicker({
+                   todayBtn: "linked",
+                   language: "it",
+                   autoclose: true,
+                   todayHighlight: true,
+                   format: 'd/m/yyyy' 
+               });
             </script>
             @endpush
             <!-- END MODAL DETAIL -->

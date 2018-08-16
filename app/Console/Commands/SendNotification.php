@@ -53,7 +53,7 @@ class SendNotification extends Command
             $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
             foreach ($prospeks as $prospek) {
 
-                $recepient = User::find($prospek->anggota_id);
+                $recepient = User::where('id', $prospek->anggota_id)->first();
                 $token = $recepient->device_token;
                 
                 $notification = [

@@ -228,7 +228,7 @@ Route::get('/indit', function(){
                 ];
 
 
-                $sendNotify = MasterNotifikasi::create([
+                $sendNotify = \App\MasterNotifikasi::create([
                                                         'anggota_id' => $in->marketing,
                                                         'pesan' => $notification['body'],
                                                         'status' => 'delivered'

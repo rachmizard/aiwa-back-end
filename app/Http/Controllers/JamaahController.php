@@ -44,16 +44,7 @@ class JamaahController extends Controller
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })
-          ->editColumn('tgl_daftar', function($jamaah){
-            return date('d-M-Y', strtotime($jamaah->tgl_daftar));
-          })
-          ->editColumn('tgl_berangkat', function($jamaah){
-            return date('d-M-Y', strtotime($jamaah->tgl_berangkat));
-          })
-          ->editColumn('tgl_pulang', function($jamaah){
-            return date('d-M-Y', strtotime($jamaah->tgl_pulang));
-          })
-          ->rawColumns(['action', 'tgl_daftar', 'tgl_berangkat', 'tgl_pulang'])
+          ->rawColumns(['action'])
           ->make(true);
     }
 

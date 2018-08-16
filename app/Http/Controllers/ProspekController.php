@@ -24,6 +24,8 @@ class ProspekController extends Controller
     {
         $agents = \App\User::all();
         $prospeks = Prospek::orderBy('id', 'DESC')->get();
+        // Read notification
+        Auth()->guard('admin')->user()->unreadNotifications->where('type', 'App\Notifications\ProspekNewNotification')->markAsRead();
         return view('prospek.index', compact('agents', 'prospeks'));
     }
 
@@ -35,7 +37,7 @@ class ProspekController extends Controller
 
     public function getData()
     {
-         $prospeks = Prospek::orderBy('id', 'DESC')->with('anggota')->select('prospeks.*');
+         $prospeks = Prospek::with('anggota')->select('prospeks.*');
           return Datatables::of($prospeks)->addColumn('action', function($prospeks){
              return '
                 <a href="#" data-toggle="modal" data-target="#editProspek'. $prospeks->id .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>

@@ -9,6 +9,10 @@ use App\Jamaah;
 use App\User;
 use App\Http\Resources\ProspekResource;
 use Validator;
+use Notification;
+use App\Admin;
+use App\Notifications\ProspekNewNotification;
+
 class ProspekControllerAPI extends Controller
 {
     /**
@@ -114,6 +118,8 @@ class ProspekControllerAPI extends Controller
         $prospek->perlengkapan_balita = $request->input('perlengkapan_balita');
         $prospek->perlengkapan_dewasa = $request->input('perlengkapan_dewasa');
         if ($prospek->save()) {
+            $admin = Admin::find(1);
+            $admin->notify(new ProspekNewNotification($prospek));
             return response()->json(['success' => 'Berhasil di tambahkan!']);
         }
     }

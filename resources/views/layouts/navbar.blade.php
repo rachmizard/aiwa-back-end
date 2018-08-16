@@ -26,8 +26,8 @@
                             @foreach(Auth::guard('admin')->user()->unreadNotifications as $notification)
                             <li>
                                 <a href="#">
-                                    <span class="pull-left"><i class="fa fa-user-plus fa-2x text-info"></i></span>
-                                    <span>{{ $notification->data['nama'] }} {{ $notification->data['data'] }}<br><small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small></span>
+                                    <span class="pull-left"><i class="fa {{ $notification->type == 'App\Notifications\ProspekNewNotification' ? 'fa-user-plus fa-2x text-success' : 'fa-check fa-2x text-info' }}"></i></span>
+                                    <span>{{ str_limit($notification->data['nama'], 5) }} {{ $notification->data['data'] }}<br><small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small></span>
                                 </a>
                             </li>
                             @endforeach

@@ -23,6 +23,7 @@
                                     <th>Tanggal Keberangkatan</th>
                                     <th>PAX</th>
                                     <th>Tanggal Follow Up</th>
+                                    <th>Dibuat Tanggal</th>
                                     <th>Aksi</th>
                                   </thead>
                                 </table>
@@ -71,6 +72,7 @@
                         "processing": false,
                         "serverSide": true,
                         "ajax": "{{ route('aiwa.prospek.load') }}", 
+                        order: [ [0, 'desc'] ],
                         "columns": [
                             { data: "id", name: "id" },
                             { data: "anggota.nama", name: "anggota.nama" },
@@ -79,6 +81,7 @@
                             { data: "tgl_keberangkatan", name: "tgl_keberangkatan" },
                             { data: "qty", name: "qty" },
                             { data: "tanggal_followup", name: "tanggal_followup" },
+                            { data: "created_at", name: "created_at" },
                             { data: "action", name: "action"}
                         ]
                     })

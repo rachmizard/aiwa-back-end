@@ -31,7 +31,9 @@ class AdminController extends Controller
         $totalAgen = User::where('status', '=', '1')->get();
         $totalJamaah = Jamaah::all();
         $totalProspek = Prospek::all();
-        return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek'));
+        $sumofPotensi = Jamaah::where('status', '=', 'POTENSI')->sum('marketing_fee');
+        $sumofKomisi = Jamaah::where('status', '=', 'KOM')->sum('marketing_fee');
+        return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi'));
     }
 
     public function sendNotify($token)
