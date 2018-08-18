@@ -95,7 +95,7 @@ class MasterBroadcastController extends Controller
                     // return response()->json($result);
         }
 
-        return redirect()->back()->with('message', 'Broadcast terkirim!');
+        return redirect()->back()->with('message', 'Broadcast terkirim ke '. count($agents) .' agen!') ;
     }
 
     /**

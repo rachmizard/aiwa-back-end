@@ -168,7 +168,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
   });
 
 Route::get('/download', function(){
-    return redirect('https://drive.google.com/open?id=1lU1VFBiBRI5MDjpzAFXtBMx55E9FTYc2');
+    return redirect('https://drive.google.com/open?id=126M6gsJIMpbjPfOlcw9Ph2Gn36M4C9QF');
 });
 
 // SECRET ROUTE!

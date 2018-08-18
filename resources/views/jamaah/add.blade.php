@@ -48,26 +48,15 @@
                             <div class="panel-heading"><h3 class="panel-title text-center"><i class="fa fa-pencil"></i> Input Jamaah</h3></div>
                             <div class="panel-body">
 
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group">
-
-                                        <label class="col-md-2 control-label" for="id_umrah">Agen</label>
-                                        <div class="col-md-7">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                                <select id="id_umrah" name="marketing" class="form-control select2" data-placeholder="Agen..." style="width: 100%;">
-                                                  <option value=""></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div> <!-- form-group -->
+                                <form class="form-horizontal" role="form" method="POST" action="{{route('aiwa.jamaah.store')}}">
+                                    {{ csrf_field() }}
                                     <div class="form-group">
 
                                         <label class="col-md-2 control-label" for="id_umrah">ID Umrah</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                                <input type="text" id="id_umrah" name="id_umrah" class="form-control" placeholder="ID Umrah..">
+                                                <input type="text" id="id_umrah" name="id_umrah" class="form-control" placeholder="ID Umrah.." required>
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->
@@ -77,17 +66,17 @@
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                                <input type="text" id="id_jamaah" name="id_jamaah" class="form-control" placeholder="ID Jamaah..">
+                                                <input type="text" id="id_jamaah" name="id_jamaah" class="form-control" placeholder="ID Jamaah.." required>
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
-                                        <label class="col-md-2 control-label" for="tanggal_daftar">Tanggal Daftar</label>
+                                        <label class="col-md-2 control-label" for="tgl_daftar">Tanggal Daftar</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" id="tanggal_daftar" name="tanggal_daftar" class="form-control datepicker" placeholder="Tanggal Daftar">
+                                                <input type="text" id="tgl_daftar" name="tgl_daftar" class="form-control datepicker" placeholder="Tanggal Daftar" required>
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->
@@ -97,27 +86,27 @@
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama..">
+                                                <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama.." required>
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
-                                        <label class="col-md-2 control-label" for="tanggal_berangkat">Tanggal Berangkat</label>
+                                        <label class="col-md-2 control-label" for="tgl_berangkat">Tanggal Berangkat</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" id="tanggal_berangkat" name="tanggal_berangkat" class="form-control datepicker" placeholder="Tanggal Berangkat..">
+                                                <input type="text" id="tgl_berangkat" name="tgl_berangkat" class="form-control datepicker" placeholder="Tanggal Berangkat.." required>
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
-                                        <label class="col-md-2 control-label" for="tanggal_pulang">Tanggal Pulang</label>
+                                        <label class="col-md-2 control-label" for="tgl_pulang">Tanggal Pulang</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" id="tanggal_pulang" name="tanggal_pulang" class="form-control datepicker" placeholder="Tanggal Pulang..">
+                                                <input type="text" id="tgl_pulang" name="tgl_pulang" class="form-control datepicker" placeholder="Tanggal Pulang.." required>
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->
@@ -125,8 +114,10 @@
 
                                         <label class="col-md-2 control-label" for="maskapai">Maskapai</label>
                                         <div class="col-md-7">
-                                            <select name="maskapai" class="select2" data-placeholder="Pilih maskapai.." style="width: 100%;">
-                                                <option value=""></option>
+                                            <select name="maskapai" class="select2" data-placeholder="Pilih maskapai.." style="width: 100%;" required>
+                                                <option value="SAUDIA">SAUDIA</option>
+                                                <option value="TURKI">TURKI</option>
+                                                <option value="LEBANON">LEBANON</option>
                                             </select>
                                         </div>
                                     </div> <!-- form-group -->
@@ -134,44 +125,45 @@
 
                                         <label class="col-md-2 control-label" for="maskapai">Marketing</label>
                                         <div class="col-md-7">
-                                            <input type="text" id="example-input1-group1" name="marketing" class="form-control" placeholder="Marketing..">
+                                            <select name="marketing" class="select2" data-placeholder="Pilih Agen.." style="width: 100%;" required>
+                                                @foreach($agents as $agent)
+                                                <option value="{{ $agent->id }}">{{ $agent->nama }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
                                         <label class="col-md-2 control-label" for="staff">Staff</label>
                                         <div class="col-md-7">
-                                            <input type="text" id="staff" name="staff" class="form-control" placeholder="Staff..">
+                                            <input type="text" id="staff" name="staff" class="form-control" placeholder="Staff.." required>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
                                         <label class="col-md-2 control-label" for="no_telp">No. Telp</label>
                                         <div class="col-md-7">
-                                            <input type="number" id="no_telp" name="no_telp" class="form-control" placeholder="No telepon..">
+                                            <input type="number" id="no_telp" name="no_telp" class="form-control" placeholder="No telepon.." required>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
-                                        <label class="col-md-2 control-label" for="no_telp">Fee</label>
+                                        <label class="col-md-2 control-label" for="fee">Fee</label>
                                         <div class="col-md-7">
-                                            <input type="number" id="fee" name="no_telp" class="form-control" placeholder="No telepon.." value="Rp. 900000">
+                                            <input type="number" id="fee" name="fee" class="form-control" placeholder="No telepon.." value="Rp. 900000" required>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
-                                        <label class="col-md-2 control-label" for="no_telp">Jumlah bayar fee</label>
-                                        
-                                            <div class="checkbox">
-                                                <label class="cr-styled">
-                                                    <input type="checkbox">
-                                                    <i class="fa"></i>
-                                                </label>
-                                            </div>
+                                        <label class="col-md-2 control-label" for="jumlah_fee">Jumlah Fee</label>
+                                        <div class="col-md-7">
+                                            <select name="jumlah_fee" id="jumlah_fee" class="form-control">
+                                                <option value="Ya">Ya</option>
+                                                <option value="Tidak">Tidak</option>
+                                            </select>
+                                        </div>
                                     </div> <!-- form-group -->
-                                    <div class="form-group text-center">
-                                        <button class="btn btn-md btn-success col-lg-6 col-md-offset-3">Simpan</button>
-                                    </div> <!-- form-group -->
+                                    <button class="btn btn-md btn-success col-lg-6 col-md-offset-3" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit">Simpan</button> <!-- form-group -->
 
                                 </form>
 
