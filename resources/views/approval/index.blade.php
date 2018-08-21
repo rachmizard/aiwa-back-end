@@ -29,7 +29,7 @@
                                 <table id="agent" class="stripe row-border order-column table table-striped table-bordered">
                                   <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>ID</th>
                                         <th>Nama</th>
                                         <th>Telp</th>
                                         <th>Domisli</th>
@@ -46,10 +46,66 @@
 
             </div> <!-- END Wraper -->
         </div>
+        @foreach($agentagen as $agen)
+        <div id="approveModal{{ $agen->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content p-0">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li class="active">
+                                <a href="#home-{{ $agen->id }}" data-toggle="tab" aria-expanded="false"> 
+                                    <span class="visible-xs"><i class="fa fa-home"></i></span> 
+                                    <span class="hidden-xs">Identitas Agen</span> 
+                                </a> 
+                            </li> 
+                        </ul> 
+                        <div class="tab-content"> 
+                            <div class="tab-pane active" id="profile-{{ $agen->id }}">
+                                <table class="table table-hover">
+                                    <form action="{{ route('aiwa.approved', $agen->id) }}" method="POST">
+                                        {{ csrf_field() }}
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <tbody>
+                                        <tr>
+                                            <th>ID</th>
+                                            <td><input type="text" name="id" class="form-control" value="" required="" placeholder="ID Wajib di edit sesuai format kantor..."></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Username</th>
+                                            <td>{{ $agen->username }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>{{ $agen->email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status Approval</th>
+                                            <td>
+                                                <label class="cr-styled">
+                                                    <input type="checkbox" name="status" value="1" required>
+                                                    <i class="fa"></i>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"><button id="loadAgen" type="submit" class="btn btn-sm btn-info">Simpan</button></td>
+                                        </tr>
+                                    </tbody>
+                                </form>
+                                </table>
+                            </div>
+                        </div> 
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+    @endforeach
             <!-- Page Content Ends -->
             <!-- ================== -->
         @push('otherJavascript')
         <script>
+            // Select2
+            jQuery(".select2").select2({
+                width: '100%'
+            });
             function confirmBtn() {
                   if(!confirm("Anda yakin ingin mengapprove akun ini?"))
                   event.preventDefault();
@@ -83,5 +139,15 @@
             </script>
             <!-- End Datatable Serverside -->
             @endpush
+        <!-- Success notification -->
+        @if(session('messageError'))
+        <!-- sweet alerts -->
+        <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
+        <!-- sweet alerts -->
+        <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
+        <script>
+            swal("Good Job!", "{{ session('messageError') }}", "error");
+        </script>
+        @endif
 
 @endsection

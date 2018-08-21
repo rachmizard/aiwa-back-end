@@ -21,18 +21,26 @@ class ApprovalController extends Controller
 
     public function index()
     {
+        $agentagen = User::where('status', '=', '0')->get();
+        Auth()->guard('admin')->user()->unreadNotifications->where('type', '=', 'App\Notifications\ApproveAgenNotification')->markAsRead();
+        return view('approval.index', compact('agentagen'));
+    }
+
+    public function getData()
+    {
         $agents = User::where('status', '=', '0')->get();
          return Datatables::of($agents)->addColumn('action', function($agents)
          {
             return '
-                <form class="form-group" action="'. route('aiwa.approved', $agents->id) .'" method="POST">
-                    <input type="hidden" name="_token" value="'. csrf_token() .'">
-                    <input type="hidden" name="_method" value="PUT">
-                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-success" type="submit"><i class="fa fa-check"></i>Approve</button>
-                    </form>
+                    <a href="#" data-toggle="modal" data-target="#approveModal'. $agents->id .'" class="btn btn-sm btn-success"><i class="fa fa-check"></i> Approve</a>
                 ';
          })
          ->make(true);
+         // <form class="form-group" action="'. route('aiwa.approved', $agents->id) .'" method="POST">
+         //            <input type="hidden" name="_token" value="'. csrf_token() .'">
+         //            <input type="hidden" name="_method" value="PUT">
+         //            <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-success" type="submit"><i class="fa fa-check"></i>Approve</button>
+         //            </form>
     }
 
     /**
@@ -87,12 +95,14 @@ class ApprovalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $approveStatus = 1;
+        // $approveStatus = 1;
         $agen = User::findOrFail($id);
-        if ($agen->update(['status' => $approveStatus])) {
-            return redirect()->back()->with('message', 'Akun berhasil di approved (Agen '. $agen->nama .')');
+        $validator = User::where('id', $request->id)->get();
+        if (count($validator) > 0) {
+            return redirect()->back()->with('messageError', 'ID sudah ada!');
         }else{
-            return redirect()->back()->with('messageError', 'Terjadi masalah di server!');
+            $agen->update(['id' => $request->id, 'status' => $request->status]);
+            return redirect()->back()->with('message', 'Akun berhasil di approved (Agen '. $agen->nama .')');
         }
 
 
@@ -100,9 +110,16 @@ class ApprovalController extends Controller
 
     public function unapproved(Request $request, $id)
     {
-        $approveStatus = 0;
+        $length = 10;
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        $statusNow = 0;
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
         $agen = User::findOrFail($id);
-        if ($agen->update(['status' => $approveStatus])) {
+        if ($agen->update(['id' => $randomString, 'status' => $statusNow])) {
             return redirect()->back();
         }else{
             return redirect()->back()->with('messageError', 'Terjadi masalah di server!');

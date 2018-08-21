@@ -20,7 +20,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
+    protected $fillable = ['id',
         'nama', 'email', 'password', 'username', 'password', 'jenis_kelamin', 'no_ktp', 'alamat', 'no_telp', 'status', 'koordinator', 'bank', 'no_rekening', 'fee_reguler', 'fee_promo', 'nama_rek_beda', 'website', 'device_token'
     ];
 
@@ -41,6 +41,11 @@ class User extends Authenticatable
     public function prospek()
     {
         return $this->hasMany('App\Prospek', 'id');
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo('App\User', 'koordinator', 'id');
     }
 
     // public function sendPasswordResetNotification($token)

@@ -8,7 +8,7 @@
                 <h3 class="title text-center"><strong><i class="fa fa-user"></i> {{ $jamaah->nama }}</strong></h3>
             </div>
             <div class="divider" style="margin-bottom: 10px;">
-                <!--     -->
+                <a href="{{ route('aiwa.jamaah') }}" class="btn btn-md btn-success">Kembali</a>
             </div>
             <div class="row">
                     <div class="col-sm-12">
@@ -18,6 +18,26 @@
 
                                 <form class="form-horizontal" role="form" method="POST" action="{{ route('aiwa.jamaah.updatecuy', $jamaah->id) }}">
                                     {{ csrf_field() }}
+                                    <div class="form-group">
+
+                                        <label class="col-md-2 control-label" for="id_umrah">ID Umrah</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                <input type="text" id="id_umrah" name="id_umrah" class="form-control" placeholder="Id Umrah.." required value="{{ $jamaah->id_umrah }}">
+                                            </div>
+                                        </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group">
+
+                                        <label class="col-md-2 control-label" for="id_jamaah">ID Jamaah</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                <input type="text" id="id_jamaah" name="id_jamaah" class="form-control" placeholder="ID Jamaah.." required value="{{ $jamaah->id_jamaah }}">
+                                            </div>
+                                        </div>
+                                    </div> <!-- form-group -->
                                     <div class="form-group">
 
                                         <label class="col-md-2 control-label" for="nama">Nama</label>
@@ -71,6 +91,19 @@
                                         <label class="col-md-2 control-label" for="no_telp">No. Telp</label>
                                         <div class="col-md-7">
                                             <input type="number" id="no_telp" name="no_telp" class="form-control" placeholder="No telepon.." required value="{{ $jamaah->no_telp }}">
+                                        </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group">
+
+                                        <label class="col-md-2 control-label" for="nama">Status</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-check"></i></span>
+                                                <select name="status" class="select2" data-placeholder="Status.." style="width: 100%;" required>
+                                                    <option value="POTENSI" @if($jamaah->status == 'POTENSI') selected @endif>POTENSI</option>
+                                                    <option value="KOM" @if($jamaah->status == 'KOM') selected @endif>KOMISI</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div> <!-- form-group -->
                                     <button class="btn btn-md btn-success col-lg-6 col-md-offset-3" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit">Simpan</button> <!-- form-group -->

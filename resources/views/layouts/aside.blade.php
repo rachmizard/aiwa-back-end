@@ -33,7 +33,7 @@
                       <ul class="list-unstyled">
                           <li class="{{ Route::currentRouteNamed('aiwa.jadwal') ? 'active' : '' }}
 "><a href="{{route('aiwa.master-jadwal')}}"><i class="fa fa-calendar"></i> Jadwal</a></li>
-                          <li class="{{ Route::currentRouteNamed('master-itinerary.index') ? 'active' : '' }}"><a href="{{route('master-itinerary.index')}}"><i class="fa fa-book"></i>Itenary</a></li>
+                          <!-- <li class="{{ Route::currentRouteNamed('master-itinerary.index') ? 'active' : '' }}"><a href="{{route('master-itinerary.index')}}"><i class="fa fa-book"></i>Itenary</a></li> -->
                           <li class><a href="{{ route('aiwa.master-kalkulasi') }}"><i class="ion-calculator"></i>Kalkulasi</a></li>
                           <li class><a href="{{ route('master-broadcast.index') }}"><i class="ion-speakerphone"></i> Broadcast</a></li>
                           <li class="{{ Route::currentRouteNamed('aiwa.master-gallery') ? 'active' : '' }}"><a href="{{ route('aiwa.master-gallery') }}"><i class="fa fa-file-image-o"></i>Gallery</a></li>

@@ -74,14 +74,22 @@ class AnggotaControllerAPI extends Controller
             $success['status'] =  'fail';
             return response()->json(['response'=>$success]);
         }else{
+            $length = 10;
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
             $input = $request->all();
+            $input['id'] = $randomString;
             $input['password'] = bcrypt($input['password']);
             $input['device_token'] = $request->input('device_token');
             $user = User::create($input);
             
             $admin = Admin::find(1);
             $admin->notify(new ApproveAgenNotification($user));
-            $success['token'] =  $user->createToken('nApp')->accessToken;
+            // $success['token'] =  $user->createToken('nApp')->accessToken;
             // $success['nama'] =  $user->nama;
             $success['device_token'] = $request->input('device_token');
             $success['status'] =  'success';

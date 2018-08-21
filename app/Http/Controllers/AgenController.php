@@ -20,13 +20,13 @@ class AgenController extends Controller
     
     public function index(Request $request)
     {
-        $agens = User::all();
+        $agens = User::where('status', '=', 1)->get();
         return view('agen.index', compact('agens'));
     }
 
     public function getData(Request $request)
     {
-        $agents = User::where('status', '=', '1')->get();
+        $agents = User::with('agent')->where('status', '=', '1')->get();
          return Datatables::of($agents)->addColumn('action', function($agents)
          {
             return '
@@ -107,11 +107,35 @@ class AgenController extends Controller
     public function update(Request $request, $id)
     {
         $agen = User::findOrFail($id);
-        $agen->update([
-                    'fee_reguler' => $request->fee_reguler,
-                    'fee_promo' => $request->fee_promo
-                ]);
+        $agen->password = bcrypt($request->password);
+        $agen->update($request->all());
         return redirect()->back();
+    }
+
+    public function updateAkun(Request $request, $id)
+    {
+        $agen = User::findOrFail($id);
+        // $validator = User::where('id', $request->id)->get();
+        // $agen->id = $request->old_id;
+        if ($request->id) {
+            if (count(User::where('id', $request->id)->get()) > 0) {
+                return redirect()->back()->with('messageError', 'ID sudah ada!');
+            }else{
+                $agen->id = $request->id;
+                $agen->update($request->except(['id', 'password']));
+                return redirect()->back()->with('message', 'Jika ada kesalahan pada sistem/error, disarankan ID di kembalikan ke semula');
+            }
+        }else if($request->password){
+            $agen->id = $request->old_id;
+            $agen->password = bcrypt($request->password);
+            $agen->update($request->except(['id','password']));
+            return redirect()->back();   
+        }else{
+            $agen->id = $request->old_id;
+            // $agen->password = bcrypt($request->password);
+            $agen->update($request->only(['username','email', 'status']));
+            return redirect()->back();   
+        }
     }
 
     /**

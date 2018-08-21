@@ -86,7 +86,8 @@
 
                 <div class="links">
                     <!-- <a href="/api/test-api">API Jadwal</a> -->
-                    <a href="https://drive.google.com/file/d/1beBq8PEvWX1ngnF7SA9_E1i0vIPeKs7J/view"><i class="fa fa-download"></i> Download Aiwa Apps</a>
+                    <!-- <a href="https://drive.google.com/file/d/1beBq8PEvWX1ngnF7SA9_E1i0vIPeKs7J/view"><i class="fa fa-download"></i> Download Aiwa Apps</a> -->
+                    <a href="#">Aiwa Mobile App is Under Develop and will be released as soon as possible</a>
                 </div>
             </div>
         </div>

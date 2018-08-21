@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="widget-panel widget-style-2 bg-success">
+                        <div class="widget-panel widget-style-2 bg-warning">
                             <i class="ion-cash"></i>
                             <h2 class="m-0 counter">Rp. {{ number_format($sumofPotensi,2,',','.') }}</h2>
                             <div>Total Potensi</div>

@@ -87,6 +87,7 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
     Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
     Route::get('agenjamaah/loadTableAnggota', 'AgenController@getData')->name('aiwa.anggota.load');
     Route::put('agenjamaah/{id}/edit', 'AgenController@update')->name('aiwa.anggota.update');
+    Route::put('agenjamaah/{id}/editaccount', 'AgenController@updateAkun')->name('aiwa.anggota.updateaccount');
     // End of agen
 
     // Import agen account
@@ -153,8 +154,8 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::get('log-activity', 'LogActivityController@index')->name('aiwa.log-activity');
     // End Log
 
-    Route::get('approval', 'AdminController@approval')->name('aiwa.approval');
-    Route::get('approval/loadTableApproval', 'ApprovalController@index')->name('aiwa.approval.load');
+    Route::get('approval', 'ApprovalController@index')->name('aiwa.approval');
+    Route::get('approval/loadTableApproval', 'ApprovalController@getData')->name('aiwa.approval.load');
     Route::put('approval/{id}/approve', 'ApprovalController@update')->name('aiwa.approved');
     Route::put('approval/{id}/unapproved', 'ApprovalController@unapproved')->name('aiwa.unapproved');
 

@@ -66,35 +66,66 @@ class ImportJamaahController extends Controller
                             $anggota_id = $idmarketing;
                             $findKoordinator = User::where('id', $anggota_id)->first();
                             $findDiskonByMaster = DB::table('master_pendaftaran')->where('id_umrah', $id_umrah)->where('id_jamaah', $id_jamaah)->where('id_marketing', $anggota_id)->first();
-
-                            $refdiskon = $findDiskonByMaster->diskon_marketing;
-                            $ref = $reference - $refdiskon;
-                            if ($findKoordinator['koordinator'] == 0 ) {
-                                $data['marketing_fee'] = $ref;
-                                $data['koordinator'] = 0;
-                                $data['koordinator_fee'] = 0;
-                                $data['top'] = 'SM140';
-                                $data['top_fee'] = $ref;
-                                $data['diskon_marketing'] = $refdiskon;
-                                DB::table('jamaah')->insert($data);
-                            }else if($findKoordinator['koordinator'] == 'SM140'){
-                                $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
-                                $data['marketing_fee'] = $findKoordinator->fee_reguler - $refdiskon;
-                                $data['koordinator'] = $findKoordinator->koordinator;
-                                $data['koordinator_fee'] = $totalLevel2;
-                                $data['top'] = 'SM140';
-                                $data['top_fee'] = $totalLevel2;
-                                $data['diskon_marketing'] = $refdiskon;
-                                DB::table('jamaah')->insert($data);              
+                            if ($findDiskonByMaster){
+                                $refdiskon = $findDiskonByMaster->diskon_marketing;
+                                $ref = $reference - $refdiskon;
+                                if ($findKoordinator['koordinator'] == 0 ) {
+                                    $data['marketing_fee'] = $ref;
+                                    $data['koordinator'] = 0;
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM140';
+                                    $data['top_fee'] = $ref;
+                                    $data['diskon_marketing'] = $refdiskon;
+                                    DB::table('jamaah')->insert($data);
+                                }else if($findKoordinator['koordinator'] == 'SM140'){
+                                    $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
+                                    $data['marketing_fee'] = $findKoordinator->fee_reguler - $refdiskon;
+                                    $data['koordinator'] = $findKoordinator->koordinator;
+                                    $data['koordinator_fee'] = $totalLevel2;
+                                    $data['top'] = 'SM140';
+                                    $data['top_fee'] = $totalLevel2;
+                                    $data['diskon_marketing'] = $refdiskon;
+                                    DB::table('jamaah')->insert($data);              
+                                }else{
+                                    $totalLevel3 = $ref - ($findKoordinator->fee_reguler - $refdiskon + 250000);
+                                    $data['marketing_fee'] = $findKoordinator->fee_reguler - $refdiskon;
+                                    $data['koordinator'] = $findKoordinator->koordinator;
+                                    $data['koordinator_fee'] = $totalLevel3;
+                                    $data['top'] = 'SM140';  
+                                    $data['top_fee'] = 250000;
+                                    $data['diskon_marketing'] = $refdiskon;
+                                    DB::table('jamaah')->insert($data);
+                                }
                             }else{
-                                $totalLevel3 = $ref - ($findKoordinator->fee_reguler - $refdiskon + 250000);
-                                $data['marketing_fee'] = $findKoordinator->fee_reguler - $refdiskon;
-                                $data['koordinator'] = $findKoordinator->koordinator;
-                                $data['koordinator_fee'] = $totalLevel3;
-                                $data['top'] = 'SM140';  
-                                $data['top_fee'] = 250000;
-                                $data['diskon_marketing'] = $refdiskon;
-                                DB::table('jamaah')->insert($data);
+                                $refdiskon = 0;
+                                $ref = $reference - $refdiskon;
+                                if ($findKoordinator['koordinator'] == 0 ) {
+                                    $data['marketing_fee'] = $ref;
+                                    $data['koordinator'] = 0;
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM140';
+                                    $data['top_fee'] = $ref;
+                                    $data['diskon_marketing'] = $refdiskon;
+                                    DB::table('jamaah')->insert($data);
+                                }else if($findKoordinator['koordinator'] == 'SM140'){
+                                    $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
+                                    $data['marketing_fee'] = $findKoordinator->fee_reguler - $refdiskon;
+                                    $data['koordinator'] = $findKoordinator->koordinator;
+                                    $data['koordinator_fee'] = $totalLevel2;
+                                    $data['top'] = 'SM140';
+                                    $data['top_fee'] = $totalLevel2;
+                                    $data['diskon_marketing'] = $refdiskon;
+                                    DB::table('jamaah')->insert($data);              
+                                }else{
+                                    $totalLevel3 = $ref - ($findKoordinator->fee_reguler - $refdiskon + 250000);
+                                    $data['marketing_fee'] = $findKoordinator->fee_reguler - $refdiskon;
+                                    $data['koordinator'] = $findKoordinator->koordinator;
+                                    $data['koordinator_fee'] = $totalLevel3;
+                                    $data['top'] = 'SM140';  
+                                    $data['top_fee'] = 250000;
+                                    $data['diskon_marketing'] = $refdiskon;
+                                    DB::table('jamaah')->insert($data);
+                                }
                             }
                             // END PEMBATAS
                             // Session::put('message', 'Your file is succesfully imported!');

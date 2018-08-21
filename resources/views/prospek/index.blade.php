@@ -14,9 +14,9 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table id="prospek" class="table table-striped table-bordered">
+                                <table id="prospek" class="table table-hover table-bordered">
                                   <thead>
-                                    <th>No</th>
+                                    <!-- <th>No</th> -->
                                     <th>Nama Agent</th>
                                     <th>Nama Caljam (PIC)</th>
                                     <th>No telepon</th>
@@ -72,9 +72,8 @@
                         "processing": false,
                         "serverSide": true,
                         "ajax": "{{ route('aiwa.prospek.load') }}", 
-                        order: [ [0, 'desc'] ],
+                        order: [ [6, 'desc'] ],
                         "columns": [
-                            { data: "id", name: "id" },
                             { data: "anggota.nama", name: "anggota.nama" },
                             { data: "pic", name: "pic" },
                             { data: "no_telp", name: "no_telp" },
@@ -82,7 +81,7 @@
                             { data: "qty", name: "qty" },
                             { data: "tanggal_followup", name: "tanggal_followup" },
                             { data: "created_at", name: "created_at" },
-                            { data: "action", name: "action"}
+                            { data: "action", name: "action", orderable: false, searchable: false}
                         ]
                     })
                     setInterval( function () {

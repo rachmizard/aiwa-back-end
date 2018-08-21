@@ -104,7 +104,7 @@ class JamaahController extends Controller
     public function edit(Request $request, $id)
     {
         $jamaah = Jamaah::find($id);
-        $agents = User::all();
+        $agents = User::where('status', '=', 1)->get();
         return view('jamaah.edit', compact('jamaah', 'agents'));
     }
 

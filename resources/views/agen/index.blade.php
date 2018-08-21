@@ -34,7 +34,7 @@
                                 <table id="agent" class="stripe row-border order-column table table-striped table-bordered">
                                   <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>Id</th>
                                         <th>Nama</th>
                                         <th>Telp</th>
                                         <th>Domisli</th>
@@ -80,46 +80,60 @@
                                         <tbody>
                                             <tr>
                                                 <th>Nama Lengkap</th>
-                                                <td>{{ $agen->nama }}</td>
+                                                <td><input type="text" name="nama" value="{{ $agen->nama }}" class="form-control" required></td>
                                             </tr>
                                             <tr>
                                                 <th>Domisili</th>
-                                                <td>{{ $agen->alamat }}</td>
+                                                <td><input type="text" name="alamat" value="{{ $agen->alamat }}" class="form-control" ></td>
                                             </tr>
                                             <tr>
                                                 <th>Jenis Kelamin</th>
-                                                <td>{{ $agen->jenis_kelamin }}</td>
+                                                <td>
+                                                    <select name="jenis_kelamin" id="" class="form-control" required>
+                                                        <option value="L" {{ $agen->jenis_kelamin == 'L' ? 'selected' : '' }}>Laki-Laki</option>
+                                                        <option value="P" {{ $agen->jenis_kelamin == 'P' ? 'selected' : '' }}>Perempuan</option>
+                                                    </select>
+                                            </td>
                                             </tr>
                                             <tr>
                                                 <th>No KTP</th>
-                                                <td>{{ $agen->no_ktp }}</td>
+                                                <td><input type="text" value="{{ $agen->no_ktp }}" name="no_ktp" class="form-control" ></td>
                                             </tr>
                                             <tr>
                                                 <th>No TELP</th>
-                                                <td>{{ $agen->no_telp }}</td>
+                                                <td><input type="text" name="no_telp" value="{{ $agen->no_telp }}" class="form-control" ></td>
                                             </tr>
                                             <tr>
                                                 <th>Koordinator</th>
-                                                <td>{{ $agen->koordinator }}</td>
+                                                <td>
+                                                    <select name="koordinator" id="" class="select2" style="width: 100%">
+                                                        @foreach($agens as $key => $agent)
+                                                            @if($agent->id == $agen->id)
+                                                            @else
+                                                            <option value="{{ $agent->id }}" {{ $agen->koordinator == $agent->id  ? 'selected' : '' }}>{{ $agent->nama }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Email</th>
-                                                <td>{{ $agen->email }}</td>
+                                                <td><input type="text" value="{{ $agen->email }}" name="email" class="form-control" ></td>
                                             </tr>
                                             <tr>
                                                 <th>BANK</th>
-                                                <td>{{ $agen->bank }}</td>
+                                                <td><input type="text" class="form-control" value="{{ $agen->bank }}" name="bank" ></td>
                                             </tr>
                                             <tr>
                                                 <th>No REKENING</th>
-                                                <td>{{ $agen->no_rekening }}</td>
+                                                <td><input type="text" class="form-control" value="{{ $agen->no_rekening }}" name="no_rekening" ></td>
                                             </tr>
                                             <tr>
                                                 <th>Fee Reguler</th>
                                                 <td>
                                                     <div class="input-group">
                                                         <span class="input-group-addon">Rp.</span>
-                                                        <input type="text" class="form-control rupiah" value="{{ $agen->fee_reguler }}" name="fee_reguler">
+                                                        <input type="text" class="form-control rupiah" value="{{ $agen->fee_reguler }}" name="fee_reguler" >
                                                     </div>
                                                 </td>
                                             </tr>
@@ -128,41 +142,71 @@
                                                 <td>
                                                     <div class="input-group">
                                                         <span class="input-group-addon">Rp.</span>
-                                                        <input type="text" class="form-control rupiah" value="{{ $agen->fee_promo }}" name="fee_promo">
+                                                        <input type="text" class="form-control rupiah" value="{{ $agen->fee_promo }}" name="fee_promo" >
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th>Nama Rekening Beda</th>
-                                                <td>{{ $agen->nama_rek_beda }}</td>
+                                                <td><input type="text" value="{{ $agen->nama_rek_beda }}" name="nama_rek_beda" class="form-control"></td>
                                             </tr>
                                             <tr>
                                                 <th>Website</th>
-                                                <td>{{ $agen->website }}</td>
+                                                <td><input type="text" value="{{ $agen->website }}" name="website" class="form-control"></td>
                                             </tr>
                                             <tr>
-                                                <td><button id="loadAgen" type="submit" class="btn btn-sm btn-info">Simpan</button></td>
+                                                <td colspan="12"><button id="loadAgen" type="submit" class="btn btn-sm btn-info">Simpan</button></td>
                                             </tr>
                                         </tbody>
                                     </form>
                                 </table>
                             </div> 
                             <div class="tab-pane" id="profile-{{ $agen->id }}">
-                                <table class="table table-hovered table-striped">
+                                <table class="table table-hovered">
+                                    <form action="{{ route('aiwa.anggota.updateaccount', $agen->id) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="_method" value="PUT">
                                     <tbody>
                                         <tr>
+                                            <th>ID Sekarang</th>
+                                            <td><input type="text" value="{{ $agen->id }}" class="form-control" disabled=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th>ID</th>
+                                            <td><input type="text" placeholder="ID Baru" name="id" class="form-control">
+                                                <span class="help-block"><small>ID tidak auto increment, hati-hati jika ingin merubah ID yang sudah tersinkronisasi dengan sistem bisa mengakibatkan kesalahan data.</small></span></td>
+                                            <input type="hidden" name="old_id" value="{{ $agen->id }}">
+                                        </tr>
+                                        <tr>
                                             <th>Username</th>
-                                            <td>{{ $agen->username }}</td>
+                                            <td><input type="text" value="{{ $agen->username }}" name="username" class="form-control" required></td>
+                                        </tr>
+                                        <tr>
+                                            <th>New Password</th>
+                                            <td><input type="password" name="password" placeholder="Password baru..." name="email" class="form-control">
+                                            <span class="help-block"><small>Jikalau user meminta passwordnya yang lupa direkomendasikan untuk membuat password baru & password juga akan terenskripsi di database</small></span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Email</th>
-                                            <td>{{ $agen->email }}</td>
+                                            <td><input type="text" value="{{ $agen->email }}" name="email" class="form-control"></td>
                                         </tr>
                                         <tr>
                                             <th>Status Approval</th>
-                                            <td>{{ $agen->status == '1' ? 'Approved' : '' }}</td>
+                                            <td>
+                                              <label class="cr-styled" for="example-radio5">
+                                                  <input type="checkbox" id="example-radio5" name="skor" {{ $agen->status == '1' ? 'checked value="1"' : 'value="0" unchecked' }} required>
+                                                  <i class="fa"></i>
+                                              </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5">
+                                                <button type="submit" class="btn btn-md btn-success"> Simpan</button>
+                                            </td>
                                         </tr>
                                     </tbody>
+                                </form>
                                 </table>
                             </div>
                         </div> 
@@ -174,6 +218,10 @@
             <!-- ================== -->
             @push('otherJavascript')
             <script>
+
+              jQuery(".select2").select2({
+                  width: '100%'
+              });
                 // Mask Input
                 $('.rupiah').mask('0.000.000.000', {reverse: true});
                 $('#loadAgen').click(function(){
@@ -196,7 +244,7 @@
                             { data: "nama", name: "nama"},
                             { data: "no_telp", name: "no_telp" },
                             { data: "alamat", name: "alamat" },
-                            { data: "koordinator", name: "koordinator" },
+                            { data: "agent.nama", name: "koordinator" },
                             { data: "foto", name: "foto", orderable: false, searchable: false},
                             { data: "action", name: "action", orderable: false, searchable: false}
                         ]
@@ -213,5 +261,23 @@
             </script>
             <!-- End Datatable Serverside -->
             @endpush
+            <!-- Success notification -->
+            @if(session('messageError'))
+            <!-- sweet alerts -->
+            <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
+            <!-- sweet alerts -->
+            <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
+            <script>
+                swal("Error!", "{{ session('messageError') }}", "error");
+            </script>
+            @elseif(session('message'))
+            <!-- sweet alerts -->
+            <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
+            <!-- sweet alerts -->
+            <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
+            <script>
+                swal("ID Berhasil di ganti!", "{{ session('message') }}", "success");
+            </script>
+            @endif
 
 @endsection

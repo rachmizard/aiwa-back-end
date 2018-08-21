@@ -94,9 +94,17 @@
                                         </div>
                                     </div> <!-- form-group -->
                                   <div class="form-group">
-                                      <label class="col-md-2 control-label">Lokasi Map</label>
+                                      <label class="col-md-2 control-label">Koordinat Map</label>
                                       <div class="col-md-10">
-                                          <input type="text" class="form-control" name="link_map" id="coordinate" required>
+                                          <input type="text" class="form-control" name="link_map" id="coordinate" required id="link_map">
+                                          <span class="help-block text-red"><small>Lokasi map bisa di kosongkan jika pemilihan tempat hotel lebih efisien menggunakan link</small></span>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-md-2 control-label">Link Map</label>
+                                      <div class="col-md-10">
+                                          <input type="text" class="form-control" name="link" id="link" required>
+                                          <span class="help-block text-red"><small>Salin dan paste link yang anda bagikan di google map kesini</small></span>
                                       </div>
                                   </div>
                                   <div class="form-group">
@@ -239,6 +247,12 @@
           jQuery(".select2").select2({
               width: '100%'
           });
+          // $('#link').keyup(function() {
+          //     document.getElementById('link_map').value = '';
+          // });
+          // $('#link_map').keyup(function() {
+          //     document.getElementById('link').value = '';
+          // });
         </script>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=&sensor=false&language=id&region=EG"></script>
         <script type="text/javascript">

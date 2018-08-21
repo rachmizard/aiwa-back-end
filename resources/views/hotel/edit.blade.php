@@ -273,7 +273,7 @@ function updateMarkerAddress(strRl) {
 }
 
 function initialize() {
-  var latLng = new google.maps.LatLng(21.4220326,39.822832,16);
+  var latLng = new google.maps.LatLng();
   var map = new google.maps.Map(document.getElementById('mapCanvas'), {
     zoom: 16,
     center: latLng,
