@@ -43,6 +43,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Prospek', 'id');
     }
 
+    public function prospekCount()
+    {
+        return $this->belongsTo('App\Prospek');
+    }
+
     public function agent()
     {
         return $this->belongsTo('App\User', 'koordinator', 'id');

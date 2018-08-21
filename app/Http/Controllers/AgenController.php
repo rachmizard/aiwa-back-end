@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Prospek;
 use Yajra\Datatables\Datatables;
 
 class AgenController extends Controller
@@ -21,6 +22,7 @@ class AgenController extends Controller
     public function index(Request $request)
     {
         $agens = User::where('status', '=', 1)->get();
+        // $validatorCount = Prospek::all();
         return view('agen.index', compact('agens'));
     }
 
@@ -30,7 +32,7 @@ class AgenController extends Controller
          return Datatables::of($agents)->addColumn('action', function($agents)
          {
             return '
-                <a href="#" data-toggle="modal" data-target="#detailAgen'. $agents->id .'" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="#" data-toggle="modal" data-target="#detailAgen'. $agents->id .'" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i> Detail & Edit</a>
                 <form class="form-group" action="'. route('aiwa.unapproved', $agents->id) .'" method="POST">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
                     <input type="hidden" name="_method" value="PUT">
