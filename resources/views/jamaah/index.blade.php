@@ -19,14 +19,13 @@
                                   <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Tanggal Daftar</th>
+                                        <!-- <th>Tanggal Daftar</th> -->
                                         <th>ID Umrah</th>
                                         <th>ID Jamaah</th>
                                         <th>Nama</th>
                                         <th>Tanggal Keberangkatan</th>
                                         <th>Tanggal Kepulangan</th>
                                         <th>Marketing</th>
-                                        <th>Staff</th>
                                         <th>Diskon Marketing</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -83,14 +82,13 @@
                         order: [ [0, 'desc'] ],
                         "columns": [
                             { data: "id", name: "id" },
-                            { data: "tgl_daftar", name: "tgl_daftar" },
+                            // { data: "tgl_daftar", name: "tgl_daftar" },
                             { data: "id_umrah", name: "id_umrah" },
                             { data: "id_jamaah", name: "id_jamaah" },
                             { data: "nama", name: "nama" },
                             { data: "tgl_berangkat", name: "tgl_berangkat" },
                             { data: "tgl_pulang", name: "tgl_pulang" },
                             { data: "anggota.nama", name: "anggota.nama" },
-                            { data: "staff", name: "staff" },
                             { data: "diskon_marketing", name: "diskon_marketing" },
                             { data: "action", name: "action"}
                         ]

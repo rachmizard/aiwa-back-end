@@ -8,8 +8,35 @@
                     <h3 class="title"><strong>Laporan Prospek</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
-                    <!-- <a href="" class="btn btn-sm btn-primary">Tambah Jamaah</a> -->
                 </div>
+                <!-- Inline Form -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Filter <i class="fa fa-filter"></i></h3></div>
+                            <div class="panel-body">
+
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="exampleInputEmail2">Pembayaran</label>
+                                        <select name="pembayaran" class="form-control" id="">
+                                            <!-- <option selected>Pilih</option> -->
+                                            <option value="1">SUDAH DP</option>
+                                            <option value="BELUM">BELUM DP</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan">Nama PIC</label>
+                                        <input type="text" name="pic" class="form-control" id="edan" placeholder="Filter Nama PIC...">
+                                    </div>
+                                    <button id="search-form" " class="btn btn-success m-l-10">Filter</button>
+                                </form>
+                            </div> <!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- col -->
+
+                </div> <!-- End row -->
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel">
@@ -17,14 +44,17 @@
                                 <table id="prospek" class="table table-hover table-bordered">
                                   <thead>
                                     <!-- <th>No</th> -->
-                                    <th>Nama Agent</th>
-                                    <th>Nama Caljam (PIC)</th>
-                                    <th>No telepon</th>
-                                    <th>Tanggal Keberangkatan</th>
-                                    <th>PAX</th>
-                                    <th>Tanggal Follow Up</th>
-                                    <th>Dibuat Tanggal</th>
-                                    <th>Aksi</th>
+                                    <tr>
+                                        <th>Nama Agent</th>
+                                        <th>Nama Caljam (PIC)</th>
+                                        <th>No telepon</th>
+                                        <th>Tanggal Keberangkatan</th>
+                                        <th>PAX</th>
+                                        <th>Tanggal Follow Up</th>
+                                        <th>Dibuat Tanggal</th>
+                                        <th>Pembayaran</th>
+                                        <th>Aksi</th>
+                                    </tr>
                                   </thead>
                                 </table>
                                 <tbody>
@@ -69,9 +99,17 @@
             <script>
                 $(document).ready(function(){
                     var table = $('#prospek').DataTable({
-                        "processing": false,
+                        "searching": false,
+                        "processing": true,
                         "serverSide": true,
-                        "ajax": "{{ route('aiwa.prospek.load') }}", 
+                        "ajax": {
+                            url: "{{ route('aiwa.prospek.load') }}",
+                            data: function (d) {
+                                // d.name = $('input[name=name]').val();
+                                d.pembayaran = $('select[name=pembayaran]').val();
+                                d.pic = $('input[name=pic]').val();
+                            }
+                        },
                         order: [ [6, 'desc'] ],
                         "columns": [
                             { data: "anggota.nama", name: "anggota.nama" },
@@ -81,12 +119,18 @@
                             { data: "qty", name: "qty" },
                             { data: "tanggal_followup", name: "tanggal_followup" },
                             { data: "created_at", name: "created_at" },
+                            { data: "pembayaran", name: "pembayaran", searchable: false, orderable: false },
                             { data: "action", name: "action", orderable: false, searchable: false}
                         ]
                     })
-                    setInterval( function () {
-                        table.ajax.reload( null, false ); // user paging is not reset on reload
-                    }, 3500 );
+                    // setInterval( function () {
+                    //     table.ajax.reload( null, false ); // user paging is not reset on reload
+                    // }, 3500 );
+
+                    $('#search-form').on('click', function(e) {
+                        table.draw();
+                        e.preventDefault();
+                    });
                 });
             </script>
             <!-- End Datatable Serverside -->

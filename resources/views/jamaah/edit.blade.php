@@ -56,6 +56,7 @@
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                 <input type="text" id="tgl_berangkat" name="tgl_berangkat" class="form-control datepicker" placeholder="Tanggal Berangkat.." required value="{{ $jamaah->tgl_berangkat }}">
                                             </div>
+                                            <span class="help-block text-success"><small>Format tanggal contoh : 11/07/2018</small></span>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
@@ -64,8 +65,9 @@
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" id="tgl_pulang" name="tgl_pulang" class="form-control datepicker" placeholder="Tanggal Pulang.." required value="{{ $jamaah->tgl_pulang }}">
+                                                <input type="text" id="tgl_pulang" name="tgl_pulang" class="form-control datepicker" placeholder="Tanggal Pulang.." required value="{{ $jamaah->tgl_pulang }}">          
                                             </div>
+                                            <span class="help-block text-success"><small>Format tanggal contoh : 11/07/2018</small></span>    
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
@@ -103,6 +105,17 @@
                                                     <option value="POTENSI" @if($jamaah->status == 'POTENSI') selected @endif>POTENSI</option>
                                                     <option value="KOM" @if($jamaah->status == 'KOM') selected @endif>KOMISI</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group">
+
+                                        <label class="col-md-2 control-label" for="nama">Diskon</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                                <input type="text" class="form-control" name="diskon_marketing" value="{{ $jamaah->diskon_marketing }}">
+                                                <!-- <span class="help-block text-success"><small></small></span>   -->
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->
