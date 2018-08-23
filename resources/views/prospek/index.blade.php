@@ -17,7 +17,16 @@
                             <div class="panel-body">
 
                                 <form class="form-inline" role="form">
-                                    <div class="form-group">
+                                    <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan">Filter Agen</label>
+                                        <select name="anggota_id" id="" class="col-md-4 select2" style="width: 100%;">
+                                                <option selected value="semua">Semua</option>
+                                            @foreach($agents as $agent)
+                                                <option value="{{ $agent->id }}">{{ $agent->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="pembayaran">
                                         <label class="sr-only" for="exampleInputEmail2">Pembayaran</label>
                                         <select name="pembayaran" class="form-control" id="">
                                             <!-- <option selected>Pilih</option> -->
@@ -32,6 +41,11 @@
                                     </div>
                                     <button id="search-form" " class="btn btn-success m-l-10">Filter</button>
                                 </form>
+
+
+                                <!-- <form class="form-inline" role="form">
+                                    <button id="search-form-agen" " class="btn btn-success m-l-10">Filter</button>
+                                </form> -->
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- col -->
@@ -108,11 +122,12 @@
                                 // d.name = $('input[name=name]').val();
                                 d.pembayaran = $('select[name=pembayaran]').val();
                                 d.pic = $('input[name=pic]').val();
+                                d.anggota_id = $('select[name=anggota_id]').val();
                             }
                         },
                         order: [ [6, 'desc'] ],
                         "columns": [
-                            { data: "anggota.nama", name: "anggota.nama" },
+                            { data: "anggota.nama", name: "anggota_id" },
                             { data: "pic", name: "pic" },
                             { data: "no_telp", name: "no_telp" },
                             { data: "tgl_keberangkatan", name: "tgl_keberangkatan" },
@@ -131,19 +146,33 @@
                         table.draw();
                         e.preventDefault();
                     });
+
+                    $(function() {
+                        $("input[name='pic']").hide(); 
+                        $("select[name='anggota_id']").change(function(){
+                            if($("select[name='anggota_id']").val() == 'semua') {
+                                $("input[name='pic']").hide(); 
+                            } else {
+                                $("input[name='pic']").show(); 
+                            } 
+                        });
+                    });
                 });
             </script>
             <!-- End Datatable Serverside -->
         @endpush
         @push('otherJavascript')
        <script type="text/javascript">
-       $('.datepickeranjay').datepicker({
-           todayBtn: "linked",
-           language: "it",
-           autoclose: true,
-           todayHighlight: true,
-           format: 'd/m/yyyy' 
-       });
+          jQuery(".select2").select2({
+              width: '100%'
+          });
+           $('.datepickeranjay').datepicker({
+               todayBtn: "linked",
+               language: "it",
+               autoclose: true,
+               todayHighlight: true,
+               format: 'd/m/yyyy' 
+           });
     </script>
         @endpush
 

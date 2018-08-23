@@ -23,7 +23,7 @@ class ProspekController extends Controller
     
     public function index(Request $request)
     {
-        $agents = \App\User::all();
+        $agents = \App\User::where('status', '=', '1')->get();
         $prospeks = Prospek::orderBy('id', 'DESC')->get();
         // Read notification
         Auth()->guard('admin')->user()->unreadNotifications->where('type', 'App\Notifications\ProspekNewNotification')->markAsRead();
@@ -39,9 +39,10 @@ class ProspekController extends Controller
     public function getData(Request $request)
     {
          $prospeks = Prospek::with('anggota')->select('prospeks.*');
-         return Datatables::of($prospeks)->addColumn('action', function($prospeks){
+         return Datatables::of($prospeks)
+         ->addColumn('action', function($prospeks){
              return '
-                <a href="#" data-toggle="modal" data-target="#editProspek'. $prospeks->id .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="#" data-toggle="modal" data-target="#editProspek'. $prospeks->id .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit Follow Up</a>
                 <a href="'. route('aiwa.prospek.delete', $prospeks->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })
@@ -51,6 +52,9 @@ class ProspekController extends Controller
                 $jml_infant = $prospeks->jml_infant;
                 $total = $jml_dewasa+$jml_balita+$jml_infant;
                 return $total;
+          })
+          ->editColumn('tgl_keberangkatan', function($query){
+                return $query->tgl_keberangkatan->format('d/m/Y');
           })
           ->editColumn('pembayaran', function($query){
                 if ($query->pembayaran == '1') {
@@ -63,9 +67,17 @@ class ProspekController extends Controller
                 return $query->created_at ? with(new Carbon($query->created_at))->format('d/m/Y') : '';
           })
           ->filter(function($query) use ($request){
-                if($request->has('pic') && $request->has('pembayaran'))
+                if($request->has('pic') && $request->has('pembayaran') && $request->has('anggota_id'))
                 {
-                    return $query->where('pic', 'LIKE', '%'. $request->get('pic') .'%')->where('pembayaran', 'LIKE', '%'. $request->get('pembayaran') .'%')->get();
+                    if ($request->get('anggota_id') == 'semua') {
+                        if ($request->has('pembayaran')) {
+                            return $query->where('pembayaran', 'LIKE', ''. $request->get('pembayaran') .'')->get();
+                        }else{
+                            return $query->select('prospeks.*');
+                        }
+                    }else{
+                        return $query->where('pic', 'LIKE', '%'. $request->get('pic') .'%')->where('pembayaran', 'LIKE', '%'. $request->get('pembayaran') .'%')->where('anggota_id', 'LIKE', '%'. $request->get('anggota_id') .'%')->get();
+                    }
                 }
           })
           ->rawColumns(['qty', 'pembayaran', 'action'])
