@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jamaah;
 use App\User;
+use App\Periode;
 use App\Http\Resources\JamaahResource;
 use App\Http\Resources\CountOfMarketingFeeResource;
 use DB;
@@ -33,9 +34,12 @@ class JamaahControllerAPI extends Controller
         //
     }
 
-    public function retrieveByAgen(Request $request, $id)
-    {
-        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->get());
+    public function retrieveByAgen(Request $request, $id, $tahun)
+    {   
+        $varJay = Periode::where('judul', $tahun)->first();
+        $startDateJing = $varJay['start'];
+        $endDateJing = $varJay['end'];
+        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
     }
 
     public function feeByAgenPotensi(Request $request, $id)
@@ -103,22 +107,28 @@ class JamaahControllerAPI extends Controller
          return response()->json(['response' => $success]);
     }
 
-    public function retrieveJamaahBerangkatByAgen(Request $request, $id)
+    public function retrieveJamaahBerangkatByAgen(Request $request, $id, $tahun)
     {
         $now = Carbon::now();
         $year = $now->year;
         $month = $now->month;
         $day = $now->day;
-        return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('tgl_berangkat', '=', $day.'/'.$month.'/'.$year)->get());
+        $varJay = Periode::where('judul', $tahun)->first();
+        $startDateJing = $varJay['start'];
+        $endDateJing = $varJay['end'];
+        return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
     }
 
-    public function retrieveJamaahPulangByAgen(Request $request, $id)
+    public function retrieveJamaahPulangByAgen(Request $request, $id, $tahun)
     {
         $now = Carbon::now();
         $year = $now->year;
         $month = $now->month;
         $day = $now->day;
-        return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('tgl_pulang', '=', $day.'/'.$month.'/'.$year)->get());
+        $varJay = Periode::where('judul', $tahun)->first();
+        $startDateJing = $varJay['start'];
+        $endDateJing = $varJay['end'];
+        return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
     }
 
     /**

@@ -142,7 +142,7 @@ Route::get('/agen/approved', 'API\AgenControllerAPI@retrieveByApproved');
 // Jamaah API Route
 Route::get('/jamaah', 'API\JamaahControllerAPI@index');
 Route::post('/jamaah', 'API\JamaahControllerAPI@store');
-Route::get('/jamaah/{id}/agen', 'API\JamaahControllerAPI@retrieveByAgen');
+Route::get('/jamaah/{id}/agen/{tahun}/periode', 'API\JamaahControllerAPI@retrieveByAgen');
 Route::get('/jamaah/{id}/agenfee/potensi', 'API\JamaahControllerAPI@feeByAgenPotensi');
 Route::get('/jamaah/{id}/koordinator', 'API\JamaahControllerAPI@retrieveByKoordinator');
 Route::get('/jamaah/{id}/koordinatorfee/potensi', 'API\JamaahControllerAPI@feeByKoordinatorFeePotensi');
@@ -154,8 +154,8 @@ Route::get('/jamaah/{id}/koordinator/komisi', 'API\JamaahControllerAPI@koordinat
 Route::get('/jamaah/{id}/agen/potensi', 'API\JamaahControllerAPI@agenPotensi');
 Route::get('/jamaah/{id}/agen/komisi', 'API\JamaahControllerAPI@agenKomisi');
 Route::get('/jamaah/{id}/agen/total', 'API\JamaahControllerAPI@totalJamaahByAgen');
-Route::get('/jamaah/{id}/agen/berangkat', 'API\JamaahControllerAPI@retrieveJamaahBerangkatByAgen');
-Route::get('/jamaah/{id}/agen/pulang', 'API\JamaahControllerAPI@retrieveJamaahPulangByAgen');
+Route::get('/jamaah/{id}/agen/berangkat/{tahun}/periode', 'API\JamaahControllerAPI@retrieveJamaahBerangkatByAgen');
+Route::get('/jamaah/{id}/agen/pulang/{tahun}/periode', 'API\JamaahControllerAPI@retrieveJamaahPulangByAgen');
 
 
 
@@ -194,6 +194,9 @@ Route::get('/hotel/{id}/video', 'API\MasterHotelControllerAPI@retrieveVideoByHot
 Route::get('/notif/{id}/delivered', 'API\MasterNotifikasiControllerAPI@retrieveByDelivered');
 Route::get('/notif/{id}/read', 'API\MasterNotifikasiControllerAPI@retrieveByRead');
 Route::put('/notif/{id}/edit', 'API\MasterNotifikasiControllerAPI@markAsRead');
+
+// Master Periode API
+Route::get('/periode', 'API\PeriodeControllerAPI@index');
 
 // Login API
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');

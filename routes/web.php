@@ -167,7 +167,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::post('sendtoagen/all', 'MasterBroadcastController@sendtoAllAgen')->name('master-broadcast.store.sendtoagen');
 
     // Master Periode Route
-    Route::get('master-periode', 'PeriodeController@index');
+    Route::get('master-periode', 'PeriodeController@index')->name('aiwa.master-periode.index');
     Route::get('master-periode/loadTablePeriode', 'PeriodeController@getData')->name('aiwa.master-periode.load');
     Route::post('master-periode/store', 'PeriodeController@store')->name('aiwa.master-periode.store');
     Route::post('master-periode/{id}/delete', 'PeriodeController@destroy')->name('aiwa.master-periode.destroy');

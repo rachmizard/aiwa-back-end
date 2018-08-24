@@ -57,7 +57,7 @@ class SendBerangkat extends Command
                 $token = $recepient->device_token;
                 
                 $notification = [
-                    'body' => $in->nama .' jamaah akan berangkat pada tanggal '. $in->tgl_berangkat .' (sekarang)',
+                    'body' => 'Jamaah '. $in->nama .' akan berangkat pada tanggal '. $in->tgl_berangkat .' (sekarang)',
                     'sound' => true,
                 ];
 

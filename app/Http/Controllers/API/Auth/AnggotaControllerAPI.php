@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Admin;
+use App\Periode;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Notifications\ApproveAgenNotification;
 use Notification;
+use Carbon\Carbon;
 
 class AnggotaControllerAPI extends Controller
 {    
@@ -22,7 +24,16 @@ class AnggotaControllerAPI extends Controller
             $user = Auth::user();
             $getId = $user->id;
             if (!$user->status == 0) {
-                $success['token'] =  null;
+                // Default value for now periode as defined.
+                // $nowJing = Carbon::now()->format('Y-m-d');
+                // $tahunNow = Carbon::create(2018, 1, 31);$now = Carbon::now();
+                $tahunAyeuna = Carbon::now();
+                $year = $tahunAyeuna->year;
+                $month = $tahunAyeuna->month;
+                $day = $tahunAyeuna->day;
+                $tahunNow = Carbon::create($year, $month, $day);
+                $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+                $success['token'] =  $period['judul'];
                 // $user->createToken('nApp')->accessToken
                 $refreshDeviceToken = User::findOrFail($getId);
                 $refreshDeviceToken->update(['device_token' => $request->input('device_token')]);

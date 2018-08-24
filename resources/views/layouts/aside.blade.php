@@ -38,6 +38,7 @@
                           <li class><a href="{{ route('master-broadcast.index') }}"><i class="ion-speakerphone"></i> Broadcast</a></li>
                           <li class="{{ Route::currentRouteNamed('aiwa.master-gallery') ? 'active' : '' }}"><a href="{{ route('aiwa.master-gallery') }}"><i class="fa fa-file-image-o"></i>Gallery</a></li>
                           <li class="{{ Route::currentRouteNamed('aiwa.master-hotel') ? 'active' : '' }} {{ Route::currentRouteNamed('aiwa.master-hotel.add') ? 'active' : '' }}"><a href="{{route('aiwa.master-hotel')}}"><i class="fa fa-building-o"></i> Hotel</a></li>
+                          <li class="{{ Route::currentRouteNamed('aiwa.master-periode.index') ? 'active' : '' }}"><a href="{{ route('aiwa.master-periode.index') }}"><i class="fa fa-clock-o"></i> Periode</a></li>
                           <li class><a href="#"><i class="fa fa-bell-o"></i> Notifikasi</a></li>
                           <li class="{{ Route::currentRouteNamed('faq.index') ? 'active' : '' }}"><a href="{{ route('faq.index') }}"><i class="fa fa-question-circle"></i> F.A.Q</a></li>
                           <!-- <li><a href="notification.html">Notification</a></li>
