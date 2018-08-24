@@ -42,9 +42,12 @@ class JamaahControllerAPI extends Controller
         return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
     }
 
-    public function feeByAgenPotensi(Request $request, $id)
+    public function feeByAgenPotensi(Request $request, $id, $tahun)
     {
-        $countFee = DB::table('jamaah')->where(['marketing' => $id, 'status' => 'POTENSI'])->sum('marketing_fee');
+        $varJay = Periode::where('judul', $tahun)->first();
+        $startDateJing = $varJay['start'];
+        $endDateJing = $varJay['end'];
+        $countFee = DB::table('jamaah')->where(['marketing' => $id, 'status' => 'POTENSI'])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
          $success['nama'] =  'potensi';
          $success['total'] =  $countFee;
         return response()->json(['response' => $success]); 

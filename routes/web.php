@@ -171,7 +171,14 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::get('master-periode/loadTablePeriode', 'PeriodeController@getData')->name('aiwa.master-periode.load');
     Route::post('master-periode/store', 'PeriodeController@store')->name('aiwa.master-periode.store');
     Route::post('master-periode/{id}/delete', 'PeriodeController@destroy')->name('aiwa.master-periode.destroy');
-  });
+
+    // Master Sapaan
+    Route::get('master-sapaan', 'SapaanController@index')->name('aiwa.master-sapaan.index');
+    Route::get('master-sapaan/loadTableSapaan', 'SapaanController@getData')->name('aiwa.master-sapaan.load');
+    Route::post('master-sapaan/store', 'SapaanController@store')->name('aiwa.master-sapaan.store');
+    Route::post('master-sapaan/{id}/delete', 'SapaanController@destroy')->name('aiwa.master-sapaan.destroy');
+
+    });
 
 Route::get('/download', function(){
     return redirect('https://drive.google.com/open?id=126M6gsJIMpbjPfOlcw9Ph2Gn36M4C9QF');
