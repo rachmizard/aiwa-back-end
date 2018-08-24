@@ -11,12 +11,21 @@
                 </div>
                 <!-- Inline Form -->
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title">Filter <i class="fa fa-filter"></i></h3></div>
                             <div class="panel-body">
 
                                 <form class="form-inline" role="form">
+                                    <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan1">Periode</label>
+                                        <select name="periode" id="edan1" class="col-md-4 select2" style="width: 100%;">
+                                                <option selected >Semua Periode</option>
+                                            @foreach($periodes as $periode)
+                                                <option value="{{ $periode->id }}">{{ $periode->judul }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="form-group m-l-10">
                                         <label class="sr-only" for="edan">Filter Agen</label>
                                         <select name="anggota_id" id="" class="col-md-4 select2" style="width: 100%;">
@@ -31,7 +40,7 @@
                                         <select name="pembayaran" class="form-control" id="">
                                             <!-- <option selected>Pilih</option> -->
                                             <option value="1">SUDAH DP</option>
-                                            <option value="BELUM">BELUM DP</option>
+                                            <option value="BELUM" selected>BELUM DP</option>
                                         </select>
                                     </div>
 
@@ -39,7 +48,7 @@
                                         <label class="sr-only" for="edan">Nama PIC</label>
                                         <input type="text" name="pic" class="form-control" id="edan" placeholder="Filter Nama PIC...">
                                     </div>
-                                    <button id="search-form" " class="btn btn-success m-l-10">Filter</button>
+                                    <button id="search-form" " class="btn btn-success m-l-10"><i class="fa fa-search"></i> Filter</button>
                                 </form>
 
 
@@ -53,7 +62,8 @@
                 </div> <!-- End row -->
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="panel">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-table"></i> Tabel Prospek </h3></div>
                             <div class="panel-body p-t-10">
                                 <table id="prospek" class="table table-hover table-bordered">
                                   <thead>
@@ -79,7 +89,7 @@
 
             </div> <!-- END Wraper -->
         </div>
-        @foreach($prospeks as $prospek)
+        @foreach($prospeks as $key => $prospek)
         <div id="editProspek{{ $prospek->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog"> 
                 <div class="modal-content"> 
@@ -120,6 +130,7 @@
                             url: "{{ route('aiwa.prospek.load') }}",
                             data: function (d) {
                                 // d.name = $('input[name=name]').val();
+                                d.periode = $('select[name=periode]').val();
                                 d.pembayaran = $('select[name=pembayaran]').val();
                                 d.pic = $('input[name=pic]').val();
                                 d.anggota_id = $('select[name=anggota_id]').val();

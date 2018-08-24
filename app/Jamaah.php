@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class Jamaah extends Model
 {
     protected $table = 'jamaah';
-    public $fillable = ['id', 'id_umrah', 'id_jamaah', 'tgl_daftar', 'nama', 'tgl_berangkat', 'tgl_pulang', 'maskapai', 'marketing', 'staff', 'no_telp', 'marketing_fee', 'koordinator', 'koordinator_fee', 'top', 'top_fee', 'status'];
+    public $fillable = ['id', 'id_umrah', 'id_jamaah', 'tgl_daftar', 'nama', 'tgl_berangkat', 'tgl_pulang', 'maskapai', 'marketing', 'staff', 'no_telp', 'marketing_fee', 'koordinator', 'koordinator_fee', 'top', 'top_fee', 'status', 'diskon_marketing', 'tgl_transfer'];
     public $timestamps = true;
     protected $primaryKey = 'id';
 

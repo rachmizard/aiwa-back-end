@@ -74,7 +74,7 @@
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
-                    $('#jamaah').DataTable({
+                    var table = $('#jamaah').DataTable({
                         "responsive": true,
                         "processing": false,
                         "serverSide": true,
@@ -93,17 +93,16 @@
                             { data: "action", name: "action"}
                         ]
                     });
+                   // Refresh Table
+                   $('#refreshJamaah').on('click', function(){
+                        table.ajax.url("{{ route('aiwa.jamaah.load') }}").load();
+                   });
                 });
             </script>
             <!-- End Datatable Serverside -->
             @endpush
             @push('otherJavascript')
             <script>
-
-               // Refresh Table
-               $('#refreshJamaah').click(function(){
-                    table.ajax.url("{{ route('aiwa.jamaah.load') }}").load();
-               });
                
                 // Select2
                 jQuery(".select2").select2({

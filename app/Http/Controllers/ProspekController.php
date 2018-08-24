@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Prospek;
 use App\Anggota;
+use App\Periode;
 use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\Carbon;
@@ -25,9 +26,10 @@ class ProspekController extends Controller
     {
         $agents = \App\User::where('status', '=', '1')->get();
         $prospeks = Prospek::orderBy('id', 'DESC')->get();
+        $periodes = Periode::all();
         // Read notification
         Auth()->guard('admin')->user()->unreadNotifications->where('type', 'App\Notifications\ProspekNewNotification')->markAsRead();
-        return view('prospek.index', compact('agents', 'prospeks'));
+        return view('prospek.index', compact('agents', 'prospeks', 'periodes'));
     }
 
     /**
@@ -54,7 +56,8 @@ class ProspekController extends Controller
                 return $total;
           })
           ->editColumn('tgl_keberangkatan', function($query){
-                return $query->tgl_keberangkatan->format('d/m/Y');
+                $date=date_create($query->tgl_keberangkatan);
+                return date_format($date, 'd/m/Y');
           })
           ->editColumn('pembayaran', function($query){
                 if ($query->pembayaran == '1') {
@@ -67,12 +70,16 @@ class ProspekController extends Controller
                 return $query->created_at ? with(new Carbon($query->created_at))->format('d/m/Y') : '';
           })
           ->filter(function($query) use ($request){
-                if($request->has('pic') && $request->has('pembayaran') && $request->has('anggota_id'))
+                $validatorDateRange = Periode::find($request->get('periode'));
+                $dateStart = $validatorDateRange->start;
+                $dateEnd = $validatorDateRange->end;
+                if($request->has('pic') && $request->has('pembayaran') && $request->has('anggota_id') && $request->has('periode'))
                 {
                     if ($request->get('anggota_id') == 'semua') {
-                        if ($request->has('pembayaran')) {
-                            return $query->where('pembayaran', 'LIKE', ''. $request->get('pembayaran') .'')->get();
-                        }else{
+                        if ($request->has('pembayaran') && $request->has('periode')) {
+                            return $query->where('pembayaran', 'LIKE', ''. $request->get('pembayaran') .'')->whereBetween('created_at', [$dateStart, $dateEnd])->get();
+                        }
+                        else{
                             return $query->select('prospeks.*');
                         }
                     }else{

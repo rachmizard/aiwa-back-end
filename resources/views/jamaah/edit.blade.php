@@ -92,7 +92,7 @@
 
                                         <label class="col-md-2 control-label" for="no_telp">No. Telp</label>
                                         <div class="col-md-7">
-                                            <input type="number" id="no_telp" name="no_telp" class="form-control" placeholder="No telepon.." required value="{{ $jamaah->no_telp }}">
+                                            <input type="number" id="no_telp" name="no_telp" class="form-control" placeholder="No telepon.." value="{{ $jamaah->no_telp }}">
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
@@ -115,6 +115,17 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                                 <input type="text" class="form-control" name="diskon_marketing" value="{{ $jamaah->diskon_marketing }}">
+                                                <!-- <span class="help-block text-success"><small></small></span>   -->
+                                            </div>
+                                        </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group">
+
+                                        <label class="col-md-2 control-label" for="nama">Tgl Transfer</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input type="text" class="form-control datepicker" name="tgl_transfer" value="{{ $jamaah->tgl_transfer }}">
                                                 <!-- <span class="help-block text-success"><small></small></span>   -->
                                             </div>
                                         </div>

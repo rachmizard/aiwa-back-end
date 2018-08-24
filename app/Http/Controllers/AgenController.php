@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Prospek;
+USE App\Jamaah;
 use Yajra\Datatables\Datatables;
+use DB;
 
 class AgenController extends Controller
 {
@@ -123,6 +125,25 @@ class AgenController extends Controller
             if (count(User::where('id', $request->id)->get()) > 0) {
                 return redirect()->back()->with('messageError', 'ID sudah ada!');
             }else{
+                // Handling an Error
+                $validators = User::where('status', '=', 1)->where('koordinator', '=', $request->old_id)->get();
+                $validatorProspeks = Prospek::where('anggota_id', '=', $request->old_id)->get();
+                $validatorJamaah = Jamaah::where('marketing', '=', $request->old_id)->get();
+                if ($validators) {
+                    foreach($validators as $validator)
+                    {
+                        $data[] = $validator->id;
+                        DB::table('users')->whereIn('id', $data)->update(['koordinator' => $request->id]);
+                    }
+                    foreach ($validatorProspeks as $validatorProspek) {
+                        $dataProspek[] = $validatorProspek->id; // Get Prospek's ID
+                        DB::table('prospeks')->whereIn('id', $dataProspek)->update(['anggota_id' => $request->id]);
+                    }
+                    foreach ($validatorJamaah as $validatorJamaahSatu) {
+                        $dataJamaah[] = $validatorJamaahSatu->id; // Get Jamaah's ID 
+                        DB::table('jamaah')->whereIn('id', $dataJamaah)->update(['marketing' => $request->id]);
+                    }
+                }
                 $agen->id = $request->id;
                 $agen->update($request->except(['id', 'password']));
                 return redirect()->back()->with('message', 'Jika ada kesalahan pada sistem/error, disarankan ID di kembalikan ke semula');

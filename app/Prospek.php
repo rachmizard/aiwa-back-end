@@ -9,7 +9,7 @@ class Prospek extends Model
     protected $table = 'prospeks';
     public $timestamps = true;
     protected $primaryKey = 'id';
-    protected $dates = ['tgl_keberangkatan'];
+    // protected $dates = ['created_at'];
 
 
     public function anggota()

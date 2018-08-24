@@ -103,6 +103,7 @@
                                                 <th>No TELP</th>
                                                 <td><input type="text" name="no_telp" value="{{ $agen->no_telp }}" class="form-control" ></td>
                                             </tr>
+                                            @if($agen->id != 'SM140')
                                             <tr>
                                                 <th>Koordinator</th>
                                                 <td>
@@ -116,6 +117,7 @@
                                                     </select>
                                                 </td>
                                             </tr>
+                                            @endif
                                             <tr>
                                                 <th>Email</th>
                                                 <td><input type="text" value="{{ $agen->email }}" name="email" class="form-control" ></td>
@@ -173,8 +175,13 @@
                                         </tr>
                                         <tr>
                                             <th>ID</th>
-                                            <td><input type="text" placeholder="ID Baru" name="id" class="form-control">
-                                                <span class="help-block"><small>ID tidak auto increment, hati-hati jika ingin merubah ID yang sudah tersinkronisasi dengan sistem bisa mengakibatkan kesalahan data.</small></span></td>
+                                            <td><input type="text" name="id" class="form-control">
+                                                @if($agen->id != 'SM140')
+                                                    <span class="help-block"><small>ID tidak auto increment, hati-hati jika ingin merubah ID yang sudah tersinkronisasi dengan sistem bisa mengakibatkan kesalahan data.</small></span></td>
+                                                @else
+                                                    <span class="help-block text-danger"><small>ID milik {{ $agen->nama }} ini disarankan untuk tidak di rubah rubah!</small></span></td>
+                                                @endif
+
                                             <input type="hidden" name="old_id" value="{{ $agen->id }}">
                                         </tr>
                                         <tr>
@@ -250,8 +257,9 @@
                         ]
                     });
                    // Refresh Table
-                   $('#refreshAgen').click(function(){
-                        table.ajax.url("{{ route('aiwa.anggota.load') }}").load();
+                   $('#refreshAgen').on('click', function(){
+                        // table.ajax.url("{{ route('aiwa.anggota.load') }}").load();
+                            table.ajax.reload( null, false ); // user paging is not reset on reload
                    });
 
                     setInterval( function () {

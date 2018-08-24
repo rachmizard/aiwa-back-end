@@ -19,5 +19,6 @@
                     time: 1200
                 });
             });
+        </script>
 @endpush
 @endsection

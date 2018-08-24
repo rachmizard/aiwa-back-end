@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
         <meta name="author" content="Coderthemes">
+        <meta name="csrf_token" content="{{ csrf_token() }}">
 
         <link rel="shortcut icon" href="/img/kaaba_Ccl_icon.ico">
 
@@ -87,7 +88,8 @@
 
 
         <!-- js placed at the end of the document so the pages load faster -->
-        <script src="{{asset('/js/jquery.js')}}"></script>
+        <!-- <script src="{{asset('/js/jquery.js')}}"></script> -->
+        <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
         <script src="{{asset('/js/bootstrap.min.js')}}"></script>
         <script src="{{asset('/js/modernizr.min.js')}}"></script>
         <script src="{{asset('/js/pace.min.js')}}"></script>
@@ -180,6 +182,11 @@
                }, 4500);
             });
         </script>
+        <script>
+            function confirmBtn() {
+                  if(!confirm("Are You Sure to delete this?"))
+                  event.preventDefault();
+            }
         </script>
 
     </body>
