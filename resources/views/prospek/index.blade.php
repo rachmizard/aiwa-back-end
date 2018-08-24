@@ -11,7 +11,7 @@
                 </div>
                 <!-- Inline Form -->
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title">Filter <i class="fa fa-filter"></i></h3></div>
                             <div class="panel-body">
@@ -19,8 +19,7 @@
                                 <form class="form-inline" role="form">
                                     <div class="form-group m-l-10">
                                         <label class="sr-only" for="edan1">Periode</label>
-                                        <select name="periode" id="edan1" class="col-md-4 select2" style="width: 100%;">
-                                                <option selected >Semua Periode</option>
+                                        <select name="periode" id="edan1" class="col-md-4 form-control" style="width: 100%;">
                                             @foreach($periodes as $periode)
                                                 <option value="{{ $periode->id }}">{{ $periode->judul }}</option>
                                             @endforeach
@@ -38,7 +37,6 @@
                                     <div class="form-group" id="pembayaran">
                                         <label class="sr-only" for="exampleInputEmail2">Pembayaran</label>
                                         <select name="pembayaran" class="form-control" id="">
-                                            <!-- <option selected>Pilih</option> -->
                                             <option value="1">SUDAH DP</option>
                                             <option value="BELUM" selected>BELUM DP</option>
                                         </select>

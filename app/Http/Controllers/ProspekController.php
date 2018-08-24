@@ -78,9 +78,8 @@ class ProspekController extends Controller
                     if ($request->get('anggota_id') == 'semua') {
                         if ($request->has('pembayaran')) {
                             return $query->where('pembayaran', 'LIKE', ''. $request->get('pembayaran') .'')->whereBetween('created_at', [$dateStart, $dateEnd])->get();
-                        }
-                        else{
-                            return $query->select('prospeks.*');
+                        }else{
+                            return $query->select('prospeks.*')->whereBetween('created_at', [$dateStart, $dateEnd])->get();
                         }
                     }else{
                         return $query->where('pic', 'LIKE', '%'. $request->get('pic') .'%')->where('pembayaran', 'LIKE', '%'. $request->get('pembayaran') .'%')->where('anggota_id', 'LIKE', '%'. $request->get('anggota_id') .'%')->whereBetween('created_at', [$dateStart, $dateEnd])->get();
