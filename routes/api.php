@@ -146,16 +146,17 @@ Route::get('/jamaah/{id}/agen/{tahun}/periode', 'API\JamaahControllerAPI@retriev
 Route::get('/jamaah/{id}/agenfee/potensi/{tahun}/periode', 'API\JamaahControllerAPI@feeByAgenPotensi');
 Route::get('/jamaah/{id}/koordinator', 'API\JamaahControllerAPI@retrieveByKoordinator');
 Route::get('/jamaah/{id}/koordinatorfee/potensi', 'API\JamaahControllerAPI@feeByKoordinatorFeePotensi');
-Route::get('/jamaah/{id}/agenfee/komisi', 'API\JamaahControllerAPI@feeByAgenKomisi');
+Route::get('/jamaah/{id}/agenfee/komisi/{tahun}/periode', 'API\JamaahControllerAPI@feeByAgenKomisi');
 Route::get('/jamaah/{id}/koordinatorfee/komisi', 'API\JamaahControllerAPI@feeByKoordinatorKomisi');
 
 Route::get('/jamaah/{id}/koordinator/potensi', 'API\JamaahControllerAPI@koordinatorPotensi');
 Route::get('/jamaah/{id}/koordinator/komisi', 'API\JamaahControllerAPI@koordinatorKomisi');
 Route::get('/jamaah/{id}/agen/potensi', 'API\JamaahControllerAPI@agenPotensi');
 Route::get('/jamaah/{id}/agen/komisi', 'API\JamaahControllerAPI@agenKomisi');
-Route::get('/jamaah/{id}/agen/total', 'API\JamaahControllerAPI@totalJamaahByAgen');
+Route::get('/jamaah/{id}/agen/total/{tahun}/periode', 'API\JamaahControllerAPI@totalJamaahByAgen');
 Route::get('/jamaah/{id}/agen/berangkat/{tahun}/periode', 'API\JamaahControllerAPI@retrieveJamaahBerangkatByAgen');
 Route::get('/jamaah/{id}/agen/pulang/{tahun}/periode', 'API\JamaahControllerAPI@retrieveJamaahPulangByAgen');
+Route::get('/jamaah/{id}/agen/bulan/{tahun}/periode', 'API\JamaahControllerAPI@totalJamaahByTheMonth');
 
 
 
@@ -168,6 +169,7 @@ Route::delete('/prospek/{id}/delete', 'API\ProspekControllerAPI@destroy');
 Route::put('/prospek/{id}/edit', 'API\ProspekControllerAPI@update');
 Route::put('/prospek/{id}/bayar', 'API\ProspekControllerAPI@bayar');
 Route::get('/prospek/{id}/agen/total', 'API\ProspekControllerAPI@totalProspekByAgen');
+// Route::get('/prospek/{id}/koordinator/total', 'API\ProspekControllerAPI@totalProspekByKoordinator');
 
 // Kalkulasi API Route
 Route::get('/kalkulasi', 'API\MasterKalkulasiControllerAPI@index');
