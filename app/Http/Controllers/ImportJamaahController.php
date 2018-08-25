@@ -72,7 +72,7 @@ class ImportJamaahController extends Controller
                                 if ($findKoordinator['koordinator'] == 0 ) {
                                     $data['marketing_fee'] = $ref;
                                     $data['koordinator'] = 0;
-                                    $data['koordinator_fee'] = 0;
+                                    $data['koordinator_fee'] = $ref;
                                     $data['top'] = 'SM140';
                                     $data['top_fee'] = $ref;
                                     $data['diskon_marketing'] = $refdiskon;

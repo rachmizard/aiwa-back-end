@@ -164,7 +164,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     // End
     Route::resource('master-broadcast', 'MasterBroadcastController');
     Route::get('sendtoagen', 'MasterBroadcastController@toAgen')->name('aiwa.master-broadcast.toagen');
-    Route::post('sendtoagen/all', 'MasterBroadcastController@sendtoAllAgen')->name('master-broadcast.store.sendtoagen');
+    Route::post('sendtoagen/all', 'MasterBroadcastController@store')->name('master-broadcast.store.sendtoagen');
 
     // Master Periode Route
     Route::get('master-periode', 'PeriodeController@index')->name('aiwa.master-periode.index');

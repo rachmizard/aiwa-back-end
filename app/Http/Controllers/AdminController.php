@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Admin;
+use App\Periode;
 use Carbon\Carbon;
 use App\LogActivity;
 use App\User;
@@ -33,7 +34,22 @@ class AdminController extends Controller
         $totalProspek = Prospek::all();
         $sumofPotensi = Jamaah::where('status', '=', 'POTENSI')->sum('marketing_fee');
         $sumofKomisi = Jamaah::where('status', '=', 'KOM')->sum('marketing_fee');
-        return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi'));
+        // Chart Query
+        $now = Carbon::now();
+        $year = $now->year;
+        $month = $now->month;
+        $day = $now->day;
+        $tahunNow = Carbon::create($year, $month, $day);
+        $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+        $varJay = Periode::where('judul', $period)->first();
+        $getIdPeriode = (int) $varJay['id'];
+        $searchPeriode = Periode::find(4);
+        $startDate = $searchPeriode->start;
+        $startEnd = $searchPeriode->end;
+        $startDateJing = $varJay['start'];
+        $endDateJing = $varJay['end'];
+        $totalJamaahChart = Jamaah::whereBetween('tgl_daftar', [$startDate, $startEnd])->count();
+        return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'totalJamaahChart'));
     }
 
     public function sendNotify($token)

@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Kawankoding\Fcm\FcmServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
 
 
         /*
@@ -232,8 +233,7 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Fcm' => Kawankoding\Fcm\FcmFacade::class,
-
-
+        'Charts' => ConsoleTVs\Charts\Charts::class,
 
     ],
 

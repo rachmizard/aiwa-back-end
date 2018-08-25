@@ -67,23 +67,11 @@
                             </div>
                             <div id="portlet1" class="panel-collapse collapse in">
                                 <div class="portlet-body">
-                                    <div id="morris-bar-example"  style="height: 320px;"></div>
+                                    <div id="total-jamaah-chart"  style="height: 320px;"></div>
 
                                     <div class="row text-center m-t-30 m-b-30">
                                         <div class="col-sm-3 col-xs-6">
-                                            <h4>$ 126</h4>
-                                            <small class="text-muted"> Today's Sales</small>
-                                        </div>
-                                        <div class="col-sm-3 col-xs-6">
-                                            <h4>$ 967</h4>
-                                            <small class="text-muted">This Week's Sales</small>
-                                        </div>
-                                        <div class="col-sm-3 col-xs-6">
-                                            <h4>$ 4500</h4>
-                                            <small class="text-muted">This Month's Sales</small>
-                                        </div>
-                                        <div class="col-sm-3 col-xs-6">
-                                            <h4>$ 87,000</h4>
+                                            <h4>{{ $totalJamaahChart }}</h4>
                                             <small class="text-muted">This Year's Sales</small>
                                         </div>
                                     </div>
@@ -137,4 +125,50 @@
             </div>
             <!-- Page Content Ends -->
             <!-- ================== -->
+@push('otherJavascript')
+<script>
+    var data = JSON.parse('{!! $totalJamaahChart !!}');
+ $(function() {
+  // Create a function that will handle AJAX requests
+  function requestData(days, chart){
+    $.ajax({
+      type: "GET",
+      url: "{{url('api/jamaah/totalByPeriode')}}", // This is the URL to the API
+      data: { days: days }
+    })
+    .done(function( data ) {
+      // When the response to the AJAX request comes back render the chart with new data
+      chart.setData(JSON.parse(data));
+    })
+    .fail(function() {
+      // If there is no communication between the server, show an error
+      alert( "error occured" );
+    });
+  }
+  var chart = Morris.Bar({
+    // ID of the element in which to draw the chart.
+    element: 'total-jamaah-chart',
+    // Set initial data (ideally you would provide an array of default data)
+    data: [0,0],
+    xkey: 'month',
+    ykeys: ['value'],
+    labels: ['Jamaah'],
+    lineColors: ['#1a2942', '#3bc0c3']
+  });
+  // Request initial data for the past 7 days:
+  requestData(12, chart);
+  $('ul.ranges a').click(function(e){
+    e.preventDefault();
+    // Get the number of days from the data attribute
+    var el = $(this);
+    days = el.attr('data-range');
+    // Request the data and render the chart using our handy function
+    requestData(days, chart);
+    // Make things pretty to show which button/tab the user clicked
+    el.parent().addClass('active');
+    el.parent().siblings().removeClass('active');
+  })
+});
+</script>
+@endpush
 @endsection

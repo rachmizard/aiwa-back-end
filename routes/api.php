@@ -149,14 +149,17 @@ Route::get('/jamaah/{id}/koordinatorfee/potensi', 'API\JamaahControllerAPI@feeBy
 Route::get('/jamaah/{id}/agenfee/komisi/{tahun}/periode', 'API\JamaahControllerAPI@feeByAgenKomisi');
 Route::get('/jamaah/{id}/koordinatorfee/komisi', 'API\JamaahControllerAPI@feeByKoordinatorKomisi');
 
-Route::get('/jamaah/{id}/koordinator/potensi', 'API\JamaahControllerAPI@koordinatorPotensi');
-Route::get('/jamaah/{id}/koordinator/komisi', 'API\JamaahControllerAPI@koordinatorKomisi');
-Route::get('/jamaah/{id}/agen/potensi', 'API\JamaahControllerAPI@agenPotensi');
-Route::get('/jamaah/{id}/agen/komisi', 'API\JamaahControllerAPI@agenKomisi');
+Route::get('/jamaah/{id}/koordinator/potensi/{tahun}/periode', 'API\JamaahControllerAPI@koordinatorPotensi');
+Route::get('/jamaah/{id}/koordinator/komisi/{tahun}/periode', 'API\JamaahControllerAPI@koordinatorKomisi');
+Route::get('/jamaah/{id}/agen/potensi/{tahun}/periode', 'API\JamaahControllerAPI@agenPotensi');
+Route::get('/jamaah/{id}/agen/komisi/{tahun}/periode', 'API\JamaahControllerAPI@agenKomisi');
 Route::get('/jamaah/{id}/agen/total/{tahun}/periode', 'API\JamaahControllerAPI@totalJamaahByAgen');
 Route::get('/jamaah/{id}/agen/berangkat/{tahun}/periode', 'API\JamaahControllerAPI@retrieveJamaahBerangkatByAgen');
 Route::get('/jamaah/{id}/agen/pulang/{tahun}/periode', 'API\JamaahControllerAPI@retrieveJamaahPulangByAgen');
 Route::get('/jamaah/{id}/agen/bulan/{tahun}/periode', 'API\JamaahControllerAPI@totalJamaahByTheMonth');
+Route::get('/jamaah/{id}/agenfee/bulan/{tahun}/periode', 'API\JamaahControllerAPI@feeAgenByTheMonth');
+Route::get('/jamaah/{id}/koordinatorfee/bulan/{tahun}/periode', 'API\JamaahControllerAPI@feeByKoordinatorFeeKomisi');
+Route::get('/jamaah/totalByPeriode', 'API\JamaahControllerAPI@totalByPeriode');
 
 
 

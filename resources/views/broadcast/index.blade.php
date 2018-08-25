@@ -19,7 +19,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title"><i class="ion-speakerphone"></i> Form Broadcast</h3></div>
                             <div class="panel-body">
-                                <form role="form" method="GET" action="{{ route('master-broadcast.store.sendtoagen') }}">
+                                <form role="form" method="POST" action="{{ route('master-broadcast.store.sendtoagen') }}">
                                     {{ csrf_field() }}
                                     <!-- <div class="form-group">
                                         <label for="judul">Judul</label>
