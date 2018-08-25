@@ -41,14 +41,10 @@ class AdminController extends Controller
         $day = $now->day;
         $tahunNow = Carbon::create($year, $month, $day);
         $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
-        $varJay = Periode::where('judul', $period)->first();
-        $getIdPeriode = (int) $varJay['id'];
-        $searchPeriode = Periode::find(4);
-        $startDate = $searchPeriode->start;
-        $startEnd = $searchPeriode->end;
-        $startDateJing = $varJay['start'];
-        $endDateJing = $varJay['end'];
-        $totalJamaahChart = Jamaah::whereBetween('tgl_daftar', [$startDate, $startEnd])->count();
+        $varJay = Periode::find($period->id);
+        $startDateJing = $varJay->start;
+        $endDateJing = $varJay->end;
+        $totalJamaahChart = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
         return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'totalJamaahChart'));
     }
 

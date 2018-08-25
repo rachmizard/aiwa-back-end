@@ -270,14 +270,16 @@ class JamaahControllerAPI extends Controller
     }
 
     public function totalByPeriode(Request $request)
-    {
-
+    { 
         $days = 1;
         $range = \Carbon\Carbon::now()->subDays($days);
         $stats = Jamaah::whereBetween('tgl_daftar', ['2018-01-01', '2018-12-31'])
-          ->groupBy('month')
+          ->groupBy(['month', 'number_month'])
+          // ->orderBy(DB::raw('DATE_FORMAT(tgl_daftar, "%M")', 'DESC'))
+          ->orderBy('number_month')
           ->get([
             DB::raw('DATE_FORMAT(tgl_daftar, "%M") as month'),
+            DB::raw('MONTH(tgl_daftar) as number_month'),
             DB::raw('COUNT(*) as value')
           ])
           ->toJSON();

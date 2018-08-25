@@ -54,7 +54,7 @@
                         <div class="portlet"><!-- /primary heading -->
                             <div class="portlet-heading">
                                 <h3 class="portlet-title text-dark text-uppercase">
-                                    Weekly Sales Report
+                                    Total Perbulan Jamaah Berdasarkan Periode
                                 </h3>
                                 <div class="portlet-widgets">
                                     <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a>
@@ -70,9 +70,10 @@
                                     <div id="total-jamaah-chart"  style="height: 320px;"></div>
 
                                     <div class="row text-center m-t-30 m-b-30">
-                                        <div class="col-sm-3 col-xs-6">
-                                            <h4>{{ $totalJamaahChart }}</h4>
-                                            <small class="text-muted">This Year's Sales</small>
+                                        <div class="col-sm-3 col-xs-6 col-md-offset-4">
+                                            <i class="fa fa-user"></i> 
+                                            <h4>{{ $totalJamaahChart }} Jamaah</h4>
+                                            <small class="text-muted">Total Jamaah Tahun Ini</small>
                                         </div>
                                     </div>
                                 </div>
