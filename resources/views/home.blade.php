@@ -86,7 +86,7 @@
                         <div class="portlet"><!-- /primary heading -->
                             <div class="portlet-heading">
                                 <h3 class="portlet-title text-dark text-uppercase">
-                                    Grafik Prospek & Jamaah
+                                    Grafik Prospek
                                 </h3>
                                 <div class="portlet-widgets">
                                     <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a>
@@ -99,22 +99,13 @@
                             </div>
                             <div id="portlet2" class="panel-collapse collapse in">
                                 <div class="portlet-body">
-                                    <div id="morris-line-example" style="height: 200px;"></div>
+                                    <div id="total-prospek-chart" style="height: 200px;"></div>
                                     <div class="row text-center m-t-30">
-                                <div class="col-sm-4">
-                                    <h4>$ 86,956</h4>
-                                    <small class="text-muted"> This Year's Report</small>
-                                </div>
-                                <div class="col-sm-4">
-                                    <h4>$ 86,69</h4>
-                                    <small class="text-muted">Weekly Sales Report</small>
-                                </div>
-                                <div class="col-sm-4">
-                                    <h4>$ 948,16</h4>
-                                    <small class="text-muted">Yearly Sales Report</small>
-                                </div>
-
-                            </div>
+                                        <div class="col-sm-4">
+                                            <h4><i class="fa fa-user"></i> Prospek</h4>
+                                            <small class="text-muted"> Total Prospek Tahun Ini </small>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div> <!-- /Portlet -->
@@ -154,7 +145,7 @@
     xkey: 'month',
     ykeys: ['value'],
     labels: ['Jamaah'],
-    lineColors: ['#1a2942', '#3bc0c3']
+    barColors: ['#d32f2f']
   });
   // Request initial data for the past 7 days:
   requestData(12, chart);
@@ -170,6 +161,37 @@
     el.parent().siblings().removeClass('active');
   })
 });
+
+
+// Chart Prospek
+var data = JSON.parse('{!! $stats !!}');
+    
+    Morris.Bar({
+        // ID of the element in which to draw the chart.
+        element: 'total-prospek-chart',
+        data: data,
+        xkey: 'month',
+        ykeys: ['value'],
+        labels: ['Prospek'],
+        resize: true,
+        barColors: ['#1a2942']
+    });
+
+// Chart Jamaah
+
+// var dataJamaah = JSON.parse();
+    
+//     Morris.Bar({
+//         // ID of the element in which to draw the chart.
+//         element: 'total-jamaah-periode-chart',
+//         data: dataJamaah,
+//         xkey: 'month',
+//         ykeys: ['value'],
+//         labels: ['Jamaah'],
+//         resize: true,
+//         barColors: ['#00b0ff']
+//     });
+
 </script>
 @endpush
 @endsection

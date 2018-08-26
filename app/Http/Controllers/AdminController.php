@@ -45,7 +45,27 @@ class AdminController extends Controller
         $startDateJing = $varJay->start;
         $endDateJing = $varJay->end;
         $totalJamaahChart = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
-        return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'totalJamaahChart'));
+
+        // Chart Prospek
+        $stats = Prospek::whereBetween('created_at', [$startDateJing, $endDateJing])
+        ->groupBy('month')
+        ->orderBy('month', 'DESC')
+        ->get([
+            DB::raw('DATE_FORMAT(created_at, "%M") as month'),
+            DB::raw('COUNT(*) as value')
+        ])
+        ->toJSON();
+
+        // Chart Jamaah
+        $statsJamaah = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
+        ->groupBy('month')
+        ->orderBy('month', 'DESC')
+        ->get([
+            DB::raw('DATE_FORMAT(created_at, "%M") as month'),
+            DB::raw('COUNT(*) as value')
+        ])
+        ->toJSON();
+        return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'totalJamaahChart', 'stats', 'statsJamaah'));
     }
 
     public function sendNotify($token)

@@ -269,6 +269,7 @@ class JamaahControllerAPI extends Controller
         return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
     }
 
+    // CHART DASHBOARD
     public function totalByPeriode(Request $request)
     { 
         $days = 1;
@@ -286,6 +287,13 @@ class JamaahControllerAPI extends Controller
         
         return $stats;
     }
+
+    // public function totalPotensi(Request $request)
+    // {
+        
+
+    //     return $stats;
+    // }
 
     /**
      * Store a newly created resource in storage.
