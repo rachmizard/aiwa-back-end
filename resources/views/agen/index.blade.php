@@ -18,11 +18,11 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="periode">Periode</label>
-                                        <select name="" id="periode" class="form-control">
+                                        <select name="periode" id="periode" class="form-control">
                                             <option selected="" disabled="">Periode</option>
-                                            <option value="1440">1440</option>
-                                            <option value="1441">1441</option>
-                                            <option value="1442">1442</option>
+                                            @foreach($periodes as $periode)
+                                                <option value="{{ $periode->id }}" {{ $periodeNow == $periode->id ? 'selected' : ''}}>{{ $periode->judul }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -39,12 +39,11 @@
                                         <th>Telp</th>
                                         <th>Domisli</th>
                                         <th>Koordinator</th>
+                                        <th>Tgl Dibuat</th>
                                         <th>Foto</th>
                                         <th>Aksi</th>
                                     </tr>
                                   </thead>
-                                  <tbody>
-                                  </tbody>
                                 </table>
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
@@ -241,17 +240,24 @@
             <script>
                 $(document).ready(function(){
                    var table = $('#agent').DataTable({
-                        serverSide: true,
-                        ordering: true,
-                        searching: true,
-                        processing: false,
-                        "ajax": "{{route('aiwa.anggota.load')}}", 
+                        "serverSide": true,
+                        "ordering": true,
+                        "searching": true,
+                        "processing": true,
+                        "ajax": {
+                            url: "{{ route('aiwa.anggota.load') }}",
+                            data: function (d) {
+                                // d.name = $('input[name=name]').val();
+                                d.periode = $('select[name=periode]').val();
+                            }
+                        },
                         "columns": [
                             { data: "id", name: "id" },
                             { data: "nama", name: "nama"},
                             { data: "no_telp", name: "no_telp" },
                             { data: "alamat", name: "alamat" },
-                            { data: "agent.nama", name: "koordinator" },
+                            { data: "koordinator", name: "koordinator" },
+                            { data: "created_at", name: "created_at" },
                             { data: "foto", name: "foto", orderable: false, searchable: false},
                             { data: "action", name: "action", orderable: false, searchable: false}
                         ]
@@ -262,9 +268,15 @@
                             table.ajax.reload( null, false ); // user paging is not reset on reload
                    });
 
-                    setInterval( function () {
-                        table.ajax.reload( null, false ); // user paging is not reset on reload
-                    }, 3500 );
+                   // Refresh when periode change
+                   $('select[name=periode]').on('change', function(e) {
+                        table.draw();
+                        e.preventDefault();
+                    });
+
+                    // setInterval( function () {
+                    //     table.ajax.reload( null, false ); // user paging is not reset on reload
+                    // }, 3500 );
                 });
             </script>
             <!-- End Datatable Serverside -->

@@ -54,14 +54,49 @@
                         <div class="portlet"><!-- /primary heading -->
                             <div class="portlet-heading">
                                 <h3 class="portlet-title text-dark text-uppercase">
-                                    Total Perbulan Jamaah Berdasarkan Periode
+                                    PERIODE HIJRIAH
                                 </h3>
                                 <div class="portlet-widgets">
-                                    <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a>
+                                    <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
                                     <span class="divider"></span>
                                     <a data-toggle="collapse" data-parent="#accordion1" href="#portlet1"><i class="ion-minus-round"></i></a>
                                     <span class="divider"></span>
-                                    <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a>
+                                    <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="portlet1" class="panel-collapse collapse in">
+                                <div class="portlet-body">
+                                    <form action="" method="GET" id="filter">
+                                        <div class="form-group">
+                                            <label for="">Periode Grafik</label>
+                                            <select name="periode" id="" class="form-control" onchange="document.getElementById('filter').submit();">
+                                                <option disabled selected>Periode</option>
+                                                @foreach($periodes as $periode)
+                                                    @if($periode->id != 7)
+                                                         <option value="{{ $periode->id }}">{{ $periode->judul }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> <!-- /Portlet -->
+
+                    </div> <!-- end col -->
+                    <div class="col-lg-8">
+                        <div class="portlet"><!-- /primary heading -->
+                            <div class="portlet-heading">
+                                <h3 class="portlet-title text-dark text-uppercase">
+                                    Total Perbulan Jamaah Berdasarkan Periode {{ $varJay->judul }} Hijriah
+                                </h3>
+                                <div class="portlet-widgets">
+                                    <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
+                                    <span class="divider"></span>
+                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet1"><i class="ion-minus-round"></i></a>
+                                    <span class="divider"></span>
+                                    <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -86,14 +121,14 @@
                         <div class="portlet"><!-- /primary heading -->
                             <div class="portlet-heading">
                                 <h3 class="portlet-title text-dark text-uppercase">
-                                    Grafik Prospek
+                                    Grafik Prospek {{ $varJay->judul }} Hijriah
                                 </h3>
                                 <div class="portlet-widgets">
-                                    <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a>
+                                    <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
                                     <span class="divider"></span>
                                     <a data-toggle="collapse" data-parent="#accordion1" href="#portlet2"><i class="ion-minus-round"></i></a>
                                     <span class="divider"></span>
-                                    <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a>
+                                    <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -101,8 +136,9 @@
                                 <div class="portlet-body">
                                     <div id="total-prospek-chart" style="height: 200px;"></div>
                                     <div class="row text-center m-t-30">
-                                        <div class="col-sm-4">
-                                            <h4><i class="fa fa-user"></i> Prospek</h4>
+                                        <div class="col-sm-4 col-md-offset-4">
+                                            <i class="fa fa-user"></i>
+                                            <h4>{{ $totalProspekChart }} Prospek</h4>
                                             <small class="text-muted"> Total Prospek Tahun Ini </small>
                                         </div>
                                     </div>
@@ -125,8 +161,7 @@
   function requestData(days, chart){
     $.ajax({
       type: "GET",
-      url: "{{url('api/jamaah/totalByPeriode')}}", // This is the URL to the API
-      data: { days: days }
+      url: "/api/jamaah/totalByPeriode/{{ $idPeriode }}", // This is the URL to the API
     })
     .done(function( data ) {
       // When the response to the AJAX request comes back render the chart with new data
@@ -148,7 +183,7 @@
     barColors: ['#d32f2f']
   });
   // Request initial data for the past 7 days:
-  requestData(12, chart);
+  requestData("{{ $idPeriode }}", chart);
   $('ul.ranges a').click(function(e){
     e.preventDefault();
     // Get the number of days from the data attribute

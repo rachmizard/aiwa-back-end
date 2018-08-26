@@ -159,7 +159,7 @@ Route::get('/jamaah/{id}/agen/pulang/{tahun}/periode', 'API\JamaahControllerAPI@
 Route::get('/jamaah/{id}/agen/bulan/{tahun}/periode', 'API\JamaahControllerAPI@totalJamaahByTheMonth');
 Route::get('/jamaah/{id}/agenfee/bulan/{tahun}/periode', 'API\JamaahControllerAPI@feeAgenByTheMonth');
 Route::get('/jamaah/{id}/koordinatorfee/bulan/{tahun}/periode', 'API\JamaahControllerAPI@feeByKoordinatorFeeKomisi');
-Route::get('/jamaah/totalByPeriode', 'API\JamaahControllerAPI@totalByPeriode');
+Route::get('/jamaah/totalByPeriode/{idperiode}', 'API\JamaahControllerAPI@totalByPeriode');
 
 
 

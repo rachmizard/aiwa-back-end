@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Prospek;
-USE App\Jamaah;
+Use App\Jamaah;
+Use App\Periode;
 use Yajra\Datatables\Datatables;
 use DB;
+use Carbon\Carbon;
 
 class AgenController extends Controller
 {
@@ -25,13 +27,25 @@ class AgenController extends Controller
     {
         $agens = User::where('status', '=', 1)->get();
         // $validatorCount = Prospek::all();
-        return view('agen.index', compact('agens'));
+        $now = Carbon::now();
+        $year = $now->year;
+        $month = $now->month;
+        $day = $now->day;
+        $tahunNow = Carbon::create($year, $month, $day);
+        $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+        $periodeNow = $period->id;
+        $periodes = Periode::orderBy('judul', 'DESC')->get();
+        return view('agen.index', compact('agens', 'periodes', 'periodeNow'));
     }
 
     public function getData(Request $request)
     {
-        $agents = User::with('agent')->where('status', '=', '1')->get();
-         return Datatables::of($agents)->addColumn('action', function($agents)
+        $agents = User::with('agent')->select('users.*')->where('status', '=', '1');
+         return Datatables::of($agents)
+         ->editColumn('koordinator', function($agents){
+            return ($agents->koordinator == 1) ? 'TOP' : $agents->id;
+         })
+         ->addColumn('action', function($agents)
          {
             return '
                 <a href="#" data-toggle="modal" data-target="#detailAgen'. $agents->id .'" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i> Detail & Edit</a>
@@ -49,6 +63,15 @@ class AgenController extends Controller
             }else{
                 return '<img src="/storage/images/default.png" width="50" height="50" alt="">';
             }
+         })
+         ->filter(function($query) use ($request)
+         {
+            $validatorDateRange = Periode::find($request->get('periode'));
+            $dateStart = $validatorDateRange->start;
+            $dateEnd = $validatorDateRange->end;
+            if ($request->has('periode')) {
+                return $query->whereBetween('created_at', [$dateStart, $dateEnd])->get();
+            }  
          })
          ->rawColumns(['action', 'foto'])
          ->make(true);

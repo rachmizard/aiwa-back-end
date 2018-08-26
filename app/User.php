@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function agent()
     {
-        return $this->belongsTo('App\User', 'koordinator', 'id');
+        return $this->belongsTo(User::class, 'koordinator', 'id');
     }
 
     // public function sendPasswordResetNotification($token)

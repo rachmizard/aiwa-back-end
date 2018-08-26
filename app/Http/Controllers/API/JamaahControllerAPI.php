@@ -270,22 +270,47 @@ class JamaahControllerAPI extends Controller
     }
 
     // CHART DASHBOARD
-    public function totalByPeriode(Request $request)
+    public function totalByPeriode(Request $request, $idperiode)
     { 
-        $days = 1;
-        $range = \Carbon\Carbon::now()->subDays($days);
-        $stats = Jamaah::whereBetween('tgl_daftar', ['2018-01-01', '2018-12-31'])
-          ->groupBy(['month', 'number_month'])
-          // ->orderBy(DB::raw('DATE_FORMAT(tgl_daftar, "%M")', 'DESC'))
-          ->orderBy('number_month')
-          ->get([
-            DB::raw('DATE_FORMAT(tgl_daftar, "%M") as month'),
-            DB::raw('MONTH(tgl_daftar) as number_month'),
-            DB::raw('COUNT(*) as value')
-          ])
-          ->toJSON();
+        if ($idperiode) {
+            $varJay = Periode::find($idperiode);
+            $startDateJing = $varJay->start;
+            $endDateJing = $varJay->end;
+            $stats = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
+              ->groupBy(['month', 'number_month'])
+              // ->orderBy(DB::raw('DATE_FORMAT(tgl_daftar, "%M")', 'DESC'))
+              ->orderBy('number_month')
+              ->get([
+                DB::raw('DATE_FORMAT(tgl_daftar, "%M") as month'),
+                DB::raw('MONTH(tgl_daftar) as number_month'),
+                DB::raw('COUNT(*) as value')
+              ])
+              ->toJSON();
         
         return $stats;
+        }else{
+            $now = Carbon::now();
+            $year = $now->year;
+            $month = $now->month;
+            $day = $now->day;
+            $tahunNow = Carbon::create($year, $month, $day);
+            $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+            $varJay = Periode::find($period->id);
+            $startDateJing = $varJay->start;
+            $endDateJing = $varJay->end;
+            $stats = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
+              ->groupBy(['month', 'number_month'])
+              // ->orderBy(DB::raw('DATE_FORMAT(tgl_daftar, "%M")', 'DESC'))
+              ->orderBy('number_month')
+              ->get([
+                DB::raw('DATE_FORMAT(tgl_daftar, "%M") as month'),
+                DB::raw('MONTH(tgl_daftar) as number_month'),
+                DB::raw('COUNT(*) as value')
+              ])
+              ->toJSON();
+            
+            return $stats;
+        }
     }
 
     // public function totalPotensi(Request $request)

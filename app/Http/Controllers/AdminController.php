@@ -27,45 +27,89 @@ class AdminController extends Controller
         $this->middleware('auth:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $totalAgen = User::where('status', '=', '1')->get();
         $totalJamaah = Jamaah::all();
         $totalProspek = Prospek::all();
         $sumofPotensi = Jamaah::where('status', '=', 'POTENSI')->sum('marketing_fee');
         $sumofKomisi = Jamaah::where('status', '=', 'KOM')->sum('marketing_fee');
+        $periodes = Periode::all();
         // Chart Query
-        $now = Carbon::now();
-        $year = $now->year;
-        $month = $now->month;
-        $day = $now->day;
-        $tahunNow = Carbon::create($year, $month, $day);
-        $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
-        $varJay = Periode::find($period->id);
-        $startDateJing = $varJay->start;
-        $endDateJing = $varJay->end;
-        $totalJamaahChart = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+        if ($request->periode) {
+                //  $now = Carbon::now();
+                // $year = $now->year;
+                // $month = $now->month;
+                // $day = $now->day;
+                // $tahunNow = Carbon::create($year, $month, $day);
+                // $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+                $getIdPeriode = $request->input('periode');
+                $varJay = Periode::find($getIdPeriode);
+                $startDateJing = $varJay->start;
+                $endDateJing = $varJay->end;
+                $idPeriode = $varJay->id;
+                $totalJamaahChart = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
 
-        // Chart Prospek
-        $stats = Prospek::whereBetween('created_at', [$startDateJing, $endDateJing])
-        ->groupBy('month')
-        ->orderBy('month', 'DESC')
-        ->get([
-            DB::raw('DATE_FORMAT(created_at, "%M") as month'),
-            DB::raw('COUNT(*) as value')
-        ])
-        ->toJSON();
+                // Chart Prospek
+                $stats = Prospek::whereBetween('created_at', [$startDateJing, $endDateJing])
+                ->groupBy('month')
+                ->orderBy('month', 'DESC')
+                ->get([
+                    DB::raw('DATE_FORMAT(created_at, "%M") as month'),
+                    DB::raw('COUNT(*) as value')
+                ])
+                ->toJSON();
 
-        // Chart Jamaah
-        $statsJamaah = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
-        ->groupBy('month')
-        ->orderBy('month', 'DESC')
-        ->get([
-            DB::raw('DATE_FORMAT(created_at, "%M") as month'),
-            DB::raw('COUNT(*) as value')
-        ])
-        ->toJSON();
-        return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'totalJamaahChart', 'stats', 'statsJamaah'));
+                $totalProspekChart = Prospek::whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+
+                // Chart Jamaah
+                $statsJamaah = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
+                ->groupBy(['month', 'number_month'])
+                ->orderBy('number_month')
+                ->get([
+                    DB::raw('DATE_FORMAT(created_at, "%M") as month'),
+                    DB::raw('MONTH(tgl_daftar) as number_month'),
+                    DB::raw('COUNT(*) as value')
+                ])
+                ->toJSON();
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay'));   
+            }else{
+                $now = Carbon::now();
+                $year = $now->year;
+                $month = $now->month;
+                $day = $now->day;
+                $tahunNow = Carbon::create($year, $month, $day);
+                $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+                $idPeriode = $period->id;
+                $varJay = Periode::find($period->id);
+                $startDateJing = $varJay->start;
+                $endDateJing = $varJay->end;
+                $totalJamaahChart = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+
+                // Chart Prospek
+                $stats = Prospek::whereBetween('created_at', [$startDateJing, $endDateJing])
+                ->groupBy('month')
+                ->orderBy('month', 'DESC')
+                ->get([
+                    DB::raw('DATE_FORMAT(created_at, "%M") as month'),
+                    DB::raw('COUNT(*) as value')
+                ])
+                ->toJSON();
+
+                $totalProspekChart = Prospek::whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+
+                // Chart Jamaah
+                $statsJamaah = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
+                ->groupBy(['month', 'number_month'])
+                ->orderBy('number_month')
+                ->get([
+                    DB::raw('DATE_FORMAT(created_at, "%M") as month'),
+                    DB::raw('MONTH(tgl_daftar) as number_month'),
+                    DB::raw('COUNT(*) as value')
+                ])
+                ->toJSON();
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay')); 
+            }
     }
 
     public function sendNotify($token)
