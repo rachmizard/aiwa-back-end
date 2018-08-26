@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
         //
         \App\Console\Commands\SendNotification::class,
         \App\Console\Commands\SendBerangkat::class,
-        \App\Console\Commands\SendPulang::class
+        \App\Console\Commands\SendPulang::class,
+        \App\Console\Commands\SyncData::class
     ];
 
     /**
@@ -38,6 +39,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('sendnotify:berangkat')
                  ->everyMinute();
         $schedule->command('sendnotify:pulang')
+                 ->everyMinute();
+        $schedule->command('sync:pendaftaran')
                  ->everyMinute();                
     }
 

@@ -30,6 +30,7 @@ Route::get('/diskonkantor', function(){
         // $itungPaket = $diskons['data'][0]['jadwal'][0]['paket'];
         // $countPaket = count($test);
         echo "<a href='/api/sync'>Sync to database</a>";
+        echo $count;
         echo "<table border='1'>
                     <tr>
                             <td>Pax</td>
@@ -93,19 +94,36 @@ Route::get('/sync', function(){
 
         for ($i=0; $i < $count ; $i++) { 
             foreach ($diskons['data'][$i]['pendaftaran'] as $key => $diskon) {
-                DB::table('master_pendaftaran')->insert([   
-                    'tgl_pendaftaran' => $diskon['tgl_pendaftaran'],
-                    'id_umrah' => $diskon['id_umrah'],
-                    'id_jamaah' => $diskon['id_jamaah'],
-                    'nama_jamaah' => $diskon['nama_jamaah'],
-                    'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
-                    'staf_kantor' => $diskon['staf_kantor'],
-                    'id_marketing' => $diskon['id_marketing'],
-                    'diskon_kantor' => $diskon['diskon_kantor'],
-                    'diskon_marketing' => $diskon['diskon_marketing'],
-                    'fee_koordinator' => $diskon['fee_koordinator'],
-                    'fee_marketing' => $diskon['fee_marketing']
-                ]);
+                $data['tgl_pendaftaran'] = $diskon['tgl_pendaftaran'];
+                $data['id_umrah'] = $diskon['id_umrah'];
+                $data['id_jamaah'] = $diskon['id_jamaah'];
+                $data['nama_jamaah'] = $diskon['nama_jamaah'];
+                $data['tgl_keberangkatan'] = $diskon['tgl_keberangkatan'];
+                $data['staf_kantor'] = $diskon['staf_kantor'];
+                $data['id_marketing'] = $diskon['id_marketing'];
+                $data['diskon_kantor'] = $diskon['diskon_kantor'];
+                $data['diskon_marketing'] = $diskon['diskon_marketing'];
+                $data['fee_koordinator'] = $diskon['fee_koordinator'];
+                $data['fee_marketing'] = $diskon['fee_marketing'];
+                $validator = DB::table('master_pendaftaran')->where('id_jamaah', '=', $diskon['id_jamaah'])->first();
+                if ($validator) {
+                    DB::table('master_pendaftaran')->where('id', $validator->id)->update($data);
+                }else{
+                    DB::table('master_pendaftaran')->insert($data);
+                //     DB::table('master_pendaftaran')->insert([   
+                //     'tgl_pendaftaran' => $diskon['tgl_pendaftaran'],
+                //     'id_umrah' => $diskon['id_umrah'],
+                //     'id_jamaah' => $diskon['id_jamaah'],
+                //     'nama_jamaah' => $diskon['nama_jamaah'],
+                //     'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
+                //     'staf_kantor' => $diskon['staf_kantor'],
+                //     'id_marketing' => $diskon['id_marketing'],
+                //     'diskon_kantor' => $diskon['diskon_kantor'],
+                //     'diskon_marketing' => $diskon['diskon_marketing'],
+                //     'fee_koordinator' => $diskon['fee_koordinator'],
+                //     'fee_marketing' => $diskon['fee_marketing']
+                // ]);
+                }
             }
         }
         return redirect()->back();
