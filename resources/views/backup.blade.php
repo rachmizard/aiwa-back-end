@@ -59,13 +59,13 @@
                                 <div class="portlet-widgets">
                                     <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
                                     <span class="divider"></span>
-                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet2"><i class="ion-minus-round"></i></a>
+                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet1"><i class="ion-minus-round"></i></a>
                                     <span class="divider"></span>
                                     <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                            <div id="portlet2" class="panel-collapse collapse in">
+                            <div id="portlet1" class="panel-collapse collapse in">
                                 <div class="portlet-body">
                                     <form action="" method="GET" id="filter">
                                         <div class="form-group">
@@ -102,7 +102,7 @@
                             </div>
                             <div id="portlet1" class="panel-collapse collapse in">
                                 <div class="portlet-body">
-                                    <div id="total-jamaah-chart" style="height: 320px;"></div>
+                                    <div id="total-jamaah-chart"  style="height: 320px;"></div>
 
                                     <div class="row text-center m-t-30 m-b-30">
                                         <div class="col-sm-3 col-xs-6 col-md-offset-4">
@@ -155,64 +155,62 @@
             <!-- ================== -->
 @push('otherJavascript')
 <script>
-  
-      var chart = Morris.Bar({
-            element: 'total-jamaah-chart',
-            data: [
-                { y: 'January', a: "{{ $statsJamaahJanuary }}"},
-                { y: 'February', a: "{{ $statsJamaahFebruary }}"},
-                { y: 'March', a: "{{ $statsJamaahMarch }}"},
-                { y: 'April', a: "{{ $statsJamaahApril }}"},
-                { y: 'Mei', a: "{{ $statsJamaahMei }}"},
-                { y: 'June', a: "{{ $statsJamaahJune }}"},
-                { y: 'July', a: "{{ $statsJamaahJuly }}"},
-                { y: 'August', a: "{{ $statsJamaahAugust }}"},
-                { y: 'September', a: "{{ $statsJamaahSeptember }}"},
-                { y: 'October', a: "{{ $statsJamaahOctober }}"},
-                { y: 'November', a: "{{ $statsJamaahNovember }}"},
-                { y: 'December', a: "{{ $statsJamaahDesember }}"}
-            ],
-            xkey: 'y',
-            ykeys: ['a'],
-            labels: ['Jamaah'],
-            barColors: ['#d32f2f']
-        });
+    var data = JSON.parse('{!! $totalJamaahChart !!}');
+ $(function() {
+  // Create a function that will handle AJAX requests
+  function requestData(days, chart){
+    $.ajax({
+      type: "GET",
+      url: "/api/jamaah/totalByPeriode/{{ $idPeriode }}", // This is the URL to the API
+    })
+    .done(function( data ) {
+      // When the response to the AJAX request comes back render the chart with new data
+      chart.setData(JSON.parse(data));
+    })
+    .fail(function() {
+      // If there is no communication between the server, show an error
+      alert( "error occured" );
+    });
+  }
+  var chart = Morris.Bar({
+    // ID of the element in which to draw the chart.
+    element: 'total-jamaah-chart',
+    // Set initial data (ideally you would provide an array of default data)
+    data: [0,0],
+    xkey: 'month',
+    ykeys: ['value'],
+    labels: ['Jamaah'],
+    barColors: ['#d32f2f']
+  });
+  // Request initial data for the past 7 days:
+  requestData("{{ $idPeriode }}", chart);
+  $('ul.ranges a').click(function(e){
+    e.preventDefault();
+    // Get the number of days from the data attribute
+    var el = $(this);
+    days = el.attr('data-range');
+    // Request the data and render the chart using our handy function
+    requestData(days, chart);
+    // Make things pretty to show which button/tab the user clicked
+    el.parent().addClass('active');
+    el.parent().siblings().removeClass('active');
+  })
+});
 
-        var chartProspek = Morris.Bar({
-            element: 'total-prospek-chart',
-            data: [
-                { y: 'January', a: "{{ $statsProspekJanuary }}"},
-                { y: 'February', a: "{{ $statsProspekFebruary }}"},
-                { y: 'March', a: "{{ $statsProspekMarch }}"},
-                { y: 'April', a: "{{ $statsProspekApril }}"},
-                { y: 'Mei', a: "{{ $statsProspekMei }}"},
-                { y: 'June', a: "{{ $statsProspekJune }}",},
-                { y: 'July', a: "{{ $statsProspekJuly }}"},
-                { y: 'August', a: "{{ $statsProspekAugust }}"},
-                { y: 'September', a: "{{ $statsProspekSeptember }}"},
-                { y: 'October', a: "{{ $statsProspekOctober }}"},
-                { y: 'November', a: "{{ $statsProspekNovember }}"},
-                { y: 'December', a: "{{ $statsProspekDesember }}"}
-            ],
-            xkey: 'y',
-            ykeys: ['a'],
-            labels: ['Prospek'],
-            resize: true,
-            barColors: ['#1a2942']
-        });
+
 // Chart Prospek
-// var data = JSON.parse('{!! $stats !!}');
+var data = JSON.parse('{!! $stats !!}');
     
-    // Morris.Bar({
-    //     // ID of the element in which to draw the chart.
-    //     element: 'total-prospek-chart',
-    //     data: data,
-    //     xkey: 'month',
-    //     ykeys: ['value'],
-    //     labels: ['Prospek'],
-    //     resize: true,
-    //     barColors: ['#1a2942']
-    // });
+    Morris.Bar({
+        // ID of the element in which to draw the chart.
+        element: 'total-prospek-chart',
+        data: data,
+        xkey: 'month',
+        ykeys: ['value'],
+        labels: ['Prospek'],
+        resize: true,
+        barColors: ['#1a2942']
+    });
 
 // Chart Jamaah
 

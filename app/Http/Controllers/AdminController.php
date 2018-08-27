@@ -63,16 +63,43 @@ class AdminController extends Controller
                 $totalProspekChart = Prospek::whereBetween('created_at', [$startDateJing, $endDateJing])->count();
 
                 // Chart Jamaah
-                $statsJamaah = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
-                ->groupBy(['month', 'number_month'])
-                ->orderBy('number_month')
-                ->get([
-                    DB::raw('DATE_FORMAT(created_at, "%M") as month'),
-                    DB::raw('MONTH(tgl_daftar) as number_month'),
-                    DB::raw('COUNT(*) as value')
-                ])
-                ->toJSON();
-                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay'));   
+                $statsJamaahJanuary = Jamaah::whereMonth('tgl_daftar', '1')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahFebruary = Jamaah::whereMonth('tgl_daftar', '2')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahMarch = Jamaah::whereMonth('tgl_daftar', '3')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahApril = Jamaah::whereMonth('tgl_daftar', '4')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahMei = Jamaah::whereMonth('tgl_daftar', '5')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahJune = Jamaah::whereMonth('tgl_daftar', '6')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahJuly = Jamaah::whereMonth('tgl_daftar', '7')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahAugust = Jamaah::whereMonth('tgl_daftar', '8')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahSeptember = Jamaah::whereMonth('tgl_daftar', '9')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahOctober = Jamaah::whereMonth('tgl_daftar', '10')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahNovember = Jamaah::whereMonth('tgl_daftar', '11')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahDesember = Jamaah::whereMonth('tgl_daftar', '12')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                // ->groupBy(['month', 'number_month'])
+                // ->orderBy('number_month')
+                // ->get([
+                //     DB::raw('DATE_FORMAT(created_at, "%M") as month'),
+                //     DB::raw('MONTH(tgl_daftar) as number_month'),
+                //     DB::raw('COUNT(*) as value')
+                // ])
+                // ->toJSON();
+
+                // Chart Prospek
+
+                $statsProspekJanuary = User::whereMonth('created_at', '1')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekFebruary = User::whereMonth('created_at', '2')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekMarch = User::whereMonth('created_at', '3')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekApril = User::whereMonth('created_at', '4')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekMei = User::whereMonth('created_at', '5')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekJune = User::whereMonth('created_at', '6')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekJuly = User::whereMonth('created_at', '7')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekAugust = User::whereMonth('created_at', '8')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekSeptember = User::whereMonth('created_at', '9')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekOctober = User::whereMonth('created_at', '10')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekNovember = User::whereMonth('created_at', '11')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekDesember = User::whereMonth('created_at', '12')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember'));   
             }else{
                 $now = Carbon::now();
                 $year = $now->year;
@@ -99,16 +126,45 @@ class AdminController extends Controller
                 $totalProspekChart = Prospek::whereBetween('created_at', [$startDateJing, $endDateJing])->count();
 
                 // Chart Jamaah
-                $statsJamaah = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
-                ->groupBy(['month', 'number_month'])
-                ->orderBy('number_month')
-                ->get([
-                    DB::raw('DATE_FORMAT(created_at, "%M") as month'),
-                    DB::raw('MONTH(tgl_daftar) as number_month'),
-                    DB::raw('COUNT(*) as value')
-                ])
-                ->toJSON();
-                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay')); 
+                $statsJamaahJanuary = Jamaah::whereMonth('tgl_daftar', '1')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahFebruary = Jamaah::whereMonth('tgl_daftar', '2')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahMarch = Jamaah::whereMonth('tgl_daftar', '3')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahApril = Jamaah::whereMonth('tgl_daftar', '4')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahMei = Jamaah::whereMonth('tgl_daftar', '5')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahJune = Jamaah::whereMonth('tgl_daftar', '6')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahJuly = Jamaah::whereMonth('tgl_daftar', '7')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahAugust = Jamaah::whereMonth('tgl_daftar', '8')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahSeptember = Jamaah::whereMonth('tgl_daftar', '9')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahOctober = Jamaah::whereMonth('tgl_daftar', '10')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahNovember = Jamaah::whereMonth('tgl_daftar', '11')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                $statsJamaahDesember = Jamaah::whereMonth('tgl_daftar', '12')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+                
+                // $statsJamaah = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
+                // ->groupBy(['month', 'number_month'])
+                // ->orderBy('number_month')
+                // ->get([
+                //     DB::raw('DATE_FORMAT(created_at, "%M") as month'),
+                //     DB::raw('MONTH(tgl_daftar) as number_month'),
+                //     DB::raw('COUNT(*) as value')
+                // ])
+                // ->toJSON();
+
+                // Chart Prospek
+
+                $statsProspekJanuary = User::whereMonth('created_at', '1')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekFebruary = User::whereMonth('created_at', '2')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekMarch = User::whereMonth('created_at', '3')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekApril = User::whereMonth('created_at', '4')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekMei = User::whereMonth('created_at', '5')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekJune = User::whereMonth('created_at', '6')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekJuly = User::whereMonth('created_at', '7')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekAugust = User::whereMonth('created_at', '8')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekSeptember = User::whereMonth('created_at', '9')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekOctober = User::whereMonth('created_at', '10')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekNovember = User::whereMonth('created_at', '11')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+                $statsProspekDesember = User::whereMonth('created_at', '12')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
+
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember'));   
             }
     }
 

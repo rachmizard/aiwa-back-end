@@ -217,6 +217,7 @@ Route::get('/hotel/{id}/video', 'API\MasterHotelControllerAPI@retrieveVideoByHot
 Route::get('/notif/{id}/delivered', 'API\MasterNotifikasiControllerAPI@retrieveByDelivered');
 Route::get('/notif/{id}/read', 'API\MasterNotifikasiControllerAPI@retrieveByRead');
 Route::put('/notif/{id}/edit', 'API\MasterNotifikasiControllerAPI@markAsRead');
+Route::put('/notif/{id}/readAll', 'API\MasterNotifikasiControllerAPI@markAsReadAll');
 
 // Master Periode API
 Route::get('/periode', 'API\PeriodeControllerAPI@index');

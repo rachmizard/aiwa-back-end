@@ -57,6 +57,9 @@
         =========*/
         .hiden {display: none;}
         .unhide {display: block;}
+        text[text-anchor="middle"]{
+          display:none
+        }
         </style>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
 <!--[if lt IE 9]>
