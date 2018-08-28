@@ -16,21 +16,25 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Penjadwalan Notifikasi {{ $followup->judul }}</h3></div>
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Notifikasi Follow Up</h3></div>
                             <div class="panel-body">
-                                <form role="form" method="POST" action="{{ route('master-reminder.update', $followup->id ) }}">
+                                <form role="form" method="POST" action="{{ route('master-reminder.update', $reminders->id ) }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" value="{{ $reminders->cron_followup }}" name="cron_followup">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
+                                    <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
                                     <div class="form-group">
-                                        <label for="harga_promo">Atur Penjadwalan {{ $followup->judul }}</label>
+                                        <label for="harga_promo">Atur Penjadwalan</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                            <select name="cron" id="" class="form-control">
-                                                <option value="0 */5 * * *" {{ $followup->cron == '0 */5 * * *' ? 'selected' : '' }}>5 Jam sekali</option>
-                                                <option value="0 */6 * * *" {{ $followup->cron == '0 */6 * * *' ? 'selected' : '' }}>6 Jam sekali</option>
-                                                <option value="0 */7 * * *" {{ $followup->cron == '0 */7 * * *' ? 'selected' : '' }}>7 Jam sekali</option>
-                                                <option value="0 */8 * * *" {{ $followup->cron == '0 */8 * * *' ? 'selected' : '' }}>8 Jam sekali</option>
-                                                <option value="0 */9 * * *" {{ $followup->cron == '0 */9 * * *' ? 'selected' : '' }}>9 Jam sekali</option>
+                                            <select name="cron_followup" id="" class="form-control">
+                                                <option value="0 */5 * * *" {{ $reminders->cron_followup == '0 */5 * * *' ? 'selected' : '' }}>5 Jam sekali</option>
+                                                <option value="0 */6 * * *" {{ $reminders->cron_followup == '0 */6 * * *' ? 'selected' : '' }}>6 Jam sekali</option>
+                                                <option value="0 */7 * * *" {{ $reminders->cron_followup == '0 */7 * * *' ? 'selected' : '' }}>7 Jam sekali</option>
+                                                <option value="0 */8 * * *" {{ $reminders->cron_followup == '0 */8 * * *' ? 'selected' : '' }}>8 Jam sekali</option>
+                                                <option value="0 */9 * * *" {{ $reminders->cron_followup == '0 */9 * * *' ? 'selected' : '' }}>9 Jam sekali</option>
                                             </select>
                                         </div>
                                     </div>
@@ -43,21 +47,25 @@
                     </div> <!-- end col -->
                     <div class="col-sm-3">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Penjadwalan Notifikasi {{ $jamaahBerangkat->judul }}</h3></div>
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Notifikasi Jamaah (Berangkat)</h3></div>
                             <div class="panel-body">
-                                <form role="form" method="POST" action="{{ route('master-reminder.update', $jamaahBerangkat->id) }}">
+                                <form role="form" method="POST" action="{{ route('master-reminder.update', $reminders->id) }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" value="{{ $reminders->cron_followup }}" name="cron_followup">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
+                                    <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
                                     <div class="form-group">
-                                        <label for="harga_promo">Atur Penjadwalan {{ $jamaahBerangkat->judul }}</label>
+                                        <label for="harga_promo">Atur Penjadwalan</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                            <select name="cron" id="" class="form-control">
-                                                <option value="0 */5 * * *" {{ $jamaahBerangkat->cron == '0 */5 * * *' ? 'selected' : '' }}>5 Jam sekali</option>
-                                                <option value="0 */6 * * *" {{ $jamaahBerangkat->cron == '0 */6 * * *' ? 'selected' : '' }}>6 Jam sekali</option>
-                                                <option value="0 */7 * * *" {{ $jamaahBerangkat->cron == '0 */7 * * *' ? 'selected' : '' }}>7 Jam sekali</option>
-                                                <option value="0 */8 * * *" {{ $jamaahBerangkat->cron == '0 */8 * * *' ? 'selected' : '' }}>8 Jam sekali</option>
-                                                <option value="0 */9 * * *" {{ $jamaahBerangkat->cron == '0 */9 * * *' ? 'selected' : '' }}>9 Jam sekali</option>
+                                            <select name="cron_jamaah_berangkat" id="" class="form-control">
+                                                <option value="0 */5 * * *" {{ $reminders->cron_jamaah_berangkat == '0 */5 * * *' ? 'selected' : '' }}>5 Jam sekali</option>
+                                                <option value="0 */6 * * *" {{ $reminders->cron_jamaah_berangkat == '0 */6 * * *' ? 'selected' : '' }}>6 Jam sekali</option>
+                                                <option value="0 */7 * * *" {{ $reminders->cron_jamaah_berangkat == '0 */7 * * *' ? 'selected' : '' }}>7 Jam sekali</option>
+                                                <option value="0 */8 * * *" {{ $reminders->cron_jamaah_berangkat == '0 */8 * * *' ? 'selected' : '' }}>8 Jam sekali</option>
+                                                <option value="0 */9 * * *" {{ $reminders->cron_jamaah_berangkat == '0 */9 * * *' ? 'selected' : '' }}>9 Jam sekali</option>
                                             </select>
                                         </div>
                                     </div>
@@ -70,21 +78,25 @@
                     </div> <!-- end col -->
                     <div class="col-sm-3">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Penjadwalan Notifikasi {{ $jamaahPulang->judul }}</h3></div>
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Notifikasi Jamaah (Pulang)</h3></div>
                             <div class="panel-body">
-                                <form role="form" method="POST" action="{{ route('master-reminder.update', $jamaahPulang->id) }}">
+                                <form role="form" method="POST" action="{{ route('master-reminder.update', $reminders->id) }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" value="{{ $reminders->cron_followup }}" name="cron_followup">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
+                                    <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
                                     <div class="form-group">
-                                        <label for="harga_promo">Atur Penjadwalan {{ $jamaahPulang->judul }}</label>
+                                        <label for="harga_promo">Atur Penjadwalan</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                            <select name="cron" id="" class="form-control">
-                                                <option value="0 */5 * * *" {{ $jamaahPulang->cron == '0 */5 * * *' ? 'selected' : '' }}>5 Jam sekali</option>
-                                                <option value="0 */6 * * *" {{ $jamaahPulang->cron == '0 */6 * * *' ? 'selected' : '' }}>6 Jam sekali</option>
-                                                <option value="0 */7 * * *" {{ $jamaahPulang->cron == '0 */7 * * *' ? 'selected' : '' }}>7 Jam sekali</option>
-                                                <option value="0 */8 * * *" {{ $jamaahPulang->cron == '0 */8 * * *' ? 'selected' : '' }}>8 Jam sekali</option>
-                                                <option value="0 */9 * * *" {{ $jamaahPulang->cron == '0 */9 * * *' ? 'selected' : '' }}>9 Jam sekali</option>
+                                            <select name="cron_jamaah_pulang" id="" class="form-control">
+                                                <option value="0 */5 * * *" {{ $reminders->cron_jamaah_pulang == '0 */5 * * *' ? 'selected' : '' }}>5 Jam sekali</option>
+                                                <option value="0 */6 * * *" {{ $reminders->cron_jamaah_pulang == '0 */6 * * *' ? 'selected' : '' }}>6 Jam sekali</option>
+                                                <option value="0 */7 * * *" {{ $reminders->cron_jamaah_pulang == '0 */7 * * *' ? 'selected' : '' }}>7 Jam sekali</option>
+                                                <option value="0 */8 * * *" {{ $reminders->cron_jamaah_pulang == '0 */8 * * *' ? 'selected' : '' }}>8 Jam sekali</option>
+                                                <option value="0 */9 * * *" {{ $reminders->cron_jamaah_pulang == '0 /9 * * *' ? 'selected' : '' }}>9 Jam sekali</option>
                                             </select>
                                         </div>
                                     </div>
@@ -97,26 +109,30 @@
                     </div> <!-- end col -->
                     <div class="col-sm-3">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Penjadwalan Notifikasi {{ $sinkronisasi->judul }}</h3></div>
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Notifikasi Sinkronisasi</h3></div>
                             <div class="panel-body">
-                                <form role="form" method="POST" action="{{ route('master-reminder.update', $sinkronisasi->id) }}">
+                                <form role="form" method="POST" action="{{ route('master-reminder.update', $reminders->id) }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" value="{{ $reminders->cron_followup }}" name="cron_followup">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
+                                    <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
                                     <div class="form-group">
-                                        <label for="harga_promo">Atur Penjadwalan {{ $sinkronisasi->judul }}</label>
+                                        <label for="harga_promo">Atur Penjadwalan</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                            <select name="cron" id="" class="form-control">
-                                                <option value="0 */5 * * *" {{ $sinkronisasi->notifikasi == 
-                                                'sinkronisasi' ? '0 */5 * * *' : '' }}>5 Jam sekali</option>
-                                                <option value="0 */6 * * *" {{ $sinkronisasi->notifikasi == 
-                                                'sinkronisasi' ? '0 */6 * * *' : '' }}>6 Jam sekali</option>
-                                                <option value="0 */7 * * *" {{ $sinkronisasi->notifikasi == 
-                                                'sinkronisasi' ? '0 */7 * * *' : '' }}>7 Jam sekali</option>
-                                                <option value="0 */8 * * *" {{ $sinkronisasi->notifikasi == 
-                                                'sinkronisasi' ? '0 */8 * * *' : '' }}>8 Jam sekali</option>
-                                                <option value="0 */9 * * *" {{ $sinkronisasi->notifikasi == 
-                                                'sinkronisasi' ? '0 */9 * * *' : '' }}>9 Jam sekali</option>
+                                            <select name="cron_sinkronisasi" id="" class="form-control">
+                                                <option value="0 */5 * * *" {{ $reminders->notifikasi == 
+                                                'cron_sinkronisasi' ? '0 */5 * * *' : '' }}>5 Jam sekali</option>
+                                                <option value="0 */6 * * *" {{ $reminders->notifikasi == 
+                                                'cron_sinkronisasi' ? '0 */6 * * *' : '' }}>6 Jam sekali</option>
+                                                <option value="0 */7 * * *" {{ $reminders->notifikasi == 
+                                                'cron_sinkronisasi' ? '0 */7 * * *' : '' }}>7 Jam sekali</option>
+                                                <option value="0 */8 * * *" {{ $reminders->notifikasi == 
+                                                'cron_sinkronisasi' ? '0 */8 * * *' : '' }}>8 Jam sekali</option>
+                                                <option value="0 */9 * * *" {{ $reminders->notifikasi == 
+                                                'cron_sinkronisasi' ? '0 */9 * * *' : '' }}>9 Jam sekali</option>
                                             </select>
                                         </div>
                                     </div>

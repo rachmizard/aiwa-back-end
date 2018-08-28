@@ -14,11 +14,8 @@ class ReminderController extends Controller
      */
     public function index()
     {
-        $followup = Reminder::where('notifikasi', 'followup')->first();
-        $jamaahBerangkat = Reminder::where('notifikasi', 'jamaah_berangkat')->first();
-        $jamaahPulang = Reminder::where('notifikasi', 'jamaah_pulang')->first();
-        $sinkronisasi = Reminder::where('notifikasi', 'sinkronisasi')->first();
-        return view('reminder.index', compact('followup', 'jamaahBerangkat', 'jamaahPulang', 'sinkronisasi'));
+        $reminders = Reminder::find(1);
+        return view('reminder.index', compact('reminders'));
     }
 
     /**
@@ -74,7 +71,12 @@ class ReminderController extends Controller
     public function update(Request $request, $id)
     {
         $updateCron = Reminder::find($id);
-        $updateCron->update(['cron' => $request->cron]);
+        $updateCron->update([
+            'cron_followup' => $request->cron_followup,
+            'cron_jamaah_berangkat' => $request->cron_jamaah_berangkat,
+            'cron_jamaah_pulang' => $request->cron_jamaah_pulang,
+            'cron_sinkronisasi' => $request->cron_sinkronisasi
+        ]);
         return redirect()->back()->with('message', 'Penjadwalan notifikasi berhasil di set!');
     }
 

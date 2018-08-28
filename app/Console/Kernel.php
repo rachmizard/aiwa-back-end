@@ -9,6 +9,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Reminder;
+use DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -35,19 +36,16 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('sendnotify:followup')
         //          ->everyMinute();
-        $followup = Reminder::where('notifikasi', 'followup')->first();
-        $jamaahBerangkat = Reminder::where('notifikasi', 'jamaah_berangkat')->first();
-        $jamaahPulang = Reminder::where('notifikasi', 'jamaah_pulang')->first();
-        $sinkronisasi = Reminder::where('notifikasi', 'sinkronisasi')->first();
+        $reminders = \App\Reminder::find(1);
 
         $schedule->command('sendnotify:followup')
-                 ->cron($followup->cron);
+                 ->cron($reminders->cron_followup);
         $schedule->command('sendnotify:berangkat')
-                 ->cron($jamaahBerangkat->cron);
+                 ->cron($reminders->cron_jamaah_berangkat);
         $schedule->command('sendnotify:pulang')
-                 ->cron($jamaahPulang->cron);
+                 ->cron($reminders->cron_jamaah_pulang);
         $schedule->command('sync:pendaftaran')
-                 ->cron($sinkronisasi->cron);                
+                 ->cron($reminders->cron_sinkronisasi);
     }
 
     /**

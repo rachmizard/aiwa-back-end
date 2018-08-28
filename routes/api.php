@@ -17,6 +17,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/testCron', function(){
+
+        $followup = DB::table('master_reminder')->where('notifikasi', 'followup')->first();
+        $jamaahBerangkat = DB::table('master_reminder')->where('notifikasi', 'jamaah_berangkat')->first();
+        $jamaahPulang = DB::table('master_reminder')->where('notifikasi', 'jamaah_pulang')->first();
+        $sinkronisasi = DB::table('master_reminder')->where('notifikasi', 'sinkronisasi')->first();
+
+        echo 'ini '. $followup->cron .'<br>';
+        echo 'ini '. $jamaahBerangkat->cron .'<br>';
+        echo 'ini '. $jamaahPulang->cron .'<br>';
+        echo 'ini '. $sinkronisasi->cron .'<br>';
+});
+
 Route::get('/diskonkantor', function(){
     
         $url = 'http://115.124.86.218/aiw/pendaftaran/1440';
