@@ -17,6 +17,8 @@ class ProspekResource extends Resource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
+            'index_paket' => $this->index_paket,
+            'index_jadwal' => $this->index_jadwal,
             'anggota_id' => $this->anggota_id,
             'pic' => $this->pic,
             'no_telp' => $this->no_telp,

@@ -25,7 +25,7 @@ class ProspekController extends Controller
     public function index(Request $request)
     {
         $agents = \App\User::where('status', '=', '1')->get();
-        $prospeks = Prospek::orderBy('id', 'DESC')->get();
+        $prospeks = Prospek::all();
         $periodes = Periode::all();
         // Read notification
         Auth()->guard('admin')->user()->unreadNotifications->where('type', 'App\Notifications\ProspekNewNotification')->markAsRead();
@@ -44,9 +44,13 @@ class ProspekController extends Controller
          return Datatables::of($prospeks)
          ->addColumn('action', function($prospeks){
              return '
-                <a href="#" data-toggle="modal" data-target="#editProspek'. $prospeks->id .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit Follow Up</a>
-                <a href="'. route('aiwa.prospek.delete', $prospeks->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
-                    ;
+                    <a href="#" data-toggle="modal" data-target="#editProspek'. $prospeks->id .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit Follow Up</a>
+                    <input type="hidden" name="idProspek" value="'. $prospeks->id .'">
+                    <form action="'. route('aiwa.prospek.delete', $prospeks->id) .'" method="POST">
+                    <input type="hidden" name="_token" value="'. csrf_token() .'">
+                    <button type="submit" onclick="confirmBtn()" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                    </form>
+                ';
                 })
           ->addColumn('qty', function($prospeks){
                 $jml_dewasa = $prospeks->jml_dewasa;
@@ -152,7 +156,7 @@ class ProspekController extends Controller
     public function destroy($id)
     {
         $prospek = Prospek::findOrFail($id);
-        $prospeks->delete();
+        $prospek->delete();
         return redirect()->back();
     }
 }

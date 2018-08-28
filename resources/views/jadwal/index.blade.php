@@ -2,10 +2,15 @@
 @section('content')
 <!-- Page Content Start -->
             <!-- ================== -->
-
+            <style>
+                div.dataTables_wrapper {
+                    width: 800px;
+                    margin: 0 auto;
+                }
+            </style>
             <div class="wraper container-fluid">
                 <div class="page-title">
-                    <h3 class="title"><strong>Jadwal</strong></h3>
+                    <h3 class="title"><strong><i class="fa fa-calendar"></i> Jadwal</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
                 </div>
@@ -16,7 +21,6 @@
                                 <table id="jadwal" class="table table-hover table-bordered display"  style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
                                             <th>ID</th>
                                             <th>Tgl BErangkat</th>
                                             <th>Jam Berangkat</th>
@@ -34,15 +38,13 @@
                                             <th>Status</th>
                                             <th>Tgl Manasik</th>
                                             <th>Jam Manasik</th>
-                                            <th>Paket</th>
-                                            <th>Itinerary</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php for ($i=0; $i < $count; $i++) { ?>
                                         @foreach($jadwals['data'][$i]['jadwal'] as $key => $in)
                                         <tr>
-                                            <td>{{ $i+1 }}</td>
                                             <td>{{ $in['id'] }}</td>
                                             <td>{{ date('d-M-Y', strtotime($in['tgl_berangkat'])) }}</td>
                                             <td>{{ $in['jam_berangkat'] }}</td>
@@ -62,8 +64,8 @@
                                             <td>{{ $in['jam_manasik'] }}</td>
                                             <td>
                                                 <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#paket{{ $i+1 }}" title="{{ $i+1 }}">Lihat Paket</button>
+                                                <a href="{{ $in['itinerary'] }}" class="btn btn-success btn-sm" title="{{ $in['itinerary'] }}" download>Download Itinerary</a>
                                             </td>
-                                            <td><a href="{{ $in['itinerary'] }}" class="btn btn-success btn-sm" title="{{ $in['itinerary'] }}" download>Download</a></td>
                                         </tr>
                                         @endforeach
                                     <?php } ?>
@@ -90,7 +92,7 @@
       </div>
       <div class="modal-body">
             @if(!$on['paket'] == null)
-            <table id="paket23" class="table table-bordered">
+            <table id="paket23" class="table table-bordered table-striped table-hover nowrap" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -105,7 +107,7 @@
                 </thead>
                 <tbody>
                 <?php $no = 1; ?>
-                @foreach($on['paket'] as $oi)
+                @foreach($on['paket'] as $key => $oi)
                     <tr>
                         <td>{{ $no }}</td>
                         <td>{{ $oi['nama_paket'] }}</td>
@@ -126,7 +128,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -139,12 +140,11 @@
 <script>
 $(document).ready(function() {
     $('#jadwal').DataTable( {
-        "scrollY": 300,
+        // "scrollY": 300,
         "scrollX": true
     } );
 
     $('#paket23').DataTable( {
-        "scrollY": 300,
         "scrollX": true
     } );
 } );

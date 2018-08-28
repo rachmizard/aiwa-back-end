@@ -41,6 +41,25 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
 
 // for backup
   Route::prefix('admin')->group(function() {
+
+    Route::get('notification', function(){
+        Auth()->guard('admin')->user()->unreadNotifications->markAsRead();
+        return view('notifications.index');
+    })->name('admin.notification');
+
+    Route::get('notification/{id}/delete', function($id){
+        $notification = Auth()->guard('admin')->user()->readNotifications->where('id', $id)->first();
+        $notification->delete();
+        return redirect()->back();
+    })->name('admin.delete.notification');
+
+    Route::get('notification/deleteAll', function(){
+        // Auth()->guard('admin')->user()->readNotifications->where('');
+        // $notification->delete();
+        DB::table('notifications')->select('notifications.*')->delete();
+        return redirect()->back();
+    })->name('admin.deleteall.notification');
+
   	// Login & logout's area
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
@@ -103,7 +122,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::post('prospek', 'ProspekController@store')->name('aiwa.prospek.store');
     Route::get('prospek/{id}/edit', 'ProspekController@edit')->name('aiwa.prospek.edit-form');
     Route::post('prospek/{id}', 'ProspekController@update')->name('aiwa.prospek.update');
-    Route::get('prospek/{id}/delete', 'ProspekController@destroy')->name('aiwa.prospek.delete');
+    Route::post('prospek/{id}/delete', 'ProspekController@destroy')->name('aiwa.prospek.delete');
     Route::get('prospek/loadTableProspek', 'ProspekController@getData')->name('aiwa.prospek.load');
     // End
 

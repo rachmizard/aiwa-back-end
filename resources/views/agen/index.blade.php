@@ -242,7 +242,7 @@
                    var table = $('#agent').DataTable({
                         "serverSide": true,
                         "ordering": true,
-                        "searching": true,
+                        "searching": false,
                         "processing": true,
                         "ajax": {
                             url: "{{ route('aiwa.anggota.load') }}",

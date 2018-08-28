@@ -41,8 +41,11 @@
             position: relative;
             width: 100%;
             height: 100%;
-            background: url('https://www.mabonline.net/wp-content/uploads/2015/09/Masjid-Haram-Makkah.jpg') center center no-repeat;
-            background-size: cover;
+            /*background: url('https://www.mabonline.net/wp-content/uploads/2015/09/Masjid-Haram-Makkah.jpg') center center no-repeat;*/
+            background: url('http://115.124.86.218/aiw/marketing/images/bg.png');
+            background-repeat: repeat;
+            /*background-size: cover;*/
+            background-color: #AB9041;
 
             &:before {
               content: '';

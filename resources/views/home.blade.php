@@ -32,16 +32,16 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="widget-panel widget-style-2 bg-warning">
+                        <div class="widget-panel widget-style-2 bg-warning bounce animated">
                             <i class="ion-cash"></i>
-                            <h2 class="m-0 counter">Rp. {{ number_format($sumofPotensi,2,',','.') }}</h2>
+                            <h2 class="m-0">Rp. <span class="counter">{{ number_format($sumofPotensi,2,',',',') }}</span></h2>
                             <div>Total Potensi</div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="widget-panel widget-style-2 bg-success">
+                        <div class="widget-panel widget-style-2 bg-success bounce animated">
                             <i class="ion-cash"></i>
-                            <h2 class="m-0 counter">Rp. {{ number_format($sumofKomisi,2,',','.') }}</h2>
+                            <h2 class="m-0">Rp. <span class="counter">{{ number_format($sumofKomisi,2,',',',') }}</span></h2>
                             <div>Total Komisi</div>
                         </div>
                     </div>
@@ -59,22 +59,23 @@
                                 <div class="portlet-widgets">
                                     <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
                                     <span class="divider"></span>
-                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet2"><i class="ion-minus-round"></i></a>
+                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet1"><i class="ion-minus-round"></i></a>
                                     <span class="divider"></span>
                                     <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                            <div id="portlet2" class="panel-collapse collapse in">
+                            <div id="portlet1" class="panel-collapse collapse in">
                                 <div class="portlet-body">
                                     <form action="" method="GET" id="filter">
+                                        {{ csrf_field() }}
                                         <div class="form-group">
                                             <label for="">Periode Grafik</label>
                                             <select name="periode" id="" class="form-control" onchange="document.getElementById('filter').submit();">
                                                 <option disabled selected>Periode</option>
                                                 @foreach($periodes as $periode)
                                                     @if($periode->id != 7)
-                                                         <option value="{{ $periode->id }}">{{ $periode->judul }}</option>
+                                                         <option value="{{ $periode->judul }}">{{ $periode->judul }}</option>
                                                     @endif
                                                 @endforeach
                                             </select>
@@ -94,13 +95,13 @@
                                 <div class="portlet-widgets">
                                     <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
                                     <span class="divider"></span>
-                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet1"><i class="ion-minus-round"></i></a>
+                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet2"><i class="ion-minus-round"></i></a>
                                     <span class="divider"></span>
                                     <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                            <div id="portlet1" class="panel-collapse collapse in">
+                            <div id="portlet2" class="panel-collapse collapse in">
                                 <div class="portlet-body">
                                     <div id="total-jamaah-chart" style="height: 320px;"></div>
 
@@ -126,13 +127,13 @@
                                 <div class="portlet-widgets">
                                     <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
                                     <span class="divider"></span>
-                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet2"><i class="ion-minus-round"></i></a>
+                                    <a data-toggle="collapse" data-parent="#accordion1" href="#portlet3"><i class="ion-minus-round"></i></a>
                                     <span class="divider"></span>
                                     <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                            <div id="portlet2" class="panel-collapse collapse in">
+                            <div id="portlet3" class="panel-collapse collapse in">
                                 <div class="portlet-body">
                                     <div id="total-prospek-chart" style="height: 200px;"></div>
                                     <div class="row text-center m-t-30">
@@ -154,6 +155,13 @@
             <!-- Page Content Ends -->
             <!-- ================== -->
 @push('otherJavascript')
+<script>
+     /* Counter Up */
+    $('.counter').counterUp({
+        delay: 100,
+        time: 1200
+    });
+</script>
 <script>
   
       var chart = Morris.Bar({

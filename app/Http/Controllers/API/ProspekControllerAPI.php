@@ -93,6 +93,8 @@ class ProspekControllerAPI extends Controller
         // }
 
         $prospek = $request->isMethod('put') ? Prospek::findOrFail($request->id) : new Prospek;
+        $prospek->index_paket = $request->input('index_paket');
+        $prospek->index_jadwal = $request->input('index_jadwal');
         $prospek->anggota_id = $request->input('anggota_id');
         $prospek->pic = $request->input('pic');
         $prospek->no_telp = $request->input('no_telp');
@@ -158,6 +160,8 @@ class ProspekControllerAPI extends Controller
     public function update(Request $request, $id)
     {
         $prospek = $request->isMethod('put') ? Prospek::findOrFail($id) : new Prospek;
+        $prospek->index_paket = $request->input('index_paket');
+        $prospek->index_jadwal = $request->input('index_jadwal');
         $prospek->anggota_id = $request->input('anggota_id');
         $prospek->pic = $request->input('pic');
         $prospek->no_telp = $request->input('no_telp');

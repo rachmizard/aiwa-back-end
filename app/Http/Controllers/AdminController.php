@@ -43,8 +43,8 @@ class AdminController extends Controller
                 // $day = $now->day;
                 // $tahunNow = Carbon::create($year, $month, $day);
                 // $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
-                $getIdPeriode = $request->input('periode');
-                $varJay = Periode::find($getIdPeriode);
+                $getIdPeriode = Periode::where('judul', '=', $request->input('periode'))->first();
+                $varJay = Periode::find($getIdPeriode->id);
                 $startDateJing = $varJay->start;
                 $endDateJing = $varJay->end;
                 $idPeriode = $varJay->id;
@@ -138,7 +138,7 @@ class AdminController extends Controller
                 $statsJamaahOctober = Jamaah::whereMonth('tgl_daftar', '10')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
                 $statsJamaahNovember = Jamaah::whereMonth('tgl_daftar', '11')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
                 $statsJamaahDesember = Jamaah::whereMonth('tgl_daftar', '12')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
-                
+
                 // $statsJamaah = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
                 // ->groupBy(['month', 'number_month'])
                 // ->orderBy('number_month')
@@ -281,7 +281,7 @@ class AdminController extends Controller
                 }
             });
         }
-        return back();
+        return redirect()->route('aiwa.anggota');
     }
 
     /**

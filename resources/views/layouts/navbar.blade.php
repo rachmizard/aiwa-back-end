@@ -31,7 +31,7 @@
                                     <span>{{ str_limit($notification->data['nama'], 5) }} {{ $notification->data['data'] }}<br><small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small></span>
                                 </a>
                                 @else
-                                <a {{ Auth::guard('admin')->user()->unreadNotifications->where('type', '=', 'App\Notifications\SyncWeeklyNotification') ? 'href=' : 'href=' }}
+                                <a {{ Auth::guard('admin')->user()->unreadNotifications->where('type', '=', 'App\Notifications\SyncWeeklyNotification') ? 'href=route("admin.notification")' : 'href=' }}
                                     <span class="pull-left"><i class="fa {{ $notification->type == 'App\Notifications\SyncWeeklyNotification' ? 'fa-check fa-2x text-success' : 'fa-check fa-2x text-info' }}"></i></span>
                                     <span>{{ $notification->data['data'] }}<br><small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small></span>
                                 </a>
@@ -48,7 +48,7 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown text-center">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src="img/avatar-2.jpg" class="img-circle profile-img thumb-sm">
+                            <img alt="" src="/img/avatar-2.jpg" class="img-circle profile-img thumb-sm">
                             <span class="username">{{Auth::guard('admin')->user()->username}} </span> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu extended pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;">

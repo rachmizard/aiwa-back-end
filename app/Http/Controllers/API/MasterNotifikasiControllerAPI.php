@@ -28,6 +28,19 @@ class MasterNotifikasiControllerAPI extends Controller
         return response()->json(['response' => $success]);
     }
 
+    public function markAsReadAll(Request $request, $id)
+    {
+        $data['status'] = 'READ';
+        $read = MasterNotifikasi::where('anggota_id', $id)->update($data);
+        // foreach ($read as $value) {
+        //     $ref = MasterNotifikasi::findOrFail($value->id);
+        //     $ref->status = $request->input('status');
+        //     $ref->save();
+        // }
+        $success['status'] = 'success';
+        return response()->json(['response' => $success]);
+    }
+
     public function destroy($id)
     {
         //

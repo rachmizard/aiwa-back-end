@@ -19,7 +19,7 @@
                                   <thead>
                                     <tr>
                                         <th>No</th>
-                                        <!-- <th>Tanggal Daftar</th> -->
+                                        <th>Tanggal Daftar</th>
                                         <th>ID Umrah</th>
                                         <th>ID Jamaah</th>
                                         <th>Nama</th>
@@ -82,7 +82,7 @@
                         order: [ [0, 'desc'] ],
                         "columns": [
                             { data: "id", name: "id" },
-                            // { data: "tgl_daftar", name: "tgl_daftar" },
+                            { data: "tgl_daftar", name: "tgl_daftar" },
                             { data: "id_umrah", name: "id_umrah" },
                             { data: "id_jamaah", name: "id_jamaah" },
                             { data: "nama", name: "nama" },

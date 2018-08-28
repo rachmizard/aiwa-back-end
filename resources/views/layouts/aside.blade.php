@@ -52,7 +52,7 @@
                      @endif
                 </a>
                 <ul class="list-unstyled">
-                    <li class="{{ Route::currentRouteNamed('aiwa.log-activity') ? 'active' : '' }}"><a href="{{route('aiwa.log-activity')}}"><i class="fa fa-clock-o"></i> Log Activity</a></li>
+                    <!-- <li class="{{ Route::currentRouteNamed('aiwa.log-activity') ? 'active' : '' }}"><a href="{{route('aiwa.log-activity')}}"><i class="fa fa-clock-o"></i> Log Activity</a></li> -->
                     <li class="{{ Route::currentRouteNamed('aiwa.anggota.import') ? 'active' : '' }}"><a href="{{ route('aiwa.anggota.import') }}"><i class="fa fa-user-plus"></i> Import Akun Agen</a></li>
                     <li><a href="{{ route('aiwa.approval') }}"><i class="fa fa-check"></i> Approval Agen
                       @if(Auth::guard('admin')->user()->unreadNotifications->where('type', '=', 'App\Notifications\ApproveAgenNotification')->count() > 0)
@@ -60,7 +60,7 @@
                       @endif
                       </a>
                     </li>
-                    <li><a href="#"><i class="fa fa-bell"></i> Notifikasi 
+                    <li><a href="{{ route('admin.notification') }}"><i class="fa fa-bell"></i> Notifikasi 
                      @if(Auth::guard('admin')->user()->unreadNotifications->count() > 0)
                         <span class="badge bg-pink">{{Auth::guard('admin')->user()->unreadNotifications->count() > '0' ? 'new' : ''}}</span>
                      @endif

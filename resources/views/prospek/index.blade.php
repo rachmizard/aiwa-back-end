@@ -182,6 +182,11 @@
                todayHighlight: true,
                format: 'd/m/yyyy' 
            });
+           
+            function confirmBtn() {
+                  if(!confirm("Are You Sure to delete this?"))
+                  event.preventDefault();
+            }
     </script>
         @endpush
 

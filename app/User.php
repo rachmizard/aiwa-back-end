@@ -53,9 +53,9 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'koordinator', 'id');
     }
 
-    // public function sendPasswordResetNotification($token)
-    // {
-    //     $this->notify(new AgenResetPasswordNotification($token));
-    // }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AgenResetPasswordNotification($token));
+    }
 
 }
