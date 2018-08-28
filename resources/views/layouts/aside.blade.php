@@ -64,7 +64,11 @@
                      @if(Auth::guard('admin')->user()->unreadNotifications->count() > 0)
                         <span class="badge bg-pink">{{Auth::guard('admin')->user()->unreadNotifications->count() > '0' ? 'new' : ''}}</span>
                      @endif
-                    </a></li>
+                    </a>
+                    </li>
+                    <li>
+                      <a href="{{ route('master-reminder.index') }}"><i class="fa fa-clock-o"></i> Penjadwalan Notifikasi</a>
+                  </li>
                 </ul>
               </li>
           </nav>

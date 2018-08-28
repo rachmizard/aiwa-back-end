@@ -197,6 +197,9 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::post('master-sapaan/store', 'SapaanController@store')->name('aiwa.master-sapaan.store');
     Route::post('master-sapaan/{id}/delete', 'SapaanController@destroy')->name('aiwa.master-sapaan.destroy');
 
+    // Master Reminder
+    Route::resource('master-reminder', 'ReminderController');
+
     });
 
 Route::get('/download', function(){
