@@ -33,7 +33,7 @@ class AdminController extends Controller
         $totalJamaah = Jamaah::all();
         $totalProspek = Prospek::all();
         $sumofPotensi = Jamaah::where('status', '=', 'POTENSI')->sum('marketing_fee');
-        $sumofKomisi = Jamaah::where('status', '=', 'KOM')->sum('marketing_fee');
+        $sumofKomisi = Jamaah::where('status', '!=', 'POTENSI')->sum('marketing_fee');
         $periodes = Periode::all();
         // Chart Query
         if ($request->periode) {
@@ -267,6 +267,8 @@ class AdminController extends Controller
                     $data['fee_promo'] = $row['fee_promo'];
                     $data['nama_rek_beda'] = $row['nama_rek_beda'];
                     $data['website'] = $row['website'];
+                    $data['created_at'] = Carbon::now();
+                    $data['updated_at'] = Carbon::now();
 
                     if(!empty($data)) {
                         $validator = User::where('id', $data['id'])->first();
@@ -274,6 +276,16 @@ class AdminController extends Controller
                             DB::table('users')->where('id', $data['id'])->update($data);
                             // Session::put('message', 'Your file is succesfully updated!');
                         }else {
+                            if ($data['id'] == null) {
+                                $length = 4;
+                                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                                $charactersLength = strlen($characters);
+                                $randomString = '';
+                                for ($i = 0; $i < $length; $i++) {
+                                    $randomString .= $characters[rand(0, $charactersLength - 1)];
+                                }
+                                $data['id'] = 'SM'. $randomString;
+                            }
                             DB::table('users')->insert($data);
                             // Session::put('message', 'Your file is succesfully imported!');
                         }

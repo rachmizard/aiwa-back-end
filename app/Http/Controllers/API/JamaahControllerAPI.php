@@ -248,13 +248,22 @@ class JamaahControllerAPI extends Controller
     public function retrieveJamaahBerangkatByAgen(Request $request, $id, $tahun)
     {
         $now = Carbon::now();
+        $now->addDays(3);
         $year = $now->year;
         $month = $now->month;
         $day = $now->day;
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+        $ref = Jamaah::all();
+        foreach ($ref as $value) {
+            $hariH = Carbon::now();
+            if ($value->tgl_berangkat == $hariH->day.'/'.$hariH->month.'/'.$hariH->year) {
+                return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $hariH->day.'/'.$hariH->month.'/'.$hariH->year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+            }else{
+                return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+            }
+        }
     }
 
     public function retrieveJamaahPulangByAgen(Request $request, $id, $tahun)
@@ -266,7 +275,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+        return $retrieveJamaahPulangByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
     }
 
     // CHART DASHBOARD

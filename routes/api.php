@@ -253,7 +253,7 @@ Route::post('/password/reset', 'API\Auth\ResetPasswordControllerAPI@reset');
 
 
 Route::get('/indit', function(){
-	$now = Carbon\Carbon::now();
+	        $now = Carbon\Carbon::now();
             $year = $now->year;
             $month = $now->month;
             $day = $now->day;

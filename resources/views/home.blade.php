@@ -34,14 +34,14 @@
                     <div class="col-md-6">
                         <div class="widget-panel widget-style-2 bg-warning bounce animated">
                             <i class="ion-cash"></i>
-                            <h2 class="m-0">Rp. <span class="counter">{{ number_format($sumofPotensi,2,',',',') }}</span></h2>
+                            <h2 class="m-0">Rp. <span class="counter">{{ number_format($sumofPotensi,2,'.',',') }}</span></h2>
                             <div>Total Potensi</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="widget-panel widget-style-2 bg-success bounce animated">
                             <i class="ion-cash"></i>
-                            <h2 class="m-0">Rp. <span class="counter">{{ number_format($sumofKomisi,2,',',',') }}</span></h2>
+                            <h2 class="m-0">Rp. <span class="counter">{{ number_format($sumofKomisi,2,'.',',') }}</span></h2>
                             <div>Total Komisi</div>
                         </div>
                     </div>

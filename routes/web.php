@@ -99,7 +99,7 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
     // Import Jamaah Excel
     Route::post('/jamaah/import', 'ImportJamaahController@importExcelJamaah')->name('aiwa.jamaah.store.import');
     Route::get('/jamaah/download/{type}', 'ImportJamaahController@downloadExcel')->name('aiwa.jamaah.download');
-    Route::get('/jamaah/download/format/csv', 'DownloadFormatExcelController@downloadFormatJamaah')->name('aiwa.jamaah.format.download');
+    Route::get('/jamaah/download/format/xlsx', 'DownloadFormatExcelController@downloadFormatJamaah')->name('aiwa.jamaah.format.download');
     // End Import Jamaah
 
     // Agen
