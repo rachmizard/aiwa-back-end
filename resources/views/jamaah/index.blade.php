@@ -8,7 +8,7 @@
                     <h3 class="title"><strong><i class="fa fa-user"></i> LAPORAN JAMAAH UMRAH</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
-                    <a href="jamaah/download/csv" class="btn btn-sm btn-info"><i class="fa fa-file-excel-o"></i> Download CSV</a>
+                    <!-- <a href="jamaah/download/csv" class="btn btn-sm btn-info"><i class="fa fa-file-excel-o"></i> Download CSV</a> -->
                     <button id="refreshJamaah" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
                 </div>
                 <div class="row">
@@ -71,10 +71,24 @@
             </div>
 
          @push('dataTables')
+            <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
+            <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
                     var table = $('#jamaah').DataTable({
+                        "scrollX": true,
+                        "dom" : 'lBfrtip',
+                        "buttons": [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ],
                         "responsive": true,
                         "processing": false,
                         "serverSide": true,

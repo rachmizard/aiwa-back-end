@@ -259,7 +259,7 @@ class AdminController extends Controller
                     $data['no_ktp'] = $row['no_ktp'];
                     $data['alamat'] = $row['domisili'];
                     $data['no_telp'] = $row['no_telp'];
-                    $data['status'] = 1;
+                    $data['status'] = $row['status'];
                     $data['koordinator'] = $row['koordinator'];
                     $data['bank'] = $row['bank'];
                     $data['no_rekening'] = $row['no_rekening'];
@@ -277,14 +277,14 @@ class AdminController extends Controller
                             // Session::put('message', 'Your file is succesfully updated!');
                         }else {
                             if ($data['id'] == null) {
-                                $length = 4;
+                                $length = 10;
                                 $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                                 $charactersLength = strlen($characters);
                                 $randomString = '';
                                 for ($i = 0; $i < $length; $i++) {
                                     $randomString .= $characters[rand(0, $charactersLength - 1)];
                                 }
-                                $data['id'] = 'SM'. $randomString;
+                                $data['id'] = $randomString;
                             }
                             DB::table('users')->insert($data);
                             // Session::put('message', 'Your file is succesfully imported!');

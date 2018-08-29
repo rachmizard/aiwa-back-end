@@ -39,7 +39,7 @@
         <link href="{{asset('/css/style-responsive.css')}}" rel="stylesheet" />
 
         <!-- datatables css -->
-        <link href="{{asset('/assets/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
 
         <!-- Plugins css -->
@@ -137,7 +137,7 @@
         <script src="{{asset('/assets/sweet-alert/sweet-alert.init.js')}}"></script>
 
         <!-- datatables -->
-        <script src="{{asset('/assets/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="https://datatables.yajrabox.com/js/jquery.dataTables.min.js"></script>
         <script src="{{asset('/assets/datatables/dataTables.bootstrap.js')}}"></script>
 
         <!-- Modal-Effect -->
@@ -160,6 +160,7 @@
         <script src="{{asset('assets/select2/select2.min.js')}}" type="text/javascript"></script>
         <!-- Masked Input -->
         <!-- <script src="{{asset('assets/bootstrap-inputmask/bootstrap-inputmask.min.js')}}" type="text/javascript"></script> -->
+        @stack('scripts')
         @stack('dataTables')
         @stack('otherJavascript')
         <script>

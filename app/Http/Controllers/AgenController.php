@@ -42,9 +42,6 @@ class AgenController extends Controller
     {
         $agents = User::with('agent')->select('users.*')->where('status', '=', '1');
          return Datatables::of($agents)
-         ->editColumn('koordinator', function($agents){
-            return ($agents->koordinator == 1) ? 'TOP' : $agents->id;
-         })
          ->addColumn('action', function($agents)
          {
             return '
