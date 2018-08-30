@@ -5,12 +5,16 @@
 
             <div class="wraper container-fluid">
                 <div class="page-title">
-                    <h3 class="title"><strong><i class="fa fa-user"></i> LAPORAN JAMAAH UMRAH</strong></h3>
+                    <h3 class="title"><strong><i class="fa fa-user"></i> DETAIL JAMAAH UMRAH & EXPORT DATA</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
                     <!-- <a href="jamaah/download/csv" class="btn btn-sm btn-info"><i class="fa fa-file-excel-o"></i> Download CSV</a> -->
-                    <button id="refreshJamaah" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
-                    <a href="{{ route('aiwa.jamaah.detail') }}" class="btn btn-sm btn-info"><i class="fa fa-file-excel-o"></i> Download Jamaah</a>
+                    <a href="{{ route('aiwa.jamaah') }}" class="btn btn-sm btn-danger"><i class="fa fa-user"></i> Kembali Ke Halaman Utama</a>
+                    <div class="btn-group">
+                        <button id="refreshJamaah" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
+                        <a href="{{ url('/admin/jamaah/download/xlsx') }}" class="btn btn-sm btn-success"><i class="fa fa-download"></i"></i> Download Format Jamaah</a>
+                        <button data-target="#import" data-toggle="modal" class="btn btn-sm btn-default"><i class="fa fa-file-excel-o"></i> Import</button>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -37,7 +41,6 @@
                                         <th>Top Fee</th>
                                         <th>Status</th>
                                         <th>Tgl Transfer</th>
-                                        <th>Aksi</th>
                                     </tr>
                                   </thead>
                                 </table>
@@ -46,39 +49,44 @@
                     </div> <!-- end col -->
 
             </div> <!-- END Wraper -->
-            <div class="page-title">
-                <h3 class="title text-center"><strong><i class="fa fa-user-plus"></i> TAMBAH JAMAAH</strong></h3>
-            </div>
             <div class="divider" style="margin-bottom: 10px;">
             </div>
-            <div class="row">
-                    <div class="col-sm-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title text-center"><i class="fa fa-file-excel-o"></i> Import Jamaah Via Excel</h3></div>
-                            <div class="panel-body">
-
-                                <form class="form-horizontal" role="form" method="POST" action="{{ route('aiwa.jamaah.store.import') }}" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                    <div class="form-group">
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-file-excel-o"></i></span>
-                                                <input type="file" id="import_file_jamaah" name="import_file_jamaah" class="form-control" placeholder="File excel.xlsx" required>
-                                            </div>
-                                        </div>
-                                    </div> <!-- form-group -->
-                                    <div class="form-group text-center">
-                                        <button class="btn btn-md btn-success" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" title="Pastikan anda sudah mendownload format jamaah untuk di upload.">Upload & Simpan</button>
-                                        <!-- <a href="jamaah/download/format/csv" class="btn btn-md btn-info"><i class="fa fa-download"></i> Download Format</a> -->
-                                    </div> <!-- form-group -->
-
-                                </form>
-
-                           </div> <!-- panel-body -->
-                        </div> <!-- panel -->
-                    </div> <!-- col -->
-                </div> <!-- End row -->
             </div>
+            <div id="import" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog"> 
+                <div class="modal-content"> 
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+                        <h4 class="modal-title"><i class="fa fa-plus"></i> Import Jamaah</h4> 
+                    </div> 
+                        <div class="modal-body"> 
+                            <div class="row"> 
+                                <div class="col-md-12 col-md-offset-2"> 
+                                    <form class="form-horizontal" role="form" method="POST" action="{{ route('aiwa.jamaah.store.import') }}" enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-file-excel-o"></i></span>
+                                                    <input type="file" id="import_file_jamaah" name="import_file_jamaah" class="form-control" placeholder="File excel.xlsx" required>
+                                                </div>
+                                            </div>
+                                        </div> <!-- form-group -->
+                                        <div class="form-group text-center">
+                                            <button class="btn btn-md btn-success" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" title="Pastikan anda sudah mendownload format jamaah untuk di upload.">Upload & Simpan</button>
+                                            <!-- <a href="jamaah/download/format/csv" class="btn btn-md btn-info"><i class="fa fa-download"></i> Download Format</a> -->
+                                        </div> <!-- form-group -->
+                                    </form>
+                                </div> 
+                            </div>
+                        </div> 
+                        <div class="modal-footer"> 
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button> 
+                        </div>
+                    <!-- </form> -->
+                </div> 
+            </div>
+        </div><!-- /.modal -->
 
          @push('dataTables')
             <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
@@ -95,6 +103,10 @@
                 $(document).ready(function(){
                     var table = $('#jamaah').DataTable({
                         "scrollX": true,
+                        "dom" : 'lBfrtip',
+                        "buttons": [
+                            'excel', 'pdf'
+                        ],
                         "responsive": true,
                         "processing": false,
                         "serverSide": true,
@@ -118,8 +130,7 @@
                             { data: "top", name: "top" },
                             { data: "top_fee", name: "top_fee" },
                             { data: "status", name: "status" },
-                            { data: "tgl_transfer", name: "tgl_transfer" },
-                            { data: "action", name: "action"}
+                            { data: "tgl_transfer", name: "tgl_transfer" }
                         ]
                     });
                    // Refresh Table

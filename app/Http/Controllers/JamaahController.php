@@ -92,7 +92,12 @@ class JamaahController extends Controller
      */
     public function show($id)
     {
-        //
+
+    }
+
+    public function detailJamaah()
+    {
+        return view('jamaah.detail', 'jamaah');
     }
 
     /**
