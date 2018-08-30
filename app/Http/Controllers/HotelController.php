@@ -37,7 +37,10 @@ class HotelController extends Controller
          {
             return '
                 <a href="'. route('aiwa.master-hotel.edit-form', $hotels->id) .'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-                <a href="'. route('aiwa.master-hotel', $hotels->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>';
+                    <form class="form-group" action="'. route('aiwa.master-hotel.destroy', $hotels->id) .'" method="POST">
+                    '. csrf_field() .' '. method_field("DELETE") .'
+                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="glyphicon glyphicon-trash"></i> Hapus</button>
+                    </form>';
          })
          ->make(true);
     }
@@ -102,8 +105,10 @@ class HotelController extends Controller
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Master_Hotel $hotel)
+    public function destroy($id)
     {
-        //
+        $hotel = Master_Hotel::findOrFail($id);
+        $hotel->delete();
+        return back()->with('message', 'Hotel berhasil di hapus');
     }
 }

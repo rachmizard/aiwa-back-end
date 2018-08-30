@@ -81,8 +81,8 @@
                                   </div>
                                     <div class="form-group">
 
-                                        <label class="control-label" for="kota">Kota</label>
-                                        <div class="input-group">
+                                        <label class="col-md-2 control-label" for="kota">Kota</label>
+                                        <div class="col-md-10 input-group">
                                             <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                             <select id="kota" name="kota" class="select2" data-placeholder="Kota..." style="width: 100%;">
                                               <option value="mekkah" {{ $edit->mekkah == 'mekkah' ? 'selected' : '' }} >Mekkah</option>
@@ -104,7 +104,7 @@
                                     <label class="col-md-2 control-label">Wifi</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="wifi" {{ $edit->wifi == 'true' ? 'checked  value="true"' : 'unchecked value="false"' }} >
+                                            <input type="checkbox" id="wifi" {{ $edit->wifi == 'true' ? 'checked  value=true' : 'value=true' }}>
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -113,7 +113,7 @@
                                     <label class="col-md-2 control-label">Park</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="park" {{ $edit->park == 'true' ? 'checked value="true"' : 'unchecked value="false"' }} >
+                                            <input type="checkbox" id="park" {{ $edit->park == 'true' ? 'checked value=true' : 'value=true' }} value="true">
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -122,7 +122,7 @@
                                     <label class="col-md-2 control-label">Kamar Bebas Rokok</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="kamar_rokok" {{ $edit->kamar_rokok == 'true' ? 'checked value="true"' : 'unchecked  value="false"' }}  >
+                                            <input type="checkbox" id="kamar_rokok" {{ $edit->kamar_rokok == 'true' ? 'checked value=true' : ' value=true' }}  >
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -131,7 +131,7 @@
                                     <label class="col-md-2 control-label">Kamar AC</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="kamar_ac" {{ $edit->kamar_ac == 'true' ? 'checked value="true"' : 'unchecked value="false"' }}  >
+                                            <input type="checkbox" id="kamar_ac" {{ $edit->kamar_ac == 'true' ? 'checked value=true' : 'value=true' }}  >
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -140,7 +140,7 @@
                                     <label class="col-md-2 control-label">Kamar Keluarga</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="kamar_keluarga" {{ $edit->kamar_keluarga == 'true' ? 'checked value="true"' : 'unchecked value="false"' }}>
+                                            <input type="checkbox" id="kamar_keluarga" {{ $edit->kamar_keluarga == 'true' ? 'checked value=true' : 'value=true' }}>
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -149,7 +149,7 @@
                                     <label class="col-md-2 control-label">Makanan Enak</label>
                                     <div class="checkbox">
                                         <label class="cr-styled">
-                                            <input type="checkbox" name="makanan_enak" {{ $edit->makanan_enak == 'true' ? 'checked value="true"' : 'unchecked value="false"' }}  >
+                                            <input type="checkbox" id="makanan_enak" {{ $edit->makanan_enak == 'true' ? 'checked value=true' : ' value=true' }}  >
                                             <i class="fa"></i>
                                         </label>
                                     </div>
@@ -238,77 +238,77 @@
         @push('otherJavascript')
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=&sensor=false&language=id&region=EG"></script>
         <script type="text/javascript">
-var geocoder = new google.maps.Geocoder();
+          var geocoder = new google.maps.Geocoder();
 
-function geocodePosition(pos) {
-  geocoder.geocode({
-    latLng: pos
-  }, function(responses) {
-    if (responses && responses.length > 0) {
-      updateMarkerAddress(responses[0].formatted_address);
-    } else {
-      updateMarkerAddress('Cannot determine address at this location.');
-    }
-  });
-}
+          function geocodePosition(pos) {
+            geocoder.geocode({
+              latLng: pos
+            }, function(responses) {
+              if (responses && responses.length > 0) {
+                updateMarkerAddress(responses[0].formatted_address);
+              } else {
+                updateMarkerAddress('Cannot determine address at this location.');
+              }
+            });
+          }
 
-function updateMarkerStatus(str) {
-  document.getElementById('markerStatus').innerHTML = str;
-}
+          function updateMarkerStatus(str) {
+            document.getElementById('markerStatus').innerHTML = str;
+          }
 
-function updateMarkerPosition(latLng) {
-  document.getElementById('info').innerHTML = [
-    latLng.lat(),
-    latLng.lng(),
-    'or click button on beside here <a class="btn btn-sm btn-info" href="https://www.google.com/maps/?q='+ latLng.lat() +","+ latLng.lng() +'" target="_blank">Lihat di google maps</a>'
-  ].join(',');
-  document.getElementById('coordinate').value = [
-  latLng.lat(),
-  latLng.lng()
-  ].join(',');
-}
+          function updateMarkerPosition(latLng) {
+            document.getElementById('info').innerHTML = [
+              latLng.lat(),
+              latLng.lng(),
+              'or click button on beside here <a class="btn btn-sm btn-info" href="https://www.google.com/maps/?q='+ latLng.lat() +","+ latLng.lng() +'" target="_blank">Lihat di google maps</a>'
+            ].join(',');
+            document.getElementById('coordinate').value = [
+            latLng.lat(),
+            latLng.lng()
+            ].join(',');
+          }
 
-function updateMarkerAddress(strRl) {
-  document.getElementById('address').innerHTML = strRl;
-}
+          function updateMarkerAddress(strRl) {
+            document.getElementById('address').innerHTML = strRl;
+          }
 
-function initialize() {
-  var latLng = new google.maps.LatLng();
-  var map = new google.maps.Map(document.getElementById('mapCanvas'), {
-    zoom: 16,
-    center: latLng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
-  var marker = new google.maps.Marker({
-    position: latLng,
-    title: 'Point A',
-    map: map,
-    draggable: true
-  });
+          function initialize() {
+            var latLng = new google.maps.LatLng();
+            var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+              zoom: 16,
+              center: latLng,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            var marker = new google.maps.Marker({
+              position: latLng,
+              title: 'Point A',
+              map: map,
+              draggable: true
+            });
 
-  // Update current position info.
-  updateMarkerPosition(latLng);
-  geocodePosition(latLng);
+            // Update current position info.
+            updateMarkerPosition(latLng);
+            geocodePosition(latLng);
 
-  // Add dragging event listeners.
-  google.maps.event.addListener(marker, 'dragstart', function() {
-    updateMarkerAddress('Dragging...');
-  });
+            // Add dragging event listeners.
+            google.maps.event.addListener(marker, 'dragstart', function() {
+              updateMarkerAddress('Dragging...');
+            });
 
-  google.maps.event.addListener(marker, 'drag', function() {
-    updateMarkerStatus('Dragging...');
-    updateMarkerPosition(marker.getPosition());
-  });
+            google.maps.event.addListener(marker, 'drag', function() {
+              updateMarkerStatus('Dragging...');
+              updateMarkerPosition(marker.getPosition());
+            });
 
-  google.maps.event.addListener(marker, 'dragend', function() {
-    updateMarkerStatus('Drag ended');
-    geocodePosition(marker.getPosition());
-  });
-}
+            google.maps.event.addListener(marker, 'dragend', function() {
+              updateMarkerStatus('Drag ended');
+              geocodePosition(marker.getPosition());
+            });
+          }
 
-// Onload handler to fire off the app.
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
+          // Onload handler to fire off the app.
+          google.maps.event.addDomListener(window, 'load', initialize);
+          </script>
         @endpush
         <!-- Success notification -->
         @if(session('message'))

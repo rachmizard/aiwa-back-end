@@ -107,6 +107,9 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
 
     // Agen
     Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
+    Route::get('agenjamaah/detail/export', function(){
+        return view('agen.detail');
+    })->name('aiwa.agen.detail');
     Route::get('agenjamaah/loadTableAnggota', 'AgenController@getData')->name('aiwa.anggota.load');
     Route::put('agenjamaah/{id}/edit', 'AgenController@update')->name('aiwa.anggota.update');
     Route::put('agenjamaah/{id}/editaccount', 'AgenController@updateAkun')->name('aiwa.anggota.updateaccount');
@@ -118,7 +121,7 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
 
 
     // Export Agen
-Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->name('aiwa.anggota.download.excel');
+Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->name('aiwa.anggota.download.excel');
 
     // Prospek / Caljam
     Route::get('prospek', 'ProspekController@index')->name('aiwa.prospek');
@@ -142,6 +145,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AdminController@downloadExcel')->
     Route::post('master-hotel/tambah', 'HotelController@store')->name('aiwa.master-hotel.store');
     Route::get('master-hotel/{id}/edit', 'HotelController@edit')->name('aiwa.master-hotel.edit-form');
     Route::put('master-hotel/{id}', 'HotelController@update')->name('aiwa.master-hotel.update');
+    Route::delete('master-hotel/{id}/delete', 'HotelController@destroy')->name('aiwa.master-hotel.destroy');
     // End Master Hotel
 
     // Master Brosur

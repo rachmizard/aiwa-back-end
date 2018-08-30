@@ -61,17 +61,29 @@ class AgenController extends Controller
                 return '<img src="/storage/images/default.png" width="50" height="50" alt="">';
             }
          })
-         ->filter(function($query) use ($request)
-         {
-            $validatorDateRange = Periode::find($request->get('periode'));
-            $dateStart = $validatorDateRange->start;
-            $dateEnd = $validatorDateRange->end;
-            if ($request->has('periode')) {
-                return $query->whereBetween('created_at', [$dateStart, $dateEnd])->get();
-            }  
-         })
+         // ->filter(function($query) use ($request)
+         // {
+         //    $validatorDateRange = Periode::find($request->get('periode'));
+         //    $dateStart = $validatorDateRange->start;
+         //    $dateEnd = $validatorDateRange->end;
+         //    if ($request->has('periode')) {
+         //        return $query->whereBetween('created_at', [$dateStart, $dateEnd])->get();
+         //    }  
+         // })
          ->rawColumns(['action', 'foto'])
          ->make(true);
+    }
+
+    
+    public function downloadExcel($type)
+    {
+        $data = User::get()->toArray();
+        return Excel::create('data_agen', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
     }
 
     public function filter(Request $request)

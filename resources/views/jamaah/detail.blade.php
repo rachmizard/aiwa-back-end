@@ -105,7 +105,7 @@
                         "scrollX": true,
                         "dom" : 'lBfrtip',
                         "buttons": [
-                            'excel', 'pdf'
+                            'excel'
                         ],
                         "responsive": true,
                         "processing": false,

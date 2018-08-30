@@ -17,18 +17,8 @@
                             <div class="panel-body p-t-10">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="periode">Periode</label>
-                                        <select name="periode" id="periode" class="form-control">
-                                            <option selected="" disabled="">Periode</option>
-                                            @foreach($periodes as $periode)
-                                                <option value="{{ $periode->id }}" {{ $periodeNow == $periode->id ? 'selected' : ''}}>{{ $periode->judul }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
                                         <button id="refreshAgen" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
+                                        <a href="{{route('aiwa.agen.detail')}}" class="btn btn-sm btn-success"><i class="fa fa-download"></i> Export Agen</a>
                                     </div>
                                 </div>
                                 <table id="agent" class="stripe row-border order-column table table-striped table-bordered">
@@ -179,7 +169,8 @@
                                                 @if($agen->id != 'SM140')
                                                     <span class="help-block"><small>ID tidak auto increment, hati-hati jika ingin merubah ID yang sudah tersinkronisasi dengan sistem bisa mengakibatkan kesalahan data.</small></span></td>
                                                 @else
-                                                    <span class="help-block text-danger"><small>ID milik {{ $agen->nama }} ini disarankan untuk tidak di rubah rubah!</small></span></td>
+                                                    <span class="help-block text-danger"><small>ID milik {{ $agen->nama }} ini disarankan untuk tidak di rubah rubah!</small></span>
+                                                </td>
                                                 @endif
 
                                             <input type="hidden" name="old_id" value="{{ $agen->id }}">
@@ -238,19 +229,33 @@
             @endpush
         @push('dataTables')
             <!-- Datatable Serverside -->
+            <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
+            <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
             <script>
                 $(document).ready(function(){
                    var table = $('#agent').DataTable({
+                        "scrollX": true,
+                        "dom" : 'lBfrtip',
+                        "buttons": [
+                            'excel', 'pdf'
+                        ],
                         "serverSide": true,
                         "ordering": true,
-                        "searching": false,
+                        "searching": true,
                         "processing": true,
                         "ajax": {
-                            url: "{{ route('aiwa.anggota.load') }}",
-                            data: function (d) {
-                                // d.name = $('input[name=name]').val();
-                                d.periode = $('select[name=periode]').val();
-                            }
+                            url: "{{ route('aiwa.anggota.load') }}"
+                            // data: function (d) {
+                            //     // d.name = $('input[name=name]').val();
+                            //     // d.periode = $('select[name=periode]').val();
+                            // }
                         },
                         "columns": [
                             { data: "id", name: "id" },
@@ -261,19 +266,7 @@
                             { data: "created_at", name: "created_at" },
                             { data: "foto", name: "foto", orderable: false, searchable: false},
                             { data: "action", name: "action", orderable: false, searchable: false}
-                        ],
-                        initComplete: function () {
-                            this.api().columns().every(function () {
-                                var column = this;
-                                var input = document.createElement("input");
-                                $(input).appendTo($(column.footer()).empty())
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                                    column.search(val ? val : '', true, false).draw();
-                                });
-                            });
-                        }
+                        ]
                     });
                    // Refresh Table
                    $('#refreshAgen').on('click', function(){
@@ -281,11 +274,11 @@
                             table.ajax.reload( null, false ); // user paging is not reset on reload
                    });
 
-                   // Refresh when periode change
-                   $('select[name=periode]').on('change', function(e) {
-                        table.draw();
-                        e.preventDefault();
-                    });
+                   // // Refresh when periode change
+                   // $('select[name=periode]').on('change', function(e) {
+                   //      table.draw();
+                   //      e.preventDefault();
+                   //  });
 
                     // setInterval( function () {
                     //     table.ajax.reload( null, false ); // user paging is not reset on reload
