@@ -54,21 +54,24 @@
                 <ul class="list-unstyled">
                     <!-- <li class="{{ Route::currentRouteNamed('aiwa.log-activity') ? 'active' : '' }}"><a href="{{route('aiwa.log-activity')}}"><i class="fa fa-clock-o"></i> Log Activity</a></li> -->
                     <li class="{{ Route::currentRouteNamed('aiwa.anggota.import') ? 'active' : '' }}"><a href="{{ route('aiwa.anggota.import') }}"><i class="fa fa-user-plus"></i> Import Akun Agen</a></li>
-                    <li><a href="{{ route('aiwa.approval') }}"><i class="fa fa-check"></i> Approval Agen
+                    <li class="{{ Route::currentRouteNamed('aiwa.approval') ? 'active' : '' }}"><a href="{{ route('aiwa.approval') }}"><i class="fa fa-check"></i> Approval Agen
                       @if(Auth::guard('admin')->user()->unreadNotifications->where('type', '=', 'App\Notifications\ApproveAgenNotification')->count() > 0)
                       <span class="badge bg-pink">{{Auth::guard('admin')->user()->unreadNotifications->where('type', '=', 'App\Notifications\ApproveAgenNotification')->count() > '0' ? 'new' : ''}}</span>
                       @endif
                       </a>
                     </li>
-                    <li><a href="{{ route('admin.notification') }}"><i class="fa fa-bell"></i> Notifikasi 
+                    <li class="{{ Route::currentRouteNamed('admin.notification') ? 'active' : '' }}"><a href="{{ route('admin.notification') }}"><i class="fa fa-bell"></i> Notifikasi 
                      @if(Auth::guard('admin')->user()->unreadNotifications->count() > 0)
                         <span class="badge bg-pink">{{Auth::guard('admin')->user()->unreadNotifications->count() > '0' ? 'new' : ''}}</span>
                      @endif
                     </a>
                     </li>
-                    <li>
+                    <li class="{{ Route::currentRouteNamed('master-reminder.index') ? 'active' : '' }}">
                       <a href="{{ route('master-reminder.index') }}"><i class="fa fa-clock-o"></i> Penjadwalan Notifikasi</a>
-                  </li>
+                   </li>
+                    <li class="{{ Route::currentRouteNamed('aiwa.master-sinkronisasi.index') ? 'active' : '' }}">
+                      <a href="{{ route('aiwa.master-sinkronisasi.index') }}"><i class="fa fa-refresh"></i>Sinkronisasi</a>
+                   </li>
                 </ul>
               </li>
           </nav>

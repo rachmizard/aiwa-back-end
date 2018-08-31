@@ -207,6 +207,15 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     // Master Reminder
     Route::resource('master-reminder', 'ReminderController');
 
+    // Master Sinkronisasi
+    Route::get('master-sinkronisasi', 'SinkronisasiController@index')->name('aiwa.master-sinkronisasi.index');
+    Route::post('master-sinkronisasi/store', 'SinkronisasiController@store')->name('aiwa.master-sinkronisasi.store');
+    Route::post('master-sinkronisasi/{id}/select', 'SinkronisasiController@selected')->name('aiwa.master-sinkronisasi.selected');
+    Route::put('master-sinkronisasi/{id}', 'SinkronisasiController@update')->name('aiwa.master-sinkronisasi.update');
+    Route::get('master-sinkronisasi/{id}/show', 'SinkronisasiController@show')->name('aiwa.master-sinkronisasi.show');
+    Route::delete('master-sinkronisasi/{id}/delete', 'SinkronisasiController@destroy')->name('aiwa.master-sinkronisasi.destroy');
+    Route::get('master-sinkronisasi/loadDataSinkronisasi', 'SinkronisasiController@arjayEdan')->name('aiwa.master-sinkronisasi.load');
+
     });
 
 Route::get('/download', function(){

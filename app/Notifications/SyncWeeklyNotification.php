@@ -59,7 +59,7 @@ class SyncWeeklyNotification extends Notification
     {
         return [
             'id' => $this->id,
-            'data' => 'Sinkronisasi perminggu berhasil di lakukan!'
+            'data' => 'Sinkronisasi berhasil di lakukan!'
         ];
     }
 }
