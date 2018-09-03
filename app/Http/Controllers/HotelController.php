@@ -109,6 +109,6 @@ class HotelController extends Controller
     {
         $hotel = Master_Hotel::findOrFail($id);
         $hotel->delete();
-        return back()->with('message', 'Hotel berhasil di hapus');
+        return redirect()->route('aiwa.master-hotel');
     }
 }

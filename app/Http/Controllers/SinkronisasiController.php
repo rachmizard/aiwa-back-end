@@ -104,7 +104,10 @@ class SinkronisasiController extends Controller
                 $data['diskon_marketing'] = $diskon['diskon_marketing'];
                 $data['fee_koordinator'] = $diskon['fee_koordinator'];
                 $data['fee_marketing'] = $diskon['fee_marketing'];
+                // Validator of master pendaftaran
                 $validator = DB::table('master_pendaftaran')->where('id_jamaah', '=', $diskon['id_jamaah'])->first();
+                // Validator of agen AIWA
+                $validatorMarketing = DB::table('users')->where('id', $data['id_marketing'])->first();
                 if ($validator) {
                     DB::table('master_pendaftaran')->where('id', $validator->id)->update([   
 	                    'tgl_pendaftaran' => $diskon['tgl_pendaftaran'],
@@ -134,6 +137,30 @@ class SinkronisasiController extends Controller
 	                    'fee_koordinator' => $diskon['fee_koordinator'],
 	                    'fee_marketing' => $diskon['fee_marketing']
             		]);
+
+					$idmarketing = $row['id_marketing'];
+                    $id_umrah = $row['id_umrah'];
+                    $id_jamaah = $row['id_jamaah'];
+
+                    $reference = 2250000;
+                    $findKoordinator = User::where('id', $idmarketing)->first();
+                    $findDiskonByMaster = DB::table('master_pendaftaran')->where('id_umrah', $id_umrah)->where('id_jamaah', $id_jamaah)->where('id_marketing', $idmarketing)->first();
+
+                    // DB::table('jamaah')->insert([
+                    // 	'id_umrah' => $data['id_umrah'],
+                    // 	'id_jamaah' => $data['id_jamaah'],
+                    // 	'tgl_daftar' => $data['tgl_pendaftaran'],
+                    // 	'nama' => $data['nama'],
+                    // 	'tgl_berangkat' => $data['tgl_keberangkatan'],
+                    // 	'marketing' => $data['id_marketing'],
+                    // 	'staff' => $data['staf_kantor'],
+                    // 	'marketing_fee' => $data['id_marketing'],
+                    // 	'koordinator' => , //for example
+                    // 	'koordinator_fee' => ,
+                    // 	'top' => ,
+                    // 	'top_fee' => ,
+                    // 	'status' =>
+                    // ]);
                 }
             }
         }

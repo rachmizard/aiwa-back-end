@@ -24,6 +24,7 @@
                                         <td>No</td>
                                         <td>Nama Hotel</td>
                                         <td>Kota</td>
+                                        <td>Koordinat Map</td>
                                         <td>Link Map</td>
                                         <td>Skor</td>
                                         <td>Aksi</td>
@@ -95,62 +96,132 @@
                                         </div>
                                     </div> <!-- form-group -->
                                   <div class="form-group">
-                                      <label class="col-md-2 control-label">Lokasi Map</label>
+                                      <label class="col-md-2 control-label">Koordinat</label>
                                       <div class="col-md-10">
-                                          <input type="text" class="form-control" name="link_map" id="coordinate" required value="{{ $edit->link_map }}">
+                                          <input type="text" class="form-control" name="link_map" id="coordinate" value="{{ $edit->link_map }}" required>
+                                          <span class="help-block text-red"><small>Lokasi map bisa di kosongkan jika pemilihan tempat hotel lebih efisien menggunakan link</small></span>
                                       </div>
                                   </div>
                                   <div class="form-group">
-                                    <label class="col-md-2 control-label">Wifi</label>
-                                    <div class="checkbox">
-                                        <label class="cr-styled">
-                                            <input type="checkbox" id="wifi" {{ $edit->wifi == 'true' ? 'checked  value=true' : 'value=true' }}>
+                                      <label class="col-md-2 control-label">Koordinat Map (Latitude)</label>
+                                      <div class="col-md-10">
+                                          <input type="text" class="form-control" name="latitude" id="latitude" required value="{{ $edit->latitude }}">
+                                          <span class="help-block text-red"></span>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-md-2 control-label">Koordinat Map (Longitude)</label>
+                                      <div class="col-md-10">
+                                          <input type="text" class="form-control" name="longitude" id="longitude" required value="{{ $edit->longitude }}">
+                                          <span class="help-block text-red"></span>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-md-2 control-label">Link Map</label>
+                                      <div class="col-md-10">
+                                          <input type="text" class="form-control" name="link" id="link" value="{{ $edit->link }}">
+                                          <span class="help-block text-red"><small>Salin dan paste link yang anda bagikan di google map kesini (Tidak di sarankan)</small></span>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-2 control-label">Wifi</label> 
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="wifi">
+                                            <input type="radio" id="wifi" name="wifi" {{ $edit->wifi == 'true' ? 'checked' : ''}} value="true">
                                             <i class="fa"></i>
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="wifitidak">
+                                            <input type="radio" id="wifitidak" name="wifi" {{ $edit->wifi == 'false' ? 'checked' : ''}} value="false">
+                                            <i class="fa"></i>
+                                            Tidak
                                         </label>
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-2 control-label">Park</label>
-                                    <div class="checkbox">
-                                        <label class="cr-styled">
-                                            <input type="checkbox" id="park" {{ $edit->park == 'true' ? 'checked value=true' : 'value=true' }} value="true">
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="park">
+                                            <input type="radio" id="park" name="park" {{ $edit->park == 'true' ? 'checked' : ''}} value="true">
                                             <i class="fa"></i>
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="parktidak">
+                                            <input type="radio" id="parktidak" name="park" {{ $edit->park == 'false' ? 'checked' : ''}} value="false">
+                                            <i class="fa"></i>
+                                            Tidak
                                         </label>
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-2 control-label">Kamar Bebas Rokok</label>
-                                    <div class="checkbox">
-                                        <label class="cr-styled">
-                                            <input type="checkbox" id="kamar_rokok" {{ $edit->kamar_rokok == 'true' ? 'checked value=true' : ' value=true' }}  >
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="kamar_rokok">
+                                            <input type="radio" id="kamar_rokok" {{ $edit->kamar_rokok == 'true' ? 'checked' : ''}} name="kamar_rokok" value="true">
                                             <i class="fa"></i>
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="kamar_rokoktidak">
+                                            <input type="radio" id="kamar_rokoktidak" name="kamar_rokok" {{ $edit->kamar_rokok == 'false' ? 'checked' : ''}} value="false">
+                                            <i class="fa"></i>
+                                            Tidak
                                         </label>
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-2 control-label">Kamar AC</label>
-                                    <div class="checkbox">
-                                        <label class="cr-styled">
-                                            <input type="checkbox" id="kamar_ac" {{ $edit->kamar_ac == 'true' ? 'checked value=true' : 'value=true' }}  >
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="kamar_ac">
+                                            <input type="radio" id="kamar_ac" name="kamar_ac" {{ $edit->kamar_ac == 'true' ? 'checked' : ''}} value="true">
                                             <i class="fa"></i>
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="kamar_actidak">
+                                            <input type="radio" id="kamar_actidak" name="kamar_ac" {{ $edit->kamar_ac == 'false' ? 'checked' : ''}} value="false">
+                                            <i class="fa"></i>
+                                            Tidak
                                         </label>
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-2 control-label">Kamar Keluarga</label>
-                                    <div class="checkbox">
-                                        <label class="cr-styled">
-                                            <input type="checkbox" id="kamar_keluarga" {{ $edit->kamar_keluarga == 'true' ? 'checked value=true' : 'value=true' }}>
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="kamar_keluarga">
+                                            <input type="radio" id="kamar_keluarga" name="kamar_keluarga" {{ $edit->kamar_keluarga == 'true' ? 'checked' : ''}} value="true">
                                             <i class="fa"></i>
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="kamar_keluargatidak">
+                                            <input type="radio" id="kamar_keluargatidak" name="kamar_keluarga" {{ $edit->kamar_keluarga == 'false' ? 'checked' : ''}} value="false">
+                                            <i class="fa"></i>
+                                            Tidak
                                         </label>
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-2 control-label">Makanan Enak</label>
-                                    <div class="checkbox">
-                                        <label class="cr-styled">
-                                            <input type="checkbox" id="makanan_enak" {{ $edit->makanan_enak == 'true' ? 'checked value=true' : ' value=true' }}  >
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="makanan_enak">
+                                            <input type="radio" id="makanan_enak" name="makanan_enak" {{ $edit->makanan_enak == 'true' ? 'checked' : ''}} value="true">
                                             <i class="fa"></i>
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label class="cr-styled" for="makanan_enaktidak">
+                                            <input type="radio" id="makanan_enaktidak" name="makanan_enak" {{ $edit->makanan_enak == 'false' ? 'checked' : ''}} value="false">
+                                            <i class="fa"></i>
+                                            Tidak
                                         </label>
                                     </div>
                                   </div>
@@ -227,6 +298,7 @@
                             { data: "nama_hotel", name: "nama_hotel" },
                             { data: "kota", name: "kota" },
                             { data: "link_map", name: "link_map" },
+                            { data: "link", name: "link" },
                             { data: "skor", name: "skor" },
                             { data: "action", name: "action", orderable:false, searchable: false}
                         ]
@@ -266,6 +338,14 @@
             latLng.lat(),
             latLng.lng()
             ].join(',');
+
+            document.getElementById('latitude').value = [
+            latLng.lat()
+            ];
+
+            document.getElementById('longitude').value = [
+            latLng.lng()
+            ];
           }
 
           function updateMarkerAddress(strRl) {
@@ -273,7 +353,7 @@
           }
 
           function initialize() {
-            var latLng = new google.maps.LatLng();
+            var latLng = new google.maps.LatLng('{{ $edit->latitude }}', '{{ $edit->longitude }}');
             var map = new google.maps.Map(document.getElementById('mapCanvas'), {
               zoom: 16,
               center: latLng,

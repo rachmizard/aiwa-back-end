@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use DB;
 use App\Admin;
 use App\User;
+use App\Sinkronisasi;
 use App\MasterNotifikasi;
 use Notification;
 use App\Notifications\SyncWeeklyNotification;
@@ -43,7 +44,8 @@ class SyncData extends Command
      */
     public function handle()
     {
-        $url = 'http://115.124.86.218/aiw/pendaftaran/1440';
+        $validator = Sinkronisasi::where('status', 'selected')->first();
+        $url = 'http://115.124.86.218/aiw/pendaftaran/'.$validator->tahun;
         $json = file_get_contents($url);
         $diskons = collect(json_decode($json, true));
         
