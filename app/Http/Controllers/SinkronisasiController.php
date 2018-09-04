@@ -39,8 +39,13 @@ class SinkronisasiController extends Controller
             </div>';
         })
         ->editColumn('status', function($gg){
-        	return $gg->status == 'selected' ? '<i class="fa fa-check text-success text-center"></i>' : '
-        	<i class="ion-android-close"></i>';
+        	return $gg->status == 'selected' ? '<h3 class="text-center"></i">
+                <i class="fa fa-check text-success text-center"></i>
+            </h3>' : '
+                <h3 class="text-center">
+                    <i class="ion-android-close"></i>
+                </h3>
+            ';
         })
         ->rawColumns(['action', 'status'])
         ->make(true);
@@ -111,6 +116,7 @@ class SinkronisasiController extends Controller
                 $data['tgl_daftar'] = $diskon['tgl_pendaftaran'];
                 $data['nama'] = $diskon['nama_jamaah'];
                 $data['tgl_berangkat'] = $diskon['tgl_keberangkatan'];
+                $data['tgl_pulang'] = $diskon['tgl_kepulangan'];
                 $data['marketing'] = $diskon['id_marketing'];
                 $data['staff'] = $diskon['staf_kantor'];
 
@@ -123,7 +129,8 @@ class SinkronisasiController extends Controller
 	                    'id_umrah' => $diskon['id_umrah'],
 	                    'id_jamaah' => $diskon['id_jamaah'],
 	                    'nama_jamaah' => $diskon['nama_jamaah'],
-	                    'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
+                        'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
+	                    'tgl_kepulangan' => $diskon['tgl_kepulangan'],
 	                    'staf_kantor' => $diskon['staf_kantor'],
 	                    'id_marketing' => $diskon['id_marketing'],
 	                    'diskon_kantor' => $diskon['diskon_kantor'],
@@ -138,7 +145,8 @@ class SinkronisasiController extends Controller
 	                    'id_umrah' => $diskon['id_umrah'],
 	                    'id_jamaah' => $diskon['id_jamaah'],
 	                    'nama_jamaah' => $diskon['nama_jamaah'],
-	                    'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
+                        'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
+	                    'tgl_kepulangan' => $diskon['tgl_kepulangan'],
 	                    'staf_kantor' => $diskon['staf_kantor'],
 	                    'id_marketing' => $diskon['id_marketing'],
 	                    'diskon_kantor' => $diskon['diskon_kantor'],

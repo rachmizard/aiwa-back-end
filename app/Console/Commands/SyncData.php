@@ -61,6 +61,7 @@ class SyncData extends Command
                 $data['id_jamaah'] = $diskon['id_jamaah'];
                 $data['nama_jamaah'] = $diskon['nama_jamaah'];
                 $data['tgl_keberangkatan'] = $diskon['tgl_keberangkatan'];
+                $data['tgl_pulang'] = $diskon['tgl_kepulangan'];
                 $data['staf_kantor'] = $diskon['staf_kantor'];
                 $data['id_marketing'] = $diskon['id_marketing'];
                 $data['diskon_kantor'] = $diskon['diskon_kantor'];
