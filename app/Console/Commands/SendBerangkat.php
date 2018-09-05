@@ -48,7 +48,7 @@ class SendBerangkat extends Command
             $year = $now->year;
             $month = $now->month;
             $day = $now->day;
-            $jamaah = Jamaah::where('tgl_berangkat', '=', $day.'/'.$month.'/'.$year)->get();
+            $jamaah = Jamaah::where('tgl_berangkat', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->get();
             $totalJamaahBerangkat = count($jamaah);
             $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
             foreach ($jamaah as $in) {

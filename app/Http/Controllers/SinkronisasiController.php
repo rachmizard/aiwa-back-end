@@ -16,6 +16,12 @@ use App\Notifications\SyncWeeklyNotification;
 
 class SinkronisasiController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     public function index()
     {
     	$sinkronisasis = Sinkronisasi::all();
@@ -115,8 +121,8 @@ class SinkronisasiController extends Controller
                 $data['id_jamaah'] = $diskon['id_jamaah'];
                 $data['tgl_daftar'] = $diskon['tgl_pendaftaran'];
                 $data['nama'] = $diskon['nama_jamaah'];
-                $data['tgl_berangkat'] = $diskon['tgl_keberangkatan'];
-                $data['tgl_pulang'] = $diskon['tgl_kepulangan'];
+                $data['tgl_berangkat'] = date('d/m/Y', strtotime($diskon['tgl_keberangkatan']));
+                $data['tgl_pulang'] = date('d/m/Y', strtotime($diskon['tgl_kepulangan']));
                 $data['marketing'] = $diskon['id_marketing'];
                 $data['staff'] = $diskon['staf_kantor'];
 
@@ -129,8 +135,8 @@ class SinkronisasiController extends Controller
 	                    'id_umrah' => $diskon['id_umrah'],
 	                    'id_jamaah' => $diskon['id_jamaah'],
 	                    'nama_jamaah' => $diskon['nama_jamaah'],
-                        'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
-	                    'tgl_kepulangan' => $diskon['tgl_kepulangan'],
+                        'tgl_keberangkatan' => date('d/m/Y', strtotime($diskon['tgl_keberangkatan'])),
+	                    'tgl_kepulangan' => date('d/m/Y', strtotime($diskon['tgl_kepulangan'])),
 	                    'staf_kantor' => $diskon['staf_kantor'],
 	                    'id_marketing' => $diskon['id_marketing'],
 	                    'diskon_kantor' => $diskon['diskon_kantor'],
@@ -145,8 +151,8 @@ class SinkronisasiController extends Controller
 	                    'id_umrah' => $diskon['id_umrah'],
 	                    'id_jamaah' => $diskon['id_jamaah'],
 	                    'nama_jamaah' => $diskon['nama_jamaah'],
-                        'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
-	                    'tgl_kepulangan' => $diskon['tgl_kepulangan'],
+                        'tgl_keberangkatan' => date('d/m/Y', strtotime($diskon['tgl_keberangkatan'])),
+	                    'tgl_kepulangan' => date('d/m/Y', strtotime($diskon['tgl_kepulangan'])),
 	                    'staf_kantor' => $diskon['staf_kantor'],
 	                    'id_marketing' => $diskon['id_marketing'],
 	                    'diskon_kantor' => $diskon['diskon_kantor'],

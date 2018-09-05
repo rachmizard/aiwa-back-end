@@ -9,6 +9,7 @@ Use App\Jamaah;
 Use App\Periode;
 use Yajra\Datatables\Datatables;
 use DB;
+use Excel;
 use Carbon\Carbon;
 
 class AgenController extends Controller

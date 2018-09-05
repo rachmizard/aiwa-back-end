@@ -108,7 +108,7 @@
                             { data: "nama", name: "nama" },
                             { data: "tgl_berangkat", name: "tgl_berangkat" },
                             { data: "tgl_pulang", name: "tgl_pulang" },
-                            { data: "anggota.nama", name: "anggota.nama" },
+                            { data: "marketing", name: "marketing" },
                             { data: "staff", name: "staff" },
                             { data: "no_telp", name: "no_telp" },
                             { data: "marketing_fee", name: "marketing_fee" },

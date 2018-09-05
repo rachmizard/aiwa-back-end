@@ -54,7 +54,7 @@
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" id="tgl_berangkat" name="tgl_berangkat" class="form-control datepicker" placeholder="Tanggal Berangkat.." required value="{{ $jamaah->tgl_berangkat }}">
+                                                <input type="text" id="tgl_berangkat" name="tgl_berangkat" class="form-control datepicker" placeholder="Tanggal Berangkat.." value="{{ $jamaah->tgl_berangkat }}">
                                             </div>
                                             <span class="help-block text-success"><small>Format tanggal contoh : 11/07/2018</small></span>
                                         </div>
@@ -65,7 +65,7 @@
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" id="tgl_pulang" name="tgl_pulang" class="form-control datepicker" placeholder="Tanggal Pulang.." required value="{{ $jamaah->tgl_pulang }}">          
+                                                <input type="text" id="tgl_pulang" name="tgl_pulang" class="form-control datepicker" placeholder="Tanggal Pulang.." value="{{ $jamaah->tgl_pulang }}">          
                                             </div>
                                             <span class="help-block text-success"><small>Format tanggal contoh : 11/07/2018</small></span>    
                                         </div>
@@ -175,7 +175,7 @@
                    language: "it",
                    autoclose: true,
                    todayHighlight: true,
-                   format: 'd/m/yyyy' 
+                   format: 'dd/mm/yyyy' 
                });
             </script>
             @endpush

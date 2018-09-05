@@ -33,12 +33,12 @@ class JamaahController extends Controller
     }
 
     // get data by serverside
-    public function getData(Request $request)
+    public function getData(Request $request, Datatables $datatables)
     {
         // $jamaah =  Jamaah::select('id', 'anggota_id', 'nama', 'alamat', 'no_telp', 'jenis_kelamin', 'status');
         // return Datatables::of($jamaah)->make(true);
          $jamaah = Jamaah::with('anggota')->select('jamaah.*');
-          return Datatables::of($jamaah)->addColumn('action', function($jamaah){
+          return $datatables->eloquent($jamaah)->addColumn('action', function($jamaah){
              return '
                 <a href="jamaah/'. $jamaah->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'

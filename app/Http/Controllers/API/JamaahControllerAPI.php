@@ -40,7 +40,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());
     }
 
     public function feeByAgenPotensi(Request $request, $id, $tahun)
@@ -48,9 +48,11 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
+        $countTopPotensi =  DB::table('jamaah')->where(['top' => $id, 'status' => 'POTENSI'])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
         $countFee = DB::table('jamaah')->where(['marketing' => $id, 'status' => 'POTENSI'])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorPotensi = DB::table('jamaah')->where('koordinator', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
          $success['nama'] =  'potensi';
-         $success['total'] =  $countFee;
+         $success['total'] =  $countFee + $countFeeByKoordinatorPotensi + $countTopPotensi;
         return response()->json(['response' => $success]); 
     }
 
@@ -64,7 +66,8 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $countFeeByKoordinatorPotensi = DB::table('jamaah')->where('koordinator', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        // $countFeeByKoordinatorPotensi = DB::table('jamaah')->where('top', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
+        $countFeeByKoordinatorPotensi = DB::table('jamaah')->whereRaw("status = 'POTENSI' and top = ? ",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
          $success['nama'] =  'potensi';
          $success['total'] =  $countFeeByKoordinatorPotensi;
         return response()->json(['response' => $success]);  
@@ -75,9 +78,12 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
+        $countTopKomisi =  DB::table('jamaah')->whereRaw("status != 'POTENSI' and top = ? ", [$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
+        $endDateJing = $varJay['end'];
         $countFeeByAgenKomisi = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorKomisi = DB::table('jamaah')->where('koordinator', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
          $success['nama'] =  'komisi';
-         $success['total'] =  $countFeeByAgenKomisi;
+         $success['total'] =  $countFeeByAgenKomisi + $countFeeByKoordinatorKomisi + $countTopKomisi;
         return response()->json(['response' => $success]);   
     }
 
@@ -86,7 +92,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $countFeeByKoordinatorKomisi = DB::table('jamaah')->where('koordinator', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisi = DB::table('jamaah')->whereRaw("status != 'POTENSI' and top = ? ",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
          $success['nama'] =  'komisi';
          $success['total'] =  $countFeeByKoordinatorKomisi;
         return response()->json(['response' => $success]); 
@@ -97,7 +103,9 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::where('koordinator', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());
+        // return JamaahResource::collection(Jamaah::where('top', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get()); // teu jalan
+        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and top = ?",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());    
+
     }
 
     public function koordinatorKomisi(Request $request, $id, $tahun)
@@ -105,15 +113,17 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::where('koordinator', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());
+        // return JamaahResource::collection(Jamaah::where('top', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get()); // teu jalan
+        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and top = ?",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());    
+
     }
 
     public function agenPotensi(Request $request, $id, $tahun)
     {
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
-        $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());
+        $endDateJing = $varJay['end'];    
+        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());    
     }
 
     public function agenKomisi(Request $request, $id, $tahun)
@@ -121,7 +131,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::where('marketing', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());        
+        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());      
     }
 
     public function totalJamaahByAgen(Request $request, $id, $tahun)
@@ -264,10 +274,10 @@ class JamaahControllerAPI extends Controller
         $ref = Jamaah::all();
         foreach ($ref as $value) {
             $hariH = Carbon::now();
-            if ($value->tgl_berangkat == $hariH->day.'/'.$hariH->month.'/'.$hariH->year) {
-                return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $hariH->day.'/'.$hariH->month.'/'.$hariH->year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+            if ($value->tgl_berangkat == $hariH->format('d').'/'.$hariH->format('m').'/'.$hariH->format('Y')) {
+                return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $hariH->format('d').'/'.$hariH->format('m').'/'.$hariH->format('Y'))->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
             }else{
-                return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+                return $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
             }
         }
     }
@@ -281,7 +291,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return $retrieveJamaahPulangByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $day.'/'.$month.'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+        return $retrieveJamaahPulangByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $day.'/'.$now->format('m').'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
     }
 
     // CHART DASHBOARD
