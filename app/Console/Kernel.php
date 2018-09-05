@@ -23,7 +23,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SendNotification::class,
         \App\Console\Commands\SendBerangkat::class,
         \App\Console\Commands\SendPulang::class,
-        \App\Console\Commands\SyncData::class
+        \App\Console\Commands\SyncData::class,
+        // \App\Console\Commands\SendKomisi::class
     ];
 
     /**
@@ -46,6 +47,8 @@ class Kernel extends ConsoleKernel
                  ->cron($reminders->cron_jamaah_pulang);
         $schedule->command('sync:pendaftaran')
                  ->cron($reminders->cron_sinkronisasi);
+        // $schedule->command('sendnotify:komisi')
+        //          ->cron('* * * * *');
     }
 
     /**
