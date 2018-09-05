@@ -64,7 +64,9 @@ class ImportJamaahController extends Controller
 
                         //Referensi uang yang ditransfer kantor
                         $reference = 2250000;
+                        $referencePromo = 1200000;
                         $top_ref = 250000;
+                        $top_promo = 100000;
 
                         //Assign value id marketing untuk dicari di tabel User
                         $anggota_id = $data['marketing'];
@@ -77,26 +79,53 @@ class ImportJamaahController extends Controller
                             $findKoordinator = User::find($anggota_id);
                             $findDiskon = DB::table('master_pendaftaran')->where('id_jamaah', $id_jamaah)->first();
 
-                            $k = $findKoordinator->koordinator;
+                            if ($row['marketing_fee'] == "PROMO") {
+                                $promo = true;
+                            }else{
+                                $promo = false;
+                            }
+
+                            $k = $findKoordinator['koordinator'];
 
                             // $ref = $reference - $refdiskon;
                             if ($k == "SM000" ) {
                                 if($findDiskon){
                                     $d = $findDiskon->diskon_marketing;
 
-                                    $data['marketing_fee'] = $reference - $d;
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = $reference - $d;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = $reference - $d;
-                                    $data['diskon_marketing'] = $d;
+                                    if ($promo) {
+                                        $data['marketing_fee'] = $referencePromo - $d;
+                                        $data['koordinator'] = 'SM000';
+                                        $data['koordinator_fee'] = $referencePromo - $d;
+                                        $data['top'] = 'SM000';
+                                        $data['top_fee'] = $referencePromo - $d;
+                                        $data['diskon_marketing'] = $d;    
+                                    }else{
+                                        $data['marketing_fee'] = $reference - $d;
+                                        $data['koordinator'] = 'SM000';
+                                        $data['koordinator_fee'] = $reference - $d;
+                                        $data['top'] = 'SM000';
+                                        $data['top_fee'] = $reference - $d;
+                                        $data['diskon_marketing'] = $d;
+                                    }
+                                    
                                 }else{
-                                    $data['marketing_fee'] = $reference;
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = $reference;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = $reference;
-                                    $data['diskon_marketing'] = 0;
+
+                                    if ($promo) {
+                                        $data['marketing_fee'] = $referencePromo;
+                                        $data['koordinator'] = 'SM000';
+                                        $data['koordinator_fee'] = $referencePromo;
+                                        $data['top'] = 'SM000';
+                                        $data['top_fee'] = $referencePromo;
+                                        $data['diskon_marketing'] = 0;
+                                    }else{
+                                        $data['marketing_fee'] = $reference;
+                                        $data['koordinator'] = 'SM000';
+                                        $data['koordinator_fee'] = $reference;
+                                        $data['top'] = 'SM000';
+                                        $data['top_fee'] = $reference;
+                                        $data['diskon_marketing'] = 0;
+                                    }
+                                    
                                 }
 
                                 DB::table('jamaah')->where('id', $data['id'])->update($data);
@@ -105,23 +134,47 @@ class ImportJamaahController extends Controller
                                 if($findDiskon){
                                     $d = $findDiskon->diskon_marketing;
 
-                                    $totalLevel2 = $reference - $findKoordinator->fee_reguler;
+                                    if ($promo) {
+                                        $totalLevel2 = $referencePromo - $findKoordinator['fee_promo'];
 
-                                    $data['marketing_fee'] = $findKoordinator->fee_reguler - $d;
-                                    $data['koordinator'] = $findKoordinator->koordinator;
-                                    $data['koordinator_fee'] = $totalLevel2;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = $totalLevel2;
-                                    $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                        $data['marketing_fee'] = $findKoordinator['fee_promo'] - $d;
+                                        $data['koordinator'] = $findKoordinator['koordinator'];
+                                        $data['koordinator_fee'] = $totalLevel2;
+                                        $data['top'] = 'SM140';
+                                        $data['top_fee'] = $totalLevel2;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }else{
+                                        $totalLevel2 = $reference - $findKoordinator['fee_reguler'];
+
+                                        $data['marketing_fee'] = $findKoordinator['fee_reguler'] - $d;
+                                        $data['koordinator'] = $findKoordinator['koordinator'];
+                                        $data['koordinator_fee'] = $totalLevel2;
+                                        $data['top'] = 'SM140';
+                                        $data['top_fee'] = $totalLevel2;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }
+                                    
                                 }else{
-                                    $totalLevel2 = $reference - $findKoordinator->fee_reguler;
+                                    if ($promo) {
+                                        $totalLevel2 = $referencePromo - $findKoordinator['fee_promo'];
 
-                                    $data['marketing_fee'] = $findKoordinator->fee_reguler;
-                                    $data['koordinator'] = $findKoordinator->koordinator;
-                                    $data['koordinator_fee'] = $totalLevel2;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = $totalLevel2;
-                                    $data['diskon_marketing'] = 0;
+                                        $data['marketing_fee'] = $findKoordinator['fee_promo'];
+                                        $data['koordinator'] = $findKoordinator['koordinator'];
+                                        $data['koordinator_fee'] = $totalLevel2;
+                                        $data['top'] = 'SM140';
+                                        $data['top_fee'] = $totalLevel2;
+                                        $data['diskon_marketing'] = 0;
+                                    }else{
+                                        $totalLevel2 = $reference - $findKoordinator['fee_reguler'];
+
+                                        $data['marketing_fee'] = $findKoordinator['fee_reguler'];
+                                        $data['koordinator'] = $findKoordinator['koordinator'];
+                                        $data['koordinator_fee'] = $totalLevel2;
+                                        $data['top'] = 'SM140';
+                                        $data['top_fee'] = $totalLevel2;
+                                        $data['diskon_marketing'] = 0;
+                                    }
+                                    
                                 }
 
                                 DB::table('jamaah')->where('id', $data['id'])->update($data);
@@ -129,23 +182,47 @@ class ImportJamaahController extends Controller
                                 if($findDiskon){
                                     $d = $findDiskon->diskon_marketing;
 
-                                    $totalLevel3 = $reference - ($findKoordinator->fee_reguler + $top_ref);
+                                    if ($promo) {
+                                        $totalLevel3 = $referencePromo - ($findKoordinator['fee_promo'] + $top_promo);
 
-                                    $data['marketing_fee'] = $findKoordinator->fee_reguler - $d;
-                                    $data['koordinator'] = $findKoordinator->koordinator;
-                                    $data['koordinator_fee'] = $totalLevel3;
-                                    $data['top'] = 'SM140';  
-                                    $data['top_fee'] = $top_ref;
-                                    $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                        $data['marketing_fee'] = $findKoordinator['fee_promo'] - $d;
+                                        $data['koordinator'] = $findKoordinator['koordinator'];
+                                        $data['koordinator_fee'] = $totalLevel3;
+                                        $data['top'] = 'SM140';  
+                                        $data['top_fee'] = $top_promo;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }else{
+                                        $totalLevel3 = $reference - ($findKoordinator['fee_reguler'] + $top_ref);
+
+                                        $data['marketing_fee'] = $findKoordinator['fee_reguler'] - $d;
+                                        $data['koordinator'] = $findKoordinator['koordinator'];
+                                        $data['koordinator_fee'] = $totalLevel3;
+                                        $data['top'] = 'SM140';  
+                                        $data['top_fee'] = $top_ref;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }
+                                    
                                 }else{
-                                    $totalLevel3 = $reference - ($findKoordinator->fee_reguler + $top_ref);
+                                    if ($promo) {
+                                        $totalLevel3 = $referencePromo - ($findKoordinator['fee_promo'] + $top_promo);
 
-                                    $data['marketing_fee'] = $findKoordinator->fee_reguler;
-                                    $data['koordinator'] = $findKoordinator->koordinator;
-                                    $data['koordinator_fee'] = $totalLevel3;
-                                    $data['top'] = 'SM140';  
-                                    $data['top_fee'] = $top_ref;
-                                    $data['diskon_marketing'] = 0;
+                                        $data['marketing_fee'] = $findKoordinator['fee_promo'];
+                                        $data['koordinator'] = $findKoordinator['koordinator'];
+                                        $data['koordinator_fee'] = $totalLevel3;
+                                        $data['top'] = 'SM140';  
+                                        $data['top_fee'] = $top_promo;
+                                        $data['diskon_marketing'] = 0;
+                                    }else{
+                                        $totalLevel3 = $reference - ($findKoordinator['fee_reguler'] + $top_ref);
+
+                                        $data['marketing_fee'] = $findKoordinator['fee_reguler'];
+                                        $data['koordinator'] = $findKoordinator['koordinator'];
+                                        $data['koordinator_fee'] = $totalLevel3;
+                                        $data['top'] = 'SM140';  
+                                        $data['top_fee'] = $top_ref;
+                                        $data['diskon_marketing'] = 0;
+                                    }
+                                    
                                 }
 
                                 DB::table('jamaah')->where('id', $data['id'])->update($data);
@@ -157,6 +234,12 @@ class ImportJamaahController extends Controller
                             $findKoordinator = User::find($anggota_id);
                             $findDiskon = DB::table('master_pendaftaran')->where('id_jamaah', $id_jamaah)->first();
 
+                            if ($row['marketing_fee'] == "PROMO") {
+                                $promo = true;
+                            }else{
+                                $promo = false;
+                            }
+
                             $k = $findKoordinator->koordinator;
 
                             // $ref = $reference - $refdiskon;
@@ -164,19 +247,40 @@ class ImportJamaahController extends Controller
                                 if($findDiskon){
                                     $d = $findDiskon->diskon_marketing;
 
-                                    $data['marketing_fee'] = $reference - $d;
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = $reference - $d;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = $reference - $d;
-                                    $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    if ($promo) {
+                                        $data['marketing_fee'] = $referencePromo - $d;
+                                        $data['koordinator'] = 'SM000';
+                                        $data['koordinator_fee'] = $referencePromo - $d;
+                                        $data['top'] = 'SM000';
+                                        $data['top_fee'] = $referencePromo - $d;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }else{
+                                        $data['marketing_fee'] = $reference - $d;
+                                        $data['koordinator'] = 'SM000';
+                                        $data['koordinator_fee'] = $reference - $d;
+                                        $data['top'] = 'SM000';
+                                        $data['top_fee'] = $reference - $d;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }
+
+                                    
                                 }else{
-                                    $data['marketing_fee'] = $reference;
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = $reference;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = $reference;
-                                    $data['diskon_marketing'] = 0;
+                                    if ($promo) {
+                                        $data['marketing_fee'] = $referencePromo;
+                                        $data['koordinator'] = 'SM000';
+                                        $data['koordinator_fee'] = $referencePromo;
+                                        $data['top'] = 'SM000';
+                                        $data['top_fee'] = $referencePromo;
+                                        $data['diskon_marketing'] = 0;
+                                    }else{
+                                        $data['marketing_fee'] = $reference;
+                                        $data['koordinator'] = 'SM000';
+                                        $data['koordinator_fee'] = $reference;
+                                        $data['top'] = 'SM000';
+                                        $data['top_fee'] = $reference;
+                                        $data['diskon_marketing'] = 0;
+                                    }
+                                    
                                 }
 
                                 DB::table('jamaah')->insert($data);
@@ -185,23 +289,49 @@ class ImportJamaahController extends Controller
                                 if($findDiskon){
                                     $d = $findDiskon->diskon_marketing;
 
-                                    $totalLevel2 = $reference - $findKoordinator->fee_reguler;
+                                    if ($promo) {
+                                        $totalLevel2 = $referencePromo - $findKoordinator->fee_promo;
 
-                                    $data['marketing_fee'] = $findKoordinator->fee_reguler - $d;
-                                    $data['koordinator'] = $findKoordinator->koordinator;
-                                    $data['koordinator_fee'] = $totalLevel2;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = $totalLevel2;
-                                    $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                        $data['marketing_fee'] = $findKoordinator->fee_promo - $d;
+                                        $data['koordinator'] = $findKoordinator->koordinator;
+                                        $data['koordinator_fee'] = $totalLevel2;
+                                        $data['top'] = 'SM140';
+                                        $data['top_fee'] = $totalLevel2;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }else{
+                                        $totalLevel2 = $reference - $findKoordinator->fee_reguler;
+
+                                        $data['marketing_fee'] = $findKoordinator->fee_reguler - $d;
+                                        $data['koordinator'] = $findKoordinator->koordinator;
+                                        $data['koordinator_fee'] = $totalLevel2;
+                                        $data['top'] = 'SM140';
+                                        $data['top_fee'] = $totalLevel2;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }
+
+                                    
                                 }else{
-                                    $totalLevel2 = $reference - $findKoordinator->fee_reguler;
 
-                                    $data['marketing_fee'] = $findKoordinator->fee_reguler;
-                                    $data['koordinator'] = $findKoordinator->koordinator;
-                                    $data['koordinator_fee'] = $totalLevel2;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = $totalLevel2;
-                                    $data['diskon_marketing'] = 0;
+                                    if ($promo) {
+                                        $totalLevel2 = $referencePromo - $findKoordinator->fee_promo;
+
+                                        $data['marketing_fee'] = $findKoordinator->fee_promo;
+                                        $data['koordinator'] = $findKoordinator->koordinator;
+                                        $data['koordinator_fee'] = $totalLevel2;
+                                        $data['top'] = 'SM140';
+                                        $data['top_fee'] = $totalLevel2;
+                                        $data['diskon_marketing'] = 0;
+                                    }else{
+                                        $totalLevel2 = $reference - $findKoordinator->fee_reguler;
+
+                                        $data['marketing_fee'] = $findKoordinator->fee_reguler;
+                                        $data['koordinator'] = $findKoordinator->koordinator;
+                                        $data['koordinator_fee'] = $totalLevel2;
+                                        $data['top'] = 'SM140';
+                                        $data['top_fee'] = $totalLevel2;
+                                        $data['diskon_marketing'] = 0;
+                                    }
+                                    
                                 }
 
                                 DB::table('jamaah')->insert($data);              
@@ -209,23 +339,48 @@ class ImportJamaahController extends Controller
                                 if($findDiskon){
                                     $d = $findDiskon->diskon_marketing;
 
-                                    $totalLevel3 = $reference - ($findKoordinator->fee_reguler + $top_ref);
+                                    if ($promo) {
+                                        $totalLevel3 = $referencePromo - ($findKoordinator->fee_promo + $top_promo);
 
-                                    $data['marketing_fee'] = $findKoordinator->fee_reguler - $d;
-                                    $data['koordinator'] = $findKoordinator->koordinator;
-                                    $data['koordinator_fee'] = $totalLevel3;
-                                    $data['top'] = 'SM140';  
-                                    $data['top_fee'] = $top_ref;
-                                    $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                        $data['marketing_fee'] = $findKoordinator->fee_promo - $d;
+                                        $data['koordinator'] = $findKoordinator->koordinator;
+                                        $data['koordinator_fee'] = $totalLevel3;
+                                        $data['top'] = 'SM140';  
+                                        $data['top_fee'] = $top_promo;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }else{
+                                        $totalLevel3 = $reference - ($findKoordinator->fee_reguler + $top_ref);
+
+                                        $data['marketing_fee'] = $findKoordinator->fee_reguler - $d;
+                                        $data['koordinator'] = $findKoordinator->koordinator;
+                                        $data['koordinator_fee'] = $totalLevel3;
+                                        $data['top'] = 'SM140';  
+                                        $data['top_fee'] = $top_ref;
+                                        $data['diskon_marketing'] = $findDiskon->diskon_marketing;
+                                    }
+
+                                    
                                 }else{
-                                    $totalLevel3 = $reference - ($findKoordinator->fee_reguler + $top_ref);
+                                    if ($promo) {
+                                        $totalLevel3 = $referencePromo - ($findKoordinator->fee_promo + $top_promo);
 
-                                    $data['marketing_fee'] = $findKoordinator->fee_reguler;
-                                    $data['koordinator'] = $findKoordinator->koordinator;
-                                    $data['koordinator_fee'] = $totalLevel3;
-                                    $data['top'] = 'SM140';  
-                                    $data['top_fee'] = $top_ref;
-                                    $data['diskon_marketing'] = 0;
+                                        $data['marketing_fee'] = $findKoordinator->fee_promo;
+                                        $data['koordinator'] = $findKoordinator->koordinator;
+                                        $data['koordinator_fee'] = $totalLevel3;
+                                        $data['top'] = 'SM140';  
+                                        $data['top_fee'] = $top_promo;
+                                        $data['diskon_marketing'] = 0;
+                                    }else{
+                                        $totalLevel3 = $reference - ($findKoordinator->fee_reguler + $top_ref);
+
+                                        $data['marketing_fee'] = $findKoordinator->fee_reguler;
+                                        $data['koordinator'] = $findKoordinator->koordinator;
+                                        $data['koordinator_fee'] = $totalLevel3;
+                                        $data['top'] = 'SM140';  
+                                        $data['top_fee'] = $top_ref;
+                                        $data['diskon_marketing'] = 0;
+                                    }
+                                    
                                 }
 
                                 DB::table('jamaah')->insert($data);

@@ -125,6 +125,7 @@ class SinkronisasiController extends Controller
                 $data['tgl_pulang'] = date('d/m/Y', strtotime($diskon['tgl_kepulangan']));
                 $data['marketing'] = $diskon['id_marketing'];
                 $data['staff'] = $diskon['staf_kantor'];
+                $data['promo'] = $diskon['promo'];
 
  				$validatorB = Jamaah::where('id_jamaah', $diskon['id_jamaah'])->first();
 
@@ -141,7 +142,8 @@ class SinkronisasiController extends Controller
 	                    'id_marketing' => $diskon['id_marketing'],
 	                    'diskon_kantor' => $diskon['diskon_kantor'],
 	                    'diskon_marketing' => $diskon['diskon_marketing'],
-	                    'fee_koordinator' => $diskon['fee_koordinator'],
+                        'fee_koordinator' => $diskon['fee_koordinator'],
+	                    'promo' => $diskon['promo'],
 	                    'fee_marketing' => $diskon['fee_marketing']
 	                ]);
                 }else{
@@ -157,7 +159,8 @@ class SinkronisasiController extends Controller
 	                    'id_marketing' => $diskon['id_marketing'],
 	                    'diskon_kantor' => $diskon['diskon_kantor'],
 	                    'diskon_marketing' => $diskon['diskon_marketing'],
-	                    'fee_koordinator' => $diskon['fee_koordinator'],
+                        'fee_koordinator' => $diskon['fee_koordinator'],
+	                    'promo' => $diskon['promo'],
 	                    'fee_marketing' => $diskon['fee_marketing']
             		]);
                 }
@@ -170,8 +173,20 @@ class SinkronisasiController extends Controller
                     $findKoordinator = User::find($diskon['id_marketing']);
                     $findDiskon = $diskon['diskon_marketing'];
 
-                    $k = $findKoordinator['koordinator'];
-                    $f = $findKoordinator['fee_reguler'];
+                    //Promo
+                    if($data['promo'] == "1"){
+                        $promo = true;
+                        $reference = 1200000;
+                        $top_ref = 100000;
+                        $k = $findKoordinator['koordinator'];
+                        $f = $findKoordinator['fee_promo'];
+                    }else{
+                        $promo = false;
+                        $reference = 2250000;
+                        $top_ref = 250000;
+                        $k = $findKoordinator['koordinator'];
+                        $f = $findKoordinator['fee_reguler'];
+                    }
 
                     // $ref = $reference - $refdiskon;
                     if ($k == "SM000" ) {
@@ -182,7 +197,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
-	                            $data['top'] = 'SM140';
+	                            $data['top'] = 'SM000';
 	                            $data['top_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
 	                            $data['diskon_marketing'] = $findDiskon;
 
@@ -191,7 +206,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = $f - $diskon['diskon_marketing'];
-	                            $data['top'] = 'SM140';
+	                            $data['top'] = 'SM000';
 	                            $data['top_fee'] = $f - $diskon['diskon_marketing'];
 	                            $data['diskon_marketing'] = $findDiskon;
 
@@ -202,7 +217,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $diskon['fee_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = $diskon['fee_marketing'];
-	                            $data['top'] = 'SM140';
+	                            $data['top'] = 'SM000';
 	                            $data['top_fee'] = $diskon['fee_marketing'];
 	                            $data['diskon_marketing'] = 0;
 
@@ -211,7 +226,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $f;
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = $f;
-	                            $data['top'] = 'SM140';
+	                            $data['top'] = 'SM000';
 	                            $data['top_fee'] = $f;
 	                            $data['diskon_marketing'] = 0;
 
@@ -391,9 +406,20 @@ class SinkronisasiController extends Controller
                     $findKoordinator = User::find($diskon['id_marketing']);
                     $findDiskon = $diskon['diskon_marketing'];
 
-                    // $k = $findKoordinator->koordinator;
-                    $k = $findKoordinator['koordinator'];
-                    $f = $findKoordinator['fee_reguler'];
+                    //Promo
+                    if($data['promo'] == "1"){
+                        $promo = true;
+                        $reference = 1200000;
+                        $top_ref = 100000;
+                        $k = $findKoordinator['koordinator'];
+                        $f = $findKoordinator['fee_promo'];
+                    }else{
+                        $promo = false;
+                        $reference = 2250000;
+                        $top_ref = 250000;
+                        $k = $findKoordinator['koordinator'];
+                        $f = $findKoordinator['fee_reguler'];
+                    }
 
                     // $ref = $reference - $refdiskon;
                     if ($k == "SM000" ) {
