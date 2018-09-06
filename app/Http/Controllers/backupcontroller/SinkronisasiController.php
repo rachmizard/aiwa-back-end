@@ -193,7 +193,10 @@ class SinkronisasiController extends Controller
                         if($findDiskon){
                             $d = $findDiskon;
 
+                            //Jika data scraping fee marketing sudah terisi
                             if ($diskon['fee_marketing'] != 0) {
+
+                                //Maka Pendaftaran itu sudah komisi
                             	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = 0;
@@ -203,14 +206,32 @@ class SinkronisasiController extends Controller
 
 	                            $data['status'] = "KOMISI";
                             }else{
-                            	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
-	                            $data['koordinator'] = 'SM000';
-	                            $data['koordinator_fee'] = 0;
-	                            $data['top'] = 'SM000';
-	                            $data['top_fee'] = 0;
-	                            $data['diskon_marketing'] = $findDiskon;
 
-	                            $data['status'] = "POTENSI";
+                                //Maka gunakan dari tabel master USERS dan ambil fee_reguler atau fee_promo
+
+                                //Jika pada data scraping promo itu benar
+                                if ($promo) {
+
+                                    //Maka dikurangi 100k untuk TOP saja
+                                    $data['marketing_fee'] = $f - 100000 - $diskon['diskon_marketing'];
+                                    $data['koordinator'] = 'SM000';
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM000';
+                                    $data['top_fee'] = 0;
+                                    $data['diskon_marketing'] = $findDiskon;
+
+                                    $data['status'] = "POTENSI";
+                                }else{
+                                    $data['marketing_fee'] = $f - $diskon['diskon_marketing'];
+                                    $data['koordinator'] = 'SM000';
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM000';
+                                    $data['top_fee'] = 0;
+                                    $data['diskon_marketing'] = $findDiskon;
+
+                                    $data['status'] = "POTENSI";
+                                }
+                            	
                             }
                         }else{
                             if ($diskon['fee_marketing'] != 0) {
@@ -223,14 +244,27 @@ class SinkronisasiController extends Controller
 
 	                            $data['status'] = "KOMISI";
                             }else{
-                            	$data['marketing_fee'] = $f;
-	                            $data['koordinator'] = 'SM000';
-	                            $data['koordinator_fee'] = 0;
-	                            $data['top'] = 'SM000';
-	                            $data['top_fee'] = 0;
-	                            $data['diskon_marketing'] = 0;
 
-	                            $data['status'] = "POTENSI";
+                                 if ($promo) {
+                                    $data['marketing_fee'] = $f - 100000;
+                                    $data['koordinator'] = 'SM000';
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM000';
+                                    $data['top_fee'] = 0;
+                                    $data['diskon_marketing'] = 0;
+
+                                    $data['status'] = "POTENSI";
+                                }else{
+                                    $data['marketing_fee'] = $f;
+                                    $data['koordinator'] = 'SM000';
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM000';
+                                    $data['top_fee'] = 0;
+                                    $data['diskon_marketing'] = 0;
+
+                                    $data['status'] = "POTENSI";    
+                                }
+                            	
                             }
                         }
 
@@ -430,40 +464,66 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = 0;
-	                            $data['top'] = 'SM000';
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = 0;
 	                            $data['diskon_marketing'] = $findDiskon;
 
 	                            $data['status'] = "KOMISI";
                             }else{
-                            	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
-	                            $data['koordinator'] = 'SM000';
-	                            $data['koordinator_fee'] = 0;
-	                            $data['top'] = 'SM000';
-	                            $data['top_fee'] = 0;
-	                            $data['diskon_marketing'] = $findDiskon;
 
-	                            $data['status'] = "POTENSI";
+                                if ($promo) {
+                                    $data['marketing_fee'] = $f - 100000 - $diskon['diskon_marketing'];
+                                    $data['koordinator'] = 'SM000';
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM140';
+                                    $data['top_fee'] = 0;
+                                    $data['diskon_marketing'] = $findDiskon;
+
+                                    $data['status'] = "POTENSI";
+                                }else{
+                                    $data['marketing_fee'] = $f - $diskon['diskon_marketing'];
+                                    $data['koordinator'] = 'SM000';
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM140';
+                                    $data['top_fee'] = 0;
+                                    $data['diskon_marketing'] = $findDiskon;
+
+                                    $data['status'] = "POTENSI";
+                                }
+                            	
                             }
                         }else{
                             if ($diskon['fee_marketing'] != 0) {
                             	$data['marketing_fee'] = $diskon['fee_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = 0;
-	                            $data['top'] = 'SM000';
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = 0;
 	                            $data['diskon_marketing'] = 0;
 
 	                            $data['status'] = "KOMISI";
                             }else{
-                            	$data['marketing_fee'] = $f;
-	                            $data['koordinator'] = 'SM000';
-	                            $data['koordinator_fee'] = 0;
-	                            $data['top'] = 'SM000';
-	                            $data['top_fee'] = 0;
-	                            $data['diskon_marketing'] = 0;
 
-	                            $data['status'] = "POTENSI";
+                                if ($promo) {
+                                    $data['marketing_fee'] = $f - 100000;
+                                    $data['koordinator'] = 'SM000';
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM140';
+                                    $data['top_fee'] = 0;
+                                    $data['diskon_marketing'] = 0;
+
+                                    $data['status'] = "POTENSI";
+                                }else{
+                                    $data['marketing_fee'] = $f;
+                                    $data['koordinator'] = 'SM000';
+                                    $data['koordinator_fee'] = 0;
+                                    $data['top'] = 'SM140';
+                                    $data['top_fee'] = 0;
+                                    $data['diskon_marketing'] = 0;
+
+                                    $data['status'] = "POTENSI";    
+                                }
+                            	
                             }
                         }
 

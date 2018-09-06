@@ -131,31 +131,54 @@ class JamaahController extends Controller
             $year = $now->year;
             $month = $now->month;
             $day = $now->day;
-            $jamaah = Jamaah::where('tgl_transfer', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->get();
-            $totalJamaahBerangkat = count($jamaah);
-            $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-            foreach ($jamaah as $in) {
 
-                $recepient = User::where('id', $in->marketing)->first();
-                $token = $recepient->device_token;
+            $jamaahs = Jamaah::where('tgl_transfer', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->where('marketing', $jamaah->marketing)->where('koordinator', $jamaah->koordinator)->where('top', $jamaah->top)->get();
+
+            $totalJamaahBerangkat = count($jamaahs);
+            $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+            foreach ($jamaahs as $in) {
+
+                $recepientMarketing = User::where('id', $in->marketing)->first();
+                $recepientKoordinator = User::where('id', $in->koordinator)->first();
+                $recepientTop = User::where('id', $in->top)->first();
+                $token = array();
+                $token = [
+                    $recepientMarketing['device_token'],
+                    $recepientKoordinator['device_token'],
+                    $recepientTop['device_token']
+                ];
                 
                 $notification = [
-                    'body' => 'Komisi sudah di transfer, silahkankan kontak koordinator anda untuk verifikasi!',
+                    'body' => 'Komisi sudah transfer, cek notifikasi!',
+                    'bodyKoordinator' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer, silahkan kontak koordinator anda untuk verifikasi!',
+                    'bodyTop' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer!',
                     'sound' => true,
                 ];
 
 
-                $sendNotify = MasterNotifikasi::create([
+                $sendNotifyMarketing = MasterNotifikasi::create([
                                                         'anggota_id' => $in->marketing,
                                                         'pesan' => $notification['body'],
+                                                        'status' => 'delivered'
+                                                        ]);
+
+                $sendNotifyKoordinator = MasterNotifikasi::create([
+                                                        'anggota_id' => $in->koordinator,
+                                                        'pesan' => $notification['bodyKoordinator'],
+                                                        'status' => 'delivered'
+                                                        ]);
+
+                $sendNotifyTop = MasterNotifikasi::create([
+                                                        'anggota_id' => $in->top,
+                                                        'pesan' => $notification['bodyTop'],
                                                         'status' => 'delivered'
                                                         ]);
                 
                 $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
 
                 $fcmNotification = [
-                    // 'registration_ids' => $token, //multple token array
-                    'to'        => $token, //single token
+                    'registration_ids' => $token, //multple token array
+                    // 'to'        => $token, //single token
                     'notification' => $notification,
                     'data' => $extraNotificationData
                 ];

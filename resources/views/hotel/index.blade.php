@@ -13,6 +13,7 @@
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
                     <a href="{{ route('aiwa.master-gallery.index.hotel') }}" class="btn btn-sm btn-primary"><i class="fa fa-file-image-o"></i> Lihat Gallery Hotel</a>
+                    <a href="{{ route('aiwa.master-hotel.index.arsip') }}" class="btn btn-sm btn-danger"><i class="ion-android-archive"></i> Arsip Hotel</a>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">

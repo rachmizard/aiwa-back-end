@@ -18,7 +18,7 @@ class MasterHotelControllerAPI extends Controller
      */
     public function retrieveHotelByKota(Request $request, $kota)
     {
-        return MasterHotelResource::collection(Master_Hotel::where('kota', $kota)->paginate(20));
+        return MasterHotelResource::collection(Master_Hotel::where('status', '!=', 'archived')->where('kota', $kota)->paginate(20));
     }
 
     /**
@@ -57,12 +57,12 @@ class MasterHotelControllerAPI extends Controller
     public function retrieveFotoByHotel($id)
     {
         // return new MasterHotelResource(Master_Hotel::with('gallery')->where('kota', $kota)->findOrFail($id));
-        return GalleryResource::collection(MasterGallery::where('judul', '=', $id)->where('tipe', 'foto_hotel')->get());
+        return GalleryResource::collection(MasterGallery::where('status', '!=', 'archived')->where('judul', '=', $id)->where('tipe', 'foto_hotel')->get());
     }
 
     public function retrieveVideoByHotel($id)
     {
-        return GalleryResource::collection(MasterGallery::where('judul', '=', $id)->where('tipe', 'video_hotel')->get());   
+        return GalleryResource::collection(MasterGallery::where('status', '!=', 'archived')->where('judul', '=', $id)->where('tipe', 'video_hotel')->get());   
     }
 
     /**

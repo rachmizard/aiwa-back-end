@@ -145,7 +145,18 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::post('master-hotel/tambah', 'HotelController@store')->name('aiwa.master-hotel.store');
     Route::get('master-hotel/{id}/edit', 'HotelController@edit')->name('aiwa.master-hotel.edit-form');
     Route::put('master-hotel/{id}', 'HotelController@update')->name('aiwa.master-hotel.update');
-    Route::delete('master-hotel/{id}/delete', 'HotelController@destroy')->name('aiwa.master-hotel.destroy');
+    Route::put('master-hotel/{id}/archive', 'HotelController@archive')->name('aiwa.master-hotel.archive');
+    // Arsip Hotel
+    Route::get('master-hotel/hotels/arsip', 'HotelController@indexArsipHotel')->name('aiwa.master-hotel.index.arsip');
+    Route::get('master-hotel/loadTableHotel/arsip', 'HotelController@getDataArsipHotel')->name('aiwa.master-hotel.load.arsip');
+    Route::put('master-hotel/{id}/unarchived', function($id){
+        DB::table('master_hotels')->where('id', $id)->update(['status' => 'used']);
+        $galleryHotels = DB::table('master_galleries')->where('judul', $id)->where('status', '=', 'archived')->get();
+        foreach ($galleryHotels as $in) {
+            DB::table('master_galleries')->where('id', $in->id)->update(['status' => 'used']);
+        }
+        return back();
+    })->name('aiwa.master-hotel.unarchived');
     // End Master Hotel
 
     // Master Brosur
@@ -168,8 +179,10 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::post('master-gallery/{id}/edit', 'GalleryController@update')->name('aiwa.master-gallery.update');
     Route::post('master-gallery/{id}/delete', 'GalleryController@destroy')->name('aiwa.master-gallery.destroy');
     Route::get('master-gallery/loadTableGallery', 'GalleryController@getData')->name('aiwa.master-gallery.load');
+    // Master Gallery Hotel
     Route::get('master-gallery/hotels', 'GalleryController@indexGalleryHotel')->name('aiwa.master-gallery.index.hotel');
     Route::get('master-gallery/hotels/loadTableGalleryHotel', 'GalleryController@getDataGalleryHotel')->name('aiwa.master-gallery.load.hotel');
+    Route::put('master-gallery/hotels/{id}/archive', 'GalleryController@archive')->name('aiwa.master-gallery.archive');
     // End Master Gallery
 
     Route::get('master-kalkulasi', 'MasterKalkulasiController@edit')->name('aiwa.master-kalkulasi');

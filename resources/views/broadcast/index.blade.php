@@ -12,7 +12,7 @@
                     <h3 class="title"><strong><i class="ion-speakerphone"></i> Broadcast</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
-                    <a href="{{ route('aiwa.master-broadcast.toagen') }}" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Broadcast ke agen</a>
+                    <!-- <a href="{{ route('aiwa.master-broadcast.toagen') }}" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Broadcast ke agen</a> -->
                 </div>
                 <div class="row">
                     <div class="col-sm-6">

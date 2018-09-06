@@ -188,7 +188,7 @@
         </script>
         <script>
             function confirmBtn() {
-                  if(!confirm("Are You Sure to delete this?"))
+                  if(!confirm("Anda yakin untuk melanjutkannya?"))
                   event.preventDefault();
             }
         </script>

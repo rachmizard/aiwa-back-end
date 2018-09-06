@@ -29,21 +29,21 @@ class GalleryController extends Controller
 
     public function indexGalleryHotel()
     {
-        $hotels = Master_Hotel::orderBy('id', 'DESC')->get();
+        $hotels = Master_Hotel::orderBy('id', 'DESC')->where('status', '!=', 'archived')->get();
         return view('gallery.hotel', compact('hotels'));
     }
 
     public function getDataGalleryHotel()
     {
-        $galleries = MasterGallery::with('hotel')->where('tipe', '=', 'foto_hotel')->orWhere('tipe', '=', 'video_hotel')->get();
+        $galleries = MasterGallery::with('hotel')->where('status', '!=', 'archived')->where('tipe', '=', 'foto_hotel')->orWhere('tipe', '=', 'video_hotel')->get();
         return Datatables::of($galleries)
         ->addColumn('action', function($galleries)
         {
             return '<a class="btn btn-sm btn-info" href="'. route('aiwa.master-gallery.edit', $galleries->id) .'">Edit</a>
-                    <form class="form-group" action="'. route('aiwa.master-gallery.destroy', $galleries->id) .'" method="POST">
+                    <form class="form-group" action="'. route('aiwa.master-gallery.archive', $galleries->id) .'" method="POST">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
-                    <input type="hidden" name="_method" value="POST">
-                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="glyphicon glyphicon-trash"></i>Delete</button>
+                    <input type="hidden" name="_method" value="PUT">
+                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="ion-android-archive"></i> Archive</button>
                     </form>
                     ';
         })
@@ -57,7 +57,7 @@ class GalleryController extends Controller
 
     public function getData()
     {
-        $galleries = MasterGallery::all();
+        $galleries = MasterGallery::where('status', '!=', 'archived')->where('tipe', '!=', 'foto_hotel')->where('tipe', '!=', 'video_hotel')->get();
         return Datatables::of($galleries)
         ->addColumn('action', function($galleries)
         {
@@ -72,6 +72,12 @@ class GalleryController extends Controller
         ->make(true);
     }
 
+// <form class="form-group" action="'. route('aiwa.master-gallery.archive', $galleries->id) .'" method="POST">
+//                     <input type="hidden" name="_token" value="'. csrf_token() .'">
+//                     <input type="hidden" name="_method" value="PUT">
+//                     <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="ion-android-archive"></i> Archive</button>
+//                     </form>
+    
     public function create()
     {
         //
@@ -200,6 +206,14 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function archive($id)
+    {
+        $updateStatus = MasterGallery::find($id);
+        $updateStatus->update(['status' => 'archived']);
+        return redirect()->back()->with('message', 'Berhasil di simpan di arsip!');
+    }
+
     public function destroy($id)
     {
         $gallery = MasterGallery::findOrFail($id);

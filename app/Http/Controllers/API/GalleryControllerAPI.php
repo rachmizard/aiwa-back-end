@@ -21,12 +21,12 @@ class GalleryControllerAPI extends Controller
 
     public function retrieveByFoto(Request $request)
     {
-        return GalleryResource::collection(MasterGallery::where('tipe', '=', 'foto')->get());
+        return GalleryResource::collection(MasterGallery::where('status', '!=', 'archived')->where('tipe', '=', 'foto')->get());
     }
 
     public function retrieveByVideo(Request $request)
     {
-        return GalleryResource::collection(MasterGallery::where('tipe', '=', 'video')->get());
+        return GalleryResource::collection(MasterGallery::where('status', '!=', 'archived')->where('tipe', '=', 'video')->get());
     }
 
     /**

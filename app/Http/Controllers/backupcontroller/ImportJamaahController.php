@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Jamaah;
 use App\User;
 use App\LogActivity;
-use App\MasterNotifikasi;
 use Auth;
 use Carbon\Carbon;
 use Excel;
@@ -57,84 +56,7 @@ class ImportJamaahController extends Controller
                     // $data['diskon_marketing'] = $row['diskon_marketing'];
                     $data['status'] = $row['status'];
                     $data['tgl_transfer'] = $row['tgl_transfer'];
-                    if ($data['tgl_transfer'] != null) {
-                        // $agents = User::where('device_token', '!=', null)->get();
-                        $now = Carbon::now();
-                        $year = $now->year;
-                        $month = $now->month;
-                        $day = $now->day;
 
-                        $jamaahs = Jamaah::where('tgl_transfer', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->where('marketing', $row['marketing'])->where('koordinator', $row['koordinator'])->where('top', $row['top'])->get();
-
-                        $totalJamaahBerangkat = count($jamaahs);
-                        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-                        foreach ($jamaahs as $in) {
-
-                            $recepientMarketing = User::where('id', $in->marketing)->first();
-                            $recepientKoordinator = User::where('id', $in->koordinator)->first();
-                            $recepientTop = User::where('id', $in->top)->first();
-                            $token = array();
-                            $token = [
-                                $recepientMarketing['device_token'],
-                                $recepientKoordinator['device_token'],
-                                $recepientTop['device_token']
-                            ];
-                            
-                            $notification = [
-                                'body' => 'Komisi sudah transfer, cek notifikasi!',
-                                'bodyKoordinator' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer, silahkan kontak koordinator anda untuk verifikasi!',
-                                'bodyTop' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer!',
-                                'sound' => true,
-                            ];
-
-
-                            $sendNotifyMarketing = MasterNotifikasi::create([
-                                                                    'anggota_id' => $in->marketing,
-                                                                    'pesan' => $notification['body'],
-                                                                    'status' => 'delivered'
-                                                                    ]);
-
-                            $sendNotifyKoordinator = MasterNotifikasi::create([
-                                                                    'anggota_id' => $in->koordinator,
-                                                                    'pesan' => $notification['bodyKoordinator'],
-                                                                    'status' => 'delivered'
-                                                                    ]);
-
-                            $sendNotifyTop = MasterNotifikasi::create([
-                                                                    'anggota_id' => $in->top,
-                                                                    'pesan' => $notification['bodyTop'],
-                                                                    'status' => 'delivered'
-                                                                    ]);
-                            
-                            $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
-
-                            $fcmNotification = [
-                                'registration_ids' => $token, //multple token array
-                                // 'to'        => $token, //single token
-                                'notification' => $notification,
-                                'data' => $extraNotificationData
-                            ];
-
-                            $headers = [
-                                'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
-                                'Content-Type: application/json'
-                            ];
-
-
-                            $ch = curl_init();
-                            curl_setopt($ch, CURLOPT_URL,$fcmUrl);
-                            curl_setopt($ch, CURLOPT_POST, true);
-                            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
-                            $result = curl_exec($ch);
-                            curl_close($ch);
-
-
-                            // return response()->json($result);
-                        }
-                    }
                     // Jika data tidak kosong
                     if(!empty($data)) {
                         // Cari di data Jamaah yang id nya sama
@@ -198,9 +120,9 @@ class ImportJamaahController extends Controller
                                     }else{
                                         $data['marketing_fee'] = $reference;
                                         $data['koordinator'] = 'SM000';
-                                        $data['koordinator_fee'] = 0;
+                                        $data['koordinator_fee'] = $reference;
                                         $data['top'] = 'SM000';
-                                        $data['top_fee'] = 0;
+                                        $data['top_fee'] = $reference;
                                         $data['diskon_marketing'] = 0;
                                     }
                                     
