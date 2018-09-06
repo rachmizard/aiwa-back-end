@@ -104,7 +104,7 @@ class JamaahControllerAPI extends Controller
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
         // return JamaahResource::collection(Jamaah::where('top', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get()); // teu jalan
-        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and top = ?",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());    
+        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and top = ?",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
 
     }
 
@@ -114,7 +114,7 @@ class JamaahControllerAPI extends Controller
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
         // return JamaahResource::collection(Jamaah::where('top', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get()); // teu jalan
-        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and top = ?",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());    
+        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and top = ?",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
 
     }
 
@@ -123,7 +123,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];    
-        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());    
+        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
     }
 
     public function agenKomisi(Request $request, $id, $tahun)
@@ -131,7 +131,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());      
+        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());      
     }
 
     public function totalJamaahByAgen(Request $request, $id, $tahun)
@@ -291,7 +291,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return $retrieveJamaahPulangByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $day.'/'.$now->format('m').'/'.$year)->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+        return $retrieveJamaahPulangByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
     }
 
     // CHART DASHBOARD

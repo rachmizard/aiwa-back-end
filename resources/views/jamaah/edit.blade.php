@@ -103,7 +103,7 @@
                                                 <span class="input-group-addon"><i class="fa fa-check"></i></span>
                                                 <select name="status" class="select2" data-placeholder="Status.." style="width: 100%;" required>
                                                     <option value="POTENSI" @if($jamaah->status == 'POTENSI') selected @endif>POTENSI</option>
-                                                    <option value="KOM" @if($jamaah->status == 'KOM') selected @endif>KOMISI</option>
+                                                    <option value="KOMISI" @if($jamaah->status == 'KOMISI') selected @endif>KOMISI</option>
                                                 </select>
                                             </div>
                                         </div>
