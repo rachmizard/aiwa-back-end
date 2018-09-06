@@ -74,8 +74,9 @@
                                             <select name="periode" id="" class="form-control" onchange="document.getElementById('filter').submit();">
                                                 <option disabled selected>Periode</option>
                                                 @foreach($periodes as $periode)
+                                                <!-- Ini sengaja di kasih kondisi biar si ALL nya ga kedetek -->
                                                     @if($periode->id != 7)
-                                                         <option value="{{ $periode->judul }}">{{ $periode->judul }}</option>
+                                                         <option value="{{ $periode->judul }}" {{ $periode->judul == $varJay->judul ? 'selected' : '' }}>{{ $periode->judul }}</option>
                                                     @endif
                                                 @endforeach
                                             </select>

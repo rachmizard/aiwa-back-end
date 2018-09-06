@@ -21,6 +21,7 @@
                                             <th>Tahun/Hijriah</th>
                                             <th>Start</th>
                                             <th>End</th>
+                                            <th>Tahun Aktif</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -60,7 +61,7 @@
                                 </div> 
                             </div>
                         </div> 
-                        <div class="modal-footer"> 
+                        <div class="modal-footer">
                             <button type="button" class="btn btn-white" data-dismiss="modal">Close</button> 
                             <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-info">Simpan</button> 
                         </div>
@@ -68,6 +69,50 @@
                 </div> 
             </div>
         </div><!-- /.modal -->
+        @foreach($periodes as $periode)
+        <div id="periodeModalEdit{{ $periode->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog"> 
+                <div class="modal-content"> 
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+                        <h4 class="modal-title"><i class="fa fa-pencil"></i> Edit Periode</h4> 
+                    </div> 
+                    <form action="{{ route('aiwa.master-periode.update', $periode->id) }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('PUT') }}
+                        <div class="modal-body"> 
+                            <div class="row"> 
+                                <div class="col-md-6 col-md-offset-2"> 
+                                    <div class="form-group"> 
+                                        <label for="">Tahun/Hijirah</label>
+                                        <input type="text" name="judul" class="form-control" id="" placeholder="Tahun Hijriah Contoh: 1440" required="" value="{{ $periode->judul }}"> 
+                                    </div> 
+                                    <div class="form-group"> 
+                                        <label for="" class="control-label">Tanggal Mulai</label>
+                                        <input type="text" name="start" class="form-control datepicker" id="" placeholder="Tanggal Mulai..." value="{{ $periode->start }}"> 
+                                    </div> 
+                                    <div class="form-group"> 
+                                        <label for="" class="control-label">Tanggal Akhir</label>
+                                        <input type="text" name="end" class="form-control datepicker" id="" placeholder="Tanggal Akhir..." value="{{ $periode->end }}"> 
+                                    </div> 
+                                </div> 
+                            </div>
+                        </div> 
+                        <div class="modal-footer"> 
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button> 
+                            <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-warning">Simpan</button> 
+                        </div>
+                    </form>
+                    <form action="{{ route('aiwa.master-periode.active', $periode->id) }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" value="active" name="status">
+                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-info" title="Aktifkan Tahun"><i class="fa fa-check"></i></button>
+                    </form> 
+                    <!-- </form> -->
+                </div> 
+            </div>
+        </div><!-- /.modal -->
+        @endforeach
 @push('otherJavascript')
 <!-- sweet alerts -->
 <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
@@ -87,6 +132,7 @@
             { data: "judul", name: "judul" },
             { data: "start", name: "start" },
             { data: "end", name: "end" },
+            { data: "status_periode", name: "status_periode" },
             { data: "action", name: "action", orderable: false, searchable: false}
         ]
     });

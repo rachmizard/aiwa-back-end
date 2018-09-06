@@ -42,14 +42,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="harga_full">Harga Full</label>
+                                        <label for="harga_full">Handling + Insurance Balita (Dengan Perlengkapan)</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp.</span>
                                             <input type="text" name="harga_full" class="form-control rupiah" required=""  value="{{ $kalkulasi->harga_full }}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="harga_lite">Harga Lite</label>
+                                        <label for="harga_lite">Handling + Insurance Balita</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp.</span>
                                             <input type="text" class="form-control rupiah" name="harga_lite" required=""  value="{{ $kalkulasi->harga_lite }}">

@@ -40,7 +40,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get());
+        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get());
     }
 
     public function feeByAgenPotensi(Request $request, $id, $tahun)
@@ -48,9 +48,9 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $countTopPotensi =  DB::table('jamaah')->where(['top' => $id, 'status' => 'POTENSI'])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
-        $countFee = DB::table('jamaah')->where(['marketing' => $id, 'status' => 'POTENSI'])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorPotensi = DB::table('jamaah')->where('koordinator', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countTopPotensi =  DB::table('jamaah')->where(['top' => $id, 'status' => 'POTENSI'])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('top_fee');
+        $countFee = DB::table('jamaah')->where(['marketing' => $id, 'status' => 'POTENSI'])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorPotensi = DB::table('jamaah')->where('koordinator', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
          $success['nama'] =  'potensi';
          $success['total'] =  $countFee + $countFeeByKoordinatorPotensi + $countTopPotensi;
         return response()->json(['response' => $success]); 
@@ -66,8 +66,8 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        // $countFeeByKoordinatorPotensi = DB::table('jamaah')->where('top', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
-        $countFeeByKoordinatorPotensi = DB::table('jamaah')->whereRaw("status = 'POTENSI' and top = ? ",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
+        // $countFeeByKoordinatorPotensi = DB::table('jamaah')->where('top', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('top_fee');
+        $countFeeByKoordinatorPotensi = DB::table('jamaah')->whereRaw("status = 'POTENSI' and top = ? ",[$id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('top_fee');
          $success['nama'] =  'potensi';
          $success['total'] =  $countFeeByKoordinatorPotensi;
         return response()->json(['response' => $success]);  
@@ -78,10 +78,10 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $countTopKomisi =  DB::table('jamaah')->whereRaw("status != 'POTENSI' and top = ? ", [$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
+        $countTopKomisi =  DB::table('jamaah')->whereRaw("status != 'POTENSI' and top = ? ", [$id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('top_fee');
         $endDateJing = $varJay['end'];
-        $countFeeByAgenKomisi = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorKomisi = DB::table('jamaah')->where('koordinator', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByAgenKomisi = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorKomisi = DB::table('jamaah')->where('koordinator', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
          $success['nama'] =  'komisi';
          $success['total'] =  $countFeeByAgenKomisi + $countFeeByKoordinatorKomisi + $countTopKomisi;
         return response()->json(['response' => $success]);   
@@ -92,7 +92,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $countFeeByKoordinatorKomisi = DB::table('jamaah')->whereRaw("status != 'POTENSI' and top = ? ",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('top_fee');
+        $countFeeByKoordinatorKomisi = DB::table('jamaah')->whereRaw("status != 'POTENSI' and top = ? ",[$id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('top_fee');
          $success['nama'] =  'komisi';
          $success['total'] =  $countFeeByKoordinatorKomisi;
         return response()->json(['response' => $success]); 
@@ -103,8 +103,8 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        // return JamaahResource::collection(Jamaah::where('top', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get()); // teu jalan
-        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and top = ?",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
+        // return JamaahResource::collection(Jamaah::where('top', $id)->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get()); // teu jalan
+        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and top = ?",[$id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
 
     }
 
@@ -113,8 +113,8 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        // return JamaahResource::collection(Jamaah::where('top', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get()); // teu jalan
-        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and top = ?",[$id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
+        // return JamaahResource::collection(Jamaah::where('top', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get()); // teu jalan
+        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and top = ?",[$id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
 
     }
 
@@ -123,7 +123,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];    
-        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
+        return JamaahResource::collection(Jamaah::whereRaw("status = 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());    
     }
 
     public function agenKomisi(Request $request, $id, $tahun)
@@ -131,7 +131,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());      
+        return JamaahResource::collection(Jamaah::whereRaw("status != 'POTENSI' and (marketing = ? or koordinator = ?)",[$id, $id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->orderBy('updated_at', 'DESC')->get());      
     }
 
     public function totalJamaahByAgen(Request $request, $id, $tahun)
@@ -139,7 +139,7 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $countTotalJamaahByAgen = DB::table('jamaah')->where('marketing', $id)->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+        $countTotalJamaahByAgen = DB::table('jamaah')->where('marketing', $id)->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->count();
         $success['nama'] =  'jamaah';
         $success['total'] =  $countTotalJamaahByAgen;
         return response()->json(['response' => $success]);
@@ -156,18 +156,18 @@ class JamaahControllerAPI extends Controller
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
         // Count of each month
-        $countJanuary = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '01')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countFebruary = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '02')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countMarch = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar','03')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countApril = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar','04')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countMei = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar','05')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countJune = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '06')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countJuly = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '07')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countAugust = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '08')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countSeptember = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '09')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countOctober = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '10')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countNovember = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '11')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
-        $countDecember = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_daftar', '12')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->get();
+        $countJanuary = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '01')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countFebruary = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '02')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countMarch = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat','03')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countApril = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat','04')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countMei = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat','05')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countJune = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '06')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countJuly = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '07')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countAugust = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '08')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countSeptember = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '09')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countOctober = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '10')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countNovember = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '11')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $countDecember = DB::table('jamaah')->where('marketing', $id)->whereMonth('tgl_berangkat', '12')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
         $success['january'] =  $countJanuary->count();
         $success['february'] =  $countFebruary->count();
         $success['march'] =  $countMarch->count();
@@ -189,18 +189,18 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $countFeeByKoordinatorJanuary = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '01')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorFebruary = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '02')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorMarch = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '03')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorApril = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '04')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorMei = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '05')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorJune = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '06')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorJuly = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '07')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorAugust = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '08')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorSeptember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '09')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorOctober = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '10')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorNovember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '11')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorDecember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '12')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorJanuary = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '01')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorFebruary = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '02')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorMarch = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '03')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorApril = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '04')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorMei = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '05')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorJune = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '06')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorJuly = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '07')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorAugust = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '08')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorSeptember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '09')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorOctober = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '10')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorNovember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '11')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorDecember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '12')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
          $success['january'] =  $countFeeByKoordinatorJanuary;
          $success['february'] =  $countFeeByKoordinatorFebruary;
          $success['march'] =  $countFeeByKoordinatorMarch;
@@ -221,18 +221,18 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $countFeeByKoordinatorKomisiJanuary = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '01')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiFebruary = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '02')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiMarch = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '03')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiApril = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '04')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiMei = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '05')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiJune = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '06')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiJuly = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '07')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiAugust = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '08')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiSeptember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '09')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiOctober = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '10')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiNovember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '11')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-        $countFeeByKoordinatorKomisiDecember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_daftar', '12')->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiJanuary = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '01')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiFebruary = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '02')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiMarch = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '03')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiApril = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '04')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiMei = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '05')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiJune = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '06')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiJuly = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '07')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiAugust = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '08')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiSeptember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '09')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiOctober = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '10')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiNovember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '11')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+        $countFeeByKoordinatorKomisiDecember = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereMonth('tgl_berangkat', '12')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
          $success['january'] =  $countFeeByKoordinatorKomisiJanuary;
          $success['february'] =  $countFeeByKoordinatorKomisiFebruary;
          $success['march'] =  $countFeeByKoordinatorKomisiMarch;
@@ -254,7 +254,7 @@ class JamaahControllerAPI extends Controller
     //     $startDateJing = $varJay['start'];
     //     $endDateJing = $varJay['end'];
     //     $validator = User::where('status', '=', 1)->where('koordinator', $id)->first();
-    //     $countTotalJamaahByKoordinator = DB::table('jamaah')->where('marketing', $validator['id'])->whereBetween('tgl_daftar', [$startDateJing, $endDateJing])->count();
+    //     $countTotalJamaahByKoordinator = DB::table('jamaah')->where('marketing', $validator['id'])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->count();
     //     $success['nama'] =  '';
     //     $success['total'] =  $countTotalJamaahByKoordinator;
     //     return response()->json(['response' => $success]);
@@ -301,13 +301,13 @@ class JamaahControllerAPI extends Controller
             $varJay = Periode::find($idperiode);
             $startDateJing = $varJay->start;
             $endDateJing = $varJay->end;
-            $stats = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
+            $stats = Jamaah::whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])
               ->groupBy(['month', 'number_month'])
-              // ->orderBy(DB::raw('DATE_FORMAT(tgl_daftar, "%M")', 'DESC'))
+              // ->orderBy(DB::raw('DATE_FORMAT(tgl_berangkat, "%M")', 'DESC'))
               ->orderBy('number_month')
               ->get([
-                DB::raw('DATE_FORMAT(tgl_daftar, "%M") as month'),
-                DB::raw('MONTH(tgl_daftar) as number_month'),
+                DB::raw('DATE_FORMAT(tgl_berangkat, "%M") as month'),
+                DB::raw('MONTH(tgl_berangkat) as number_month'),
                 DB::raw('COUNT(*) as value')
               ])
               ->toJSON();
@@ -323,13 +323,13 @@ class JamaahControllerAPI extends Controller
             $varJay = Periode::find($period->id);
             $startDateJing = $varJay->start;
             $endDateJing = $varJay->end;
-            $stats = Jamaah::whereBetween('tgl_daftar', [$startDateJing, $endDateJing])
+            $stats = Jamaah::whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])
               ->groupBy(['month', 'number_month'])
-              // ->orderBy(DB::raw('DATE_FORMAT(tgl_daftar, "%M")', 'DESC'))
+              // ->orderBy(DB::raw('DATE_FORMAT(tgl_berangkat, "%M")', 'DESC'))
               ->orderBy('number_month')
               ->get([
-                DB::raw('DATE_FORMAT(tgl_daftar, "%M") as month'),
-                DB::raw('MONTH(tgl_daftar) as number_month'),
+                DB::raw('DATE_FORMAT(tgl_berangkat, "%M") as month'),
+                DB::raw('MONTH(tgl_berangkat) as number_month'),
                 DB::raw('COUNT(*) as value')
               ])
               ->toJSON();
@@ -356,7 +356,7 @@ class JamaahControllerAPI extends Controller
         // $jamaah = $request->isMethod('put') ? Jamaah::findOrFail($request->id) : new Jamaah;
         // $jamaah->id_umrah = $request->input('id_umrah');
         // $jamaah->id_jamaah = $request->input('id_jamaah');
-        // $jamaah->tgl_daftar = $request->input('tgl_daftar');
+        // $jamaah->tgl_berangkat = $request->input('tgl_berangkat');
         // $jamaah->nama = $request->input('nama');
         // $jamaah->tgl_berangkat = $request->input('tgl_berangkat');
         // $jamaah->tgl_pulang = $request->input('tgl_pulang');

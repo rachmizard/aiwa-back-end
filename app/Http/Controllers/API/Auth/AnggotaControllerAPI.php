@@ -27,13 +27,14 @@ class AnggotaControllerAPI extends Controller
                 // Default value for now periode as defined.
                 // $nowJing = Carbon::now()->format('Y-m-d');
                 // $tahunNow = Carbon::create(2018, 1, 31);$now = Carbon::now();
-                $tahunAyeuna = Carbon::now();
-                $year = $tahunAyeuna->year;
-                $month = $tahunAyeuna->month;
-                $day = $tahunAyeuna->day;
-                $tahunNow = Carbon::create($year, $month, $day);
-                $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
-                $success['token'] =  $period['judul'];
+                // $tahunAyeuna = Carbon::now();
+                // $year = $tahunAyeuna->year;
+                // $month = $tahunAyeuna->month;
+                // $day = $tahunAyeuna->day;
+                // $tahunNow = Carbon::create($year, $month, $day);
+                // $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+                $tahunActive = Periode::where('status_periode', 'active')->first();
+                $success['token'] =  $tahunActive['judul'];
                 // $user->createToken('nApp')->accessToken
                 $refreshDeviceToken = User::findOrFail($getId);
                 $refreshDeviceToken->update(['device_token' => $request->input('device_token')]);

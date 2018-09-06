@@ -210,6 +210,8 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::get('master-periode/loadTablePeriode', 'PeriodeController@getData')->name('aiwa.master-periode.load');
     Route::post('master-periode/store', 'PeriodeController@store')->name('aiwa.master-periode.store');
     Route::post('master-periode/{id}/delete', 'PeriodeController@destroy')->name('aiwa.master-periode.destroy');
+    Route::put('master-periode/{id}/update', 'PeriodeController@update')->name('aiwa.master-periode.update');
+    Route::post('master-periode/{id}/active', 'PeriodeController@active')->name('aiwa.master-periode.active');
 
     // Master Sapaan
     Route::get('master-sapaan', 'SapaanController@index')->name('aiwa.master-sapaan.index');
