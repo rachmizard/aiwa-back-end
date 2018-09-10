@@ -2,27 +2,47 @@
 @section('content')
 <!-- Page Content Start -->
             <!-- ================== -->
-            <style>
+            <!-- <style>
                 div.dataTables_wrapper {
                     width: 800px;
                     margin: 0 auto;
                 }
-            </style>
+            </style> -->
             <div class="wraper container-fluid">
                 <div class="page-title">
                     <h3 class="title"><strong><i class="fa fa-calendar"></i> Jadwal</strong></h3>
                 </div>
-                <div class="divider" style="margin-bottom: 10px;">
+                <div class="divider" style="margin-bottom: 10px;">    
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <i class="fa fa-filter"></i> Filter Periode
+                        </div>
+                            <div class="panel-body">
+                                <form action="" id="periode" method="GET">
+                                    <div class="form-group">
+                                        <label for="">Periode yang di pilih </label>
+                                        <select name="periode" class="form-control" id="" onchange="document.getElementById('periode').submit();">
+                                            <option disabled selected>Pilih Periode</option>
+                                                <option value="1436">1436</option>
+                                                <option value="1437">1437</option>
+                                                <option value="1438">1438</option>
+                                                <option value="1439">1439</option>
+                                                <option value="1440">1440</option>
+                                        </select>
+                                    </div>
+                                </form>         
+                            </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel">
-                            <div class="panel-body p-t-10">
-                                <table id="jadwal" class="table table-hover table-bordered display"  style="width:100%">
+                            <div class="panel-body">
+                                <table id="jadwal" class="table table-hover table-bordered">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Tgl BErangkat</th>
+                                            <th>Tgl Berangkat</th>
                                             <th>Jam Berangkat</th>
                                             <th>Rute Berangkat</th>
                                             <th>Pesawata Berangkat</th>
@@ -43,31 +63,47 @@
                                     </thead>
                                     <tbody>
                                         <?php for ($i=0; $i < $count; $i++) { ?>
-                                        @foreach($jadwals['data'][$i]['jadwal'] as $key => $in)
+                                        @if($jadwals)
+                                            @foreach($jadwals['data'][$i]['jadwal'] as $key => $in)
+                                            <tr>
+                                                <td>{{ $in['id'] }}</td>
+                                                <td>{{ date('d/m/Y', strtotime($in['tgl_berangkat'])) }}
+                                                    @if($in['promo'] == '1')
+                                                    <span class="badge badge-sm bg-success">
+                                                        @if($in['promo'] == '1')
+                                                            P
+                                                        @endif
+                                                    </span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $in['jam_berangkat'] }}</td>
+                                                <td>{{ $in['rute_berangkat'] }}</td>
+                                                <td>{{ $in['pesawat_berangkat'] }}</td>
+                                                <td>{{ date('d-M-Y', strtotime($in['tgl_pulang'])) }}</td>
+                                                <td>{{ $in['jam_pulang'] }}</td>
+                                                <td>{{ $in['rute_pulang'] }}</td>
+                                                <td>{{ $in['pesawat_pulang'] }}</td>
+                                                <td>{{ $in['maskapai'] }}</td>
+                                                <td>{{ $in['jml_hari'] }}</td>
+                                                <td>{{ $in['seat_total'] }}</td>
+                                                <td>{{ $in['seat_terpakai'] }}</td>
+                                                <td>{{ $in['sisa'] }}</td>
+                                                <td>{{ $in['status'] }}</td>
+                                                <td>{{ $in['tgl_manasik'] }}</td>
+                                                <td>{{ $in['jam_manasik'] }}</td>
+                                                <td>
+                                                    @if($in['itinerary'])
+                                                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#paket{{ $i+1 }}" title="{{ $i+1 }}">Lihat Paket</button>
+                                                    @endif
+                                                    <a href="{{ $in['itinerary'] }}" class="btn btn-success btn-sm" title="{{ $in['itinerary'] }}" download>Download Itinerary</a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @elseif($nofound != null)
                                         <tr>
-                                            <td>{{ $in['id'] }}</td>
-                                            <td>{{ date('d-M-Y', strtotime($in['tgl_berangkat'])) }}</td>
-                                            <td>{{ $in['jam_berangkat'] }}</td>
-                                            <td>{{ $in['rute_berangkat'] }}</td>
-                                            <td>{{ $in['pesawat_berangkat'] }}</td>
-                                            <td>{{ date('d-M-Y', strtotime($in['tgl_pulang'])) }}</td>
-                                            <td>{{ $in['jam_pulang'] }}</td>
-                                            <td>{{ $in['rute_pulang'] }}</td>
-                                            <td>{{ $in['pesawat_pulang'] }}</td>
-                                            <td>{{ $in['maskapai'] }}</td>
-                                            <td>{{ $in['jml_hari'] }}</td>
-                                            <td>{{ $in['seat_total'] }}</td>
-                                            <td>{{ $in['seat_terpakai'] }}</td>
-                                            <td>{{ $in['sisa'] }}</td>
-                                            <td>{{ $in['status'] }}</td>
-                                            <td>{{ $in['tgl_manasik'] }}</td>
-                                            <td>{{ $in['jam_manasik'] }}</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#paket{{ $i+1 }}" title="{{ $i+1 }}">Lihat Paket</button>
-                                                <a href="{{ $in['itinerary'] }}" class="btn btn-success btn-sm" title="{{ $in['itinerary'] }}" download>Download Itinerary</a>
-                                            </td>
+                                            <td colspan="10" class="text-center">$nofound.</td>
                                         </tr>
-                                        @endforeach
+                                        @endif
                                     <?php } ?>
                                     </tbody>
                                 </table>
@@ -92,13 +128,13 @@
       </div>
       <div class="modal-body">
             @if(!$on['paket'] == null)
-            <table id="paket23" class="table table-bordered table-striped table-hover nowrap" style="width: 100%;">
+            <table id="paket{{ $u+1 }}" class="table table-bordered table-striped table-hover nowrap" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama Paket</th>
                         <th>Kamar</th>
-                        <th>Hara</th>
+                        <th>Harga</th>
                         <th>Hotel Madinah</th>
                         <th>Bintang Madinah</th>
                         <th>Hotel Mekkah</th>
@@ -140,13 +176,19 @@
 <script>
 $(document).ready(function() {
     $('#jadwal').DataTable( {
+        "scrollX": true,
+        "order": [ [1, 'desc'] ],
+
+    } );
+
+<?php for ($u=0; $u < $count ; $u++) { ?>
+@foreach($jadwals['data'][$u]['jadwal'] as $on)
+    $('#paket{{ $on["id"] }}').DataTable( {
         // "scrollY": 300,
         "scrollX": true
     } );
-
-    $('#paket23').DataTable( {
-        "scrollX": true
-    } );
+@endforeach
+<?php } ?>
 } );
 </script>
 @endpush

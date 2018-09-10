@@ -12,6 +12,38 @@
                     <button id="refreshJamaah" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
                     <a href="{{ route('aiwa.jamaah.detail') }}" class="btn btn-sm btn-info"><i class="fa fa-file-excel-o"></i> Download Jamaah</a>
                 </div>
+                <!-- Inline Form -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Filter <i class="fa fa-filter"></i></h3></div>
+                            <div class="panel-body">
+
+                                <form class="form-inline" role="form">
+                                    <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan1">Periode</label>
+                                        <select name="periode" id="edan1" class="col-md-4 form-control" style="width: 100%;">
+                                            @foreach($periodes as $periode)
+                                                <option value="{{ $periode->id }}">{{ $periode->judul }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan2">Search</label>
+                                        <input type="text" class="form-control" name="search">
+                                    </div>
+                                    <button id="search-form" " class="btn btn-success m-l-10"><i class="fa fa-search"></i> Filter</button>
+                                </form>
+
+
+                                <!-- <form class="form-inline" role="form">
+                                    <button id="search-form-agen" " class="btn btn-success m-l-10">Filter</button>
+                                </form> -->
+                            </div> <!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- col -->
+
+                </div> <!-- End row -->
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel">
@@ -98,7 +130,13 @@
                         "responsive": true,
                         "processing": false,
                         "serverSide": true,
-                        "ajax": "{{ route('aiwa.jamaah.load') }}", 
+                        "ajax": {
+                            url : "{{ route('aiwa.jamaah.load') }}",
+                            data: function (d) {
+                                d.periode = $('select[name=periode]').val();
+                                d.search = $('input[name=search]').val();
+                            }
+                        }, 
                         order: [ [0, 'desc'] ],
                         "columns": [
                             { data: "id", name: "id" },
@@ -121,6 +159,12 @@
                             { data: "tgl_transfer", name: "tgl_transfer" },
                             { data: "action", name: "action"}
                         ]
+                    });
+
+                    // trigger filter
+                    $('#search-form').on('click', function(e) {
+                        table.draw();
+                        e.preventDefault();
                     });
                    // Refresh Table
                    $('#refreshJamaah').on('click', function(){

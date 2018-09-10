@@ -35,11 +35,11 @@ class GalleryController extends Controller
 
     public function getDataGalleryHotel()
     {
-        $galleries = MasterGallery::with('hotel')->where('status', '!=', 'archived')->where('tipe', '=', 'foto_hotel')->orWhere('tipe', '=', 'video_hotel')->get();
+        $galleries = MasterGallery::with('hotel')->whereRaw("tipe != 'foto' AND tipe != 'video' AND status != 'archived' ")->get();
         return Datatables::of($galleries)
         ->addColumn('action', function($galleries)
         {
-            return '<a class="btn btn-sm btn-info" href="'. route('aiwa.master-gallery.edit', $galleries->id) .'">Edit</a>
+            return '<a class="btn btn-sm btn-info" href="'. route('aiwa.master-gallery.edit.hotel', $galleries->id) .'">Edit</a>
                     <form class="form-group" action="'. route('aiwa.master-gallery.archive', $galleries->id) .'" method="POST">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
                     <input type="hidden" name="_method" value="PUT">
@@ -134,6 +134,14 @@ class GalleryController extends Controller
     {
         $gallery = MasterGallery::findOrFail($id);
         return view('gallery.edit', compact('gallery'));
+    }
+
+
+    public function editHotel($id)
+    {
+        $gallery = MasterGallery::findOrFail($id);
+        $hotels = Master_Hotel::orderBy('id', 'DESC')->where('status', '!=', 'archived')->get();
+        return view('gallery.edit-hotel', compact('gallery', 'hotels'));
     }
 
     /**

@@ -37,8 +37,21 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Yajra\DataTables\Exception) {
+            return response([
+                'draw'            => 24,
+                'recordsTotal'    => 200,
+                'recordsFiltered' => 0,
+                'data'            => [],
+                'error'           => 'Terdeteksi ada kesalahan data, sistem akan tetap berjalan',
+            ]);
+        }
+         if ($exception instanceof CustomException) {
+            return 404;
+        }
+
         return parent::render($request, $exception);
     }
     /**

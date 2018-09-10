@@ -175,7 +175,7 @@
                    language: "it",
                    autoclose: true,
                    todayHighlight: true,
-                   format: 'dd/mm/yyyy' 
+                   format: 'yyyy-mm-dd' 
                });
             </script>
             @endpush

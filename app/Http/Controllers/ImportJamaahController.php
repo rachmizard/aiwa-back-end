@@ -64,7 +64,7 @@ class ImportJamaahController extends Controller
                         $month = $now->month;
                         $day = $now->day;
 
-                        $jamaahs = Jamaah::where('tgl_transfer', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->where('marketing', $row['marketing'])->where('koordinator', $row['koordinator'])->where('top', $row['top'])->get();
+                        $jamaahs = Jamaah::where('tgl_transfer', '=', $now->format('Y').'-'.$now->format('m').'-'.$now->format('d'))->where('marketing', $row['marketing'])->where('koordinator', $row['koordinator'])->where('top', $row['top'])->get();
 
                         $totalJamaahBerangkat = count($jamaahs);
                         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';

@@ -8,6 +8,7 @@ use App\User;
 use Yajra\Datatables\Datatables;
 use App\LogActivity;
 use Auth;
+use App\Periode;
 use Carbon\Carbon;
 use App\MasterNotifikasi;
 use Excel;
@@ -30,7 +31,8 @@ class JamaahController extends Controller
         // $jamaah = Jamaah::where('status', 'lunas')->get();
         $agents = \App\User::where('status', '=', '1')->get();
         $jamaah = Jamaah::all();
-        return view('jamaah.index', compact('agents', 'jamaah'));
+        $periodes = Periode::orderBy('id', 'DESC')->get();
+        return view('jamaah.index', compact('agents', 'jamaah', 'periodes'));
     }
 
     // get data by serverside
@@ -45,6 +47,11 @@ class JamaahController extends Controller
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })
+          ->filter(function($query) use ($request){
+            $period = Periode::find($request->get('periode'));
+            $filter = Periode::whereBetween('tgl_berangkat', [$period->start, $period->end]);
+            return $filter;
+          })
           ->rawColumns(['action'])
           ->make(true);
     }
@@ -132,7 +139,7 @@ class JamaahController extends Controller
             $month = $now->month;
             $day = $now->day;
 
-            $jamaahs = Jamaah::where('tgl_transfer', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->where('marketing', $jamaah->marketing)->where('koordinator', $jamaah->koordinator)->where('top', $jamaah->top)->get();
+            $jamaahs = Jamaah::where('tgl_transfer', '=', $now->format('Y').'-'.$now->format('m').'-'.$now->format('d'))->where('marketing', $jamaah->marketing)->where('koordinator', $jamaah->koordinator)->where('top', $jamaah->top)->get();
 
             $totalJamaahBerangkat = count($jamaahs);
             $fcmUrl = 'https://fcm.googleapis.com/fcm/send';

@@ -21,7 +21,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>File/Gambar/Video</th>
+                                            <th>File/Gambar/Thumbnail Video Hotel</th>
                                             <th>Tanggal</th>
                                             <th>Nama Hotel</th>
                                             <th>Deskripsi</th>
@@ -40,7 +40,7 @@
                                 <form role="form" method="POST" action="{{route('aiwa.master-gallery.store')}}" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="form-group">
-                                        <label for="file">File Thumbnail/Gambar</label>
+                                        <label for="file">File Thumbnail/Gambar Hotel</label>
                                         <input type="file" name="file" id="file" class="form-control" required="" data-placeholder="File.." required="">
                                     </div>
                                     <div class="form-group">

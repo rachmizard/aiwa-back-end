@@ -176,6 +176,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::get('master-gallery', 'GalleryController@index')->name('aiwa.master-gallery');
     Route::post('master-gallery', 'GalleryController@store')->name('aiwa.master-gallery.store');
     Route::get('master-gallery/{id}/edit', 'GalleryController@edit')->name('aiwa.master-gallery.edit');
+    Route::get('master-gallery/{id}/edit/hotel', 'GalleryController@editHotel')->name('aiwa.master-gallery.edit.hotel');
     Route::post('master-gallery/{id}/edit', 'GalleryController@update')->name('aiwa.master-gallery.update');
     Route::post('master-gallery/{id}/delete', 'GalleryController@destroy')->name('aiwa.master-gallery.destroy');
     Route::get('master-gallery/loadTableGallery', 'GalleryController@getData')->name('aiwa.master-gallery.load');

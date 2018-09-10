@@ -12,7 +12,7 @@
                     <h3 class="title"><strong><i class="fa fa-image"></i> Master Gallery</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
-                    <a href="{{ route('aiwa.master-gallery') }}" class="btn btn-success"><i class="fa fa-signout"></i> Kembali</a>
+                    <a href="{{ route('aiwa.master-gallery.index.hotel') }}" class="btn btn-success"><i class="fa fa-signout"></i> Kembali</a>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -24,7 +24,7 @@
                                             <th>No</th>
                                             <th>File/Gambar/Video</th>
                                             <th>Tanggal</th>
-                                            <th>Judul</th>
+                                            <th>Nama Hotel</th>
                                             <th>Deskripsi</th>
                                             <th>Tipe</th>
                                             <th>Aksi</th>
@@ -49,60 +49,34 @@
                                         <input type="file" name="file" id="file" class="form-control" data-placeholder="File..">
                                     </div>
                                     <div class="form-group">
-                                        <label for="Judul">Judul</label>
-                                        <input type="text" class="form-control" id="Judul" placeholder="Judul.." name="judul" required="" value="{{ $gallery->judul }}">
-                                    </div>
-                                        <input type="hidden" name="tanggal" value="{{ $gallery->tanggal }}">
+
+                                        <label class="control-label" for="judul">Nama Hotel</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                            <select id="judul" name="judul" class="select2" data-placeholder="Nama Hotel..." style="width: 100%;">
+                                              <option value=""></option>
+                                              @foreach($hotels as $hotel)
+                                              <option value="{{ $hotel->id }}" {{ $hotel->id == $gallery->judul ? 'selected' : ''}}>{{ $hotel->nama_hotel }}</option>
+                                              @endforeach
+                                            </select>
+                                        </div>
+                                    </div> <!-- form-group -->
+                                    <input type="hidden" name="tanggal" value="{{ $gallery->tanggal }}">
+                                    @if($gallery->tipe == 'foto_hotel')
                                     <div class="form-group">
-                                        <label for="deskripsi">Deskripsi/Link Url Video (Youtube)</label>
+                                        <label for="deskripsi">Deskripsi</label>
                                         <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi">{{ $gallery->deskripsi }}</textarea>
                                     </div>
+                                    <input type="hidden" value="foto_hotel" name="tipe">
+                                    @else
                                     <div class="form-group">
-                                        <label for="tipe">Tipe Gallery</label>
-                                        <select class="form-control" id="tipe" data-placeholder="Tipe.." name="tipe" required="">
-                                            <option {{ $gallery->tipe == 'foto' ? 'selected' : ''}} value="foto" >Foto</option>
-                                            <option {{ $gallery->tipe == 'video' ? 'selected' : ''}} value="video">Video</option>
-                                        </select>
+                                        <label for="deskripsi">Link Url Youtube</label>
+                                        <input type="text" required name="deskripsi" value="{{ $gallery->deskripsi }}" class="form-control">
                                     </div>
+                                    <input type="hidden" value="video_hotel" name="tipe">
+                                    @endif
                                     <div class="form-group">
                                         <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-purple col-md-12"><i class="fa fa-check"></i> Edit</button>
-                                    </div>
-                                </form>
-                            </div><!-- panel-body -->
-                        </div> <!-- panel -->
-                    </div> <!-- end col -->
-                    <div class="col-sm-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Tambah Gallery</h3></div>
-                            <div class="panel-body">
-                                <form role="form" method="POST" action="{{route('aiwa.master-gallery.update', $gallery->id)}}" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                    <div class="form-group">
-                                        <label for="file">File/Gambar/Video</label>
-                                        <input type="file" name="file" id="file" class="form-control" data-placeholder="File.." required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Judul">Judul</label>
-                                        <input type="text" class="form-control" id="Judul" placeholder="Judul.." name="judul" required="">
-                                    </div>
-                                    <!-- <div class="form-group">
-                                        <label for="tanggal">Tanggal</label>
-                                        <input type="text" class="form-control datepicker" id="tanggal" placeholder="Tanggal.." name="tanggal" required="">
-                                    </div> -->
-                                    <div class="form-group">
-                                        <label for="deskripsi">Deskripsi/Link Url Video (Youtube)</label>
-                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tipe">Tipe Gallery</label>
-                                        <select class="form-control" id="tipe" data-placeholder="Tipe.." name="tipe" required="">
-                                            <option value="foto">Foto</option>
-                                            <option value="video">Video</option>
-                                            <option value="brosur">Brosur</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-success col-md-12"><i class="fa fa-plus"></i> Tambah</button>
                                     </div>
                                 </form>
                             </div><!-- panel-body -->
@@ -120,7 +94,7 @@ $(document).ready(function() {
         "scroll": true,
         "processing": true,
         "serverSide": true,
-        "ajax": "{{route('aiwa.master-gallery.load')}}", 
+        "ajax": "{{route('aiwa.master-gallery.load.hotel')}}", 
         "columns": [
             { data: "id", name: "id" },
             { data: "file", name: "file",
@@ -131,7 +105,7 @@ $(document).ready(function() {
                 orderable: false
             },
             { data: "tanggal", name: "tanggal" },
-            { data: "judul", name: "judul" },
+            { data: "hotel.nama_hotel", name: "hotel.nama_hotel" },
             { data: "deskripsi", name: "deskripsi" },
             { data: "tipe", name: "tipe" },
             { data: "action", name: "action", searchable: false, orderable: false}

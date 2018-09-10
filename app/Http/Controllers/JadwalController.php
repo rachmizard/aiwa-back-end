@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Jamaah;
+use App\Periode;
+use DB;
+use App\Admin;
+
 class JadwalController extends Controller
 {
     /**
@@ -16,29 +21,37 @@ class JadwalController extends Controller
         $this->middleware('auth:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        
-        $url = 'http://115.124.86.218/aiw/jadwal/1440';
-        $json = file_get_contents($url);
-        $jadwals = collect(json_decode($json, true));
-        
-        // dd($jadwals['data'][1]['jadwal']); // Ieu bisa
-        // return view('test-api', compact('jadwals'));
-        $test = $jadwals['data'];
-        $count = count($test);
-        $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
-        $countPaket = count($itungPaket);
-        // for ($i=0; $i < $countPaket ; $i++) { 
-        //     foreach ($jadwals['data'][$i] as $key) {
-        //         dd($key);
-        //     }
-        // }
-        // $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
-        // foreach ($itungPaket as $hasilPaket) {
-        //     // dd($hasilPaket['kamar']);
-        // }
-        return view('jadwal.index', compact('jadwals', 'test', 'count','countPaket'));
+            $now = Carbon::now();
+            $year = $now->year;
+            $month = $now->month;
+            $day = $now->day;
+            $tahunNow = Carbon::create($year, $month, $day);
+            $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+            if ($request->periode) {
+                // Get Periode Model
+                $periodes = Periode::orderBy('created_at', 'DESC')->get();
+                $url = 'http://115.124.86.218/aiw/jadwal/'.$request->periode;
+                $json = file_get_contents($url);
+                $jadwals = collect(json_decode($json, true));
+                $test = $jadwals['data'];
+                $count = count($test);
+                $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
+                $countPaket = count($itungPaket);
+                return view('jadwal.index', compact('jadwals', 'test', 'count','countPaket', 'periodes'));
+            }else{
+                // Get Periode Model
+                $periodes = Periode::orderBy('created_at', 'DESC')->get();
+                $url = 'http://115.124.86.218/aiw/jadwal/'.$period->judul;
+                $json = file_get_contents($url);
+                $jadwals = collect(json_decode($json, true));
+                $test = $jadwals['data'];
+                $count = count($test);
+                $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
+                $countPaket = count($itungPaket);
+                return view('jadwal.index', compact('jadwals', 'test', 'count','countPaket', 'periodes'));
+            }
     }
 
     /**
