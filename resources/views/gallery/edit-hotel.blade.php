@@ -9,31 +9,12 @@
             </style>
             <div class="wraper container-fluid">
                 <div class="page-title">
-                    <h3 class="title"><strong><i class="fa fa-image"></i> Master Gallery</strong></h3>
+                    <h3 class="title"><strong><i class="fa fa-image"></i> Master Gallery Hotel</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
                     <a href="{{ route('aiwa.master-gallery.index.hotel') }}" class="btn btn-success"><i class="fa fa-signout"></i> Kembali</a>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <div class="panel">
-                            <div class="panel-body p-t-10">
-                                <table class="table table-hovered table-bordered" id="itinerary">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>File/Gambar/Video</th>
-                                            <th>Tanggal</th>
-                                            <th>Nama Hotel</th>
-                                            <th>Deskripsi</th>
-                                            <th>Tipe</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div> <!-- panel-body -->
-                        </div> <!-- panel -->
-                    </div> <!-- end col -->
                     <div class="col-sm-6">
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-pencil"></i> Edit Gallery ID : {{ $gallery->id }}</h3></div>
@@ -82,6 +63,25 @@
                             </div><!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- end col -->
+                    <div class="col-sm-6">
+                        <div class="panel">
+                            <div class="panel-body p-t-10">
+                                <table class="table table-hovered table-bordered table-striped" id="itinerary">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>File/Gambar/Video</th>
+                                            <th>Tanggal</th>
+                                            <th>Nama Hotel</th>
+                                            <th>Deskripsi</th>
+                                            <th>Tipe</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div> <!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- end col -->
 
             </div> <!-- END Wraper -->
         </div>
@@ -91,7 +91,8 @@
 <script>    
 $(document).ready(function() {
     $('#itinerary').DataTable({
-        "scroll": true,
+        "scrollX": true,
+        "scrollY": 500,
         "processing": true,
         "serverSide": true,
         "ajax": "{{route('aiwa.master-gallery.load.hotel')}}", 
