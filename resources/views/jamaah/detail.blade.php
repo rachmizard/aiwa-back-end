@@ -11,38 +11,93 @@
                     <!-- <a href="jamaah/download/csv" class="btn btn-sm btn-info"><i class="fa fa-file-excel-o"></i> Download CSV</a> -->
                     <a href="{{ route('aiwa.jamaah') }}" class="btn btn-sm btn-danger"><i class="fa fa-user"></i> Kembali Ke Halaman Utama</a>
                     <div class="btn-group">
-                        <button id="refreshJamaah" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
-                        <a href="{{ url('/admin/jamaah/download/xlsx') }}" class="btn btn-sm btn-success"><i class="fa fa-download"></i"></i> Download Format Jamaah</a>
+                        <!-- <button id="refreshJamaah" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button> -->
+                        <a href="{{ url('/admin/jamaah/download/xlsx') }}" class="btn btn-sm btn-success"><i class="fa fa-download" title="Mendownload semua jamaah tidak berdasarkan periode"></i> Download Semua Jamaah</a>
                         <button data-target="#import" data-toggle="modal" class="btn btn-sm btn-default"><i class="fa fa-file-excel-o"></i> Import</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel">
+                            <div class="panel-heading">
+                                <i class="fa fa-filter"></i> Periode Jamaah
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <form action="" method="GET" id="filter">
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <label for="">Periode Grafik</label>
+                                            <select name="periode" id="" class="form-control" onchange="document.getElementById('filter').submit();">
+                                                <option disabled selected>Periode</option>
+                                                @foreach($periodes as $periode)
+                                                <!-- Ini sengaja di kasih kondisi biar si ALL nya ga kedetek -->
+                                                    @if($periode->id != 7)
+                                                         <option value="{{ $periode->judul }}" {{ $periode->judul == $varJay->judul ? 'selected' : '' }}>{{ $periode->judul }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <i class="fa fa-user-circle"></i> Hasil Jamaah Periode {{ $varJay->judul }}
+                            </div>
                             <div class="panel-body p-t-10">
                                 <table id="jamaah" class="table table-hover table-bordered">
                                   <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Tanggal Daftar</th>
-                                        <th>ID Umrah</th>
-                                        <th>ID Jamaah</th>
-                                        <th>Nama</th>
-                                        <th>Tanggal Keberangkatan</th>
-                                        <th>Tanggal Kepulangan</th>
-                                        <th>Marketing</th>
-                                        <th>Staff</th>
-                                        <th>No Telp</th>
-                                        <th>Marketing Fee</th>
-                                        <th>Diskon Marketing</th>
-                                        <th>Koordinator</th>
-                                        <th>Koordinator Fee</th>
-                                        <th>Top</th>
-                                        <th>Top Fee</th>
-                                        <th>Status</th>
-                                        <th>Tgl Transfer</th>
+                                        <th>id</th>
+                                        <th>tgl_daftar</th>
+                                        <th>id_umrah</th>
+                                        <th>id_jamaah</th>
+                                        <th>nama</th>
+                                        <th>tgl_berangkat</th>
+                                        <th>tgl_pulang</th>
+                                        <th>marketing</th>
+                                        <th>staff</th>
+                                        <th>no_telp</th>
+                                        <th>marketing_fee</th>
+                                        <th>diskon_marketing</th>
+                                        <th>koordinator</th>
+                                        <th>koordinator_fee</th>
+                                        <th>top</th>
+                                        <th>top_fee</th>
+                                        <th>status</th>
+                                        <th>tgl_transfer</th>
                                     </tr>
                                   </thead>
+                                  <tbody>
+                                      @foreach($jamaahs as $jamaah)
+                                      <tr>
+                                        <td>{{ $jamaah->id }}</td>
+                                        <td>{{ $jamaah->tgl_daftar }}</td>
+                                        <td>{{ $jamaah->id_umrah }}</td>
+                                        <td>{{ $jamaah->id_jamaah }}</td>
+                                        <td>{{ $jamaah->nama }}</td>
+                                        <td>{{ $jamaah->tgl_berangkat }}</td>
+                                        <td>{{ $jamaah->tgl_pulang }}</td>
+                                        <td>{{ $jamaah->marketing }}</td>
+                                        <td>{{ $jamaah->staff }}</td>
+                                        <td>{{ $jamaah->no_telp }}</td>
+                                        <td>{{ $jamaah->marketing_fee }}</td>
+                                        <td>{{ $jamaah->diskon_marketing }}</td>
+                                        <td>{{ $jamaah->koordinator }}</td>
+                                        <td>{{ $jamaah->koordinator_fee }}</td>
+                                        <td>{{ $jamaah->top }}</td>
+                                        <td>{{ $jamaah->top_fee }}</td>
+                                        <td>{{ $jamaah->status }}</td>
+                                        <td>{{ $jamaah->tgl_transfer }}</td>                                       
+                                      </tr>
+                                      @endforeach
+                                  </tbody>
                                 </table>
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
@@ -103,35 +158,36 @@
                 $(document).ready(function(){
                     var table = $('#jamaah').DataTable({
                         "scrollX": true,
+                        "scrollY": 500,
                         "dom" : 'lBfrtip',
                         "buttons": [
                             'excel'
                         ],
                         "responsive": true,
-                        "processing": false,
-                        "serverSide": true,
-                        "ajax": "{{ route('aiwa.jamaah.load') }}", 
-                        order: [ [0, 'desc'] ],
-                        "columns": [
-                            { data: "id", name: "id" },
-                            { data: "tgl_daftar", name: "tgl_daftar" },
-                            { data: "id_umrah", name: "id_umrah" },
-                            { data: "id_jamaah", name: "id_jamaah" },
-                            { data: "nama", name: "nama" },
-                            { data: "tgl_berangkat", name: "tgl_berangkat" },
-                            { data: "tgl_pulang", name: "tgl_pulang" },
-                            { data: "anggota.nama", name: "anggota.nama" },
-                            { data: "staff", name: "staff" },
-                            { data: "no_telp", name: "no_telp" },
-                            { data: "marketing_fee", name: "marketing_fee" },
-                            { data: "diskon_marketing", name: "diskon_marketing" },
-                            { data: "koordinator", name: "koordinator" },
-                            { data: "koordinator_fee", name: "koordinator_fee" },
-                            { data: "top", name: "top" },
-                            { data: "top_fee", name: "top_fee" },
-                            { data: "status", name: "status" },
-                            { data: "tgl_transfer", name: "tgl_transfer" }
-                        ]
+                        // "processing": false,
+                        // "serverSide": true,
+                        // "ajax": "{{ route('aiwa.jamaah.load') }}", 
+                        // order: [ [0, 'desc'] ],
+                        // "columns": [
+                        //     { data: "id", name: "id" },
+                        //     { data: "tgl_daftar", name: "tgl_daftar" },
+                        //     { data: "id_umrah", name: "id_umrah" },
+                        //     { data: "id_jamaah", name: "id_jamaah" },
+                        //     { data: "nama", name: "nama" },
+                        //     { data: "tgl_berangkat", name: "tgl_berangkat" },
+                        //     { data: "tgl_pulang", name: "tgl_pulang" },
+                        //     { data: "marketing", name: "marketing" },
+                        //     { data: "staff", name: "staff" },
+                        //     { data: "no_telp", name: "no_telp" },
+                        //     { data: "marketing_fee", name: "marketing_fee" },
+                        //     { data: "diskon_marketing", name: "diskon_marketing" },
+                        //     { data: "koordinator", name: "koordinator" },
+                        //     { data: "koordinator_fee", name: "koordinator_fee" },
+                        //     { data: "top", name: "top" },
+                        //     { data: "top_fee", name: "top_fee" },
+                        //     { data: "status", name: "status" },
+                        //     { data: "tgl_transfer", name: "tgl_transfer" }
+                        // ]
                     });
                    // Refresh Table
                    $('#refreshJamaah').on('click', function(){

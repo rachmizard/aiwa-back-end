@@ -49,7 +49,7 @@ class JamaahController extends Controller
                 })
           ->filter(function($query) use ($request){
             $period = Periode::find($request->get('periode'));
-            $filter = Periode::whereBetween('tgl_berangkat', [$period->start, $period->end]);
+            $filter = Periode::whereBetween('tgl_berangkat', [$period['start'], $period['end']]);
             return $filter;
           })
           ->rawColumns(['action'])
@@ -103,9 +103,24 @@ class JamaahController extends Controller
 
     }
 
-    public function detailJamaah()
+    public function detailJamaah(Request $request)
     {
-        return view('jamaah.detail', 'jamaah');
+        $periodes = DB::table('master_periode')->get();
+        $getIdPeriode = Periode::where('status_periode', 'active')->first();
+        $varJay = Periode::find($getIdPeriode['id']);
+        if ($request->periode) {
+            $validatorDateRange = DB::table('master_periode')->where('judul', $request->get('periode'))->first();
+            $dateStart = $validatorDateRange->start;
+            $dateEnd = $validatorDateRange->end;
+            $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->whereBetween('tgl_berangkat', [$dateStart, $dateEnd])->get();
+          return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
+        }else{
+            $validatorDateRange = Periode::where('status_periode', 'active')->first();
+            $dateStart = $validatorDateRange->start;
+            $dateEnd = $validatorDateRange->end;
+            $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->whereBetween('tgl_berangkat', [$dateStart, $dateEnd])->get();
+            return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
+        }
     }
 
     /**

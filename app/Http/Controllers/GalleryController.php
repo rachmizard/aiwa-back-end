@@ -40,10 +40,9 @@ class GalleryController extends Controller
         ->addColumn('action', function($galleries)
         {
             return '<a class="btn btn-sm btn-info" href="'. route('aiwa.master-gallery.edit.hotel', $galleries->id) .'">Edit</a>
-                    <form class="form-group" action="'. route('aiwa.master-gallery.archive', $galleries->id) .'" method="POST">
+                    <form class="form-group" action="'. route('aiwa.master-gallery.destroy', $galleries->id) .'" method="POST">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
-                    <input type="hidden" name="_method" value="PUT">
-                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="ion-android-archive"></i> Archive</button>
+                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="fa fa-trash"></i> Hapus</button>
                     </form>
                     ';
         })
