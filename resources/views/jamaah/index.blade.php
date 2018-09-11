@@ -24,7 +24,7 @@
                                         <label class="sr-only" for="edan1">Periode</label>
                                         <select name="periode" id="edan1" class="col-md-4 form-control" style="width: 100%;">
                                             @foreach($periodes as $periode)
-                                                <option value="{{ $periode->judul }}">{{ $periode->judul }}</option>
+                                                <option value="{{ $periode->judul }}" {{ $periode->judul == 'All' ? 'selected' : '' }}>{{ $periode->judul }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -128,6 +128,7 @@
                 $(document).ready(function(){
                     var table = $('#jamaah').DataTable({
                         "scrollX": true,
+                        "scrollY": 500,
                         "responsive": true,
                         "processing": false,
                         "serverSide": true,
