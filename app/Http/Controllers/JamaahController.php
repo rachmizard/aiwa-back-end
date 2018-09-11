@@ -42,10 +42,28 @@ class JamaahController extends Controller
         // return Datatables::of($jamaah)->make(true);
         // $model = App\Jamaah::select();
          $jamaah = Jamaah::with('anggota')->select([
+            DB::raw("CONCAT(jamaah.periode) as jamaah"),
             'id',
-            DB::raw("CONCAT(jamaah.nama,'-',jamaah.id_jamaah) as jamaah"),
+            'tgl_daftar',
+            'id_umrah',
+            'id_jamaah',
+            'nama',
+            'tgl_berangkat',
+            'tgl_pulang',
+            'marketing',
+            'staff',
+            'no_telp',
+            'marketing_fee',
+            'diskon_marketing',
+            'koordinator',
+            'koordinator_fee',
+            'top',
+            'top_fee',
+            'status',
+            'tgl_transfer',
+            'periode',
             'created_at',
-            'updated_at',
+            'updated_at'
         ]);
           return $datatables->eloquent($jamaah)->addColumn('action', function($jamaah){
              return '
@@ -53,10 +71,14 @@ class JamaahController extends Controller
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })
-          ->filterColumn('jamaah', function($query, $keyword) {
-                    $sql = "CONCAT(jamaah.nama,'-',jamaah.id_jamaah)  like ?";
-                    $query->whereRaw($sql, ["%{$keyword}%"]);
-            })
+          ->filter(function($query){
+                if (request()->has('periode')) {
+                    $validatorDateRange = Periode::where('judul', request('periode'))->first();
+                    $dateStart = $validatorDateRange->start;
+                    $dateEnd = $validatorDateRange->end;
+                    $query->whereBetween('tgl_berangkat', [$dateStart, $dateEnd]);      
+                }
+            }, true)
           ->rawColumns(['action'])
           ->make(true);
     }

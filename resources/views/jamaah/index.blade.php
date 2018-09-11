@@ -24,14 +24,14 @@
                                         <label class="sr-only" for="edan1">Periode</label>
                                         <select name="periode" id="edan1" class="col-md-4 form-control" style="width: 100%;">
                                             @foreach($periodes as $periode)
-                                                <option value="{{ $periode->id }}">{{ $periode->judul }}</option>
+                                                <option value="{{ $periode->judul }}">{{ $periode->judul }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group m-l-10">
+                                    <!-- <div class="form-group m-l-10">
                                         <label class="sr-only" for="edan2">Search</label>
                                         <input type="text" class="form-control" name="search">
-                                    </div>
+                                    </div> -->
                                     <button id="search-form" " class="btn btn-success m-l-10"><i class="fa fa-search"></i> Filter</button>
                                 </form>
 
@@ -69,6 +69,7 @@
                                         <th>Top Fee</th>
                                         <th>Status</th>
                                         <th>Tgl Transfer</th>
+                                        <th>Periode</th>
                                         <th>Aksi</th>
                                     </tr>
                                   </thead>
@@ -134,7 +135,7 @@
                             url : "{{ route('aiwa.jamaah.load') }}",
                             data: function (d) {
                                 d.periode = $('select[name=periode]').val();
-                                d.search = $('input[name=search]').val();
+                                // d.search = $('input[name=search]').val();
                             }
                         }, 
                         order: [ [0, 'desc'] ],
@@ -157,6 +158,7 @@
                             { data: "top_fee", name: "top_fee" },
                             { data: "status", name: "status" },
                             { data: "tgl_transfer", name: "tgl_transfer" },
+                            { data: "periode", name: "periode" },
                             { data: "action", name: "action", searchable: false, orderable: false}
                         ]
                     });
