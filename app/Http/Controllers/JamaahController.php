@@ -40,18 +40,23 @@ class JamaahController extends Controller
     {
         // $jamaah =  Jamaah::select('id', 'anggota_id', 'nama', 'alamat', 'no_telp', 'jenis_kelamin', 'status');
         // return Datatables::of($jamaah)->make(true);
-         $jamaah = Jamaah::with('anggota')->select('jamaah.*');
+        // $model = App\Jamaah::select();
+         $jamaah = Jamaah::with('anggota')->select([
+            'id',
+            DB::raw("CONCAT(jamaah.nama,'-',jamaah.id_jamaah) as jamaah"),
+            'created_at',
+            'updated_at',
+        ]);
           return $datatables->eloquent($jamaah)->addColumn('action', function($jamaah){
              return '
                 <a href="jamaah/'. $jamaah->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
                 })
-          ->filter(function($query) use ($request){
-            $period = Periode::find($request->get('periode'));
-            $filter = Periode::whereBetween('tgl_berangkat', [$period['start'], $period['end']]);
-            return $filter;
-          })
+          ->filterColumn('jamaah', function($query, $keyword) {
+                    $sql = "CONCAT(jamaah.nama,'-',jamaah.id_jamaah)  like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
           ->rawColumns(['action'])
           ->make(true);
     }
@@ -107,8 +112,9 @@ class JamaahController extends Controller
     {
         $periodes = DB::table('master_periode')->get();
         $getIdPeriode = Periode::where('status_periode', 'active')->first();
-        $varJay = Periode::find($getIdPeriode['id']);
         if ($request->periode) {
+            $getIdByRequest = Periode::where('judul', $request->periode)->first();
+            $varJay = Periode::find($getIdByRequest['id']);
             $validatorDateRange = DB::table('master_periode')->where('judul', $request->get('periode'))->first();
             $dateStart = $validatorDateRange->start;
             $dateEnd = $validatorDateRange->end;
@@ -116,6 +122,7 @@ class JamaahController extends Controller
           return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
         }else{
             $validatorDateRange = Periode::where('status_periode', 'active')->first();
+            $varJay = Periode::find($validatorDateRange['id']);
             $dateStart = $validatorDateRange->start;
             $dateEnd = $validatorDateRange->end;
             $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->whereBetween('tgl_berangkat', [$dateStart, $dateEnd])->get();

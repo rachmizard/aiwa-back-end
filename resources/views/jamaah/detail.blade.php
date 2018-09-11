@@ -17,12 +17,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <div class="panel">
                             <div class="panel-heading">
                                 <i class="fa fa-filter"></i> Periode Jamaah
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body panel-primary">
                                 <div class="col-md-6">
                                     <form action="" method="GET" id="filter">
                                         {{ csrf_field() }}
@@ -72,6 +72,7 @@
                                         <th>top_fee</th>
                                         <th>status</th>
                                         <th>tgl_transfer</th>
+                                        <th>periode</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -94,7 +95,8 @@
                                         <td>{{ $jamaah->top }}</td>
                                         <td>{{ $jamaah->top_fee }}</td>
                                         <td>{{ $jamaah->status }}</td>
-                                        <td>{{ $jamaah->tgl_transfer }}</td>                                       
+                                        <td>{{ $jamaah->tgl_transfer }}</td>                                    
+                                        <td>{{ $jamaah->periode }}</td>                                       
                                       </tr>
                                       @endforeach
                                   </tbody>
@@ -161,7 +163,10 @@
                         "scrollY": 500,
                         "dom" : 'lBfrtip',
                         "buttons": [
-                            'excel'
+                            {
+                                extend: 'excel',
+                                text: '<i class="fa fa-file-excel-o"></i> Download Jamaah {{ $varJay->judul }}'
+                            }
                         ],
                         "responsive": true,
                         // "processing": false,

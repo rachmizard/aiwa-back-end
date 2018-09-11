@@ -102,6 +102,7 @@ class SinkronisasiController extends Controller
         // return view('test-api', compact('diskons'));
         $test = $diskons['data'];
         $count = count($test);
+        $wadahPeriode = $validator->tahun;
 
         for ($i=0; $i < $count ; $i++) { 
             foreach ($diskons['data'][$i]['pendaftaran'] as $key => $diskon) {
@@ -258,6 +259,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }else if($k == "SM140"){
                         // $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
@@ -331,6 +333,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }else{
                         if($findDiskon){
@@ -403,6 +406,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }
                 }else{
@@ -491,6 +495,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }else if($k == "SM140"){
                         // $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
@@ -564,6 +569,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }else{
                         if($findDiskon){
@@ -636,6 +642,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }
                 }

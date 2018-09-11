@@ -57,6 +57,7 @@ class ImportJamaahController extends Controller
                     // $data['diskon_marketing'] = $row['diskon_marketing'];
                     $data['status'] = $row['status'];
                     $data['tgl_transfer'] = $row['tgl_transfer'];
+                    $data['periode'] = $row['periode'];
                     if ($data['tgl_transfer'] != null) {
                         // $agents = User::where('device_token', '!=', null)->get();
                         $now = Carbon::now();

@@ -157,7 +157,7 @@
                             { data: "top_fee", name: "top_fee" },
                             { data: "status", name: "status" },
                             { data: "tgl_transfer", name: "tgl_transfer" },
-                            { data: "action", name: "action"}
+                            { data: "action", name: "action", searchable: false, orderable: false}
                         ]
                     });
 
