@@ -43,6 +43,7 @@ class AdminResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Reset password admin')
                     ->line('Tekan tombol di bawah ini untuk melanjutkan reset password')
                     ->action('Rubah Password Baru', route('admin.password.reset', $this->token))
                     ->line('Thank you for using our application!');

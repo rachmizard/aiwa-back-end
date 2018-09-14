@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Alhijaz'),
+    'name' => env('APP_NAME', 'AIWA'),
 
     /*
     |--------------------------------------------------------------------------
@@ -166,7 +166,7 @@ return [
         Kawankoding\Fcm\FcmServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-        Yajra\DataTables\ButtonsServiceProvider::class,
+        // Yajra\DataTables\ButtonsServiceProvider::class,
 
 
         /*

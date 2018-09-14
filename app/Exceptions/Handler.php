@@ -34,7 +34,8 @@ class Handler extends ExceptionHandler
     {
         if ($this->shouldReport($exception)) {
             $this->sendEmail($exception); // sends an email
-        }else if ($exception instanceof \Yajra\DataTables\Exception) {
+        }
+        if ($exception instanceof \Yajra\DataTables\Exception) {
             $this->sendEmail($exception); // sends an email
         }  
         return parent::report($exception);
@@ -67,7 +68,8 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof \App\Exceptions\CustomException)  {
             return $exception->render($request);
-        }else if ($exception instanceof \Yajra\DataTables\Exception) {
+        }
+        if ($exception instanceof \Yajra\DataTables\Exception) {
             return response([
                 'draw'            => 0,
                 'recordsTotal'    => 0,
