@@ -191,6 +191,11 @@
                   if(!confirm("Anda yakin untuk melanjutkannya?"))
                   event.preventDefault();
             }
+
+            function confirmBtnDownloadAgen() {
+                  if(!confirm("Jika anda mengunduh format ini data password akan terenskripsi guna menjaga kerahasiaan akun, lanjutkan?"))
+                  event.preventDefault();
+            }
         </script>
 
     </body>

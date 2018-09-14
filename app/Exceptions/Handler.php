@@ -1,6 +1,10 @@
 <?php
 namespace App\Exceptions;
 use Exception;
+use Mail;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use App\Mail\ExceptionOccured;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 class Handler extends ExceptionHandler
@@ -28,8 +32,30 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
+        if ($this->shouldReport($exception)) {
+            $this->sendEmail($exception); // sends an email
+        }else if ($exception instanceof \Yajra\DataTables\Exception) {
+            $this->sendEmail($exception); // sends an email
+        }  
+        return parent::report($exception);
     }
+
+    // Send an email to developer
+
+    public function sendEmail(Exception $exception)
+    {
+        try {
+            $e = FlattenException::create($exception);
+            $handler = new SymfonyExceptionHandler();
+            $html = $handler->getHtml($e);
+            // Send to developers an error
+            $devs = ['rachmizard11072000@gmail.com', 'azh.zhafir@gmail.com'];
+            Mail::to($devs)->send(new ExceptionOccured($html));
+        } catch (Exception $ex) {
+            dd($ex);
+        }
+    }
+
     /**
      * Render an exception into an HTTP response.
      *
