@@ -62,6 +62,16 @@
                 text-transform: uppercase;
             }
 
+            .text-white {
+                color: #ffebee;
+                /*padding: 0 25px;*/
+                font-size: 18px;
+                /*font-weight: 600;*/
+                letter-spacing: .2rem;
+                text-decoration: none;
+                /*text-transform: uppercase;*/
+            }
+
             .m-b-md {
                 margin-bottom: 30px;
             }
@@ -86,8 +96,9 @@
 
                 <div class="links">
                     <!-- <a href="/api/test-api">API Jadwal</a> -->
-                    <!-- <a href="https://drive.google.com/file/d/1beBq8PEvWX1ngnF7SA9_E1i0vIPeKs7J/view"><i class="fa fa-download"></i> Download Aiwa Apps</a> -->
-                    <a href="#">Aiwa Mobile App is Under Develop and will be released as soon as possible</a>
+                    <p class="text-white">Available for Android especially at <i class="ion-android-playstore"></i> Play Store </p>
+                    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.birutekno.umrah"><i class="ion-android-playstore"></i> Download at Playstore</a>
+                    <!-- <a href="#">Aiwa Mobile App is Under Develop and will be released as soon as possible</a> -->
                 </div>
             </div>
         </div>

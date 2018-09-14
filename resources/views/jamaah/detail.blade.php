@@ -43,6 +43,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><i class="fa fa-file-excel-o"></i> Format Jamaah</div>
+                            <div class="panel-body">
+                                <span class="help-block">Anda butuh format upload? Klik disini untuk mengunduh format <i class="fa fa-file-excel-o"></i></span>
+                                <a href="{{ url('/download/format/jamaah/format_jamaah_official.xlsx') }}" class="btn btn-sm btn-success">Unduh Format <i class="fa fa-download"></i></a>
+                            </div> <!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- col -->
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -165,7 +174,24 @@
                         "buttons": [
                             {
                                 extend: 'excel',
-                                text: '<i class="fa fa-file-excel-o"></i> Download Jamaah {{ $varJay->judul }}'
+                                text: '<i class="fa fa-file-excel-o"></i> Download Jamaah {{ $varJay->judul }}',
+                                title: 'data_jamaah_{{ $varJay->judul }}',
+                                customize: function(xlsx) {
+                                      var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                      $('row:first c', sheet).attr('s', '7');
+                                      //color the background of the cells if found the value
+                                      $('row c[r^="C"]',sheet).each(function(){
+                                        if($('is t', this).text() == null){
+                                            $(this).attr('s', '15');
+                                        }
+                                        else if ($('is t', this).text() == null){
+                                            $(this).attr('s', '12');
+                                        }
+                                        else {
+                                            $(this).attr('s', '34');
+                                        }
+                                    });
+                                }
                             }
                         ],
                         "responsive": true,

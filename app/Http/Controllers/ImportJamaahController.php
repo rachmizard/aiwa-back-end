@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Jamaah;
 use App\User;
 use App\LogActivity;
+use App\Periode;
 use App\MasterNotifikasi;
 use Auth;
 use Carbon\Carbon;
@@ -13,13 +14,13 @@ use Excel;
 use DB;
 class ImportJamaahController extends Controller
 {
- 
-    
+
+
     public function __construct()
     {
         $this->middleware('auth:admin');
     }
-       
+
     public function downloadExcel($type)
     {
         $data = Jamaah::get()->toArray();
@@ -33,6 +34,7 @@ class ImportJamaahController extends Controller
 
     public function importExcelJamaah(Request $request)
     {
+        $periode = Periode::where('status_periode', 'active')->first();
         if($request->hasFile('import_file_jamaah')){
             Excel::load($request->file('import_file_jamaah')->getRealPath(), function ($reader) {
                 foreach ($reader->toArray() as $key => $row) {
@@ -49,17 +51,10 @@ class ImportJamaahController extends Controller
                     $id_marketing = $row['marketing'];
                     $data['staff'] = $row['staff'];
                     $data['no_telp'] = $row['no_telp'];
-                    // $data['marketing_fee'] = $row['marketing_fee'];
-                    // $data['koordinator'] = $row['koordinator'];
-                    // $data['koordinator_fee'] = $row['koordinator_fee'];
-                    // $data['top'] = $row['top'];
-                    // $data['top_fee'] = $row['top_fee'];
-                    // $data['diskon_marketing'] = $row['diskon_marketing'];
                     $data['status'] = $row['status'];
                     $data['tgl_transfer'] = $row['tgl_transfer'];
                     $data['periode'] = $row['periode'];
                     if ($data['tgl_transfer'] != null) {
-                        // $agents = User::where('device_token', '!=', null)->get();
                         $now = Carbon::now();
                         $year = $now->year;
                         $month = $now->month;
@@ -80,7 +75,7 @@ class ImportJamaahController extends Controller
                                 $recepientKoordinator['device_token'],
                                 $recepientTop['device_token']
                             ];
-                            
+
                             $notification = [
                                 'body' => 'Komisi sudah transfer, cek notifikasi!',
                                 'bodyKoordinator' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer, silahkan kontak koordinator anda untuk verifikasi!',
@@ -106,7 +101,7 @@ class ImportJamaahController extends Controller
                                                                     'pesan' => $notification['bodyTop'],
                                                                     'status' => 'delivered'
                                                                     ]);
-                            
+
                             $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
 
                             $fcmNotification = [
@@ -136,7 +131,7 @@ class ImportJamaahController extends Controller
                             // return response()->json($result);
                         }
                     }
-                    // Jika data tidak kosong
+                    // Jika data dari excel tidak kosong
                     if(!empty($data)) {
                         // Cari di data Jamaah yang id nya sama
                         $validator = Jamaah::where('id', $data['id'])->first();
@@ -177,7 +172,7 @@ class ImportJamaahController extends Controller
                                         $data['koordinator_fee'] = 0;
                                         $data['top'] = 'SM000';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = $d;    
+                                        $data['diskon_marketing'] = $d;
                                     }else{
                                         $data['marketing_fee'] = $reference - $d;
                                         $data['koordinator'] = 'SM000';
@@ -186,7 +181,7 @@ class ImportJamaahController extends Controller
                                         $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = $d;
                                     }
-                                    
+
                                 }else{
 
                                     if ($promo) {
@@ -204,7 +199,7 @@ class ImportJamaahController extends Controller
                                         $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = 0;
                                     }
-                                    
+
                                 }
 
                                 DB::table('jamaah')->where('id', $data['id'])->update($data);
@@ -214,13 +209,13 @@ class ImportJamaahController extends Controller
                                     $d = $findDiskon->diskon_marketing;
 
                                     if ($promo) {
-                                        $totalLevel2 = $referencePromo - $findKoordinator['fee_promo'];
+                                        $totalLevel2 = 100000;
 
                                         $data['marketing_fee'] = $findKoordinator['fee_promo'] - $d;
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
-                                        $data['top_fee'] = $totalLevel2;
+                                        $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }else{
                                         $totalLevel2 = $reference - $findKoordinator['fee_reguler'];
@@ -229,19 +224,19 @@ class ImportJamaahController extends Controller
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
-                                        $data['top_fee'] = $totalLevel2;
+                                        $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }
-                                    
+
                                 }else{
                                     if ($promo) {
-                                        $totalLevel2 = $referencePromo - $findKoordinator['fee_promo'];
+                                        $totalLevel2 = 100000;
 
                                         $data['marketing_fee'] = $findKoordinator['fee_promo'];
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
-                                        $data['top_fee'] = $totalLevel2;
+                                        $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = 0;
                                     }else{
                                         $totalLevel2 = $reference - $findKoordinator['fee_reguler'];
@@ -250,14 +245,15 @@ class ImportJamaahController extends Controller
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
-                                        $data['top_fee'] = $totalLevel2;
+                                        $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = 0;
                                     }
-                                    
+
                                 }
 
                                 DB::table('jamaah')->where('id', $data['id'])->update($data);
                             }else{
+                                //JIKA BUKAN PA ARI
                                 if($findDiskon){
                                     $d = $findDiskon->diskon_marketing;
 
@@ -267,7 +263,7 @@ class ImportJamaahController extends Controller
                                         $data['marketing_fee'] = $findKoordinator['fee_promo'] - $d;
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel3;
-                                        $data['top'] = 'SM140';  
+                                        $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_promo;
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }else{
@@ -276,11 +272,11 @@ class ImportJamaahController extends Controller
                                         $data['marketing_fee'] = $findKoordinator['fee_reguler'] - $d;
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel3;
-                                        $data['top'] = 'SM140';  
+                                        $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_ref;
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }
-                                    
+
                                 }else{
                                     if ($promo) {
                                         $totalLevel3 = $referencePromo - ($findKoordinator['fee_promo'] + $top_promo);
@@ -288,7 +284,7 @@ class ImportJamaahController extends Controller
                                         $data['marketing_fee'] = $findKoordinator['fee_promo'];
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel3;
-                                        $data['top'] = 'SM140';  
+                                        $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_promo;
                                         $data['diskon_marketing'] = 0;
                                     }else{
@@ -297,11 +293,11 @@ class ImportJamaahController extends Controller
                                         $data['marketing_fee'] = $findKoordinator['fee_reguler'];
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel3;
-                                        $data['top'] = 'SM140';  
+                                        $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_ref;
                                         $data['diskon_marketing'] = 0;
                                     }
-                                    
+
                                 }
 
                                 DB::table('jamaah')->where('id', $data['id'])->update($data);
@@ -342,7 +338,7 @@ class ImportJamaahController extends Controller
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }
 
-                                    
+
                                 }else{
                                     if ($promo) {
                                         $data['marketing_fee'] = $referencePromo - 100000;
@@ -359,7 +355,7 @@ class ImportJamaahController extends Controller
                                         $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = 0;
                                     }
-                                    
+
                                 }
 
                                 DB::table('jamaah')->insert($data);
@@ -369,13 +365,13 @@ class ImportJamaahController extends Controller
                                     $d = $findDiskon->diskon_marketing;
 
                                     if ($promo) {
-                                        $totalLevel2 = $referencePromo - $findKoordinator->fee_promo;
+                                        $totalLevel2 = 100000;
 
                                         $data['marketing_fee'] = $findKoordinator->fee_promo - $d;
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
-                                        $data['top_fee'] = $totalLevel2;
+                                        $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }else{
                                         $totalLevel2 = $reference - $findKoordinator->fee_reguler;
@@ -384,21 +380,21 @@ class ImportJamaahController extends Controller
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
-                                        $data['top_fee'] = $totalLevel2;
+                                        $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }
 
-                                    
+
                                 }else{
 
                                     if ($promo) {
-                                        $totalLevel2 = $referencePromo - $findKoordinator->fee_promo;
+                                        $totalLevel2 = 100000;
 
                                         $data['marketing_fee'] = $findKoordinator->fee_promo;
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
-                                        $data['top_fee'] = $totalLevel2;
+                                        $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = 0;
                                     }else{
                                         $totalLevel2 = $reference - $findKoordinator->fee_reguler;
@@ -407,14 +403,15 @@ class ImportJamaahController extends Controller
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
-                                        $data['top_fee'] = $totalLevel2;
+                                        $data['top_fee'] = 0;
                                         $data['diskon_marketing'] = 0;
                                     }
-                                    
+
                                 }
 
-                                DB::table('jamaah')->insert($data);              
+                                DB::table('jamaah')->insert($data);
                             }else{
+                                //JIKA BUKAN PA ARI
                                 if($findDiskon){
                                     $d = $findDiskon->diskon_marketing;
 
@@ -424,7 +421,7 @@ class ImportJamaahController extends Controller
                                         $data['marketing_fee'] = $findKoordinator->fee_promo - $d;
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel3;
-                                        $data['top'] = 'SM140';  
+                                        $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_promo;
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }else{
@@ -433,12 +430,12 @@ class ImportJamaahController extends Controller
                                         $data['marketing_fee'] = $findKoordinator->fee_reguler - $d;
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel3;
-                                        $data['top'] = 'SM140';  
+                                        $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_ref;
                                         $data['diskon_marketing'] = $findDiskon->diskon_marketing;
                                     }
 
-                                    
+
                                 }else{
                                     if ($promo) {
                                         $totalLevel3 = $referencePromo - ($findKoordinator->fee_promo + $top_promo);
@@ -446,7 +443,7 @@ class ImportJamaahController extends Controller
                                         $data['marketing_fee'] = $findKoordinator->fee_promo;
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel3;
-                                        $data['top'] = 'SM140';  
+                                        $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_promo;
                                         $data['diskon_marketing'] = 0;
                                     }else{
@@ -455,17 +452,16 @@ class ImportJamaahController extends Controller
                                         $data['marketing_fee'] = $findKoordinator->fee_reguler;
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel3;
-                                        $data['top'] = 'SM140';  
+                                        $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_ref;
                                         $data['diskon_marketing'] = 0;
                                     }
-                                    
+
                                 }
 
                                 DB::table('jamaah')->insert($data);
                             }
                             // END PEMBATAS
-                            // Session::put('message', 'Your file is succesfully imported!');
                         }
                     }
                 }

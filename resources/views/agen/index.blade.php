@@ -242,10 +242,7 @@
                 $(document).ready(function(){
                    var table = $('#agent').DataTable({
                         "scrollX": true,
-                        "dom" : 'lBfrtip',
-                        "buttons": [
-                            'excel', 'pdf'
-                        ],
+                        // "dom" : 'lBfrtip',
                         "serverSide": true,
                         "ordering": true,
                         "searching": true,

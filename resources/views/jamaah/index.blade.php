@@ -14,7 +14,7 @@
                 </div>
                 <!-- Inline Form -->
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title">Filter <i class="fa fa-filter"></i></h3></div>
                             <div class="panel-body">
@@ -24,7 +24,10 @@
                                         <label class="sr-only" for="edan1">Periode</label>
                                         <select name="periode" id="edan1" class="col-md-4 form-control" style="width: 100%;">
                                             @foreach($periodes as $periode)
-                                                <option value="{{ $periode->judul }}" {{ $periode->judul == 'All' ? 'selected' : '' }}>{{ $periode->judul }}</option>
+                                            @if($periode->judul == 'All')
+                                            @else
+                                                <option value="{{ $periode->judul }}" {{ $periode->status_periode == 'active' ? 'selected' : '' }}>{{ $periode->judul }}</option>
+                                            @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -42,7 +45,6 @@
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- col -->
-
                 </div> <!-- End row -->
                 <div class="row">
                     <div class="col-sm-12">
@@ -110,6 +112,15 @@
                            </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- col -->
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><i class="fa fa-file-excel-o"></i> Format Jamaah</div>
+                            <div class="panel-body">
+                                <span class="help-block">Anda butuh format upload? Klik disini untuk mengunduh format <i class="fa fa-file-excel-o"></i></span>
+                                <a href="{{ url('/download/format/jamaah/format_jamaah_official.xlsx') }}" class="btn btn-sm btn-success">Unduh Format <i class="fa fa-download"></i></a>
+                            </div> <!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- col -->
                 </div> <!-- End row -->
             </div>
 
@@ -148,7 +159,7 @@
                             { data: "nama", name: "nama" },
                             { data: "tgl_berangkat", name: "tgl_berangkat" },
                             { data: "tgl_pulang", name: "tgl_pulang" },
-                            { data: "marketing", name: "marketing" },
+                            { data: "marketing", name: "marketing", searchable: true },
                             { data: "staff", name: "staff" },
                             { data: "no_telp", name: "no_telp" },
                             { data: "marketing_fee", name: "marketing_fee" },

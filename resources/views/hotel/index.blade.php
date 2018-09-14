@@ -119,7 +119,7 @@
                                   <div class="form-group">
                                       <label class="col-md-2 control-label">Link Map</label>
                                       <div class="col-md-10">
-                                          <input type="text" class="form-control" name="link" id="link" required>
+                                          <input type="text" class="form-control" name="link" id="link">
                                           <span class="help-block text-red"><small>Salin dan paste link yang anda bagikan di google map kesini (Tidak di sarankan)</small></span>
                                       </div>
                                   </div>

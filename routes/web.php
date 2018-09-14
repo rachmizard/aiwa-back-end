@@ -11,6 +11,8 @@
 |
 */
 
+// Just Test Route
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -41,7 +43,6 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
 
 // for backup
   Route::prefix('admin')->group(function() {
-
     Route::get('notification', function(){
         Auth()->guard('admin')->user()->unreadNotifications->markAsRead();
         return view('notifications.index');
@@ -232,9 +233,14 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
 
     });
 
+// Download apps
 Route::get('/download', function(){
     return redirect('https://drive.google.com/open?id=126M6gsJIMpbjPfOlcw9Ph2Gn36M4C9QF');
 });
+
+Route::get('/download/format/jamaah/format_jamaah_official.xlsx', function(){
+    return response()->download(storage_path('app/public/files/format_jamaah_official.xlsx'));
+})->name('jamaah.download.format');
 
 // SECRET ROUTE!
 

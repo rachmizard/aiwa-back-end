@@ -29,7 +29,7 @@ class GalleryController extends Controller
 
     public function indexGalleryHotel()
     {
-        $hotels = Master_Hotel::orderBy('id', 'DESC')->where('status', '!=', 'archived')->get();
+        $hotels = Master_Hotel::orderBy('id', 'DESC')->where('status', '=', 'used')->get();
         return view('gallery.hotel', compact('hotels'));
     }
 

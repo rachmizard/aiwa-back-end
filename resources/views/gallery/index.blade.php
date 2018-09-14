@@ -53,7 +53,7 @@
                                     </div> -->
                                     <div class="form-group">
                                         <label for="deskripsi">Deskripsi</label>
-                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi"></textarea>
+                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="deskripsi"></textarea>
                                     </div>
                                     <input type="hidden" hidden name="tipe" value="foto">
                                     <div class="form-group">
@@ -83,7 +83,7 @@
                                     </div> -->
                                     <div class="form-group">
                                         <label for="deskripsi">Link Url Video (Youtube)</label>
-                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi"></textarea>
+                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="deskripsi"></textarea>
                                     </div>
                                     <input type="hidden" value="video" name="tipe">
                                     <div class="form-group">

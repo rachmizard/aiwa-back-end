@@ -121,7 +121,7 @@
             <script>
                 $(document).ready(function(){
                     var table = $('#prospek').DataTable({
-                        "searching": false,
+                        "searching": true,
                         "processing": true,
                         "serverSide": true,
                         "ajax": {

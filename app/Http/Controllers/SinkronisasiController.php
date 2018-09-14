@@ -73,7 +73,7 @@ class SinkronisasiController extends Controller
 
     public function update(Request $request, $id)
     {
-    	
+
     }
 
 
@@ -97,19 +97,19 @@ class SinkronisasiController extends Controller
         $url = 'http://115.124.86.218/aiw/pendaftaran/'.$validator->tahun;
         $json = file_get_contents($url);
         $diskons = collect(json_decode($json, true));
-        
+
         // dd($diskons['data'][1]['jadwal']); // Ieu bisa
         // return view('test-api', compact('diskons'));
         $test = $diskons['data'];
         $count = count($test);
         $wadahPeriode = $validator->tahun;
 
-        for ($i=0; $i < $count ; $i++) { 
+        for ($i=0; $i < $count ; $i++) {
             foreach ($diskons['data'][$i]['pendaftaran'] as $key => $diskon) {
                 // Validator of master pendaftaran
                 $validator = DB::table('master_pendaftaran')->where('id_jamaah', '=', $diskon['id_jamaah'])->first();
                 // Validator of agen AIWA
-                // $validatorMarketing = DB::table('users')->where('id', $data['id_marketing'])->first(); 
+                // $validatorMarketing = DB::table('users')->where('id', $data['id_marketing'])->first();
                 // beres jing
                 //Referensi uang yang ditransfer kantor
                 $reference = 2250000;
@@ -132,15 +132,14 @@ class SinkronisasiController extends Controller
 
  				$validatorB = Jamaah::where('id_jamaah', $diskon['id_jamaah'])->first();
 
+                //TABEL MASTER PENDAFTARAN
                 if ($validator) {
-                	// Update
-                    DB::table('master_pendaftaran')->where('id', $validator->id)->update([   
+                    //UPDATE MASTER PENDAFTARAN
+                    DB::table('master_pendaftaran')->where('id', $validator->id)->update([
 	                    'tgl_pendaftaran' => $diskon['tgl_pendaftaran'],
 	                    'id_umrah' => $diskon['id_umrah'],
 	                    'id_jamaah' => $diskon['id_jamaah'],
 	                    'nama_jamaah' => $diskon['nama_jamaah'],
-                     //    'tgl_keberangkatan' => date('d/m/Y', strtotime($diskon['tgl_keberangkatan'])),
-	                    // 'tgl_kepulangan' => date('d/m/Y', strtotime($diskon['tgl_kepulangan'])),
                         'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
                         'tgl_kepulangan' => $diskon['tgl_kepulangan'],
 	                    'staf_kantor' => $diskon['staf_kantor'],
@@ -152,14 +151,12 @@ class SinkronisasiController extends Controller
 	                    'fee_marketing' => $diskon['fee_marketing']
 	                ]);
                 }else{
-                    // DB::table('master_pendaftaran')->insert($data);
-                    DB::table('master_pendaftaran')->insert([   
+                    //BUAT BARU MASTER PENDAFTARAN
+                    DB::table('master_pendaftaran')->insert([
 	                    'tgl_pendaftaran' => $diskon['tgl_pendaftaran'],
 	                    'id_umrah' => $diskon['id_umrah'],
 	                    'id_jamaah' => $diskon['id_jamaah'],
 	                    'nama_jamaah' => $diskon['nama_jamaah'],
-                     //    'tgl_keberangkatan' => date('d/m/Y', strtotime($diskon['tgl_keberangkatan'])),
-	                    // 'tgl_kepulangan' => date('d/m/Y', strtotime($diskon['tgl_kepulangan'])),
                         'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
                         'tgl_kepulangan' => $diskon['tgl_kepulangan'],
 	                    'staf_kantor' => $diskon['staf_kantor'],
@@ -173,6 +170,7 @@ class SinkronisasiController extends Controller
                 }
                 // Selesai
 
+                //TABEL JAMAAH
                 if($validatorB){
                 	 //Update Data
 
@@ -195,8 +193,8 @@ class SinkronisasiController extends Controller
                         $f = $findKoordinator['fee_reguler'];
                     }
 
-                    // $ref = $reference - $refdiskon;
                     if ($k == "SM000" ) {
+                        //Jika PA ARI
                         if($findDiskon){
                             $d = $findDiskon;
 
@@ -241,8 +239,7 @@ class SinkronisasiController extends Controller
                             }
                         }
 
-                        // DB::table('jamaah')->where('id', $data['id'])->update($data);
-                        DB::table('jamaah')->where('id', $validatorB['id'])->update([   
+                        DB::table('jamaah')->where('id', $validatorB['id'])->update([
 		                    'id_umrah' => $data['id_umrah'],
 		                    'id_jamaah' => $data['id_jamaah'],
 		                    'tgl_daftar' => $data['tgl_daftar'],
@@ -262,61 +259,119 @@ class SinkronisasiController extends Controller
                             'periode' => $wadahPeriode
 	            		]);
                     }else if($k == "SM140"){
-                        // $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
+                        //JIKA KOORDINATORNYA PA ARI
                         if($findDiskon){
+                            //JIKA ADA DISKON DARI SCRAPING
                             $d = $findDiskon;
 
-                            if ($diskon['fee_marketing'] != 0) {
-                            	$totalLevel2 = $reference - $diskon['fee_marketing'];
+                            if ($promo) {
+                                //JIKA PROMO
+                                if ($diskon['fee_marketing'] != 0) {
+                                	$totalLevel2 = 100000;
 
-                            	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
-	                            $data['koordinator'] = $k;
-	                            $data['koordinator_fee'] = $totalLevel2;
-	                            $data['top'] = 'SM140';
-	                            $data['top_fee'] = $totalLevel2;
-	                            $data['diskon_marketing'] = $findDiskon;
+                                	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = $findDiskon;
 
-	                            $data['status'] = "KOMISI";
+    	                            $data['status'] = "KOMISI";
+                                }else{
+                                	$totalLevel2 = 100000;
+
+                                	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = $findDiskon;
+
+    	                            $data['status'] = "POTENSI";
+                                }
                             }else{
-                            	$totalLevel2 = $reference - $f;
+                                //JIKA TIDAK PROMO
+                                if ($diskon['fee_marketing'] != 0) {
+                                	$totalLevel2 = $reference - $diskon['fee_marketing'];
 
-                            	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
-	                            $data['koordinator'] = $k;
-	                            $data['koordinator_fee'] = $totalLevel2;
-	                            $data['top'] = 'SM140';
-	                            $data['top_fee'] = $totalLevel2;
-	                            $data['diskon_marketing'] = $findDiskon;
+                                	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = $findDiskon;
 
-	                            $data['status'] = "POTENSI";
+    	                            $data['status'] = "KOMISI";
+                                }else{
+                                	$totalLevel2 = $reference - $f;
+
+                                	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = $findDiskon;
+
+    	                            $data['status'] = "POTENSI";
+                                }
                             }
+
                         }else{
-                            if ($diskon['fee_marketing'] != 0) {
-                            	$totalLevel2 = $reference - $diskon['fee_marketing'];
+                            //JIKA TIDAK ADA DISKON DARI SCRAPING
 
-                            	$data['marketing_fee'] = $diskon['fee_marketing'];
-	                            $data['koordinator'] = $k;
-	                            $data['koordinator_fee'] = $totalLevel2;
-	                            $data['top'] = 'SM140';
-	                            $data['top_fee'] = $totalLevel2;
-	                            $data['diskon_marketing'] = 0;
+                            if ($promo) {
+                                if ($diskon['fee_marketing'] != 0) {
+                                    $totalLevel2 = 100000;
 
-	                            $data['status'] = "KOMISI";
+                                	$data['marketing_fee'] = $diskon['fee_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = 0;
+
+    	                            $data['status'] = "KOMISI";
+                                }else{
+                                	$totalLevel2 = 100000;
+
+                                	$data['marketing_fee'] = $f;
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = 0;
+
+    	                            $data['status'] = "POTENSI";
+                                }
                             }else{
-                            	$totalLevel2 = $reference - $f;
+                                if ($diskon['fee_marketing'] != 0) {
+                                	$totalLevel2 = $reference - $diskon['fee_marketing'];
 
-                            	$data['marketing_fee'] = $f;
-	                            $data['koordinator'] = $k;
-	                            $data['koordinator_fee'] = $totalLevel2;
-	                            $data['top'] = 'SM140';
-	                            $data['top_fee'] = $totalLevel2;
-	                            $data['diskon_marketing'] = 0;
+                                	$data['marketing_fee'] = $diskon['fee_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = 0;
 
-	                            $data['status'] = "POTENSI";
+    	                            $data['status'] = "KOMISI";
+                                }else{
+                                	$totalLevel2 = $reference - $f;
+
+                                	$data['marketing_fee'] = $f;
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = 0;
+
+    	                            $data['status'] = "POTENSI";
+                                }
                             }
+
                         }
 
-                        // DB::table('jamaah')->where('id', $data['id'])->update($data);
-                        DB::table('jamaah')->where('id', $validatorB['id'])->update([   
+                        DB::table('jamaah')->where('id', $validatorB['id'])->update([
 		                    'id_umrah' => $data['id_umrah'],
 		                    'id_jamaah' => $data['id_jamaah'],
 		                    'tgl_daftar' => $data['tgl_daftar'],
@@ -336,7 +391,9 @@ class SinkronisasiController extends Controller
                             'periode' => $wadahPeriode
 	            		]);
                     }else{
+                        //JIKA KOORDINATORNYA SELAIN PA ARI
                         if($findDiskon){
+                            //JIKA ADA DISKON DARI SCRAPING
                             $d = $findDiskon;
 
                             if ($diskon['fee_marketing'] != 0) {
@@ -345,7 +402,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = $k;
 	                            $data['koordinator_fee'] = $totalLevel3;
-	                            $data['top'] = 'SM140';  
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = $top_ref;
 	                            $data['diskon_marketing'] = $findDiskon;
 
@@ -356,20 +413,21 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = $k;
 	                            $data['koordinator_fee'] = $totalLevel3;
-	                            $data['top'] = 'SM140';  
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = $top_ref;
 	                            $data['diskon_marketing'] = $findDiskon;
 
 	                            $data['status'] = "POTENSI";
                             }
                         }else{
+                            //JIKA TIDAK ADA DISKON DARI SCRAPING
                             if ($diskon['fee_marketing'] != 0) {
                             	$totalLevel3 = $reference - ($diskon['fee_marketing'] + $top_ref);
 
                             	$data['marketing_fee'] = $diskon['fee_marketing'];
 	                            $data['koordinator'] = $k;
 	                            $data['koordinator_fee'] = $totalLevel3;
-	                            $data['top'] = 'SM140';  
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = $top_ref;
 	                            $data['diskon_marketing'] = 0;
 
@@ -380,7 +438,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $f;
 	                            $data['koordinator'] = $k;
 	                            $data['koordinator_fee'] = $totalLevel3;
-	                            $data['top'] = 'SM140';  
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = $top_ref;
 	                            $data['diskon_marketing'] = 0;
 
@@ -388,8 +446,7 @@ class SinkronisasiController extends Controller
                             }
                         }
 
-                        // DB::table('jamaah')->where('id', $data['id'])->update($data);
-                        DB::table('jamaah')->where('id', $validatorB['id'])->update([   
+                        DB::table('jamaah')->where('id', $validatorB['id'])->update([
 		                    'id_umrah' => $data['id_umrah'],
 		                    'id_jamaah' => $data['id_jamaah'],
 		                    'tgl_daftar' => $data['tgl_daftar'],
@@ -431,7 +488,6 @@ class SinkronisasiController extends Controller
                         $f = $findKoordinator['fee_reguler'];
                     }
 
-                    // $ref = $reference - $refdiskon;
                     if ($k == "SM000" ) {
                         if($findDiskon){
                             $d = $findDiskon;
@@ -477,8 +533,7 @@ class SinkronisasiController extends Controller
                             }
                         }
 
-                        // DB::table('jamaah')->insert($data);
-                        DB::table('jamaah')->insert([   
+                        DB::table('jamaah')->insert([
 		                    'id_umrah' => $data['id_umrah'],
 		                    'id_jamaah' => $data['id_jamaah'],
 		                    'tgl_daftar' => $data['tgl_daftar'],
@@ -498,61 +553,114 @@ class SinkronisasiController extends Controller
                             'periode' => $wadahPeriode
 	            		]);
                     }else if($k == "SM140"){
-                        // $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
                         if($findDiskon){
                             $d = $findDiskon;
 
-                            if ($diskon['fee_marketing'] != 0) {
-                            	$totalLevel2 = $reference - $diskon['fee_marketing'];
+                            if ($promo) {
+                                if ($diskon['fee_marketing'] != 0) {
+                                	$totalLevel2 = 100000;
 
-                            	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
-	                            $data['koordinator'] = $k;
-	                            $data['koordinator_fee'] = $totalLevel2;
-	                            $data['top'] = 'SM140';
-	                            $data['top_fee'] = $totalLevel2;
-	                            $data['diskon_marketing'] = $findDiskon;
+                                	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = $findDiskon;
 
-	                            $data['status'] = "KOMISI";
+    	                            $data['status'] = "KOMISI";
+                                }else{
+                                	$totalLevel2 = 100000;
+
+                                	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = $findDiskon;
+
+    	                            $data['status'] = "POTENSI";
+                                }
                             }else{
-                            	$totalLevel2 = $reference - $f;
+                                if ($diskon['fee_marketing'] != 0) {
+                                	$totalLevel2 = $reference - $diskon['fee_marketing'];
 
-                            	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
-	                            $data['koordinator'] = $k;
-	                            $data['koordinator_fee'] = $totalLevel2;
-	                            $data['top'] = 'SM140';
-	                            $data['top_fee'] = $totalLevel2;
-	                            $data['diskon_marketing'] = $findDiskon;
+                                	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = $findDiskon;
 
-	                            $data['status'] = "POTENSI";
+    	                            $data['status'] = "KOMISI";
+                                }else{
+                                	$totalLevel2 = $reference - $f;
+
+                                	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = $findDiskon;
+
+    	                            $data['status'] = "POTENSI";
+                                }
                             }
+
                         }else{
-                            if ($diskon['fee_marketing'] != 0) {
-                            	$totalLevel2 = $reference - $diskon['fee_marketing'];
 
-                            	$data['marketing_fee'] = $diskon['fee_marketing'];
-	                            $data['koordinator'] = $k;
-	                            $data['koordinator_fee'] = $totalLevel2;
-	                            $data['top'] = 'SM140';
-	                            $data['top_fee'] = $totalLevel2;
-	                            $data['diskon_marketing'] = 0;
+                            if ($promo) {
+                                if ($diskon['fee_marketing'] != 0) {
+                                	$totalLevel2 = 100000;
 
-	                            $data['status'] = "KOMISI";
+                                	$data['marketing_fee'] = $diskon['fee_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = 0;
+
+    	                            $data['status'] = "KOMISI";
+                                }else{
+                                	$totalLevel2 = 100000;
+
+                                	$data['marketing_fee'] = $f;
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = 0;
+
+    	                            $data['status'] = "POTENSI";
+                                }
                             }else{
-                            	$totalLevel2 = $reference - $f;
+                                if ($diskon['fee_marketing'] != 0) {
+                                	$totalLevel2 = $reference - $diskon['fee_marketing'];
 
-                            	$data['marketing_fee'] = $f;
-	                            $data['koordinator'] = $k;
-	                            $data['koordinator_fee'] = $totalLevel2;
-	                            $data['top'] = 'SM140';
-	                            $data['top_fee'] = $totalLevel2;
-	                            $data['diskon_marketing'] = 0;
+                                	$data['marketing_fee'] = $diskon['fee_marketing'];
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = 0;
 
-	                            $data['status'] = "POTENSI";
+    	                            $data['status'] = "KOMISI";
+                                }else{
+                                	$totalLevel2 = $reference - $f;
+
+                                	$data['marketing_fee'] = $f;
+    	                            $data['koordinator'] = $k;
+    	                            $data['koordinator_fee'] = $totalLevel2;
+    	                            $data['top'] = 'SM140';
+    	                            $data['top_fee'] = 0;
+    	                            $data['diskon_marketing'] = 0;
+
+    	                            $data['status'] = "POTENSI";
+                                }
                             }
+
                         }
 
-                        // DB::table('jamaah')->insert($data);              
-                        DB::table('jamaah')->insert([   
+                        DB::table('jamaah')->insert([
 		                    'id_umrah' => $data['id_umrah'],
 		                    'id_jamaah' => $data['id_jamaah'],
 		                    'tgl_daftar' => $data['tgl_daftar'],
@@ -572,6 +680,7 @@ class SinkronisasiController extends Controller
                             'periode' => $wadahPeriode
 	            		]);
                     }else{
+                        // JIKA SELAIN PA ARI
                         if($findDiskon){
                             $d = $findDiskon;
 
@@ -581,7 +690,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = $k;
 	                            $data['koordinator_fee'] = $totalLevel3;
-	                            $data['top'] = 'SM140';  
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = $top_ref;
 	                            $data['diskon_marketing'] = $findDiskon;
 
@@ -592,7 +701,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = $k;
 	                            $data['koordinator_fee'] = $totalLevel3;
-	                            $data['top'] = 'SM140';  
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = $top_ref;
 	                            $data['diskon_marketing'] = $findDiskon;
 
@@ -605,7 +714,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $diskon['fee_marketing'];
 	                            $data['koordinator'] = $k;
 	                            $data['koordinator_fee'] = $totalLevel3;
-	                            $data['top'] = 'SM140';  
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = $top_ref;
 	                            $data['diskon_marketing'] = 0;
 
@@ -616,7 +725,7 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $f;
 	                            $data['koordinator'] = $k;
 	                            $data['koordinator_fee'] = $totalLevel3;
-	                            $data['top'] = 'SM140';  
+	                            $data['top'] = 'SM140';
 	                            $data['top_fee'] = $top_ref;
 	                            $data['diskon_marketing'] = 0;
 
@@ -624,8 +733,7 @@ class SinkronisasiController extends Controller
                             }
                         }
 
-                        // DB::table('jamaah')->insert($data);
-                        DB::table('jamaah')->insert([   
+                        DB::table('jamaah')->insert([
 		                    'id_umrah' => $data['id_umrah'],
 		                    'id_jamaah' => $data['id_jamaah'],
 		                    'tgl_daftar' => $data['tgl_daftar'],
@@ -653,7 +761,7 @@ class SinkronisasiController extends Controller
         // $month = $now->month;
         // $day = $now->day;
 
-        // It will be sent to database notification 
+        // It will be sent to database notification
         $message = 'Just test';
         $admin = Admin::find(1);
         $admin->notify(new SyncWeeklyNotification($message));
@@ -663,7 +771,7 @@ class SinkronisasiController extends Controller
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
         $recepient = User::find($pakAri->id);
         $token = $recepient->device_token;
-        
+
         $notification = [
             'body' => 'Sinkronisasi data jamaah kantor berhasil di lakukan',
             'sound' => true,
@@ -675,7 +783,7 @@ class SinkronisasiController extends Controller
                                                 'pesan' => $notification['body'],
                                                 'status' => 'delivered'
                                                 ]);
-        
+
         $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
 
         $fcmNotification = [

@@ -86,12 +86,12 @@
                                         <div class="col-md-10 input-group">
                                             <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                             <select id="kota" name="kota" class="select2" data-placeholder="Kota..." style="width: 100%;">
-                                              <option value="mekkah" {{ $edit->mekkah == 'mekkah' ? 'selected' : '' }} >Mekkah</option>
-                                              <option value="madinah" {{ $edit->madinah == 'madinah' ? 'selected' : '' }} >Madinah</option>
-                                              <option value="palestina" {{ $edit->palestina == 'palestina' ? 'selected' : '' }} >Palestina</option>
-                                              <option value="turki" {{ $edit->turki == 'turki' ? 'selected' : '' }} >Turki</option>
-                                              <option value="dubai" {{ $edit->dubai == 'dubai' ? 'selected' : '' }} >Dubai</option>
-                                              <option value="cairo" {{ $edit->cairo == 'cairo' ? 'selected' : '' }} >Cairo</option>
+                                              <option value="mekkah" {{ $edit->kota == 'mekkah' ? 'selected' : '' }} >Mekkah</option>
+                                              <option value="madinah" {{ $edit->kota == 'madinah' ? 'selected' : '' }} >Madinah</option>
+                                              <option value="palestina" {{ $edit->kota == 'palestina' ? 'selected' : '' }} >Palestina</option>
+                                              <option value="turki" {{ $edit->kota == 'turki' ? 'selected' : '' }} >Turki</option>
+                                              <option value="dubai" {{ $edit->kota == 'dubai' ? 'selected' : '' }} >Dubai</option>
+                                              <option value="cairo" {{ $edit->kota == 'cairo' ? 'selected' : '' }} >Cairo</option>
                                             </select>
                                         </div>
                                     </div> <!-- form-group -->

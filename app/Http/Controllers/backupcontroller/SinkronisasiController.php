@@ -102,6 +102,7 @@ class SinkronisasiController extends Controller
         // return view('test-api', compact('diskons'));
         $test = $diskons['data'];
         $count = count($test);
+        $wadahPeriode = $validator->tahun;
 
         for ($i=0; $i < $count ; $i++) { 
             foreach ($diskons['data'][$i]['pendaftaran'] as $key => $diskon) {
@@ -121,8 +122,10 @@ class SinkronisasiController extends Controller
                 $data['id_jamaah'] = $diskon['id_jamaah'];
                 $data['tgl_daftar'] = $diskon['tgl_pendaftaran'];
                 $data['nama'] = $diskon['nama_jamaah'];
-                $data['tgl_berangkat'] = date('d/m/Y', strtotime($diskon['tgl_keberangkatan']));
-                $data['tgl_pulang'] = date('d/m/Y', strtotime($diskon['tgl_kepulangan']));
+                // $data['tgl_berangkat'] = date('d/m/Y', strtotime($diskon['tgl_keberangkatan']));
+                // $data['tgl_pulang'] = date('d/m/Y', strtotime($diskon['tgl_kepulangan']));
+                $data['tgl_berangkat'] = $diskon['tgl_keberangkatan'];
+                $data['tgl_pulang'] = $diskon['tgl_kepulangan'];
                 $data['marketing'] = $diskon['id_marketing'];
                 $data['staff'] = $diskon['staf_kantor'];
                 $data['promo'] = $diskon['promo'];
@@ -136,8 +139,10 @@ class SinkronisasiController extends Controller
 	                    'id_umrah' => $diskon['id_umrah'],
 	                    'id_jamaah' => $diskon['id_jamaah'],
 	                    'nama_jamaah' => $diskon['nama_jamaah'],
-                        'tgl_keberangkatan' => date('d/m/Y', strtotime($diskon['tgl_keberangkatan'])),
-	                    'tgl_kepulangan' => date('d/m/Y', strtotime($diskon['tgl_kepulangan'])),
+                     //    'tgl_keberangkatan' => date('d/m/Y', strtotime($diskon['tgl_keberangkatan'])),
+	                    // 'tgl_kepulangan' => date('d/m/Y', strtotime($diskon['tgl_kepulangan'])),
+                        'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
+                        'tgl_kepulangan' => $diskon['tgl_kepulangan'],
 	                    'staf_kantor' => $diskon['staf_kantor'],
 	                    'id_marketing' => $diskon['id_marketing'],
 	                    'diskon_kantor' => $diskon['diskon_kantor'],
@@ -153,8 +158,10 @@ class SinkronisasiController extends Controller
 	                    'id_umrah' => $diskon['id_umrah'],
 	                    'id_jamaah' => $diskon['id_jamaah'],
 	                    'nama_jamaah' => $diskon['nama_jamaah'],
-                        'tgl_keberangkatan' => date('d/m/Y', strtotime($diskon['tgl_keberangkatan'])),
-	                    'tgl_kepulangan' => date('d/m/Y', strtotime($diskon['tgl_kepulangan'])),
+                     //    'tgl_keberangkatan' => date('d/m/Y', strtotime($diskon['tgl_keberangkatan'])),
+	                    // 'tgl_kepulangan' => date('d/m/Y', strtotime($diskon['tgl_kepulangan'])),
+                        'tgl_keberangkatan' => $diskon['tgl_keberangkatan'],
+                        'tgl_kepulangan' => $diskon['tgl_kepulangan'],
 	                    'staf_kantor' => $diskon['staf_kantor'],
 	                    'id_marketing' => $diskon['id_marketing'],
 	                    'diskon_kantor' => $diskon['diskon_kantor'],
@@ -193,10 +200,7 @@ class SinkronisasiController extends Controller
                         if($findDiskon){
                             $d = $findDiskon;
 
-                            //Jika data scraping fee marketing sudah terisi
                             if ($diskon['fee_marketing'] != 0) {
-
-                                //Maka Pendaftaran itu sudah komisi
                             	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = 0;
@@ -206,32 +210,14 @@ class SinkronisasiController extends Controller
 
 	                            $data['status'] = "KOMISI";
                             }else{
+                            	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
+	                            $data['koordinator'] = 'SM000';
+	                            $data['koordinator_fee'] = 0;
+	                            $data['top'] = 'SM000';
+	                            $data['top_fee'] = 0;
+	                            $data['diskon_marketing'] = $findDiskon;
 
-                                //Maka gunakan dari tabel master USERS dan ambil fee_reguler atau fee_promo
-
-                                //Jika pada data scraping promo itu benar
-                                if ($promo) {
-
-                                    //Maka dikurangi 100k untuk TOP saja
-                                    $data['marketing_fee'] = $f - 100000 - $diskon['diskon_marketing'];
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = 0;
-                                    $data['top'] = 'SM000';
-                                    $data['top_fee'] = 0;
-                                    $data['diskon_marketing'] = $findDiskon;
-
-                                    $data['status'] = "POTENSI";
-                                }else{
-                                    $data['marketing_fee'] = $f - $diskon['diskon_marketing'];
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = 0;
-                                    $data['top'] = 'SM000';
-                                    $data['top_fee'] = 0;
-                                    $data['diskon_marketing'] = $findDiskon;
-
-                                    $data['status'] = "POTENSI";
-                                }
-                            	
+	                            $data['status'] = "POTENSI";
                             }
                         }else{
                             if ($diskon['fee_marketing'] != 0) {
@@ -244,27 +230,14 @@ class SinkronisasiController extends Controller
 
 	                            $data['status'] = "KOMISI";
                             }else{
+                            	$data['marketing_fee'] = $f;
+	                            $data['koordinator'] = 'SM000';
+	                            $data['koordinator_fee'] = 0;
+	                            $data['top'] = 'SM000';
+	                            $data['top_fee'] = 0;
+	                            $data['diskon_marketing'] = 0;
 
-                                 if ($promo) {
-                                    $data['marketing_fee'] = $f - 100000;
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = 0;
-                                    $data['top'] = 'SM000';
-                                    $data['top_fee'] = 0;
-                                    $data['diskon_marketing'] = 0;
-
-                                    $data['status'] = "POTENSI";
-                                }else{
-                                    $data['marketing_fee'] = $f;
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = 0;
-                                    $data['top'] = 'SM000';
-                                    $data['top_fee'] = 0;
-                                    $data['diskon_marketing'] = 0;
-
-                                    $data['status'] = "POTENSI";    
-                                }
-                            	
+	                            $data['status'] = "POTENSI";
                             }
                         }
 
@@ -286,6 +259,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }else if($k == "SM140"){
                         // $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
@@ -359,6 +333,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }else{
                         if($findDiskon){
@@ -431,6 +406,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }
                 }else{
@@ -464,66 +440,40 @@ class SinkronisasiController extends Controller
                             	$data['marketing_fee'] = $diskon['fee_marketing'] - $diskon['diskon_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = 0;
-	                            $data['top'] = 'SM140';
+	                            $data['top'] = 'SM000';
 	                            $data['top_fee'] = 0;
 	                            $data['diskon_marketing'] = $findDiskon;
 
 	                            $data['status'] = "KOMISI";
                             }else{
+                            	$data['marketing_fee'] = $f - $diskon['diskon_marketing'];
+	                            $data['koordinator'] = 'SM000';
+	                            $data['koordinator_fee'] = 0;
+	                            $data['top'] = 'SM000';
+	                            $data['top_fee'] = 0;
+	                            $data['diskon_marketing'] = $findDiskon;
 
-                                if ($promo) {
-                                    $data['marketing_fee'] = $f - 100000 - $diskon['diskon_marketing'];
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = 0;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = 0;
-                                    $data['diskon_marketing'] = $findDiskon;
-
-                                    $data['status'] = "POTENSI";
-                                }else{
-                                    $data['marketing_fee'] = $f - $diskon['diskon_marketing'];
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = 0;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = 0;
-                                    $data['diskon_marketing'] = $findDiskon;
-
-                                    $data['status'] = "POTENSI";
-                                }
-                            	
+	                            $data['status'] = "POTENSI";
                             }
                         }else{
                             if ($diskon['fee_marketing'] != 0) {
                             	$data['marketing_fee'] = $diskon['fee_marketing'];
 	                            $data['koordinator'] = 'SM000';
 	                            $data['koordinator_fee'] = 0;
-	                            $data['top'] = 'SM140';
+	                            $data['top'] = 'SM000';
 	                            $data['top_fee'] = 0;
 	                            $data['diskon_marketing'] = 0;
 
 	                            $data['status'] = "KOMISI";
                             }else{
+                            	$data['marketing_fee'] = $f;
+	                            $data['koordinator'] = 'SM000';
+	                            $data['koordinator_fee'] = 0;
+	                            $data['top'] = 'SM000';
+	                            $data['top_fee'] = 0;
+	                            $data['diskon_marketing'] = 0;
 
-                                if ($promo) {
-                                    $data['marketing_fee'] = $f - 100000;
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = 0;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = 0;
-                                    $data['diskon_marketing'] = 0;
-
-                                    $data['status'] = "POTENSI";
-                                }else{
-                                    $data['marketing_fee'] = $f;
-                                    $data['koordinator'] = 'SM000';
-                                    $data['koordinator_fee'] = 0;
-                                    $data['top'] = 'SM140';
-                                    $data['top_fee'] = 0;
-                                    $data['diskon_marketing'] = 0;
-
-                                    $data['status'] = "POTENSI";    
-                                }
-                            	
+	                            $data['status'] = "POTENSI";
                             }
                         }
 
@@ -545,6 +495,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }else if($k == "SM140"){
                         // $totalLevel2 = $findKoordinator->fee_reguler - $refdiskon - ($ref - $findKoordinator->fee_reguler - $refdiskon);
@@ -618,6 +569,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }else{
                         if($findDiskon){
@@ -690,6 +642,7 @@ class SinkronisasiController extends Controller
 		                    'top' => $data['top'],
 		                    'top_fee' => $data['top_fee'],
 		                    'status' => $data['status'],
+                            'periode' => $wadahPeriode
 	            		]);
                     }
                 }

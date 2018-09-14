@@ -18,6 +18,16 @@ class Jamaah extends Model
     	return $this->belongsTo(User::class, 'marketing', 'id');
     }
 
+    public function koordinatorJamaah()
+    {
+        return $this->belongsTo(User::class, 'koordinator', 'id');
+    }
+
+    public function topJamaah()
+    {
+        return $this->belongsTo(User::class, 'top', 'id');
+    }
+
     public function setFirstNameAttribute($value)
     {
         $this->attributes['diskon_marketing'] = number_format($value,2,',','.');;

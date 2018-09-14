@@ -58,7 +58,7 @@
                                     </div> <!-- form-group -->
                                     <div class="form-group">
                                         <label for="deskripsi">Deskripsi</label>
-                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi"></textarea>
+                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="deskripsi"></textarea>
                                     </div>
                                     <input type="hidden" value="foto_hotel" name="tipe">
                                     <div class="form-group">

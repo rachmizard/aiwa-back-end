@@ -46,7 +46,7 @@
                                     @if($gallery->tipe == 'foto_hotel')
                                     <div class="form-group">
                                         <label for="deskripsi">Deskripsi</label>
-                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi">{{ $gallery->deskripsi }}</textarea>
+                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="deskripsi">{{ $gallery->deskripsi }}</textarea>
                                     </div>
                                     <input type="hidden" value="foto_hotel" name="tipe">
                                     @else

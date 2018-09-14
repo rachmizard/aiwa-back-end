@@ -41,8 +41,7 @@ class JamaahController extends Controller
         // $jamaah =  Jamaah::select('id', 'anggota_id', 'nama', 'alamat', 'no_telp', 'jenis_kelamin', 'status');
         // return Datatables::of($jamaah)->make(true);
         // $model = App\Jamaah::select();
-         $jamaah = Jamaah::with('anggota')->select([
-            DB::raw("CONCAT(jamaah.periode) as jamaah"),
+         $jamaah = Jamaah::with('anggota')->with('koordinatorJamaah')->with('topJamaah')->select([
             'id',
             'tgl_daftar',
             'id_umrah',
@@ -63,23 +62,44 @@ class JamaahController extends Controller
             'tgl_transfer',
             'periode',
             'created_at',
-            'updated_at'
+            'updated_at',
         ]);
           return $datatables->eloquent($jamaah)->addColumn('action', function($jamaah){
              return '
                 <a href="jamaah/'. $jamaah->id .'/edit" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
-                })
+        })
+         ->editColumn('marketing',function($jamaah){
+            if ($jamaah->marketing == 'SM000') {
+                return '<i class="fa fa-check text-success"></i> TOP';
+            }else{
+                return $jamaah->anggota['nama'];
+            }
+         })
+         ->editColumn('koordinator',function($jamaah){
+            if ($jamaah->koordinator == 'SM000') {
+                return '<i class="fa fa-check text-success"></i> TOP';
+            }else{
+                return $jamaah->koordinatorJamaah['nama'];
+            }
+         })
+         ->editColumn('top',function($jamaah){
+            if ($jamaah->top == 'SM000') {
+                return '<i class="fa fa-check text-success"></i> TOP';
+            }else{
+                return $jamaah->topJamaah['nama'];
+            }
+         })
           ->filter(function($query){
                 if (request()->has('periode')) {
                     $validatorDateRange = Periode::where('judul', request('periode'))->first();
                     $dateStart = $validatorDateRange->start;
                     $dateEnd = $validatorDateRange->end;
-                    $query->whereBetween('tgl_berangkat', [$dateStart, $dateEnd]);      
+                    $query->where('periode', request()->get('periode'));      
                 }
             }, true)
-          ->rawColumns(['action'])
+          ->rawColumns(['action', 'marketing', 'koordinator', 'top'])
           ->make(true);
     }
 
@@ -140,14 +160,14 @@ class JamaahController extends Controller
             $validatorDateRange = DB::table('master_periode')->where('judul', $request->get('periode'))->first();
             $dateStart = $validatorDateRange->start;
             $dateEnd = $validatorDateRange->end;
-            $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->whereBetween('tgl_berangkat', [$dateStart, $dateEnd])->get();
+            $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->where('periode', $request->peride)->get();
           return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
         }else{
             $validatorDateRange = Periode::where('status_periode', 'active')->first();
             $varJay = Periode::find($validatorDateRange['id']);
             $dateStart = $validatorDateRange->start;
             $dateEnd = $validatorDateRange->end;
-            $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->whereBetween('tgl_berangkat', [$dateStart, $dateEnd])->get();
+            $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->where('periode', $varJay->judul)->get();
             return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
         }
     }

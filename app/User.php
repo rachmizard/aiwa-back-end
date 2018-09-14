@@ -38,6 +38,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Jamaah', 'id');
     }
 
+    public function koordinatorJamaah()
+    {
+        return $this->hasMany('App\Jamaah', 'id');
+    }
+
+    public function topJamaah()
+    {
+        return $this->hasMany('App\Jamaah', 'id');
+    }
+
     public function prospek()
     {
         return $this->hasMany('App\Prospek', 'id');

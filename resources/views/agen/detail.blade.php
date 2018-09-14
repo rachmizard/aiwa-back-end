@@ -18,7 +18,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <button id="refreshAgen" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button>
-                                        <a href="{{ url('/admin/agenjamaah/downloadExcel/xlsx') }}" class="btn btn-sm btn-success"><i class="fa fa-download"></i> Download Format Agen</a>
+                                        <a href="{{ url('/admin/agenjamaah/downloadExcel/xlsx') }}" class="btn btn-sm btn-success"><i class="fa fa-download"></i> Download Semua Agen</a>
                                     </div>
                                 </div>
                                 <table id="agent" class="stripe row-border order-column table table-striped table-bordered">
@@ -84,10 +84,10 @@
                    var table = $('#agent').DataTable({
                         "scrollX": true,
                         "scrollY": "300",
-                        "dom" : 'lBfrtip',
-                        "buttons": [
-                            'excel'
-                        ],
+                        // "dom" : 'lBfrtip',
+                        // "buttons": [
+                        //     'excel'
+                        // ],
                         "serverSide": true,
                         "ordering": true,
                         "searching": true,

@@ -41,7 +41,7 @@ class AgenController extends Controller
 
     public function getData(Request $request)
     {
-        $agents = User::with('agent')->select('users.*')->where('status', '=', '1');
+        $agents = User::with('agent')->select('users.*')->where('status', '=', '1')->get();
          return Datatables::of($agents)
          ->addColumn('action', function($agents)
          {
@@ -53,6 +53,13 @@ class AgenController extends Controller
                     <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="fa fa-cross"></i>Batal Approve</button>
                     </form>
                     ';
+         })
+         ->editColumn('koordinator',function($agents){
+            if ($agents->koordinator == 'SM000') {
+                return '<i class="fa fa-check text-success"></i> TOP';
+            }else{
+                return $agents->agent['nama'];
+            }
          })
          ->addColumn('foto', function($agents)
          {
@@ -71,7 +78,7 @@ class AgenController extends Controller
          //        return $query->whereBetween('created_at', [$dateStart, $dateEnd])->get();
          //    }  
          // })
-         ->rawColumns(['action', 'foto'])
+         ->rawColumns(['action', 'foto', 'koordinator'])
          ->make(true);
     }
 

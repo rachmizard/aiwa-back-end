@@ -79,7 +79,7 @@
 
             <!-- Footer Start -->
             <footer class="footer">
-                2015 © Velonic.
+                2018 © Aiwa.
             </footer>
             <!-- Footer Ends -->
 

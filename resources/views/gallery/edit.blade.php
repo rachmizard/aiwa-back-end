@@ -36,7 +36,7 @@
                                         <input type="hidden" name="tanggal" value="{{ $gallery->tanggal }}">
                                     <div class="form-group">
                                         <label for="deskripsi">Deskripsi/Link Url Video (Youtube)</label>
-                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" required="" id="deskripsi">{{ $gallery->deskripsi }}</textarea>
+                                        <textarea name="deskripsi" id="" cols="30" rows="10" class="form-control" id="deskripsi">{{ $gallery->deskripsi }}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="tipe">Tipe Gallery</label>
