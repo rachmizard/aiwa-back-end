@@ -35,9 +35,6 @@ class Handler extends ExceptionHandler
         if ($this->shouldReport($exception)) {
             $this->sendEmail($exception); // sends an email
         }
-        if ($exception instanceof \Yajra\DataTables\Exception) {
-            $this->sendEmail($exception); // sends an email
-        }  
         return parent::report($exception);
     }
 
@@ -50,8 +47,7 @@ class Handler extends ExceptionHandler
             $handler = new SymfonyExceptionHandler();
             $html = $handler->getHtml($e);
             // Send to developers an error
-            $devs = ['rachmizard11072000@gmail.com', 'azh.zhafir@gmail.com'];
-            Mail::to($devs)->send(new ExceptionOccured($html));
+            Mail::to('rachmizard11072000@gmail.com')->send(new ExceptionOccured($html));
         } catch (Exception $ex) {
             dd($ex);
         }
@@ -65,19 +61,7 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
      public function render($request, Exception $exception)
-    {
-        if ($exception instanceof \App\Exceptions\CustomException)  {
-            return $exception->render($request);
-        }
-        if ($exception instanceof \Yajra\DataTables\Exception) {
-            return response([
-                'draw'            => 0,
-                'recordsTotal'    => 0,
-                'recordsFiltered' => 0,
-                'data'            => [],
-                'error'           => 'Terjadi kesalahan data',
-            ]);
-        }       
+    {     
         return parent::render($request, $exception);
     }
     /**

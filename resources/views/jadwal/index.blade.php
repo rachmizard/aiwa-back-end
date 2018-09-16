@@ -64,7 +64,7 @@
                                     <tbody>
                                         <?php for ($i=0; $i < $count; $i++) { ?>
                                         @if($jadwals)
-                                            @foreach($jadwals['data'][$i]['jadwal'] as $key => $in or 'Terjadi kesalanan')
+                                            @foreach($jadwals['data'][$i]['jadwal'] as $key => $in)
                                             <tr>
                                                 <td>{{ $in['id'] }}</td>
                                                 <td>{{ date('d/m/Y', strtotime($in['tgl_berangkat'])) }}
@@ -116,7 +116,7 @@
            
 <!-- Modal -->
 <?php for ($u=0; $u < $count ; $u++) { ?>
-@foreach($jadwals['data'][$u]['jadwal'] as $on or 'Terjadi kesalanan')
+@foreach($jadwals['data'][$u]['jadwal'] as $on)
 <div class="modal fade" id="paket{{ $u+1 }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -182,7 +182,7 @@ $(document).ready(function() {
     } );
 
 <?php for ($u=0; $u < $count ; $u++) { ?>
-@foreach($jadwals['data'][$u]['jadwal'] as $on or 'Terjadi kesalanan')
+@foreach($jadwals['data'][$u]['jadwal'] as $on)
     $('#paket{{ $on["id"] }}').DataTable( {
         // "scrollY": 300,
         "scrollX": true

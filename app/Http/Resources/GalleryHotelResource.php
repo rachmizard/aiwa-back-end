@@ -15,13 +15,13 @@ class GalleryHotelResource extends Resource
     public function toArray($request)
     {
         // return parent::toArray($request);
-        $myvalue = $this->deskripsi;
-        $arr = explode(' ',trim($myvalue));
+        // $myvalue = $this->deskripsi;
+        // $arr = explode(' ',trim($myvalue));
         return [
                  'id' => $this->id, 
                 'file' => 'aiwaapps.com/storage/gallery/'. $this->file, 
                 'tanggal' => $this->tanggal, 
-                'judul' => $arr[0], 
+                'judul' => 'Foto hotel '. $this->hotel->nama_hotel, 
                 'deskripsi' => $this->deskripsi, 
                 'tipe' => $this->tipe
         ];
