@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Reset Password</title>
+        <title>Success Reset Password</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -53,7 +53,7 @@
             }
 
             .links > a {
-                color: #ffebee;
+                color: #636b6f;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="links">
-                   <p>{!! $status !!}</p>
+                   <a href="#">{!! $status !!}</a>
                 </div>
             </div>
         </div>

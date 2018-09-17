@@ -65,19 +65,28 @@
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                            <div id="portlet1" class="panel-collapse collapse in">
+                            <div id="portlet1" class="panel-collapse collapse in ">
                                 <div class="portlet-body">
-                                    <form action="" method="GET" id="filter">
+                                    <form action="" method="GET" id="filter" class="form-inline">
                                         {{ csrf_field() }}
-                                        <div class="form-group">
-                                            <label for="">Periode Grafik</label>
-                                            <select name="periode" id="" class="form-control" onchange="document.getElementById('filter').submit();">
+                                        <div class="form-group  m-l-10">
+                                            <!-- <label for="">Periode Grafik</label> -->
+                                            <select name="periode" id="" class="select2 col-md-4" style="width: 100%;" onchange="document.getElementById('filter').submit();">
                                                 <option disabled selected>Periode</option>
                                                 @foreach($periodes as $periode)
                                                 <!-- Ini sengaja di kasih kondisi biar si ALL nya ga kedetek -->
                                                     @if($periode->id != 7)
                                                          <option value="{{ $periode->judul }}" {{ $periode->judul == $varJay->judul ? 'selected' : '' }}>{{ $periode->judul }}</option>
                                                     @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group  m-l-10">
+                                            <!-- <label for="">Agen</label> -->
+                                            <select name="agen" id="" class="select2 col-md-4" onchange="document.getElementById('filter').submit();" style="width: 100%;">
+                                                <option disabled selected>Periode</option>
+                                                @foreach($totalAgen as $in)
+                                                    <option value="{{ $in->id }}" {{ $in->id == $selectRequest ? 'selected' : '' }}>{{ $in->nama }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -162,6 +171,11 @@
         delay: 100,
         time: 1200
     });
+
+    // Select2   
+      jQuery(".select2").select2({
+          width: '100%'
+      });
 </script>
 <script>
   

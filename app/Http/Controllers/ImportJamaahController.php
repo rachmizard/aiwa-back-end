@@ -185,19 +185,19 @@ class ImportJamaahController extends Controller
                                 }else{
 
                                     if ($promo) {
-                                        $data['marketing_fee'] = $referencePromo - 100000;
+                                        $data['marketing_fee'] = $referencePromo - 100000 - $row['diskon_marketing'];
                                         $data['koordinator'] = 'SM000';
                                         $data['koordinator_fee'] = 0;
                                         $data['top'] = 'SM000';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }else{
-                                        $data['marketing_fee'] = $reference;
+                                        $data['marketing_fee'] = $reference - $row['diskon_marketing'];
                                         $data['koordinator'] = 'SM000';
                                         $data['koordinator_fee'] = 0;
                                         $data['top'] = 'SM000';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }
 
                                 }
@@ -232,21 +232,21 @@ class ImportJamaahController extends Controller
                                     if ($promo) {
                                         $totalLevel2 = 100000;
 
-                                        $data['marketing_fee'] = $findKoordinator['fee_promo'];
+                                        $data['marketing_fee'] = $findKoordinator['fee_promo'] - $row['diskon_marketing'];
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }else{
                                         $totalLevel2 = $reference - $findKoordinator['fee_reguler'];
 
-                                        $data['marketing_fee'] = $findKoordinator['fee_reguler'];
+                                        $data['marketing_fee'] = $findKoordinator['fee_reguler'] - $row['diskon_marketing'];
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }
 
                                 }
@@ -281,21 +281,21 @@ class ImportJamaahController extends Controller
                                     if ($promo) {
                                         $totalLevel3 = $referencePromo - ($findKoordinator['fee_promo'] + $top_promo);
 
-                                        $data['marketing_fee'] = $findKoordinator['fee_promo'];
+                                        $data['marketing_fee'] = $findKoordinator['fee_promo'] - $row['diskon_marketing'];
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel3;
                                         $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_promo;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }else{
                                         $totalLevel3 = $reference - ($findKoordinator['fee_reguler'] + $top_ref);
 
-                                        $data['marketing_fee'] = $findKoordinator['fee_reguler'];
+                                        $data['marketing_fee'] = $findKoordinator['fee_reguler'] - $row['diskon_marketing'];
                                         $data['koordinator'] = $findKoordinator['koordinator'];
                                         $data['koordinator_fee'] = $totalLevel3;
                                         $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_ref;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }
 
                                 }
@@ -341,19 +341,19 @@ class ImportJamaahController extends Controller
 
                                 }else{
                                     if ($promo) {
-                                        $data['marketing_fee'] = $referencePromo - 100000;
+                                        $data['marketing_fee'] = $referencePromo - 100000 - $row['diskon_marketing'];
                                         $data['koordinator'] = 'SM000';
                                         $data['koordinator_fee'] = 0;
                                         $data['top'] = 'SM000';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }else{
-                                        $data['marketing_fee'] = $reference;
+                                        $data['marketing_fee'] = $reference - $row['diskon_marketing'];
                                         $data['koordinator'] = 'SM000';
                                         $data['koordinator_fee'] = 0;
                                         $data['top'] = 'SM000';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }
 
                                 }
@@ -390,21 +390,21 @@ class ImportJamaahController extends Controller
                                     if ($promo) {
                                         $totalLevel2 = 100000;
 
-                                        $data['marketing_fee'] = $findKoordinator->fee_promo;
+                                        $data['marketing_fee'] = $findKoordinator->fee_promo - $row['diskon_marketing'];
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }else{
                                         $totalLevel2 = $reference - $findKoordinator->fee_reguler;
 
-                                        $data['marketing_fee'] = $findKoordinator->fee_reguler;
+                                        $data['marketing_fee'] = $findKoordinator->fee_reguler - $row['diskon_marketing'];
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel2;
                                         $data['top'] = 'SM140';
                                         $data['top_fee'] = 0;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }
 
                                 }
@@ -440,21 +440,21 @@ class ImportJamaahController extends Controller
                                     if ($promo) {
                                         $totalLevel3 = $referencePromo - ($findKoordinator->fee_promo + $top_promo);
 
-                                        $data['marketing_fee'] = $findKoordinator->fee_promo;
+                                        $data['marketing_fee'] = $findKoordinator->fee_promo - $row['diskon_marketing'];
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel3;
                                         $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_promo;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }else{
                                         $totalLevel3 = $reference - ($findKoordinator->fee_reguler + $top_ref);
 
-                                        $data['marketing_fee'] = $findKoordinator->fee_reguler;
+                                        $data['marketing_fee'] = $findKoordinator->fee_reguler - $row['diskon_marketing'];
                                         $data['koordinator'] = $findKoordinator->koordinator;
                                         $data['koordinator_fee'] = $totalLevel3;
                                         $data['top'] = 'SM140';
                                         $data['top_fee'] = $top_ref;
-                                        $data['diskon_marketing'] = 0;
+                                        $data['diskon_marketing'] = $row['diskon_marketing'];
                                     }
 
                                 }
