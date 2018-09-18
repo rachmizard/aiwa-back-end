@@ -122,7 +122,7 @@ class AdminController extends Controller
 
                 return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest'));   
             }else{
-                $selectRequest = '';
+                $selectRequest = 'SM140';
                 $now = Carbon::now();
                 $year = $now->year;
                 $month = $now->month;
