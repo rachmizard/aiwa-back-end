@@ -50,7 +50,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table id="jamaah" class="table table-hover table-bordered">
+                                <table id="jamaah" class="table table-hover">
                                   <thead>
                                     <tr>
                                         <th>No</th>
@@ -137,7 +137,9 @@
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
+                    $.fn.dataTable.ext.errMode = 'none';
                     var table = $('#jamaah').DataTable({
+                        "stateSave": true,
                         "scrollX": true,
                         "scrollY": 500,
                         "responsive": true,
@@ -173,6 +175,8 @@
                             { data: "periode", name: "periode" },
                             { data: "action", name: "action", searchable: false, orderable: false}
                         ]
+                    }).on('error.dt', function ( e, settings, techNote, message ) {
+                     console.log( 'An error has been reported by DataTables: ', message );
                     });
 
                     // trigger filter

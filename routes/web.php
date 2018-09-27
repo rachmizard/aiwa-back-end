@@ -106,11 +106,13 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
 
     // Agen
     Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');
-    Route::get('agenjamaah/detail/export', function(){
-        return view('agen.detail');
+    Route::get('agenjamaah/detail/export', function(Request $request){
+        $agens = App\User::where('status', '=', 1)->get();
+        return view('agen.detail', compact('agens'));
     })->name('aiwa.agen.detail');
     Route::get('agenjamaah/loadTableAnggota', 'AgenController@getData')->name('aiwa.anggota.load');
-    Route::put('agenjamaah/{id}/edit', 'AgenController@update')->name('aiwa.anggota.update');
+    Route::get('agenjamaah/{id}/edit', 'AgenController@edit')->name('aiwa.anggota.edit');
+    Route::put('agenjamaah/{id}', 'AgenController@update')->name('aiwa.anggota.update');
     Route::put('agenjamaah/{id}/editaccount', 'AgenController@updateAkun')->name('aiwa.anggota.updateaccount');
     // End of agen
 
@@ -197,6 +199,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::get('approval/loadTableApproval', 'ApprovalController@getData')->name('aiwa.approval.load');
     Route::put('approval/{id}/approve', 'ApprovalController@update')->name('aiwa.approved');
     Route::put('approval/{id}/unapproved', 'ApprovalController@unapproved')->name('aiwa.unapproved');
+    Route::get('approval/{id}/destroy', 'ApprovalController@destroy')->name('aiwa.destroy');
 
     // Retrieving API of Jadwal
     Route::get('master-jadwal', 'JadwalController@index')->name('aiwa.master-jadwal');
@@ -217,6 +220,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::get('master-sapaan', 'SapaanController@index')->name('aiwa.master-sapaan.index');
     Route::get('master-sapaan/loadTableSapaan', 'SapaanController@getData')->name('aiwa.master-sapaan.load');
     Route::post('master-sapaan/store', 'SapaanController@store')->name('aiwa.master-sapaan.store');
+    Route::put('master-sapaan/{id}/edit', 'SapaanController@update')->name('aiwa.master-sapaan.update');
     Route::post('master-sapaan/{id}/delete', 'SapaanController@destroy')->name('aiwa.master-sapaan.destroy');
 
     // Master Reminder
@@ -241,6 +245,10 @@ Route::get('/download', function(){
 Route::get('/download/format/jamaah/format_jamaah_official.xlsx', function(){
     return response()->download(storage_path('app/public/files/format_jamaah_official.xlsx'));
 })->name('jamaah.download.format');
+
+Route::get('/download/format/agen/format_agen_official.xlsx', function(){
+    return response()->download(storage_path('app/public/files/format_agen_official.xlsx'));
+})->name('agen.download.format');
 
 // SECRET ROUTE!
 

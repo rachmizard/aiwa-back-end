@@ -120,7 +120,9 @@
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
+                    $.fn.dataTable.ext.errMode = 'none';
                     var table = $('#prospek').DataTable({
+                        "stateSave": true,
                         "searching": true,
                         "processing": true,
                         "serverSide": true,
@@ -146,7 +148,9 @@
                             { data: "pembayaran", name: "pembayaran", searchable: false, orderable: false },
                             { data: "action", name: "action", orderable: false, searchable: false}
                         ]
-                    })
+                    }).on('error.dt', function ( e, settings, techNote, message ) {
+                     console.log( 'An error has been reported by DataTables: ', message );
+                    });
                     // setInterval( function () {
                     //     table.ajax.reload( null, false ); // user paging is not reset on reload
                     // }, 3500 );

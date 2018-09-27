@@ -32,20 +32,53 @@
             </div> <!-- END Wraper -->
         </div>
 
+
     <div id="sapaanModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog"> 
-                <div class="modal-content"> 
-                    <div class="modal-header"> 
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-                        <h4 class="modal-title"><i class="fa fa-plus"></i> Tambah Sapaan</h4> 
+        <div class="modal-dialog"> 
+            <div class="modal-content"> 
+                <div class="modal-header"> 
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+                    <h4 class="modal-title"><i class="fa fa-plus"></i> Tambah Sapaan</h4> 
+                </div> 
+                    <input type="hidden" value="{{ csrf_token() }}" name="_token" id="token">
+                    <div class="modal-body"> 
+                        <div class="row"> 
+                            <div class="col-md-6 col-md-offset-2"> 
+                                <div class="form-group"> 
+                                    <label for="">Sapaan Baru</label>
+                                    <textarea name="text_sapaan" class="form-control" id="" cols="30" rows="10" required></textarea>
+                                </div> 
+                            </div> 
+                        </div>
                     </div> 
+                    <div class="modal-footer"> 
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button> 
+                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-info">Simpan</button> 
+                    </div>
+                <!-- </form> -->
+            </div> 
+        </div>
+    </div><!-- /.modal -->
+
+@foreach($sapaans as $sapaan)
+    <div id="sapaanModal{{ $sapaan->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog"> 
+            <div class="modal-content"> 
+                <div class="modal-header"> 
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+                    <h4 class="modal-title"><i class="fa fa-plus"></i> Tambah Sapaan</h4> 
+                </div> 
+                    <form action="{{ route('aiwa.master-sapaan.update', $sapaan->id) }}" method="POST">
                         <input type="hidden" value="{{ csrf_token() }}" name="_token" id="token">
+                        <input type="hidden" value="PUT" name="_method">
                         <div class="modal-body"> 
                             <div class="row"> 
                                 <div class="col-md-6 col-md-offset-2"> 
                                     <div class="form-group"> 
-                                        <label for="">Tahun/Hijirah</label>
-                                        <textarea name="text_sapaan" class="form-control" id="" cols="30" rows="10" required></textarea>
+                                        <label for="">Edit Sapaan</label>
+                                        <textarea name="text_sapaan" class="form-control" id="" cols="30" rows="10" required>
+                                            {{ $sapaan->text_sapaan }}
+                                        </textarea>
                                     </div> 
                                 </div> 
                             </div>
@@ -54,10 +87,12 @@
                             <button type="button" class="btn btn-white" data-dismiss="modal">Close</button> 
                             <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-info">Simpan</button> 
                         </div>
-                    <!-- </form> -->
-                </div> 
-            </div>
-        </div><!-- /.modal -->
+                    </form>
+                <!-- </form> -->
+            </div> 
+        </div>
+    </div><!-- /.modal -->
+@endforeach
 @push('otherJavascript')
 <!-- sweet alerts -->
 <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
@@ -65,7 +100,9 @@
 <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
 <script>
     $(document).ready(function(){
+        $.fn.dataTable.ext.errMode = 'none';
         var table = $('#sapaanTable').DataTable({
+        "stateSave": true,
         "searching": false,
         "processing": true,
         "serverSide": true,
@@ -77,7 +114,9 @@
             { data: "text_sapaan", name: "text_sapaan" },
             { data: "action", name: "action", orderable: false, searchable: false}
         ]
-    });
+    }).on('error.dt', function ( e, settings, techNote, message ) {
+         console.log( 'An error has been reported by DataTables: ', message );
+        });
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
@@ -99,6 +138,7 @@
                  $('textarea[name=text_sapaan]').val('');
                  table.ajax.reload( null, false ); // user paging is not reset on reload
                  table.draw();
+                location.reload();
                  swal("Berhasil!", "Sapaan di tambahkan", "success");
               }});
         });

@@ -287,7 +287,9 @@
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
+                    $.fn.dataTable.ext.errMode = 'none';
                     $('#hotel').dataTable({
+                        "stateSave": true,
                         serverSide: true,
                         ordering: true,
                         searching: true,
@@ -302,6 +304,8 @@
                             { data: "skor", name: "skor" },
                             { data: "action", name: "action", orderable:false, searchable: false}
                         ]
+                    }).on('error.dt', function ( e, settings, techNote, message ) {
+                     console.log( 'An error has been reported by DataTables: ', message );
                     });
                 });
             </script>

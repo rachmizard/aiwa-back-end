@@ -23,11 +23,10 @@
                                         <label for="">Periode yang di pilih </label>
                                         <select name="periode" class="form-control" id="" onchange="document.getElementById('periode').submit();">
                                             <option disabled selected>Pilih Periode</option>
-                                                <option value="1436">1436</option>
-                                                <option value="1437">1437</option>
-                                                <option value="1438">1438</option>
-                                                <option value="1439">1439</option>
-                                                <option value="1440">1440</option>
+                                                <option value="1439" {{ Request::get('periode') == '1439' ? 'selected' : '' }}
+>1439</option>
+                                                <option value="1440" {{ Request::get('periode') == '1440' ? 'selected' : '' }}
+>1440</option>
                                         </select>
                                     </div>
                                 </form>         
@@ -175,11 +174,14 @@
 
 <script>
 $(document).ready(function() {
+    $.fn.dataTable.ext.errMode = 'none';
     $('#jadwal').DataTable( {
+        "stateSave": true,
         "scrollX": true,
-        "order": [ [1, 'desc'] ],
-
-    } );
+        "order": [ [1, 'desc'] ]
+    }).on('error.dt', function ( e, settings, techNote, message ) {
+     console.log( 'An error has been reported by DataTables: ', message );
+    });
 
 <?php for ($u=0; $u < $count ; $u++) { ?>
 @foreach($jadwals['data'][$u]['jadwal'] as $on)

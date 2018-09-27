@@ -54,9 +54,9 @@ class AdminController extends Controller
                 // Ini proses pengambilan data marketing fee nya 
                 $ambilMarketingFeePotensi = Jamaah::where('marketing', $request->agen)->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('marketing_fee');
                 // Ini proses pengambilan data koordinator fee nya 
-                $ambilKoordinatorFeePotensi = Jamaah::where('marketing', $request->agen)->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('koordinator_fee');
+                $ambilKoordinatorFeePotensi = Jamaah::where('koordinator', $request->agen)->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('koordinator_fee');
                 // Ini proses pengambilan data top fee nya
-                $ambilTopFeePotensi = Jamaah::where('marketing', $request->agen)->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('top_fee');
+                $ambilTopFeePotensi = Jamaah::where('top', $request->agen)->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('top_fee');
                 // Penjumlahan hasil pengambilan data di atas
                 $sumofPotensi = $ambilMarketingFeePotensi + $ambilKoordinatorFeePotensi + $ambilTopFeePotensi;
                 // Akhir Perhitungan potensi
@@ -64,11 +64,11 @@ class AdminController extends Controller
                 // Mulai perhitungan komisi
                 $ambilMarketingFeeKomisi = Jamaah::where('marketing', $request->agen)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('marketing_fee');
                 // Ini proses pengambilan data koordinator fee nya 
-                $ambilKoordinatorFeeKomisi = Jamaah::where('marketing', $request->agen)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('koordinator_fee');
+                $ambilKoordinatorFeeKomisi = Jamaah::where('koordinator', $request->agen)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('koordinator_fee');
                 // Ini proses pengambilan data top fee nya
-                $ambilTopFeeKomisi = Jamaah::where('marketing', $request->agen)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('top_fee');
+                $ambilTopFeeKomisi = Jamaah::where('top', $request->agen)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('top_fee');
                 // Penjumlahan hasil pengambilan data di atas
-                $sumofKomisi = $ambilMarketingFeeKomisi + $ambilKoordinatorFeeKomisi + $ambilTopFeeKomisi;
+                $sumofKomisi = $ambilMarketingFeeKomisi  + $ambilKoordinatorFeeKomisi + $ambilTopFeeKomisi;
                 // Akhirt perhitungan komisi
 
                 // Chart Prospek
@@ -141,21 +141,21 @@ class AdminController extends Controller
                 // Ini proses pengambilan data marketing fee nya 
                 $ambilMarketingFeePotensi = Jamaah::where('marketing', 'SM140')->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('marketing_fee');
                 // Ini proses pengambilan data koordinator fee nya 
-                $ambilKoordinatorFeePotensi = Jamaah::where('marketing', 'SM140')->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('koordinator_fee');
+                $ambilKoordinatorFeePotensi = Jamaah::where('koordinator', 'SM140')->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('koordinator_fee');
                 // Ini proses pengambilan data top fee nya
-                $ambilTopFeePotensi = Jamaah::where('marketing', 'SM140')->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('top_fee');
+                $ambilTopFeePotensi = Jamaah::where('top', 'SM140')->where('status', '=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('top_fee');
                 // Penjumlahan hasil pengambilan data di atas
-                $sumofPotensi = $ambilMarketingFeePotensi + $ambilKoordinatorFeePotensi + $ambilTopFeePotensi;
+                $sumofPotensi = $ambilMarketingFeePotensi  + $ambilKoordinatorFeePotensi + $ambilTopFeePotensi;
                 // Akhir Perhitungan potensi
 
                 // Mulai perhitungan komisi
                 $ambilMarketingFeeKomisi = Jamaah::where('marketing', 'SM140')->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('marketing_fee');
                 // Ini proses pengambilan data koordinator fee nya 
-                $ambilKoordinatorFeeKomisi = Jamaah::where('marketing', 'SM140')->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('koordinator_fee');
+                $ambilKoordinatorFeeKomisi = Jamaah::where('koordinator', 'SM140')->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('koordinator_fee');
                 // Ini proses pengambilan data top fee nya
-                $ambilTopFeeKomisi = Jamaah::where('marketing', 'SM140')->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('top_fee');
+                $ambilTopFeeKomisi = Jamaah::where('top', 'SM140')->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->sum('top_fee');
                 // Penjumlahan hasil pengambilan data di atas
-                $sumofKomisi = $ambilMarketingFeeKomisi + $ambilKoordinatorFeeKomisi + $ambilTopFeeKomisi;
+                $sumofKomisi = $ambilMarketingFeeKomisi  + $ambilKoordinatorFeeKomisi + $ambilTopFeeKomisi;
                 // Akhirt perhitungan komisi
 
                 // Chart Prospek

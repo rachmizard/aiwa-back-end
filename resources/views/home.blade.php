@@ -6,51 +6,29 @@
 
             <div class="wraper container-fluid">
                 <div class="page-title">
-                    <h3 class="title">Selamat datang di halaman web AIWA, anda login sebagai Admin.</h3>
+                    <h3 class="title">Dashboard</h3>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="widget-panel widget-style-2 bg-pink">
-                            <i class="ion-eye"></i>
-                            <h2 class="m-0 counter">{{ $totalAgen->count() }}</h2>
-                            <div>Total Agent</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="widget-panel widget-style-2 bg-purple">
-                            <i class="ion-paper-airplane"></i>
-                            <h2 class="m-0 counter">{{ $totalJamaah->count() }}</h2>
-                            <div>Total Jamaah</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="widget-panel widget-style-2 bg-info">
-                            <i class="ion-ios7-pricetag"></i>
-                            <h2 class="m-0 counter">{{ $totalProspek->count() }}</h2>
-                            <div>Total Prospek</div>
+                    <div class="col-md-6">
+                        <div class="mini-stat clearfix bg-inverse">
+                            <span class="mini-stat-icon bg-danger"><i class="ion-man"></i></span>
+                            <div class="mini-stat-info text-right">
+                                <span class="counter">{{ $totalAgen->count() }}</span>
+                                Total Agent
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="widget-panel widget-style-2 bg-warning bounce animated">
-                            <i class="ion-cash"></i>
-                            <h2 class="m-0">Rp. <span class="counter">{{ number_format($sumofPotensi,2,'.',',') }}</span></h2>
-                            <div>Total Potensi</div>
+                        <div class="mini-stat clearfix bg-inverse">
+                            <span class="mini-stat-icon bg-inverse"><i class="ion-ios7-pricetag"></i></span>
+                            <div class="mini-stat-info text-right">
+                                <span class="counter">{{ $totalProspek->count() }}</span>
+                                Total Prospek
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="widget-panel widget-style-2 bg-success bounce animated">
-                            <i class="ion-cash"></i>
-                            <h2 class="m-0">Rp. <span class="counter">{{ number_format($sumofKomisi,2,'.',',') }}</span></h2>
-                            <div>Total Komisi</div>
-                        </div>
-                    </div>
-                </div> <!-- end row -->
-
-
-
-                <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-md-12">
                         <div class="portlet"><!-- /primary heading -->
                             <div class="portlet-heading">
                                 <h3 class="portlet-title text-dark text-uppercase">
@@ -72,7 +50,6 @@
                                         <div class="form-group  m-l-10">
                                             <!-- <label for="">Periode Grafik</label> -->
                                             <select name="periode" id="" class="select2 col-md-4" style="width: 100%;" onchange="document.getElementById('filter').submit();">
-                                                <option disabled selected>Periode</option>
                                                 @foreach($periodes as $periode)
                                                 <!-- Ini sengaja di kasih kondisi biar si ALL nya ga kedetek -->
                                                     @if($periode->id != 7)
@@ -94,8 +71,39 @@
                                 </div>
                             </div>
                         </div> <!-- /Portlet -->
-
                     </div> <!-- end col -->
+                    <div class="col-md-4">
+                        <div class="mini-stat clearfix bg-inverse">
+                            <span class="mini-stat-icon bg-info"><i class="fa fa-user"></i></span>
+                            <div class="mini-stat-info text-right">
+                                <span class="counter">{{ $totalJamaah->count() }}</span>
+                                Total Jamaah
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mini-stat clearfix bg-inverse">
+                            <span class="mini-stat-icon bg-warning"><i class="ion-cash"></i></span>
+                            <div class="mini-stat-info text-right">
+                                <span class="counter">{{ number_format($sumofPotensi,2,'.',',') }}</span>
+                                Total Potensi
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mini-stat clearfix bg-inverse">
+                            <span class="mini-stat-icon bg-success"><i class="ion-cash"></i></span>
+                            <div class="mini-stat-info text-right">
+                                <span class="counter">{{ number_format($sumofKomisi,2,'.',',') }}</span>
+                                Total Komisi
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end row -->
+
+
+
+                <div class="row">
                     <div class="col-lg-8">
                         <div class="portlet"><!-- /primary heading -->
                             <div class="portlet-heading">

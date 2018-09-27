@@ -20,6 +20,17 @@
                                     {{ csrf_field() }}
                                     <div class="form-group">
 
+                                        <label class="col-md-2 control-label" for="tgl_daftar">Tanggal Daftar</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input type="text" id="tgl_daftar" name="tgl_daftar" class="form-control datepicker" placeholder="Tanggal Daftar.." value="{{ $jamaah->tgl_daftar }}">
+                                            </div>
+                                            <span class="help-block text-success"><small>Format tanggal contoh : 11/07/2018</small></span>
+                                        </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group">
+
                                         <label class="col-md-2 control-label" for="id_umrah">ID Umrah</label>
                                         <div class="col-md-7">
                                             <div class="input-group">

@@ -120,7 +120,9 @@
 <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
 <script>
     $(document).ready(function(){
+        $.fn.dataTable.ext.errMode = 'none';
         var table = $('#periodeTable').DataTable({
+        "stateSave": true,
         "searching": false,
         "processing": true,
         "serverSide": true,
@@ -135,7 +137,9 @@
             { data: "status_periode", name: "status_periode" },
             { data: "action", name: "action", orderable: false, searchable: false}
         ]
-    });
+    }).on('error.dt', function ( e, settings, techNote, message ) {
+         console.log( 'An error has been reported by DataTables: ', message );
+        });
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')

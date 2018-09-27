@@ -24,7 +24,6 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SendBerangkat::class,
         \App\Console\Commands\SendPulang::class,
         \App\Console\Commands\SyncData::class,
-        // \App\Console\Commands\SendKomisi::class
     ];
 
     /**

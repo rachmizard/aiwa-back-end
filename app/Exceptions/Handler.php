@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
             $handler = new SymfonyExceptionHandler();
             $html = $handler->getHtml($e);
             // Send to developers an error
-            Mail::to('rachmizard11072000@gmail.com')->send(new ExceptionOccured($html));
+            // Mail::to('rachmizard11072000@gmail.com')->send(new ExceptionOccured($html));
         } catch (Exception $ex) {
             dd($ex);
         }
@@ -61,7 +61,17 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
      public function render($request, Exception $exception)
-    {     
+    {    
+
+         if ($exception instanceof \Yajra\DataTables\Exception) {
+                return response([
+                    'draw'            => 0,
+                    'recordsTotal'    => 0,
+                    'recordsFiltered' => 0,
+                    'data'            => [],
+                    'error'           => 'Terjadi kesalahan, refresh halaman!',
+                ]);
+        } 
         return parent::render($request, $exception);
     }
     /**

@@ -33,6 +33,8 @@ class ApprovalController extends Controller
          {
             return '
                     <a href="#" data-toggle="modal" data-target="#approveModal'. $agents->id .'" class="btn btn-sm btn-success"><i class="fa fa-check"></i> Approve</a>
+                    <a href="'. route('aiwa.destroy', $agents->id) .'" class="btn btn-sm btn-danger" onclick="confirmBtn()"><i class="fa fa-trash"></i> Hapus</a>
+
                 ';
          })
          ->make(true);
@@ -135,6 +137,8 @@ class ApprovalController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $agen = User::findOrFail($id);
+        $agent->delete();
+        return redirect()->back()->with('message', 'Akun di hapus!');
     }
 }

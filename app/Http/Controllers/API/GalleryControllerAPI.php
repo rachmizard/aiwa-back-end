@@ -19,6 +19,11 @@ class GalleryControllerAPI extends Controller
         return GalleryResource::collection(MasterGallery::all());
     }
 
+    public function retrieveByDashboard(Request $request)
+    {
+        return GalleryResource::collection(MasterGallery::where('status', '!=', 'archived')->where('tipe', '=', 'foto')->paginate(4));
+    }
+
     public function retrieveByFoto(Request $request)
     {
         return GalleryResource::collection(MasterGallery::where('status', '!=', 'archived')->where('tipe', '=', 'foto')->get());

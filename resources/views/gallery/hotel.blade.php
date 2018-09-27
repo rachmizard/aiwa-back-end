@@ -116,7 +116,9 @@
 
 <script>    
 $(document).ready(function() {
+    $.fn.dataTable.ext.errMode = 'none';
     $('#itinerary').DataTable({
+        "stateSave": true,
         "scroll": true,
         "processing": false,
         "deferRender": true,
@@ -137,6 +139,8 @@ $(document).ready(function() {
             { data: "tipe", name: "tipe" },
             { data: "action", name: "action", searchable: false, orderable: false}
         ]
+    }).on('error.dt', function ( e, settings, techNote, message ) {
+     console.log( 'An error has been reported by DataTables: ', message );
     });
 } );
 </script>

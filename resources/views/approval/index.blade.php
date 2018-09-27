@@ -26,7 +26,7 @@
                                         </select>
                                     </div>
                                 </div> -->
-                                <table id="agent" class="stripe row-border order-column table table-striped table-bordered">
+                                <table id="agent" class="table table-striped">
                                   <thead>
                                     <tr>
                                         <th>ID</th>
@@ -116,6 +116,8 @@
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
+                    // Disable Error Debug
+                    $.fn.dataTable.ext.errMode = 'none';
                     var table = $('#agent').DataTable({
                         "serverSide": true,
                         "ordering": true,
@@ -130,11 +132,13 @@
                             { data: "koordinator", name: "koordinator" },
                             { data: "action", name: "action"}
                         ]
+                    }).on('error.dt', function ( e, settings, techNote, message ) {
+                     console.log( 'An error has been reported by DataTables: ', message );
                     });
 
-                    setInterval( function () {
-                        table.ajax.reload( null, false ); // user paging is not reset on reload
-                    }, 3500 );
+                    // setInterval( function () {
+                    //     table.ajax.reload( null, false ); // user paging is not reset on reload
+                    // }, 3500 );
                 });
             </script>
             <!-- End Datatable Serverside -->

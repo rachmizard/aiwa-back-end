@@ -31,10 +31,10 @@
                     </div> <!-- end col -->
                     <div class="col-sm-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-file-excel-o"></i> Download Format Agen/h3></div>
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-file-excel-o"></i> Download Format Agen</h3></div>
                             <div class="panel-body panel-info">
                                 <span class="help-block">Anda butuh format upload untuk agen? Klik di bawah ini</span>
-                                <a href="#" class="btn btn-md btn-success">Unduh Format <i class="fa fa-download"></i></a>
+                                <a href="{{ route('agen.download.format') }}" class="btn btn-md btn-success">Unduh Format <i class="fa fa-download"></i></a>
                             </div><!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- end col -->

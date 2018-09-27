@@ -35,16 +35,12 @@ class JadwalController extends Controller
                 $url = 'http://115.124.86.218/aiw/jadwal/'.$request->periode;
                 $json = file_get_contents($url);
                 $jadwals = collect(json_decode($json, true));
-                 try {
-                    $test = $jadwals['message'];
-                    $count = count($test);
-                    $itungPaket = $jadwals['message'];
-                    $countPaket = count($itungPaket);
-                } catch (Exception $e) {
+                try {
                     $test = $jadwals['data'];
                     $count = count($test);
                     $itungPaket = $jadwals['data'][0]['jadwal'][0]['paket'];
                     $countPaket = count($itungPaket);
+                }catch (Exception $e) {
                     throw new \App\Exceptions\CustomException($e);   
                 }
                 return view('jadwal.index', compact('jadwals', 'test', 'count','countPaket', 'periodes'));   

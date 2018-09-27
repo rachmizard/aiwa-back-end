@@ -7,6 +7,7 @@ use App\MasterBroadcast;
 use App\User;
 use Carbon\Carbon;
 use App\MasterNotifikasi;
+use DB;
 
 class MasterBroadcastController extends Controller
 {
@@ -50,7 +51,7 @@ class MasterBroadcastController extends Controller
      */
     public function store(Request $request)
     {
-        $agents = \App\User::where('device_token', '!=', null)->get();
+        $agents = DB::table('users')->where('device_token', '!=', null)->get();
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
         foreach ($agents as $agent) {
             $token = $agent->device_token;

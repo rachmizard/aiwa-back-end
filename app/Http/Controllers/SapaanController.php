@@ -21,7 +21,8 @@ class SapaanController extends Controller
     
     public function index()
     {
-        return view('sapaan.index');
+        $sapaans = Sapaan::all();
+        return view('sapaan.index', compact('sapaans'));
     }
 
     /**
@@ -95,7 +96,10 @@ class SapaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $sapaan = Sapaan::findOrFail($id);
+        $sapaan->update($request->all());
+
+        return redirect()->back()->with('message', 'Sapaan berhasil di edit!');
     }
 
     /**

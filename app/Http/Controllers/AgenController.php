@@ -46,7 +46,7 @@ class AgenController extends Controller
          ->addColumn('action', function($agents)
          {
             return '
-                <a href="#" data-toggle="modal" data-target="#detailAgen'. $agents->id .'" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i> Detail & Edit</a>
+                <a href="'. route('aiwa.anggota.edit', $agents->id) .'" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i> Detail & Edit</a>
                 <form class="form-group" action="'. route('aiwa.unapproved', $agents->id) .'" method="POST">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
                     <input type="hidden" name="_method" value="PUT">
@@ -64,9 +64,9 @@ class AgenController extends Controller
          ->addColumn('foto', function($agents)
          {
             if ($agents->foto != null) {       
-                return '<img src="/storage/images/'. $agents->foto .'" width="50" height="50" alt="">';
+                return '<a href="/storage/images/'. $agents->foto .'" class="btn btn-sm btn-success" target="_blank">Lihat Foto</a>';
             }else{
-                return '<img src="/storage/images/default.png" width="50" height="50" alt="">';
+                return 'Foto Masih Kosong';
             }
          })
          // ->filter(function($query) use ($request)
@@ -138,7 +138,9 @@ class AgenController extends Controller
      */
     public function edit($id)
     {
-        //
+        $agen = User::find($id);
+        $agens = User::where('status', '=', 1)->get();
+        return view('agen.edit', compact('agen', 'agens', 'periodes', 'periodeNow'));
     }
 
     /**
@@ -185,14 +187,17 @@ class AgenController extends Controller
                     }
                 }
                 $agen->id = $request->id;
+                if ($request->password != null) {
+                    $agen->password = bcrypt($request->password);   
+                }
                 $agen->update($request->except(['id', 'password']));
-                return redirect()->back()->with('message', 'Jika ada kesalahan pada sistem/error, disarankan ID di kembalikan ke semula');
+                return redirect()->route('aiwa.anggota')->with('message', 'Jika ada kesalahan pada sistem/error, disarankan data di kembalikan ke semula');
             }
         }else if($request->password){
             $agen->id = $request->old_id;
             $agen->password = bcrypt($request->password);
             $agen->update($request->except(['id','password']));
-            return redirect()->back();   
+            return redirect()->back()->with('message', 'Password berhasil di ganti!');   
         }else{
             $agen->id = $request->old_id;
             // $agen->password = bcrypt($request->password);

@@ -56,6 +56,20 @@ class JamaahControllerAPI extends Controller
         return response()->json(['response' => $success]); 
     }
 
+    public function feeByAgenKomisi(Request $request, $id, $tahun)
+    {
+        $varJay = Periode::where('judul', $tahun)->first();
+        $startDateJing = $varJay['start'];
+        $endDateJing = $varJay['end'];
+        $countTopKomisi =  DB::table('jamaah')->whereRaw("status != 'POTENSI' and top = ? ", [$id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('top_fee');
+        $endDateJing = $varJay['end'];
+        $countFeeByAgenKomisi = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
+        $countFeeByKoordinatorKomisi = DB::table('jamaah')->where('koordinator', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
+         $success['nama'] =  'komisi';
+         $success['total'] =  $countFeeByAgenKomisi + $countFeeByKoordinatorKomisi + $countTopKomisi;
+        return response()->json(['response' => $success]);   
+    }
+
     public function retrieveByKoordinator(Request $request, $id)
     {
         return JamaahResource::collection(Jamaah::where('koordinator', $id)->get());
@@ -71,20 +85,6 @@ class JamaahControllerAPI extends Controller
          $success['nama'] =  'potensi';
          $success['total'] =  $countFeeByKoordinatorPotensi;
         return response()->json(['response' => $success]);  
-    }
-
-    public function feeByAgenKomisi(Request $request, $id, $tahun)
-    {
-        $varJay = Periode::where('judul', $tahun)->first();
-        $startDateJing = $varJay['start'];
-        $endDateJing = $varJay['end'];
-        $countTopKomisi =  DB::table('jamaah')->whereRaw("status != 'POTENSI' and top = ? ", [$id])->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('top_fee');
-        $endDateJing = $varJay['end'];
-        $countFeeByAgenKomisi = DB::table('jamaah')->where('marketing', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('marketing_fee');
-        $countFeeByKoordinatorKomisi = DB::table('jamaah')->where('koordinator', $id)->where('status', '!=', 'POTENSI')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->sum('koordinator_fee');
-         $success['nama'] =  'komisi';
-         $success['total'] =  $countFeeByAgenKomisi + $countFeeByKoordinatorKomisi + $countTopKomisi;
-        return response()->json(['response' => $success]);   
     }
 
     public function feeByKoordinatorKomisi(Request $request, $id, $tahun)

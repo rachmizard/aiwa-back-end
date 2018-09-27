@@ -60,7 +60,7 @@
                                 <i class="fa fa-user-circle"></i> Hasil Jamaah Periode {{ $varJay->judul }}
                             </div>
                             <div class="panel-body p-t-10">
-                                <table id="jamaah" class="table table-hover table-bordered">
+                                <table id="jamaah" class="table table-hover">
                                   <thead>
                                     <tr>
                                         <th>id</th>
@@ -167,7 +167,9 @@
             <!-- Datatable Serverside -->
             <script>
                 $(document).ready(function(){
+                    $.fn.dataTable.ext.errMode = 'none';
                     var table = $('#jamaah').DataTable({
+                        "stateSave": true,
                         "scrollX": true,
                         "scrollY": 500,
                         "dom" : 'lBfrtip',
@@ -219,7 +221,9 @@
                         //     { data: "status", name: "status" },
                         //     { data: "tgl_transfer", name: "tgl_transfer" }
                         // ]
-                    });
+                    }).on('error.dt', function ( e, settings, techNote, message ) {
+                         console.log( 'An error has been reported by DataTables: ', message );
+                        });;
                    // Refresh Table
                    $('#refreshJamaah').on('click', function(){
                         table.ajax.url("{{ route('aiwa.jamaah.load') }}").load();

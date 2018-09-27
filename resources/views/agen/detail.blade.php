@@ -21,29 +21,55 @@
                                         <a href="{{ url('/admin/agenjamaah/downloadExcel/xlsx') }}" onclick="confirmBtnDownloadAgen();" class="btn btn-sm btn-success"><i class="fa fa-download"></i> Download Semua Agen</a>
                                     </div>
                                 </div>
-                                <table id="agent" class="stripe row-border order-column table table-striped table-bordered">
+                                <table id="agent" class="table table-striped">
                                   <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Nama</th>
-                                        <th>Email</th>
-                                        <th>Username</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>No KTP</th>
-                                        <th>Alamat</th>
-                                        <th>Telp</th>
-                                        <th>Status</th>
-                                        <th>Koordinator</th>
-                                        <th>Foto</th>
-                                        <th>Bank</th>
-                                        <th>No Rekening</th>
-                                        <th>Fee Reguler</th>
-                                        <th>Fee Promo</th>
-                                        <th>Nama Rek Beda</th>
-                                        <th>Website</th>
-                                        <th>Tgl Join</th>
+                                        <th>id</th>
+                                        <th>nama</th>
+                                        <th>email</th>
+                                        <th>username</th>
+                                        <th>password</th>
+                                        <th>jenis_kelamin</th>
+                                        <th>no_ktp</th>
+                                        <th>alamat</th>
+                                        <th>no_telp</th>
+                                        <th>status</th>
+                                        <th>koordinator</th>
+                                        <th>bank</th>
+                                        <th>no_rekening</th>
+                                        <th>nama_rek_beda</th>
+                                        <th>website</th>
+                                        <th>fee_reguler</th>
+                                        <th>fee_promo</th>
+                                        <th>created_at</th>
+                                        <th>updated_at</th>
                                     </tr>
                                   </thead>
+                                  <tbody>
+                                      @foreach($agens as $in)
+                                      <tr>
+                                          <td>{{ $in->id }}</td>
+                                          <td>{{ $in->nama }}</td>
+                                          <td>{{ $in->email }}</td>
+                                          <td>{{ $in->username }}</td>
+                                          <td>{{ $in->password }}</td>
+                                          <td>{{ $in->jenis_kelamin }}</td>
+                                          <td>{{ $in->no_ktp }}</td>
+                                          <td>{{ $in->alamat }}</td>
+                                          <td>{{ $in->no_telp }}</td>
+                                          <td>{{ $in->status }}</td>
+                                          <td>{{ $in->koordinator }}</td>
+                                          <td>{{ $in->bank }}</td>
+                                          <td>{{ $in->no_rekening }}</td>
+                                          <td>{{ $in->nama_rek_beda }}</td>
+                                          <td>{{ $in->website }}</td>
+                                          <td>{{ $in->fee_reguler }}</td>
+                                          <td>{{ $in->fee_promo }}</td>
+                                          <td>{{ $in->created_at }}</td>
+                                          <td>{{ $in->updated_at }}</td>
+                                      </tr>
+                                      @endforeach
+                                  </tbody>
                                   <tfoot></tfoot>
                                 </table>
                             </div> <!-- panel-body -->
@@ -82,48 +108,26 @@
             <script>
                 $(document).ready(function(){
                    var table = $('#agent').DataTable({
+                        "stateSave": true,
                         "scrollX": true,
                         "scrollY": "300",
-                        // "dom" : 'lBfrtip',
-                        // "buttons": [
-                        //     'excel'
-                        // ],
-                        "serverSide": true,
+                        "dom" : 'lBfrtip',
+                        "buttons": [
+                            {
+                                extend: 'excel',
+                                text: '<i class="fa fa-file-excel-o"></i> Download Agen',
+                                title: 'data_agen_aiwa'
+                            }
+                        ],
+                        "serverSide": false,
                         "ordering": true,
                         "searching": true,
-                        "processing": true,
-                        "ajax": {
-                            url: "{{ route('aiwa.anggota.load') }}"
-                            // data: function (d) {
-                            //     // d.name = $('input[name=name]').val();
-                            //     // d.periode = $('select[name=periode]').val();
-                            // }
-                        },
-                        "columns": [
-                            { data: "id", name: "id" },
-                            { data: "nama", name: "nama"},
-                            { data: "email", name: "email" },
-                            { data: "username", name: "username" },
-                            { data: "jenis_kelamin", name: "jenis_kelamin" },
-                            { data: "no_ktp", name: "no_ktp" },
-                            { data: "alamat", name: "alamat" },
-                            { data: "no_telp", name: "no_telp" },
-                            { data: "status", name: "status" },
-                            { data: "koordinator", name: "koordinator" },
-                            { data: "foto", name: "foto", orderable: false, searchable: false},
-                            { data: "bank", name: "bank" },
-                            { data: "no_rekening", name: "no_rekening" },
-                            { data: "fee_reguler", name: "fee_reguler" },
-                            { data: "fee_promo", name: "fee_promo" },
-                            { data: "nama_rek_beda", name: "nama_rek_beda" },
-                            { data: "website", name: "website" },
-                            { data: "created_at", name: "created_at" }
-                        ]
+                        "processing": false   
                     });
-                   // Refresh Table
-                   $('#refreshAgen').on('click', function(){
-                            table.ajax.reload( null, false ); // user paging is not reset on reload
-                   });
+                   // // Refresh Table
+                   // $('#refreshAgen').on('click', function(){
+                   //          table.ajax.reload( null, false ); // user paging is not reset on reload
+                   // });
                 });
             </script>
             <!-- End Datatable Serverside -->

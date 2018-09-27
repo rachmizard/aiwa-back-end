@@ -217,6 +217,7 @@ Route::get('/faq', 'API\FAQControllerAPI@index');
 
 // Galleriess' Route
 Route::get('/gallery', 'API\GalleryControllerAPI@index');
+Route::get('/gallery/dashboard', 'API\GalleryControllerAPI@retrieveByDashboard');
 Route::get('/gallery/foto', 'API\GalleryControllerAPI@retrieveByFoto');
 Route::get('/gallery/video', 'API\GalleryControllerAPI@retrieveByVideo');
 
@@ -251,6 +252,19 @@ Route::group(['middleware' => 'auth:api'], function(){
 Route::post('/password/email', 'API\Auth\ForgotPasswordControllerAPI@getResetToken');
 Route::post('/password/reset', 'API\Auth\ResetPasswordControllerAPI@reset');
 
+// // TEST ROUTE
+// Route::get('/test', function(){
+//     // $ambilAgen = App\Jamaah::where('marketing', 'SM312')->where('status', '=', 'KOMISI')->where('periode', '1440')->get();
+//     // Ini proses pengambilan data marketing fee nya 
+//     $ambilMarketingFeePotensi = App\Jamaah::where('marketing', 'SM312')->where('status', '=', 'KOMISI')->where('periode', '1440')->sum('marketing_fee');
+//     // Ini proses pengambilan data koordinator fee nya 
+//     $ambilKoordinatorFeePotensi = App\Jamaah::where('marketing', 'SM312')->where('status', '=', 'KOMISI')->where('periode', '1440')->sum('koordinator_fee');
+//     // Ini proses pengambilan data top fee nya
+//     $ambilTopFeePotensi = App\Jamaah::where('marketing', 'SM312')->where('status', '=', 'KOMISI')->where('periode', '1440')->sum('top_fee');
+//     // Penjumlahan hasil pengambilan data di atas
+//      echo $sumofPotensi = $ambilMarketingFeePotensi + $ambilKoordinatorFeePotensi + $ambilTopFeePotensi;
+//     // Akhir Perhitungan potensi
+// });
 
 Route::get('/indit', function(){
 	        $now = Carbon\Carbon::now();

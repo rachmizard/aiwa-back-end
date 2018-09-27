@@ -97,7 +97,7 @@
                 <div class="links">
                     <!-- <a href="/api/test-api">API Jadwal</a> -->
                     <p class="text-white">Available for Android especially at <i class="ion-android-playstore"></i> Play Store </p>
-                    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.birutekno.umrah"><i class="ion-android-playstore"></i> Download at Playstore</a>
+                    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.birutekno.aiwa"><i class="ion-android-playstore"></i> Download at Playstore</a>
                     <!-- <a href="#">Aiwa Mobile App is Under Develop and will be released as soon as possible</a> -->
                 </div>
             </div>
