@@ -45,14 +45,19 @@ class ForgotPasswordControllerAPI extends Controller
         if ($request->wantsJson()) {
             $user = User::where('email', $request->input('email'))->first();
             if (!$user) {
-                return response()->json(Json::response(null, trans('passwords.user')), 400);
+                return response()->json(['token' => null, 'status' => 'email']);
+            }else{
+                $email = $request->input('email');
+                $token = $this->broker()->createToken($user);
+                Notification::route('mail', $email)->notify(new AgenResetPasswordNotification($token));
+                $success['token'] = $token;
+                $success['status'] = 'success';
+                return response()->json(['response' => $success]);   
             }
-            $email = $request->input('email');
-            $token = $this->broker()->createToken($user);
-            Notification::route('mail', $email)->notify(new AgenResetPasswordNotification($token));
-            $success['token'] = $token;
-            $success['status'] = 'success';
-            return response()->json(['response' => $success]);
+        }else{
+            $success['token'] = null;
+            $success['status'] = 'failed';
+            return response()->json(['response' => $success]);   
         }
     }
 }

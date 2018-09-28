@@ -9,7 +9,7 @@
             </style>
             <div class="wraper container-fluid">
                 <div class="page-title">
-                    <h3 class="title"><strong><i class="fa fa-question-circle"></i> Edit Master F.A.Q (Frequently Asked Questions)</strong></h3>
+                    <h3 class="title"><strong><i class="fa fa-question-circle"></i> Edit Master Catatan</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
 					<a href="{{ route('faq.index') }}" class="btn btn-info">Kembali</a>
@@ -17,7 +17,7 @@
                 <div class="row"> <!-- end col -->
                     <div class="col-sm-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Edit F.A.Q Judul: <strong>{{ $faq->judul }}</strong></h3></div>
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Edit Catatan Judul: <strong>{{ $faq->judul }}</strong></h3></div>
                             <div class="panel-body">
                                 <form role="form" method="POST" action="{{route('faq.update', $faq->id)}}">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -71,7 +71,7 @@ function confirmBtn() {
         <!-- sweet alerts -->
         <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
         <script>
-            swal("Good Job!", "{{ session('message') }}", "success");
+            swal("Berhasil!", "{{ session('message') }}", "success");
         </script>
         @elseif(session('messageError'))
         <!-- sweet alerts -->

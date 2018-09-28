@@ -69,13 +69,10 @@ class MasterBroadcastController extends Controller
                         'notification' => $notification,
                         'data' => $extraNotificationData
                     ];
-
                     $headers = [
                         'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
                         'Content-Type: application/json'
                     ];
-
-
                     $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL,$fcmUrl);
                     curl_setopt($ch, CURLOPT_POST, true);
@@ -85,8 +82,7 @@ class MasterBroadcastController extends Controller
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
                     $result = curl_exec($ch);
                     curl_close($ch);
-
-
+                    // Send NOtification
                     $sendNotify = MasterNotifikasi::create(['anggota_id' => $agent->id,
                                                             'pesan' => $notification['body'],
                                                             'status' => 'delivered'

@@ -9,7 +9,7 @@
             </style>
             <div class="wraper container-fluid">
                 <div class="page-title">
-                    <h3 class="title"><strong><i class="fa fa-question-circle"></i> Master F.A.Q (Frequently Asked Questions)</strong></h3>
+                    <h3 class="title"><strong><i class="fa fa-question-circle"></i> Master Catatan</strong></h3>
                 </div>
                 <div class="divider" style="margin-bottom: 10px;">
                 </div>
@@ -35,10 +35,9 @@
                                                 <td>{{ $faq->jawaban }}</td>
                                                 <td>
                                                     <a href="{{ route('faq.edit', $faq->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                                    <a onclick="event.preventDefault();
-                                                     document.getElementById('delete-form').submit();" href="#" class="btn btn-sm btn-danger">Hapus</a>
-                                                    <form id="delete-form" action="{{ route('faq.destroy', $faq->id) }}" method="POST" style="display: none;">
-                                                        <input type="hidden" name="_token" value="'. csrf_token() .'">
+                                                    <a onclick="confirmBtn();" href="#" class="btn btn-sm btn-danger">Hapus</a>
+                                                    <form id="delete-form{{ $faq->id }}" action="{{ route('faq.destroy', $faq->id) }}" method="POST" style="display: none;">
+                                                        {{ csrf_field() }}
                                                         <input type="hidden" name="_method" value="DELETE">
                                                     </form>
                                                 </td>
@@ -52,7 +51,7 @@
                     </div> <!-- end col -->
                     <div class="col-sm-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Tambah F.A.Q</h3></div>
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-plus"></i> Tambah Master Catatan</h3></div>
                             <div class="panel-body">
                                 <form role="form" method="POST" action="{{route('faq.store')}}">
                                     {{ csrf_field() }}
@@ -91,10 +90,14 @@ jQuery(".select2").select2({
     width: '100%'
 });
 
+@foreach($faqs as $faq)
 function confirmBtn() {
-      if(!confirm("Are You Sure to delete this?"))
-      event.preventDefault();
+      if(confirm("Are You Sure to delete this?")){
+         event.preventDefault();
+         document.getElementById('delete-form{{ $faq->id }}').submit();
+      }
 }
+@endforeach
 </script>
 @endpush
 

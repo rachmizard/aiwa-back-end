@@ -40,10 +40,10 @@ class AnggotaControllerAPI extends Controller
                 $refreshDeviceToken->update(['device_token' => $request->input('device_token')]);
                 $success['status'] =  'success';
                 return response()->json(['response' => $success,
-                                        'user' => $user], $this->successStatus);
+                                        'user' => $user], $this->successStatus);        
             }else{
                 $response['token'] = null;
-                $response['status'] = 'Anda belum terverifikasi oleh admin!';
+                $response['status'] = 'unverified';
                 return response()->json(['response' => $response]);
             }
         }
@@ -70,7 +70,8 @@ class AnggotaControllerAPI extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error'=> $validator->errors()]);            
+            $success['status'] = 'invalid';
+            return response()->json(['response' => $success]);            
         }
 
         // $toAdmins = Admin::all();
@@ -80,12 +81,19 @@ class AnggotaControllerAPI extends Controller
         
         // Validator of email
         $emailValidation = User::where('email', request('email'))->get();
+        $usernameValidation = User::where('username', request('username'))->get();
         if (count($emailValidation) > 0) {
             $success['token'] = null;
             // $success['nama'] =  null;
-            $success['status'] =  'fail';
+            $success['status'] =  'email';
             return response()->json(['response'=>$success]);
-        }else{
+        }else if(count($usernameValidation) > 0)
+        {       
+            $success['token'] = null;
+            $success['status'] =  'user';
+            return response()->json(['response'=> $success]);
+        }else
+        {
             $length = 10;
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $charactersLength = strlen($characters);
