@@ -60,7 +60,7 @@
                                 <i class="fa fa-user-circle"></i> Hasil Jamaah Periode {{ $varJay->judul }}
                             </div>
                             <div class="panel-body p-t-10">
-                                <table id="jamaah" class="table table-hover">
+                                <table id="jamaah" class="table table-striped">
                                   <thead>
                                     <tr>
                                         <th>id</th>

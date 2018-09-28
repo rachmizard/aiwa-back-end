@@ -7,6 +7,7 @@ use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 use App\Mail\ExceptionOccured;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use DB;
 class Handler extends ExceptionHandler
 {
     /**
@@ -48,6 +49,8 @@ class Handler extends ExceptionHandler
             $html = $handler->getHtml($e);
             // Send to developers an error
             // Mail::to('rachmizard11072000@gmail.com')->send(new ExceptionOccured($html));
+            DB::table('error_reports')->insert(['exception' => $exception]);
+            // return response()->view('errors.404');
         } catch (Exception $ex) {
             dd($ex);
         }
@@ -63,14 +66,8 @@ class Handler extends ExceptionHandler
      public function render($request, Exception $exception)
     {    
 
-         if ($exception instanceof \Yajra\DataTables\Exception) {
-                return response([
-                    'draw'            => 0,
-                    'recordsTotal'    => 0,
-                    'recordsFiltered' => 0,
-                    'data'            => [],
-                    'error'           => 'Terjadi kesalahan, refresh halaman!',
-                ]);
+         if ($exception) {
+            return response()->view('errors.404', [], 404);
         } 
         return parent::render($request, $exception);
     }

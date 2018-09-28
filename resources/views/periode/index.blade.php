@@ -14,7 +14,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table class="table table-hovered table-bordered" id="periodeTable">
+                                <table class="table table-striped" id="periodeTable">
                                     <thead>
                                         <tr>
                                             <th>No</th>

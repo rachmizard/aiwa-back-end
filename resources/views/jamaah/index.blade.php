@@ -50,7 +50,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table id="jamaah" class="table table-hover">
+                                <table id="jamaah" class="table table-striped">
                                   <thead>
                                     <tr>
                                         <th>No</th>

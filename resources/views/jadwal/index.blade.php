@@ -37,7 +37,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body">
-                                <table id="jadwal" class="table table-hover table-bordered">
+                                <table id="jadwal" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>ID</th>

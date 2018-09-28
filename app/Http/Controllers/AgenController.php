@@ -50,7 +50,7 @@ class AgenController extends Controller
                 <form class="form-group" action="'. route('aiwa.unapproved', $agents->id) .'" method="POST">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
                     <input type="hidden" name="_method" value="PUT">
-                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-danger" type="submit"><i class="fa fa-cross"></i>Batal Approve</button>
+                    <button id="confirm" onclick="confirmBtn()" class="btn btn-sm btn-default" type="submit"><i class="fa fa-cross"></i>Batal Approve</button>
                     </form>
                     ';
          })

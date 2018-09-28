@@ -14,7 +14,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table class="table table-hovered table-bordered" id="sapaanTable">
+                                <table class="table table-striped" id="sapaanTable">
                                     <thead>
                                         <tr>
                                             <th>No</th>

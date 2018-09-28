@@ -63,7 +63,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-table"></i> Tabel Prospek </h3></div>
                             <div class="panel-body p-t-10">
-                                <table id="prospek" class="table table-hover table-bordered">
+                                <table id="prospek" class="table table-striped">
                                   <thead>
                                     <!-- <th>No</th> -->
                                     <tr>

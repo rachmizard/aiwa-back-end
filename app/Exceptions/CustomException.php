@@ -25,7 +25,7 @@ class CustomException extends Exception
     public function render($request)
     {
         return response()->view(
-                'errors.error',
+                'errors.404',
                 array(
                     'exception' => $this
                 )

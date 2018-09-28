@@ -66,7 +66,7 @@
                     <div class="col-sm-6">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table class="table table-hovered table-bordered table-striped" id="itinerary">
+                                <table class="table table-striped" id="itinerary">
                                     <thead>
                                         <tr>
                                             <th>No</th>

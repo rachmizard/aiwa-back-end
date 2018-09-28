@@ -17,7 +17,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table class="table table-bordered" id="ggwp">
+                                <table class="table table-striped" id="ggwp">
                                     <thead>
                                         <tr>
                                             <th>No</th>

@@ -28,7 +28,6 @@
                                     <div class="form-group">
                                         <textarea name="pesan" class="form-control" id="" cols="30" rows="10"></textarea>
                                     </div>
-                                    <
                                     <div class="form-group">
                                         <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-purple col-md-12"><i class="fa fa-send"></i> Kirim Broadcast</button>
                                     </div>

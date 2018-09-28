@@ -19,7 +19,8 @@ class MasterNotifikasiResource extends Resource
             'id' => $this->id,
             'anggota_id' => $this->anggota_id,
             'pesan' => $this->pesan,
-            'status' => $this->status
+            'status' => $this->status,
+            'tgl' => $this->created_at->diffForHumans(),
         ];
     }
 }

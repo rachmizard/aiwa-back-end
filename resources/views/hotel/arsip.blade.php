@@ -20,7 +20,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table id="hotel" class="table table-striped table-bordered">
+                                <table id="hotel" class="table table-striped">
                                   <thead>
                                     <tr>    
                                         <td>No</td>
