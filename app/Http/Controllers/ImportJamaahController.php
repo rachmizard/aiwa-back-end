@@ -55,83 +55,6 @@ class ImportJamaahController extends Controller
                     $data['tgl_transfer'] = $row['tgl_transfer'];
                     $data['periode'] = $row['periode'];
                     $getdiskon = $row['diskon_marketing'];
-                    if ($data['tgl_transfer'] != null) {
-                        $now = Carbon::now();
-                        $year = $now->year;
-                        $month = $now->month;
-                        $day = $now->day;
-
-                        $jamaahs = Jamaah::where('tgl_transfer', '=', $now->format('Y').'-'.$now->format('m').'-'.$now->format('d'))->where('marketing', $row['marketing'])->where('koordinator', $row['koordinator'])->where('top', $row['top'])->get();
-
-                        $totalJamaahBerangkat = count($jamaahs);
-                        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-                        foreach ($jamaahs as $in) {
-
-                            $recepientMarketing = User::where('id', $in->marketing)->first();
-                            $recepientKoordinator = User::where('id', $in->koordinator)->first();
-                            $recepientTop = User::where('id', $in->top)->first();
-                            $token = array();
-                            $token = [
-                                $recepientMarketing['device_token'],
-                                $recepientKoordinator['device_token'],
-                                $recepientTop['device_token']
-                            ];
-
-                            $notification = [
-                                'body' => 'Komisi sudah transfer, cek notifikasi!',
-                                'bodyKoordinator' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer, silahkan kontak koordinator anda untuk verifikasi!',
-                                'bodyTop' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer!',
-                                'sound' => true,
-                            ];
-
-
-                            $sendNotifyMarketing = MasterNotifikasi::create([
-                                                                    'anggota_id' => $in->marketing,
-                                                                    'pesan' => $notification['body'],
-                                                                    'status' => 'delivered'
-                                                                    ]);
-
-                            $sendNotifyKoordinator = MasterNotifikasi::create([
-                                                                    'anggota_id' => $in->koordinator,
-                                                                    'pesan' => $notification['bodyKoordinator'],
-                                                                    'status' => 'delivered'
-                                                                    ]);
-
-                            $sendNotifyTop = MasterNotifikasi::create([
-                                                                    'anggota_id' => $in->top,
-                                                                    'pesan' => $notification['bodyTop'],
-                                                                    'status' => 'delivered'
-                                                                    ]);
-
-                            $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
-
-                            $fcmNotification = [
-                                'registration_ids' => $token, //multple token array
-                                // 'to'        => $token, //single token
-                                'notification' => $notification,
-                                'data' => $extraNotificationData
-                            ];
-
-                            $headers = [
-                                'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
-                                'Content-Type: application/json'
-                            ];
-
-
-                            $ch = curl_init();
-                            curl_setopt($ch, CURLOPT_URL,$fcmUrl);
-                            curl_setopt($ch, CURLOPT_POST, true);
-                            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
-                            $result = curl_exec($ch);
-                            curl_close($ch);
-
-
-                            // return response()->json($result);
-                        }
-                    }
                     // Jika data dari excel tidak kosong
                     if(!empty($data)) {
                         // Cari di data Jamaah yang id nya sama
@@ -463,6 +386,89 @@ class ImportJamaahController extends Controller
                                 DB::table('jamaah')->insert($data);
                             }
                             // END PEMBATAS
+                        }
+                        if ($data['tgl_transfer'] != null ) {
+                            $now = Carbon::now();
+                            $year = $now->year;
+                            $month = $now->month;
+                            $day = $now->day;
+
+                            // $jamaahs = Jamaah::where('tgl_transfer', '=', $now->format('Y').'-'.$now->format('m').'-'.$now->format('d'))->where('marketing', $row['marketing'])->where('koordinator', $row['koordinator'])->where('top', $row['top'])->get();
+
+                            // $totalJamaahBerangkat = count($jamaahs);
+                            $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+
+                            // Get ID relationship
+                            $siMarketing = User::where('id', $data['marketing'])->first();
+                            $siKoordinator = User::where('id', $data['koordinator'])->first();
+                            $siTop = User::where('id', $data['top'])->first();
+                        
+
+                            $recepientMarketing = User::where('id', $data['marketing'])->first();
+                            $recepientKoordinator = User::where('id', $data['koordinator'])->first();
+                            $recepientTop = User::where('id', $data['top'])->first();
+                            $token = array();
+                            $token = [
+                                $recepientMarketing['device_token'],
+                                $recepientKoordinator['device_token'],
+                                $recepientTop['device_token']
+                            ];
+
+                            $notification = [
+                                'body' => 'Komisi sudah transfer, cek notifikasi!',
+                                'bodyMarketing' => 'Komisi sudah transfer sebesar Rp. '. $data['marketing_fee'] .', untuk Jamaah ('. $data['nama'] .')',
+                                'bodyKoordinator' => 'Komisi dari agen '. $siMarketing->nama .' sudah di transfer sebesar Rp.'. $data['koordinator_fee'] .', silahkan kontak koordinator anda untuk verifikasi!',
+                                'bodyTop' => 'Komisi sudah di transfer, anda mendapatkan TOP FEE sebesar Rp.'. $data['top_fee'],
+                                'sound' => true,
+                            ];
+
+
+                            $sendNotifyMarketing = MasterNotifikasi::create([
+                                                                    'anggota_id' => $data['marketing'],
+                                                                    'pesan' => $notification['bodyMarketing'],
+                                                                    'status' => 'delivered'
+                                                                    ]);
+
+                            $sendNotifyKoordinator = MasterNotifikasi::create([
+                                                                    'anggota_id' => $data['koordinator'],
+                                                                    'pesan' => $notification['bodyKoordinator'],
+                                                                    'status' => 'delivered'
+                                                                    ]);
+
+                            $sendNotifyTop = MasterNotifikasi::create([
+                                                                    'anggota_id' => $data['top'],
+                                                                    'pesan' => $notification['bodyTop'],
+                                                                    'status' => 'delivered'
+                                                                    ]);
+
+                            $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
+
+                            $fcmNotification = [
+                                'registration_ids' => $token, //multple token array
+                                // 'to'        => $token, //single token
+                                'notification' => $notification,
+                                'data' => $extraNotificationData
+                            ];
+
+                            $headers = [
+                                'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
+                                'Content-Type: application/json'
+                            ];
+
+
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL,$fcmUrl);
+                            curl_setopt($ch, CURLOPT_POST, true);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+                            $result = curl_exec($ch);
+                            curl_close($ch);
+
+
+                            // return response()->json($result);
+                            
                         }
                     }
                 }

@@ -52,7 +52,7 @@
                             <span class="username">{{Auth::guard('admin')->user()->username}} </span> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu extended pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;">
-                            <li><a href="{{route('aiwa.admin.profile')}}"><i class="fa fa-user"></i>Profile</a></li>
+                            <!-- <li><a href="route('aiwa.admin.profile')"><i class="fa fa-user"></i>Profile</a></li> -->
                             <li>
                                 <a href="#"
                                             onclick="event.preventDefault();

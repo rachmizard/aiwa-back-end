@@ -138,7 +138,7 @@ class ApprovalController extends Controller
     public function destroy($id)
     {
         $agen = User::findOrFail($id);
-        $agent->delete();
+        $agen->delete();
         return redirect()->back()->with('message', 'Akun di hapus!');
     }
 }

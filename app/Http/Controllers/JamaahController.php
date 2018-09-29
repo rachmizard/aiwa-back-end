@@ -221,15 +221,16 @@ class JamaahController extends Controller
                 
                 $notification = [
                     'body' => 'Komisi sudah transfer, cek notifikasi!',
-                    'bodyKoordinator' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer, silahkan kontak koordinator anda untuk verifikasi!',
-                    'bodyTop' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer!',
+                    'bodyMarketing' => 'Komisi sudah transfer sebesar Rp. '. $in->marketing_fee .', untuk Jamaah ('. $in->nama .')',
+                    'bodyKoordinator' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer sebesar Rp.'. $in->koordinator_fee .', silahkan kontak koordinator anda untuk verifikasi!',
+                    'bodyTop' => 'Komisi sudah di transfer, anda mendapatkan TOP FEE sebesar Rp.'. $in->top_fee,
                     'sound' => true,
                 ];
 
 
                 $sendNotifyMarketing = MasterNotifikasi::create([
                                                         'anggota_id' => $in->marketing,
-                                                        'pesan' => $notification['body'],
+                                                        'pesan' => $notification['bodyMarketing'],
                                                         'status' => 'delivered'
                                                         ]);
 
