@@ -109,8 +109,11 @@ class FAQController extends Controller
      * @param  \App\FAQ  $fAQ
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FAQ $fAQ)
+    public function destroy($id)
     {
-        //
+        $faq = FAQ::findOrFail($id);
+        $faq->delete();
+
+        return redirect()->back()->with('message', ' Berhasi di hapus!');
     }
 }

@@ -199,6 +199,15 @@ jQuery(".select2").select2({
         <script>
             swal("Good Job!", "{{ session('message') }}", "success");
         </script>
+        @elseif(session('messageError'))
+        <!-- Error Notification -->
+        <!-- sweet alerts -->
+        <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
+        <!-- sweet alerts -->
+        <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
+        <script>
+            swal("Warning!", "{{ session('messageError') }}", "error");
+        </script>
         @endif
 
 @endsection

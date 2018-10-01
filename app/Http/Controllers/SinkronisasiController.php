@@ -45,12 +45,8 @@ class SinkronisasiController extends Controller
             </div>';
         })
         ->editColumn('status', function($gg){
-        	return $gg->status == 'selected' ? '<h3 class="text-center"></i">
-                <i class="fa fa-check text-success text-center"></i>
-            </h3>' : '
-                <h3 class="text-center">
-                    <i class="ion-android-close"></i>
-                </h3>
+        	return $gg->status == 'selected' ? '<span class="text-success"><i class="fa fa-spinner fa-spin"></i> Aktif </span>' : '
+                <span class="text-muted">Tidak aktif</span>
             ';
         })
         ->rawColumns(['action', 'status'])
@@ -73,7 +69,16 @@ class SinkronisasiController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Sinkronisasi::where('tahun', $request->tahun)->first();
+        if (count($validator) > 0) {
+            return redirect()->back()->with('messageError', 'Nama tahun sudah ada!');
+        }else{
+            $sinkronisasi = Sinkronisasi::findOrFail($id);
+            $sinkronisasi->tahun = $request->tahun;
+            $sinkronisasi->update();
+        }
 
+        return redirect()->back()->with('message', 'Berhasil di edit!');
     }
 
 

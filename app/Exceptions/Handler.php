@@ -42,18 +42,14 @@ class Handler extends ExceptionHandler
     // Send an email to developer
 
     public function sendEmail(Exception $exception)
-    {
-        try {
-            $e = FlattenException::create($exception);
-            $handler = new SymfonyExceptionHandler();
-            $html = $handler->getHtml($e);
-            // Send to developers an error
-            // Mail::to('rachmizard11072000@gmail.com')->send(new ExceptionOccured($html));
-            DB::table('error_reports')->insert(['exception' => $exception]);
-            // return response()->view('errors.404');
-        } catch (Exception $ex) {
-            dd($ex);
-        }
+{
+        $e = FlattenException::create($exception);
+        $handler = new SymfonyExceptionHandler();
+        $html = $handler->getHtml($e);
+        // Send to developers an error
+        // Mail::to('rachmizard11072000@gmail.com')->send(new ExceptionOccured($html));
+        DB::table('error_reports')->insert(['exception' => $exception]);
+        // return response()->view('errors.404');\
     }
 
     /**

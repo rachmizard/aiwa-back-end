@@ -35,7 +35,7 @@
                                         <div class="col-md-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="ion-pin"></i></span>
-                                                <input type="text" id="alamat" name="alamat" class="form-control" placeholder="Id Umrah.." required value="{{ $agen->alamat }}">
+                                                <input type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat Agen.." value="{{ $agen->alamat }}">
                                             </div>
                                         </div>
                                     </div> <!-- form-group -->

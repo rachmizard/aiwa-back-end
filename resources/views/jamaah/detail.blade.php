@@ -177,23 +177,7 @@
                             {
                                 extend: 'excel',
                                 text: '<i class="fa fa-file-excel-o"></i> Download Jamaah {{ $varJay->judul }}',
-                                title: 'data_jamaah_{{ $varJay->judul }}',
-                                customize: function(xlsx) {
-                                      var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                                      $('row:first c', sheet).attr('s', '7');
-                                      //color the background of the cells if found the value
-                                      $('row c[r^="C"]',sheet).each(function(){
-                                        if($('is t', this).text() == null){
-                                            $(this).attr('s', '15');
-                                        }
-                                        else if ($('is t', this).text() == null){
-                                            $(this).attr('s', '12');
-                                        }
-                                        else {
-                                            $(this).attr('s', '34');
-                                        }
-                                    });
-                                }
+                                title: 'data_jamaah_{{ $varJay->judul }}'
                             }
                         ],
                         "responsive": true,

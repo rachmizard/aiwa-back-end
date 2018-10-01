@@ -35,10 +35,10 @@
                                                 <td>{{ $faq->jawaban }}</td>
                                                 <td>
                                                     <a href="{{ route('faq.edit', $faq->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                                    <a onclick="confirmBtn();" href="#" class="btn btn-sm btn-danger">Hapus</a>
-                                                    <form id="delete-form{{ $faq->id }}" action="{{ route('faq.destroy', $faq->id) }}" method="POST" style="display: none;">
+                                                    <form  action="{{ route('faq.destroy', $faq->id) }}" method="POST">
                                                         {{ csrf_field() }}
                                                         <input type="hidden" name="_method" value="DELETE">
+                                                        <button onclick="confirmBtn();" class="btn btn-danger btn-sm" type="submit">Hapus</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -90,14 +90,11 @@ jQuery(".select2").select2({
     width: '100%'
 });
 
-@foreach($faqs as $faq)
 function confirmBtn() {
       if(confirm("Are You Sure to delete this?")){
          event.preventDefault();
-         document.getElementById('delete-form{{ $faq->id }}').submit();
       }
 }
-@endforeach
 </script>
 @endpush
 
