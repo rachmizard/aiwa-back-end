@@ -70,7 +70,7 @@ class JamaahController extends Controller
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
         })
-         ->editColumn('marketing',function($jamaah){
+         ->editColumn('marketing', function($jamaah){
             if ($jamaah->marketing == 'SM000') {
                 return '<i class="fa fa-check text-success"></i> TOP';
             }else{
@@ -196,8 +196,8 @@ class JamaahController extends Controller
     {
         $jamaah = Jamaah::find($id);
         $jamaah->update($request->all()); 
-        if ($request->tgl_transfer) {
             // $agents = User::where('device_token', '!=', null)->get();
+        if (!$request->tgl_transfer == null || $request->status == 'POTENSI') {
             $now = Carbon::now();
             $year = $now->year;
             $month = $now->month;
@@ -221,8 +221,8 @@ class JamaahController extends Controller
                 
                 $notification = [
                     'body' => 'Komisi sudah transfer, cek notifikasi!',
-                    'bodyMarketing' => 'Komisi sudah transfer sebesar Rp. '. $in->marketing_fee .', untuk Jamaah ('. $in->nama .')',
-                    'bodyKoordinator' => 'Komisi dari agen '. $in->anggota->nama .' sudah di transfer sebesar Rp.'. $in->koordinator_fee .', silahkan kontak koordinator anda untuk verifikasi!',
+                    'bodyMarketing' => 'Anda mendapatkan komisi sebesar Rp. '. $in->marketing_fee .', atas closing Jamaah ('. $in->nama .')',
+                    'bodyKoordinator' => 'Anda mendapatkan Rp.'. $in->koordinator_fee .' atas closing agen'. $in->anggota->nama .', silahkan kontak koordinator anda untuk verifikasi!',
                     'bodyTop' => 'Komisi sudah di transfer, anda mendapatkan TOP FEE sebesar Rp.'. $in->top_fee,
                     'sound' => true,
                 ];
@@ -275,11 +275,11 @@ class JamaahController extends Controller
                 // return response()->json($result);
             }
         }
-        LogActivity::create([
-            'subjek' => 'Mengedit data di table jamaah.',
-            'user_id' => Auth::guard('admin')->user()->id,
-            'tanggal' => Carbon::now()
-        ]);
+        // LogActivity::create([
+        //     'subjek' => 'Mengedit data di table jamaah.',
+        //     'user_id' => Auth::guard('admin')->user()->id,
+        //     'tanggal' => Carbon::now()
+        // ]);
         return redirect()->route('aiwa.jamaah')->with('message', 'Berhasil di edit!');
     }
 

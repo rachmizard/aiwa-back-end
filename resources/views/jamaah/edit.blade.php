@@ -26,7 +26,7 @@
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                 <input type="text" id="tgl_daftar" name="tgl_daftar" class="form-control datepicker" placeholder="Tanggal Daftar.." value="{{ $jamaah->tgl_daftar }}">
                                             </div>
-                                            <span class="help-block text-success"><small>Format tanggal contoh : 11/07/2018</small></span>
+                                            <span class="help-block text-success"><small>Format tanggal contoh : 2018-07-01</small></span>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
@@ -67,7 +67,7 @@
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                 <input type="text" id="tgl_berangkat" name="tgl_berangkat" class="form-control datepicker" placeholder="Tanggal Berangkat.." value="{{ $jamaah->tgl_berangkat }}">
                                             </div>
-                                            <span class="help-block text-success"><small>Format tanggal contoh : 11/07/2018</small></span>
+                                            <span class="help-block text-success"><small>Format tanggal contoh : 2018-07-01</small></span>
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
@@ -78,7 +78,7 @@
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                 <input type="text" id="tgl_pulang" name="tgl_pulang" class="form-control datepicker" placeholder="Tanggal Pulang.." value="{{ $jamaah->tgl_pulang }}">          
                                             </div>
-                                            <span class="help-block text-success"><small>Format tanggal contoh : 11/07/2018</small></span>    
+                                            <span class="help-block text-success"><small>Format tanggal contoh : 2018-07-01</small></span>    
                                         </div>
                                     </div> <!-- form-group -->
                                     <div class="form-group">
@@ -111,10 +111,10 @@
                                         <label class="col-md-2 control-label" for="nama">Status</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-check"></i></span>
+                                                <span class="input-group-addon"><i id="status" class="fa fa-check"></i></span>
                                                 <select name="status" class="select2" data-placeholder="Status.." style="width: 100%;" required>
                                                     <option value="POTENSI" @if($jamaah->status == 'POTENSI') selected @endif>POTENSI</option>
-                                                    <option value="KOMISI" @if($jamaah->status == 'KOMISI') selected @endif>KOMISI</option>
+                                                    <option value="KOMISI" @if($jamaah->status == 'KOMISI') selected @endif>KOMISI <i class="fa fa-check text-success"></i></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -188,6 +188,21 @@
                    todayHighlight: true,
                    format: 'yyyy-mm-dd' 
                });
+
+                $(function() {
+                    if ($("select[name='status']").val() == 'POTENSI') {
+                        $("i[id='status']").removeClass("fa fa-check text-success").addClass("fa fa-check");
+                    }else{
+                        $("i[id='status']").removeClass("fa fa-check").addClass("fa fa-check text-success");
+                    }
+                    $("select[name='status']").change(function(){
+                        if($("select[name='status']").val() == 'POTENSI') {
+                            $("i[id='status']").removeClass("fa fa-check text-success").addClass("fa fa-check");
+                        } else {
+                            $("i[id='status']").removeClass( "fa fa-check" ).addClass( "fa fa-check text-success" );
+                        } 
+                    });
+                });
             </script>
             @endpush
             <!-- END MODAL DETAIL -->

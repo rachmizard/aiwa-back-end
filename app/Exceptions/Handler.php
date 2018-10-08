@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
         $html = $handler->getHtml($e);
         // Send to developers an error
         // Mail::to('rachmizard11072000@gmail.com')->send(new ExceptionOccured($html));
-        DB::table('error_reports')->insert(['exception' => $exception]);
+        // DB::table('error_reports')->insert(['exception' => $exception]);
         // return response()->view('errors.404');\
     }
 
@@ -62,9 +62,9 @@ class Handler extends ExceptionHandler
      public function render($request, Exception $exception)
     {    
 
-         if ($exception) {
-            return response()->view('errors.404', [], 404);
-        } 
+         // if ($exception) {
+         //    return response()->view('errors.404', [], 404);
+         // } 
         return parent::render($request, $exception);
     }
     /**

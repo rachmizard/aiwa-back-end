@@ -6,6 +6,7 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\AgenResetPasswordNotification;
+use App\Notifications\BroadcastNotification;
 use Notification;
 
 class User extends Authenticatable
@@ -67,5 +68,15 @@ class User extends Authenticatable
     {
         $this->notify(new AgenResetPasswordNotification($token));
     }
+
+    // /**
+    //  * Route notifications for the FCM channel.
+    //  *
+    //  * @return string
+    //  */
+    // public function routeNotificationForFcm()
+    // {
+    //     return $this->device_token;
+    // }
 
 }

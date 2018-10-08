@@ -8,6 +8,9 @@ use App\User;
 use Carbon\Carbon;
 use App\MasterNotifikasi;
 use DB;
+use Notifications;
+use Illuminate\Support\Facades\Validator;
+use App\Notifications\BroadcastNotification;
 
 class MasterBroadcastController extends Controller
 {
@@ -51,47 +54,23 @@ class MasterBroadcastController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'judul' => 'required|string|max:30'
+        ]);
+
         $agents = DB::table('users')->where('device_token', '!=', null)->get();
-        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-        foreach ($agents as $agent) {
-            $token = $agent->device_token;
-                    
-                    $notification = [
-                        'body' => $request->pesan,
-                        'sound' => true,
-                    ];
-                    
-                    $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
-
-                    $fcmNotification = [
-                        // 'registration_ids' => $token, //multple token array
-                        'to'        => $token, //single token
-                        'notification' => $notification,
-                        'data' => $extraNotificationData
-                    ];
-                    $headers = [
-                        'Authorization: key=AIzaSyBd3fkYDybtqT7RmEkz8-nm6FbnSkW1tkA',
-                        'Content-Type: application/json'
-                    ];
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL,$fcmUrl);
-                    curl_setopt($ch, CURLOPT_POST, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
-                    $result = curl_exec($ch);
-                    curl_close($ch);
-                    // Send NOtification
-                    $sendNotify = MasterNotifikasi::create(['anggota_id' => $agent->id,
-                                                            'pesan' => $notification['body'],
-                                                            'status' => 'delivered'
-                                                            ]);
-
-
-                    // return response()->json($result);
+        $when = Carbon::now()->addSecond();
+        $broadcast = User::find('BR001');
+        $broadcast->notify((new BroadcastNotification($broadcast, $request->judul, $request->pesan))->delay($when));
+        if ($broadcast) {
+            foreach ($agents as $key => $value) {
+                MasterNotifikasi::create([
+                                    'anggota_id' => $value->id,
+                                    'pesan' => $request->pesan,
+                                    'status' => 'delivered'
+                                ]);
+            }
         }
-
         return redirect()->back()->with('message', 'Broadcast terkirim ke '. count($agents) .' agen!') ;
     }
 

@@ -18,10 +18,10 @@ class JamaahResource extends Resource
         return [
             'id' => $this->id,
             'id_umrah' => $this->id_umrah,
-            'tgl_daftar'  => $this->tgl_daftar,
+            'tgl_daftar'  => date('d M Y', strtotime($this->tgl_daftar)),
             'nama'  => $this->nama,
-            'tgl_berangkat' => $this->tgl_berangkat,
-            'tgl_pulang' => $this->tgl_pulang,
+            'tgl_berangkat' => date('d M Y', strtotime($this->tgl_berangkat)),
+            'tgl_pulang' => date('d M Y', strtotime($this->tgl_pulang)),
             // 'marketing' => new AgenResource($this->anggota),// create an object relationship
             'marketing' => $this->anggota->nama,
             'staff' => $this->staff,
@@ -32,6 +32,7 @@ class JamaahResource extends Resource
             'top' => $this->top,
             'top_fee' => $this->top_fee,
             'status' => $this->status,
+            'tgl_transfer' => date('d M Y', strtotime($this->tgl_transfer))
         ];
     }
 }

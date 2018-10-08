@@ -271,16 +271,10 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        $hariH = Carbon::now();
-        $ref = Jamaah::where('marketing', $id)->get();
+        $ref = Jamaah::all();
         foreach ($ref as $value) {
-            if ($hariH->format('Y-m-d')) {
-                $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', '=', $hariH->format('Y').'-'.$hariH->format('m').'-'.$hariH->format('d'))->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
-            }else{
-                $retrieveJamaahBerangkatByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_berangkat', $now->format('Y-m-d'))->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
-            }
-
-            return $retrieveJamaahBerangkatByAgen;
+            $hariH = Carbon::now();
+            return $retrieveJamaahBerangkatByAgenHariH = JamaahResource::collection(Jamaah::where('marketing', $id)->whereBetween('tgl_berangkat', [$hariH->format('Y').'-'.$hariH->format('m').'-'.$hariH->format('d'), $now->format('Y').'-'.$now->format('m').'-'.$now->format('d')])->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
         }
     }
 

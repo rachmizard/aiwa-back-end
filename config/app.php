@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -167,6 +167,7 @@ return [
         ConsoleTVs\Charts\ChartsServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         // Yajra\DataTables\ButtonsServiceProvider::class,
+        Benwilkins\FCM\FcmNotificationServiceProvider::class,
 
 
         /*

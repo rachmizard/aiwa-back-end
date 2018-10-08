@@ -152,7 +152,7 @@
                                 // d.search = $('input[name=search]').val();
                             }
                         }, 
-                        order: [ [0, 'desc'] ],
+                        order: [ [1, 'desc'] ],
                         "columns": [
                             { data: "id", name: "id" },
                             { data: "tgl_daftar", name: "tgl_daftar" },
@@ -161,7 +161,7 @@
                             { data: "nama", name: "nama" },
                             { data: "tgl_berangkat", name: "tgl_berangkat" },
                             { data: "tgl_pulang", name: "tgl_pulang" },
-                            { data: "marketing", name: "marketing", searchable: true },
+                            { data: "anggota.nama", name: "anggota.nama", searchable: true, orderable: false},
                             { data: "staff", name: "staff" },
                             { data: "no_telp", name: "no_telp" },
                             { data: "marketing_fee", name: "marketing_fee" },
