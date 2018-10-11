@@ -153,7 +153,7 @@ class AgenController extends Controller
     public function update(Request $request, $id)
     {
         $agen = User::findOrFail($id);
-        $agen->password = bcrypt($request->password);
+        // $agen->password = bcrypt($request->password);
         $agen->update($request->all());
         return redirect()->back();
     }

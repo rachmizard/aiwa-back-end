@@ -138,6 +138,7 @@
 
         <!-- datatables -->
         <script src="https://datatables.yajrabox.com/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
         <script src="{{asset('/assets/datatables/dataTables.bootstrap.js')}}"></script>
 
         <!-- Modal-Effect -->

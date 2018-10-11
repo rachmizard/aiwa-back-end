@@ -56,7 +56,9 @@ class SendBerangkat extends Command
                 $recepient = App\User::where('id', $in->marketing)->first();
                 $token = $recepient->device_token;
                 $notification = [
+                    'title' => 'Keberangkatan Jamaah ('. date("d M Y", strtotime($in->tgl_berangkat)) .')',
                     'body' => 'Jamaah '. $in->nama .' akan berangkat pada tanggal '. date('d M Y', strtotime($in->tgl_berangkat)) .' (Hari ini)',
+                    'priority' => 'high',
                     'sound' => true,
                 ];
                 $sendNotify = App\MasterNotifikasi::create([
@@ -88,7 +90,9 @@ class SendBerangkat extends Command
                 $recepient = App\User::where('id', $in->marketing)->first();
                 $token = $recepient->device_token;
                 $notification = [
-                    'body' => 'Persiapan Jamaah '. $in->nama .' akan berangkat pada tanggal '. date('d M Y', strtotime($in->tgl_berangkat)) .' (H-3)',
+                    'title' => 'Keberangkatan Jamaah H-3',
+                    'priority' => 'high',
+                    'body' => 'Persiapan Jamaah '. $in->nama .' akan berangkat pada tanggal '. date('d M Y', strtotime($in->tgl_berangkat)),
                     'sound' => true,
                 ];
                 $sendNotify = App\MasterNotifikasi::create([

@@ -57,6 +57,8 @@ class SendNotification extends Command
                 $token = $recepient->device_token;
                 
                 $notification = [
+                    'title' => 'Waktunya Follow Up!',
+                    'priority' => 'high',
                     'body' => $recepient->nama .' segera Follow Up jamaah atas nama '. $prospek->pic,
                     'sound' => true,
                 ];

@@ -55,7 +55,7 @@ class MasterBroadcastController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'judul' => 'required|string|max:30'
+            'judul' => 'required'
         ]);
 
         $agents = DB::table('users')->where('device_token', '!=', null)->get();

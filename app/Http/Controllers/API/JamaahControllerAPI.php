@@ -40,7 +40,10 @@ class JamaahControllerAPI extends Controller
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return JamaahResource::collection(Jamaah::orderBy('id', 'DESC')->where('marketing', $id)->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get());
+        $futureJamaah = Jamaah::orderBy('tgl_berangkat', 'asc')->where('marketing', $id)->whereDate('tgl_berangkat', '>', Carbon::now()->format('Y-m-d'))->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $pastJamaah = Jamaah::orderBy('tgl_berangkat', 'desc')->where('marketing', $id)->whereDate('tgl_berangkat', '<', Carbon::now()->format('Y-m-d'))->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->get();
+        $jamaah = $futureJamaah->merge($pastJamaah);
+        return JamaahResource::collection($jamaah);
     }
 
     public function feeByAgenPotensi(Request $request, $id, $tahun)
@@ -281,13 +284,18 @@ class JamaahControllerAPI extends Controller
     public function retrieveJamaahPulangByAgen(Request $request, $id, $tahun)
     {
         $now = Carbon::now();
+        $now->addDays(3);
         $year = $now->year;
         $month = $now->month;
         $day = $now->day;
         $varJay = Periode::where('judul', $tahun)->first();
         $startDateJing = $varJay['start'];
         $endDateJing = $varJay['end'];
-        return $retrieveJamaahPulangByAgen = JamaahResource::collection(Jamaah::where('marketing', $id)->where('tgl_pulang', '=', $now->format('d').'/'.$now->format('m').'/'.$now->format('Y'))->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+        $ref = Jamaah::all();
+        foreach ($ref as $value) {
+            $hariH = Carbon::now();
+            return $retrieveJamaahBerangkatByAgenHariH = JamaahResource::collection(Jamaah::where('marketing', $id)->whereBetween('tgl_pulang', [$hariH->format('Y').'-'.$hariH->format('m').'-'.$hariH->format('d'), $now->format('Y').'-'.$now->format('m').'-'.$now->format('d')])->whereBetween('created_at', [$startDateJing, $endDateJing])->get());
+        }
     }
 
     // CHART DASHBOARD

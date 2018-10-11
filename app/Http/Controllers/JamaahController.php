@@ -70,6 +70,9 @@ class JamaahController extends Controller
                 <a href="'. route('aiwa.jamaah.delete', $jamaah->id) .'" class="btn btn-sm btn-danger" onclick="alert(Anda yakin?)"><i class="fa fa-trash"></i> Hapus</a>'
                     ;
         })
+        ->addColumn('checkbox', function($jamaah){
+            return '<input type="checkbox" id='. $jamaah->id .' value="'. $jamaah->id .'" name="check[]">';
+        })
          ->editColumn('marketing', function($jamaah){
             if ($jamaah->marketing == 'SM000') {
                 return '<i class="fa fa-check text-success"></i> TOP';
@@ -99,7 +102,7 @@ class JamaahController extends Controller
                     $query->where('periode', request()->get('periode'));      
                 }
             }, true)
-          ->rawColumns(['action', 'marketing', 'koordinator', 'top'])
+          ->rawColumns(['action', 'checkbox', 'marketing', 'koordinator', 'top'])
           ->make(true);
     }
 
@@ -301,5 +304,16 @@ class JamaahController extends Controller
         return redirect()->route('aiwa.jamaah')->with([
             'message' => 'ID '.$jamaah->id. ' berhasil di hapus',
         ]);
+    }
+
+    public function destroyMultiple(Request $request)
+    {
+        $checked = $request->input('check', []);
+        if ($checked == null) {
+            return redirect()->back()->with('messageError', 'Data belum di ceklis!');
+        }else{
+            $jamaah = Jamaah::whereIn('id', $checked)->delete();
+            return redirect()->back()->with('message', 'Berhasil di hapus!');   
+        }
     }
 }

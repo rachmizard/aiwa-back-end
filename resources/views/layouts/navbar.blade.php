@@ -31,7 +31,7 @@
                                     <span>{{ str_limit($notification->data['nama'], 5) }} {{ $notification->data['data'] }}<br><small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small></span>
                                 </a>
                                 @else
-                                <a {{ Auth::guard('admin')->user()->unreadNotifications->where('type', '=', 'App\Notifications\SyncWeeklyNotification') ? 'href=route("admin.notification")' : 'href=' }}
+                                <a>
                                     <span class="pull-left"><i class="fa {{ $notification->type == 'App\Notifications\SyncWeeklyNotification' ? 'fa-check fa-2x text-success' : 'fa-check fa-2x text-info' }}"></i></span>
                                     <span>{{ $notification->data['data'] }}<br><small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small></span>
                                 </a>

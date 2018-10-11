@@ -24,6 +24,7 @@
                                     <div class="form-group">
                                         <label for="judul">Judul</label>
                                         <input type="text" class="form-control {{ $errors->has('judul') ? ' has-error' : '' }}" name="judul" required placeholder="Judul broadcast...">
+                                        <span class="help-block text-muted"><span class="text-danger">*</span> 30 Maksimal karakter judul.</span>
                                         @if ($errors->has('judul'))
                                             <span class="help-block text-danger">
                                                 <strong>{{ $errors->first('judul') }}</strong>
@@ -33,7 +34,7 @@
                                     <div class="form-group">
                                         <label for="judul">Pesan</label>
                                         <textarea name="pesan" class="form-control" id="" cols="30" rows="10" required></textarea>
-                                        <span class="help-block">Tidak ada batas maksimal untuk broadcast.</span>
+                                        <span class="help-block text-muted"><span class="text-danger">*</span> Tidak ada karakter batas untuk pesan broadcast.</span>
                                     </div>
                                     <div class="form-group">
                                         <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-purple col-md-12"><i class="fa fa-send"></i> Kirim Broadcast</button>

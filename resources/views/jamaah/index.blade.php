@@ -2,6 +2,11 @@
 @section('content')
             <!-- Page Content Start -->
             <!-- ================== -->
+            <style>
+                .mg-5{
+                    margin-bottom: 20px;
+                }
+            </style>
 
             <div class="wraper container-fluid">
                 <div class="page-title">
@@ -50,32 +55,39 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table id="jamaah" class="table table-striped">
-                                  <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal Daftar</th>
-                                        <th>ID Umrah</th>
-                                        <th>ID Jamaah</th>
-                                        <th>Nama</th>
-                                        <th>Tanggal Keberangkatan</th>
-                                        <th>Tanggal Kepulangan</th>
-                                        <th>Marketing</th>
-                                        <th>Staff</th>
-                                        <th>No Telp</th>
-                                        <th>Marketing Fee</th>
-                                        <th>Diskon Marketing</th>
-                                        <th>Koordinator</th>
-                                        <th>Koordinator Fee</th>
-                                        <th>Top</th>
-                                        <th>Top Fee</th>
-                                        <th>Status</th>
-                                        <th>Tgl Transfer</th>
-                                        <th>Periode</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                  </thead>
-                                </table>
+                                <form action="{{ route('aiwa.jamaah.delete.checkbox') }}" method="POST">
+                                    {{ csrf_field() }}
+                                    <div class="mg-5">
+                                        <button class="btn btn-danger btn-sm" onclick="confirmBtn()"><i class="fa fa-check" type="submit"></i> Hapus yang dipilih</button>
+                                    </div>
+                                    <table id="jamaah" class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="select_all" name="check[]"></th>
+                                            <th>No</th>
+                                            <th>Tanggal Daftar</th>
+                                            <th>ID Umrah</th>
+                                            <th>ID Jamaah</th>
+                                            <th>Nama</th>
+                                            <th>Tanggal Keberangkatan</th>
+                                            <th>Tanggal Kepulangan</th>
+                                            <th>Marketing</th>
+                                            <th>Staff</th>
+                                            <th>No Telp</th>
+                                            <th>Marketing Fee</th>
+                                            <th>Diskon Marketing</th>
+                                            <th>Koordinator</th>
+                                            <th>Koordinator Fee</th>
+                                            <th>Top</th>
+                                            <th>Top Fee</th>
+                                            <th>Status</th>
+                                            <th>Tgl Transfer</th>
+                                            <th>Periode</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                      </thead>
+                                    </table>
+                                </form>
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- end col -->
@@ -152,8 +164,9 @@
                                 // d.search = $('input[name=search]').val();
                             }
                         }, 
-                        order: [ [1, 'desc'] ],
+                        order: [ [2, 'desc'] ],
                         "columns": [
+                            { data: "checkbox", name: "checkbox", searchable: false, orderable: false },
                             { data: "id", name: "id" },
                             { data: "tgl_daftar", name: "tgl_daftar" },
                             { data: "id_umrah", name: "id_umrah" },
@@ -201,6 +214,28 @@
                 });
                 // DatePicker
                 jQuery('.datepicker').datepicker();
+
+                // checkbox single
+                var checkboxes = $("input[type='checkbox']"),
+                actions = $("#actions");
+                checkboxes.click(function() {
+                   actions.attr("hidden", !checkboxes.is(":checked"));
+                });
+
+                // checkbox all
+                $('#select_all').click(function(event) {
+                    if(this.checked) {
+                        // Iterate each checkbox
+                        $(':checkbox').each(function() {
+                            this.checked = true;
+                        });
+                    }
+                    else {
+                      $(':checkbox').each(function() {
+                            this.checked = false;
+                        });
+                    }
+                });
             </script>
             @endpush
 
@@ -212,6 +247,16 @@
         <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
         <script>
             swal("Good Job!", "{{ session('message') }}", "success");
+        </script>
+        @endif
+
+        @if(session('messageError'))
+        <!-- sweet alerts -->
+        <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
+        <!-- sweet alerts -->
+        <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
+        <script>
+            swal("Terjadi kesalahan", "{{ session('messageError') }}", "error");
         </script>
         @endif
         <!--  -->

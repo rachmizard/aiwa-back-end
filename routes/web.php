@@ -95,6 +95,7 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
     Route::get('/jamaah/detail/export', 'JamaahController@detailJamaah')->name('aiwa.jamaah.detail');
     // Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.put');
     Route::get('/jamaah/{id}/delete', 'JamaahController@destroy')->name('aiwa.jamaah.delete');
+    Route::post('/jamaah/deleteCheckbox', 'JamaahController@destroyMultiple')->name('aiwa.jamaah.delete.checkbox');
     Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
     // End of Jamaah
 

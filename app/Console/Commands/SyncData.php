@@ -728,7 +728,9 @@ class SyncData extends Command
         $token = $recepient->device_token;
 
         $notification = [
+            'title' => 'Sinkronisasi berhasil!',
             'body' => 'Sinkronisasi data jamaah kantor berhasil di lakukan',
+            'priority' => 'high',
             'sound' => true,
         ];
 

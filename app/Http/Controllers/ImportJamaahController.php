@@ -417,10 +417,12 @@ class ImportJamaahController extends Controller
                                 ];
 
                                 $notification = [
-                                    'body' => 'Komisi sudah transfer, cek notifikasi!',
-                                    'bodyMarketing' => 'Komisi sudah transfer sebesar Rp. '. $data['marketing_fee'] .', untuk Jamaah ('. $data['nama'] .')',
-                                    'bodyKoordinator' => 'Komisi dari agen '. $siMarketing->nama .' sudah di transfer sebesar Rp.'. $data['koordinator_fee'] .', silahkan kontak koordinator anda untuk verifikasi!',
+                                    'title' => 'Komisi',
+                                    'body' => 'Komisi sudah transfer, cek di aplikasi!',
+                                    'bodyMarketing' => 'Closing jamaah ('. $data['nama'] .') berhasil, anda mendapatkan komisi sebesar Rp. '. $data['marketing_fee'],
+                                    'bodyKoordinator' => 'Agen '. $siMarketing->nama .' telah closing jamaah, anda mendapatkan komisi sebesar Rp. '. $data['koordinator_fee'] .', silahkan kontak koordinator anda untuk verifikasi!',
                                     'bodyTop' => 'Komisi sudah di transfer, anda mendapatkan TOP FEE sebesar Rp.'. $data['top_fee'],
+                                    'priority' => 'high',
                                     'sound' => true,
                                 ];
 
