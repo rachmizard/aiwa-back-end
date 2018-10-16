@@ -243,8 +243,14 @@ Route::get('/sapaan', 'API\SapaanControllerAPI@index');
 Route::post('login', 'API\Auth\AnggotaControllerAPI@login');
 Route::post('register', 'API\Auth\AnggotaControllerAPI@register');
 
+// Check Auth
+Route::post('details', 'API\Auth\AnggotaControllerAPI@details');
+
+
+// Logout
+Route::post('logout', 'API\Auth\AnggotaControllerAPI@logout');
+
 Route::group(['middleware' => 'auth:api'], function(){
-	Route::post('details', 'API\Auth\AnggotaControllerAPI@details');
 });
 
 // Reset Password API
@@ -353,7 +359,7 @@ Route::get('/balik', function(){
     $year = $now->year;
     $month = $now->month;
     $day = $now->day;
-    $hariH = Carbon\Carbon::now();
+    $hariH = Carbon\Carbon::now();      
     $ref = App\Jamaah::where('tgl_pulang', $hariH->format('Y-m-d'))->orWhere('tgl_pulang', $now->format('Y-m-d'))->get(); // Get all of jamaah and inspect them
     $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
     foreach ($ref as $in) {

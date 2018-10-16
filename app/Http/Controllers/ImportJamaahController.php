@@ -206,7 +206,6 @@ class ImportJamaahController extends Controller
                                     }else{
                                         if ($promo) {
                                             $totalLevel3 = $referencePromo - ($findKoordinator['fee_promo'] + $top_promo);
-
                                             $data['marketing_fee'] = $findKoordinator['fee_promo'] - $getdiskon;
                                             $data['koordinator'] = $findKoordinator['koordinator'];
                                             $data['koordinator_fee'] = $totalLevel3;

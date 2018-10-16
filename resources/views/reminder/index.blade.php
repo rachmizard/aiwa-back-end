@@ -123,16 +123,11 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                                             <select name="cron_sinkronisasi" id="" class="form-control">
-                                                <option value="0 */5 * * *" {{ $reminders->notifikasi == 
-                                                'cron_sinkronisasi' ? '0 */5 * * *' : '' }}>5 Jam sekali</option>
-                                                <option value="0 */6 * * *" {{ $reminders->notifikasi == 
-                                                'cron_sinkronisasi' ? '0 */6 * * *' : '' }}>6 Jam sekali</option>
-                                                <option value="0 */7 * * *" {{ $reminders->notifikasi == 
-                                                'cron_sinkronisasi' ? '0 */7 * * *' : '' }}>7 Jam sekali</option>
-                                                <option value="0 */8 * * *" {{ $reminders->notifikasi == 
-                                                'cron_sinkronisasi' ? '0 */8 * * *' : '' }}>8 Jam sekali</option>
-                                                <option value="0 */9 * * *" {{ $reminders->notifikasi == 
-                                                'cron_sinkronisasi' ? '0 */9 * * *' : '' }}>9 Jam sekali</option>
+                                                <option value="0 */5 * * *" {{ $reminders->cron_sinkronisasi == '0 */5 * * *' ? 'selected' : '' }}>5 Jam sekali</option>
+                                                <option value="0 */6 * * *" {{ $reminders->cron_sinkronisasi == '0 */6 * * *' ? 'selected' : '' }}>6 Jam sekali</option>
+                                                <option value="0 */7 * * *" {{ $reminders->cron_sinkronisasi == '0 */7 * * *' ? 'selected' : '' }}>7 Jam sekali</option>
+                                                <option value="0 */8 * * *" {{ $reminders->cron_sinkronisasi == '0 */8 * * *' ? 'selected' : '' }}>8 Jam sekali</option>
+                                                <option value="0 */9 * * *" {{ $reminders->cron_sinkronisasi == '0 */9 * * *' ? 'selected' : '' }}>9 Jam sekali</option>
                                             </select>
                                         </div>
                                     </div>

@@ -126,11 +126,17 @@ class AnggotaControllerAPI extends Controller
                                 'user' => $user], $this->successStatus);
     }
 
-
-    public function logout()
+    public function logout(Request $request)
     {
-         $user = Auth::user();
-         return response()->json(['success' => $user], $this->successStatus);   
+        $setNull = User::find($request->input('id'));
+         if ($setNull) {
+            $setNull->update(['device_token' => null]);
+            $status['token'] =  null;
+            $status['status'] =  'success';
+         }else{
+            $user = 'failed';
+         }
+         return response()->json(['response' => $status]);   
     }
 
 }

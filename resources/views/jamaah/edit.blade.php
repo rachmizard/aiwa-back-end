@@ -132,6 +132,17 @@
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
+                                        <label class="col-md-2 control-label" for="nama">Marketing Fee</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                                <input type="text" class="form-control" name="marketing_fee" value="{{ $jamaah->marketing_fee }}">
+                                                <!-- <span class="help-block text-success"><small></small></span>   -->
+                                            </div>
+                                        </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group">
+
                                         <label class="col-md-2 control-label" for="nama">Tgl Transfer</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
