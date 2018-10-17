@@ -9,5 +9,7 @@ class Master_Jadwal extends Model
     //
     protected $table = 'master_jadwals';
     public $timestamps = true;
-    protected $primaryKey = 'id';
+    protected $casts = [
+        'paket' => 'array',
+    ];
 }

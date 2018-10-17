@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Resources\JadwalResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,61 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+// Latihan Diskon
+Route::get('/asupkeunjadwal/{periode}', function(Request $request){
+
+        // Truncate the table
+        $requestJadwal = App\Master_Jadwal::where('periode', request('periode'))->pluck('id_jadwal')->toArray();
+        $delete = App\Master_Jadwal::whereIn('id_jadwal', $requestJadwal)->delete();
+        $url = 'http://115.124.86.218/aiw/jadwal/'. $request->periode;
+        $json = file_get_contents($url);
+        $jadwals = collect(json_decode($json, true));
+        
+        // dd($jadwals['data'][1]['jadwal']); // Ieu bisa
+        // return view('test-api', compact('jadwals'));
+        $test = $jadwals['data'];
+        $count = count($test);
+        if (!empty($test)) {    
+            for ($i=0; $i < $count ; $i++) { 
+                foreach ($jadwals['data'][$i]['jadwal'] as $key => $diskon) {
+                    $data['id_jadwal'] = $diskon['id'];
+                    $data['promo'] = $diskon['promo'];
+                    $data['tgl_berangkat'] = $diskon['tgl_berangkat'];
+                    $data['jam_berangkat'] = $diskon['jam_berangkat'];
+                    $data['rute_berangkat'] = $diskon['rute_berangkat'];
+                    $data['pesawat_berangkat'] = $diskon['pesawat_berangkat'];
+                    $data['tgl_pulang'] = $diskon['tgl_pulang'];
+                    $data['jam_pulang'] = $diskon['jam_pulang'];
+                    $data['rute_pulang'] = $diskon['rute_pulang'];
+                    $data['pesawat_pulang'] = $diskon['pesawat_pulang'];
+                    $data['maskapai'] = $diskon['maskapai'];
+                    $data['jml_hari'] = $diskon['jml_hari'];
+                    $data['seat_total'] = $diskon['seat_total'];
+                    $data['seat_terpakai'] = $diskon['seat_terpakai'];
+                    $data['sisa'] = $diskon['sisa'];
+                    $data['passpor'] = $diskon['passpor'];
+                    $data['moffa'] = $diskon['moffa'];
+                    $data['visa'] = $diskon['visa'];
+                    $data['status'] = $diskon['status'];
+                    $data['tgl_manasik'] = $diskon['tgl_manasik'];
+                    $data['jam_manasik'] = $diskon['jam_manasik'];
+                    $data['itinerary'] = $diskon['itinerary'];
+                    $data['paket'] = json_encode($diskon['paket']);
+                    $data['periode'] = $request->periode;
+                    $validator = DB::table('master_jadwals')->where('id_jadwal', '=', $diskon['id'])->first();
+                    if ($validator) {
+                        DB::table('master_jadwals')->where('id_jadwal', $validator->id)->update($data);
+                    }else{
+                        DB::table('master_jadwals')->insert($data);
+                    }
+                }
+            }
+        }
+        return redirect()->back();
+
 });
 
 Route::get('/testCron', function(){
@@ -192,7 +248,10 @@ Route::get('/jamaah/{id}/agenfee/bulan/{tahun}/periode', 'API\JamaahControllerAP
 Route::get('/jamaah/{id}/koordinatorfee/bulan/{tahun}/periode', 'API\JamaahControllerAPI@feeByKoordinatorFeeKomisi');
 Route::get('/jamaah/totalByPeriode/{idperiode}', 'API\JamaahControllerAPI@totalByPeriode');
 
-
+// Retrieve Jadwal
+Route::get('/jadwal/{periode}', function(Request $request){
+    return JadwalResource::collection(App\Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', request('periode'))->get());
+});
 
 // Prospek API Route
 Route::get('/prospek', 'API\ProspekControllerAPI@index');
