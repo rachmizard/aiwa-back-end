@@ -81,11 +81,11 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
     // create admin's area
     Route::get('/createadmin', 'AdminLoginController@create')->name('admin.register');
     Route::post('/create', 'AdminLoginController@store')->name('admin.register.submit');
-    // end create admin's area 
+    // end create admin's area
 
     // after logged-in it'll be get an authenticated.
     Route::get('/home', 'AdminController@index')->name('admin.dashboard');
-    
+
     // Jamaah
     Route::get('/jamaah', 'JamaahController@index')->name('aiwa.jamaah');
     Route::get('/jamaah/tambah', 'JamaahController@create')->name('aiwa.jamaah.add');
@@ -165,7 +165,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     // Route::resource('master-brosur', 'MasterBrosurController'); // DEPRECIATED
     // Route::get('master-brosur/loadBrosur', 'MasterBrosurController@getData');// DEPRECIATED
     // End Master Brosur
-      
+
     // Master Voucher
     // Route::resource('master-voucher', 'MasterVoucherController'); // DEPRECIATED
     // Route::get('master-voucher/loadBrosur', 'MasterVoucherController@getData'); // DEPRECIATED
@@ -204,6 +204,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
 
     // Retrieving API of Jadwal
     Route::get('master-jadwal', 'JadwalController@index')->name('aiwa.master-jadwal');
+    Route::get('master-jadwal/jadwalJson', 'JadwalController@jadwalJson')->name('aiwa.master-jadwal.jadwalJson');
     // End
     Route::resource('master-broadcast', 'MasterBroadcastController');
     Route::get('sendtoagen', 'MasterBroadcastController@toAgen')->name('aiwa.master-broadcast.toagen');

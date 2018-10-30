@@ -12,7 +12,7 @@
                 <div class="page-title">
                     <h3 class="title"><strong><i class="fa fa-calendar"></i> Jadwal</strong></h3>
                 </div>
-                <div class="divider" style="margin-bottom: 10px;">    
+                <div class="divider" style="margin-bottom: 10px;">
                     <div class="panel">
                         <div class="panel-heading">
                             <i class="fa fa-filter"></i> Filter Periode
@@ -29,7 +29,7 @@
 >1440</option>
                                         </select>
                                     </div>
-                                </form>         
+                                </form>
                             </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <div class="col-sm-12">
                         <div class="panel">
                             <div class="panel-body">
-                                <table id="jadwal" class="table table-striped">
+                                <table id="jadwalTable" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -61,49 +61,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php for ($i=0; $i < $count; $i++) { ?>
-                                        @if($jadwals)
-                                            @foreach($jadwals['data'][$i]['jadwal'] as $key => $in)
-                                            <tr>
-                                                <td>{{ $in['id'] }}</td>
-                                                <td>{{ date('d/m/Y', strtotime($in['tgl_berangkat'])) }}
-                                                    @if($in['promo'] == '1')
-                                                    <span class="badge badge-sm bg-success">
-                                                        @if($in['promo'] == '1')
-                                                            P
-                                                        @endif
-                                                    </span>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $in['jam_berangkat'] }}</td>
-                                                <td>{{ $in['rute_berangkat'] }}</td>
-                                                <td>{{ $in['pesawat_berangkat'] }}</td>
-                                                <td>{{ date('d-M-Y', strtotime($in['tgl_pulang'])) }}</td>
-                                                <td>{{ $in['jam_pulang'] }}</td>
-                                                <td>{{ $in['rute_pulang'] }}</td>
-                                                <td>{{ $in['pesawat_pulang'] }}</td>
-                                                <td>{{ $in['maskapai'] }}</td>
-                                                <td>{{ $in['jml_hari'] }}</td>
-                                                <td>{{ $in['seat_total'] }}</td>
-                                                <td>{{ $in['seat_terpakai'] }}</td>
-                                                <td>{{ $in['sisa'] }}</td>
-                                                <td>{{ $in['status'] }}</td>
-                                                <td>{{ $in['tgl_manasik'] }}</td>
-                                                <td>{{ $in['jam_manasik'] }}</td>
-                                                <td>
-                                                    @if($in['itinerary'])
-                                                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#paket{{ $i+1 }}" title="{{ $i+1 }}">Lihat Paket</button>
-                                                    @endif
-                                                    <a href="{{ $in['itinerary'] }}" class="btn btn-success btn-sm" title="{{ $in['itinerary'] }}" download>Download Itinerary</a>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        @elseif($nofound != null)
-                                        <tr>
-                                            <td colspan="10" class="text-center">$nofound.</td>
-                                        </tr>
-                                        @endif
-                                    <?php } ?>
                                     </tbody>
                                 </table>
                             </div> <!-- panel-body -->
@@ -112,11 +69,10 @@
 
             </div> <!-- END Wraper -->
         </div>
-           
+
 <!-- Modal -->
-<?php for ($u=0; $u < $count ; $u++) { ?>
-@foreach($jadwals['data'][$u]['jadwal'] as $on)
-<div class="modal fade" id="paket{{ $u+1 }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+@foreach($jadwals as $on)
+<div class="modal fade" id="paket{{ $on['id_jadwal'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -127,7 +83,7 @@
       </div>
       <div class="modal-body">
             @if(!$on['paket'] == null)
-            <table id="paket{{ $u+1 }}" class="table table-bordered table-striped table-hover nowrap" style="width: 100%;">
+            <table id="paket{{ $on['id_jadwal'] }}" class="table table-bordered table-striped table-hover nowrap" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -168,31 +124,53 @@
   </div>
 </div>
 @endforeach
-<?php } ?>
 
 @push('dataTables')
 
 <script>
-$(document).ready(function() {
-    $.fn.dataTable.ext.errMode = 'none';
-    $('#jadwal').DataTable( {
-        "stateSave": true,
-        "scrollX": true,
-        "order": [ [1, 'desc'] ]
-    }).on('error.dt', function ( e, settings, techNote, message ) {
-     console.log( 'An error has been reported by DataTables: ', message );
+  $(document).ready(function(){
+      $.fn.dataTable.ext.errMode = 'none';
+      var table = $('#jadwalTable').DataTable({
+      "stateSave": true,
+      "scrollX": true,
+      "searching": true,
+      "processing": true,
+      "serverSide": true,
+      "ajax": {
+          url: "/admin/master-jadwal/jadwalJson"
+      },
+      "order": [ [1, 'desc'] ],
+      "columns": [
+          { data: "id_jadwal", name: "id_jadwal" },
+          { data: "tgl_berangkat", name: "tgl_berangkat" },
+          { data: "jam_berangkat", name: "jam_berangkat" },
+          { data: "rute_berangkat", name: "rute_berangkat" },
+          { data: "pesawat_berangkat", name: "pesawat_berangkat" },
+          { data: "tgl_pulang", name: "tgl_pulang" },
+          { data: "jam_pulang", name: "jam_pulang" },
+          { data: "rute_pulang", name: "rute_pulang" },
+          { data: "pesawat_pulang", name: "pesawat_pulang" },
+          { data: "maskapai", name: "maskapai" },
+          { data: "jml_hari", name: "jml_hari" },
+          { data: "seat_total", name: "seat_total" },
+          { data: "sisa", name: "sisa" },,
+          { data: "status", name: "status" },
+          { data: "tgl_manasik", name: "tgl_manasik" },
+          { data: "jam_manasik", name: "jam_manasik" },
+          { data: "action", name: "action", orderable: false, searchable: false }
+      ]
+  }).on('error.dt', function ( e, settings, techNote, message ) {
+       console.log( 'An error has been reported by DataTables: ', message );
     });
 
-<?php for ($u=0; $u < $count ; $u++) { ?>
-@foreach($jadwals['data'][$u]['jadwal'] as $on)
-    $('#paket{{ $on["id"] }}').DataTable( {
-        // "scrollY": 300,
-        "scrollX": true
-    } );
-@endforeach
-<?php } ?>
-} );
+    @foreach($jadwals as $on)
+        $('#paket{{ $on["id"] }}').DataTable( {
+            // "scrollY": 300,
+            "scrollX": true
+        } );
+    @endforeach
+
+  });
 </script>
 @endpush
-
 @endsection
