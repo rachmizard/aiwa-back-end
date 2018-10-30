@@ -48,7 +48,7 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown text-center">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src="/img/avatar-2.jpg" class="img-circle profile-img thumb-sm">
+                            <img alt="" src="/img/kaaba.png" class="img-circle profile-img thumb-sm">
                             <span class="username">{{Auth::guard('admin')->user()->username}} </span> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu extended pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;">
@@ -56,7 +56,7 @@
                             <li>
                                 <a href="#"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> 
+                                                     document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i>
                                             Logout
                                 </a>
                                 <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
