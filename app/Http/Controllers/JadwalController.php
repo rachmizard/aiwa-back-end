@@ -61,15 +61,40 @@ class JadwalController extends Controller
             // }
                 $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->get();
                 $count = count($jadwals);
+                $periodes = Periode::all();
 
                 return view('jadwal.index', compact('jadwals', 'test', 'count','countPaket', 'periodes'));
 
     }
 
-    public function jadwalJson(Datatables $datatables)
+    public function jadwalJson(Request $request)
     {
-          $var = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->get();
-          return $datatables->of($var)
+          $var = Master_Jadwal::select([
+            'id_jadwal',
+            'promo',
+            'tgl_berangkat',
+            'jam_berangkat',
+            'rute_berangkat',
+            'pesawat_berangkat',
+            'tgl_pulang',
+            'jam_pulang',
+            'rute_pulang',
+            'pesawat_pulang',
+            'maskapai',
+            'jml_hari',
+            'seat_total',
+            'seat_terpakai',
+            'sisa',
+            'passpor',
+            'moffa',
+            'visa',
+            'status',
+            'tgl_manasik',
+            'jam_manasik',
+            'itinerary',
+            'paket'
+          ]);
+          return Datatables::of($var)
           ->addColumn('action', function($action){
             return '<a class="btn btn-sm btn-info" href="#" data-toggle="modal" data-target="#paket'. $action->id_jadwal .'">Lihat Paket</a>
             <a class="btn btn-sm btn-success" href="'. $action->itinerary .'">Download Itinerary</a>';
@@ -90,7 +115,22 @@ class JadwalController extends Controller
           ->editColumn('jml_hari', function($check){
               return $check->jml_hari. ' hari';
           })
-          ->rawColumns(['action', 'tgl_berangkat', 'tgl_pulang', 'tgl_manasik'])
+          ->editColumn('status', function($check){
+              if ($check->status === 'AVAILABLE') {
+                return '<span class="label bg-success label-sm">AVAILABLE</span>';
+              }elseif($check->status === 'SOLD OUT') {
+                return '<span class="label label-default label-sm">SOLD OUT</span>';
+              }
+          })
+          ->filter(function($query) use ($request){
+            if (request()->get('periodeJadwal')) {
+              if (request()->get('periodeJadwal') == 'All') {
+                return $query->select('master_jadwals.*');
+              }
+              return $query->where('periode', request()->get('periodeJadwal'))->get();
+            }
+          }, true)
+          ->rawColumns(['action', 'tgl_berangkat', 'tgl_pulang', 'tgl_manasik', 'status'])
           ->make(true);
     }
 

@@ -20,7 +20,7 @@ class JamaahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function __construct()
     {
         $this->middleware('auth:admin');
@@ -99,7 +99,7 @@ class JamaahController extends Controller
                     $validatorDateRange = Periode::where('judul', request('periode'))->first();
                     $dateStart = $validatorDateRange->start;
                     $dateEnd = $validatorDateRange->end;
-                    $query->where('periode', request()->get('periode'));      
+                    $query->where('periode', request()->get('periode'));
                 }
             }, true)
           ->rawColumns(['action', 'checkbox', 'marketing', 'koordinator', 'top'])
@@ -198,7 +198,7 @@ class JamaahController extends Controller
     public function update(Request $request, $id)
     {
         $jamaah = Jamaah::find($id);
-        $jamaah->update($request->all()); 
+        $jamaah->update($request->all());
             // $agents = User::where('device_token', '!=', null)->get();
         if (!$request->tgl_transfer == null || $request->status == 'POTENSI') {
             $now = Carbon::now();
@@ -221,7 +221,7 @@ class JamaahController extends Controller
                     $recepientKoordinator['device_token'],
                     $recepientTop['device_token']
                 ];
-                
+
                 $notification = [
                     'body' => 'Komisi sudah transfer, cek notifikasi!',
                     'bodyMarketing' => 'Anda mendapatkan komisi sebesar Rp. '. $in->marketing_fee .', atas closing Jamaah ('. $in->nama .')',
@@ -248,7 +248,7 @@ class JamaahController extends Controller
                                                         'pesan' => $notification['bodyTop'],
                                                         'status' => 'delivered'
                                                         ]);
-                
+
                 $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
 
                 $fcmNotification = [
@@ -313,7 +313,7 @@ class JamaahController extends Controller
             return redirect()->back()->with('messageError', 'Data belum di ceklis!');
         }else{
             $jamaah = Jamaah::whereIn('id', $checked)->delete();
-            return redirect()->back()->with('message', 'Berhasil di hapus!');   
+            return redirect()->back()->with('message', 'Berhasil di hapus!');
         }
     }
 }

@@ -18,18 +18,14 @@
                             <i class="fa fa-filter"></i> Filter Periode
                         </div>
                             <div class="panel-body">
-                                <form action="" id="periode" method="GET">
-                                    <div class="form-group">
-                                        <label for="">Periode yang di pilih </label>
-                                        <select name="periode" class="form-control" id="" onchange="document.getElementById('periode').submit();">
-                                            <option disabled selected>Pilih Periode</option>
-                                                <option value="1439" {{ Request::get('periode') == '1439' ? 'selected' : '' }}
->1439</option>
-                                                <option value="1440" {{ Request::get('periode') == '1440' ? 'selected' : '' }}
->1440</option>
-                                        </select>
-                                    </div>
-                                </form>
+                                <div class="form-group">
+                                    <label for="">Periode yang di pilih </label>
+                                    <select name="periodeJadwal" id="filter-periode" class="col-md-4 form-control" style="width: 100%;">
+                                        @foreach($periodes as $periode)
+                                            <option value="{{ $periode->judul }}">{{ $periode->judul }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                     </div>
                 </div>
@@ -137,7 +133,10 @@
       "processing": true,
       "serverSide": true,
       "ajax": {
-          url: "/admin/master-jadwal/jadwalJson"
+          url: "{{ route('aiwa.master-jadwal.jadwalJson') }}",
+          data: function(an) {
+            an.periodeJadwal = $('select[name=periodeJadwal]').val();
+          }
       },
       "order": [ [1, 'desc'] ],
       "columns": [
@@ -161,6 +160,11 @@
       ]
   }).on('error.dt', function ( e, settings, techNote, message ) {
        console.log( 'An error has been reported by DataTables: ', message );
+    });
+
+    $('#filter-periode').on('change', function(e) {
+        table.draw();
+        e.preventDefault();
     });
 
     @foreach($jadwals as $on)

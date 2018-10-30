@@ -89,30 +89,30 @@
         </div>
         @foreach($prospeks as $prospek)
         <div id="editProspek{{ $prospek->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog"> 
-                <div class="modal-content"> 
-                    <div class="modal-header"> 
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-                        <h4 class="modal-title">Edit tanggal follow up PIC : {{ $prospek->pic }}</h4> 
-                    </div> 
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Edit tanggal follow up PIC : {{ $prospek->pic }}</h4>
+                    </div>
                     <form action="{{ route('aiwa.prospek.update', $prospek->id) }}" method="POST">
                         {{ csrf_field() }}
-                        <div class="modal-body"> 
-                            <div class="row"> 
-                                <div class="col-md-6 col-md-offset-2"> 
-                                    <div class="form-group"> 
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-2">
+                                    <div class="form-group">
                                         <label for="field-1" class="control-label">Tanggal FollowUp</label>
-                                        <input type="text" name="tanggal_followup" class="form-control datepickeranjay" id="field-1" placeholder="Tanggal" value="{{ $prospek->tanggal_followup }}"> 
-                                    </div> 
-                                </div> 
+                                        <input type="text" name="tanggal_followup" class="form-control datepickeranjay" id="field-1" placeholder="Tanggal" value="{{ $prospek->tanggal_followup }}">
+                                    </div>
+                                </div>
                             </div>
-                        </div> 
-                        <div class="modal-footer"> 
-                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button> 
-                            <button type="submit" class="btn btn-info">Simpan</button> 
                         </div>
-                    </form> 
-                </div> 
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info">Simpan</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div><!-- /.modal -->
         @endforeach
@@ -161,13 +161,13 @@
                     });
 
                     $(function() {
-                        $("input[name='pic']").hide(); 
+                        $("input[name='pic']").hide();
                         $("select[name='anggota_id']").change(function(){
                             if($("select[name='anggota_id']").val() == 'semua') {
-                                $("input[name='pic']").hide(); 
+                                $("input[name='pic']").hide();
                             } else {
-                                $("input[name='pic']").show(); 
-                            } 
+                                $("input[name='pic']").show();
+                            }
                         });
                     });
                 });
@@ -184,9 +184,9 @@
                language: "it",
                autoclose: true,
                todayHighlight: true,
-               format: 'd/m/yyyy' 
+               format: 'd/m/yyyy'
            });
-           
+
             function confirmBtn() {
                   if(!confirm("Are You Sure to delete this?"))
                   event.preventDefault();
