@@ -143,6 +143,17 @@
                                     </div> <!-- form-group -->
                                     <div class="form-group">
 
+                                        <label class="col-md-2 control-label" for="nama">Koordinator Fee</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                                <input type="text" class="form-control" name="koordinator_fee" value="{{ $jamaah->koordinator_fee }}">
+                                                <!-- <span class="help-block text-success"><small></small></span>   -->
+                                            </div>
+                                        </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group">
+
                                         <label class="col-md-2 control-label" for="nama">Tgl Transfer</label>
                                         <div class="col-md-7">
                                             <div class="input-group">

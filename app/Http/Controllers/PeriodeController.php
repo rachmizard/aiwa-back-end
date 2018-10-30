@@ -35,7 +35,7 @@ class PeriodeController extends Controller
         ->addColumn('action', function($periode){
             return '
             <div class="btn-group">
-                    <a href="#" data-toggle="modal" data-target="#periodeModalEdit'. $periode->id .'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>
+                    <a href="#" data-toggle="modal" data-target="#editPeriodeModal" data-id="'. $periode->id .'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>
                     <input type="hidden" id="id" value="'. $periode->id .'">
                     <form action="'. route('aiwa.master-periode.destroy', $periode->id) .'" method="POST">
                         <input type="hidden" name="_token" value="'. csrf_token() .'">
@@ -90,9 +90,9 @@ class PeriodeController extends Controller
      * @param  \App\Periode  $periode
      * @return \Illuminate\Http\Response
      */
-    public function show(Periode $periode)
+    public function show($id)
     {
-        //
+        return Periode::find($id);
     }
 
     /**

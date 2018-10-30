@@ -154,6 +154,17 @@
         <!--common script for all pages-->
         <script src="{{asset('/js/jquery.app.js')}}"></script>
 
+        <!-- Success notification -->
+        @if(session('messageError'))
+        <!-- sweet alerts -->
+        <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
+        <!-- sweet alerts -->
+        <script src="{{asset('/assets/sweet-alert/sweet-alert.min.js')}}"></script>
+        <script>
+            swal("Sesi habis", "{{ session('messageError') }}", "error");
+        </script>
+        @endif
+
 
     </body>
 

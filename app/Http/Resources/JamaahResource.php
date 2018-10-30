@@ -23,7 +23,7 @@ class JamaahResource extends Resource
             'tgl_berangkat' => date('d M Y', strtotime($this->tgl_berangkat)),
             'tgl_pulang' => date('d M Y', strtotime($this->tgl_pulang)),
             // 'marketing' => new AgenResource($this->anggota),// create an object relationship
-            'marketing_name' => $this->anggota->nama,
+            'marketing_name' => $this->anggota['nama'],
             'marketing' => $this->marketing,
             'staff' => $this->staff,
             'no_telp' => $this->no_telp,

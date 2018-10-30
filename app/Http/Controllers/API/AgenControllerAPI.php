@@ -30,7 +30,11 @@ class AgenControllerAPI extends Controller
 
     public function retrieveMySubAgen(Request $request, $id)
     {
-        return AgenResource::collection(User::where(['status' => '1', 'koordinator' => $id])->get());
+        if ($id == 'SM140') {
+            return AgenResource::collection(User::where(['status' => '1'])->get());
+        }else{
+            return AgenResource::collection(User::where(['status' => '1', 'koordinator' => $id])->get());            
+        }
     }
 
     /**

@@ -69,15 +69,18 @@
                 </div> 
             </div>
         </div><!-- /.modal -->
-        @foreach($periodes as $periode)
-        <div id="periodeModalEdit{{ $periode->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+
+
+
+    <div id="editPeriodeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog"> 
                 <div class="modal-content"> 
                     <div class="modal-header"> 
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-                        <h4 class="modal-title"><i class="fa fa-pencil"></i> Edit Periode</h4> 
+                        <h4 class="modal-title"><i class="fa fa-plus"></i> Edit Periode</h4> 
                     </div> 
-                    <form action="{{ route('aiwa.master-periode.update', $periode->id) }}" method="POST">
+                    
+                    <form id="updateForm" method="POST">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
                         <div class="modal-body"> 
@@ -85,15 +88,15 @@
                                 <div class="col-md-6 col-md-offset-2"> 
                                     <div class="form-group"> 
                                         <label for="">Tahun/Hijirah</label>
-                                        <input type="text" name="judul" class="form-control" id="" placeholder="Tahun Hijriah Contoh: 1440" required="" value="{{ $periode->judul }}"> 
+                                        <input type="text" name="judul" class="form-control" id="judulEdit" placeholder="Tahun Hijriah Contoh: 1440" required=""> 
                                     </div> 
                                     <div class="form-group"> 
                                         <label for="" class="control-label">Tanggal Mulai</label>
-                                        <input type="text" name="start" class="form-control datepicker" id="" placeholder="Tanggal Mulai..." value="{{ $periode->start }}"> 
+                                        <input type="text" name="start" class="form-control datepicker" id="startEdit" placeholder="Tanggal Mulai..."> 
                                     </div> 
                                     <div class="form-group"> 
                                         <label for="" class="control-label">Tanggal Akhir</label>
-                                        <input type="text" name="end" class="form-control datepicker" id="" placeholder="Tanggal Akhir..." value="{{ $periode->end }}"> 
+                                        <input type="text" name="end" class="form-control datepicker" id="endEdit" placeholder="Tanggal Akhir..."> 
                                     </div> 
                                 </div> 
                             </div>
@@ -103,16 +106,10 @@
                             <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-warning">Simpan</button> 
                         </div>
                     </form>
-                    <form action="{{ route('aiwa.master-periode.active', $periode->id) }}" method="POST">
-                        {{ csrf_field() }}
-                        <input type="hidden" value="active" name="status">
-                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-info" title="Aktifkan Tahun"><i class="fa fa-check"></i></button>
-                    </form> 
                     <!-- </form> -->
                 </div> 
             </div>
         </div><!-- /.modal -->
-        @endforeach
 @push('otherJavascript')
 <!-- sweet alerts -->
 <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">
@@ -169,6 +166,23 @@
                  swal("Berhasil!", "Periode di tambahkan", "success");
               }});
         });
+
+            $(document).ready(function(){
+              $('#editPeriodeModal').on('show.bs.modal', function(e) {
+                      var id = $(e.relatedTarget).data('id');
+                      $.get('master-periode/' + id + '/show', function( data ) {
+                        $("#judulEdit").attr('value', data.judul);
+                        $("#startEdit").attr('value', data.start);
+                        $("#endEdit").attr('value', data.end);
+                        $("#jenis_kelamin").attr('value', data.status_periode);
+                        // document.getElementById('nama').setAttribute('value', data.nama);
+                        // document.getElementById('divisi').setAttribute('value', data.divisi);
+                        // document.getElementById('jenis_kelamin').setAttribute('value', data.jenis_kelamin);
+                        // document.getElementById('nik').setAttribute('value', data.nik);
+                      });
+                $("#updateForm").attr('action', 'master-periode/'+ id +'/update');
+              });
+            });
 
         // $('.deleteatuh').click(function(){   
         //     var token = $(this).data("token");

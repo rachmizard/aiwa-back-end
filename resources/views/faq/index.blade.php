@@ -78,7 +78,9 @@
 
 <script>    
 $(document).ready(function() {
-    $('#ggwp').dataTable();
+    $('#ggwp').dataTable({
+        "scrollX": true
+    });
 } );
 </script>
 @endpush

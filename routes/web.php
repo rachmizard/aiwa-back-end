@@ -42,7 +42,7 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
 
 
 // for backup
-  Route::prefix('admin')->group(function() {
+  Route::group(['prefix' => 'admin',  'middleware' => ['revalidate', 'session_timeout', 'is_admin']], function() {
     Route::get('notification', function(){
         Auth()->guard('admin')->user()->unreadNotifications->markAsRead();
         return view('notifications.index');
@@ -84,7 +84,7 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
     // end create admin's area 
 
     // after logged-in it'll be get an authenticated.
-    Route::get('/home', 'AdminController@index')->name('admin.dashboard')->middleware('auth:admin')->middleware('auth:admin');
+    Route::get('/home', 'AdminController@index')->name('admin.dashboard');
     
     // Jamaah
     Route::get('/jamaah', 'JamaahController@index')->name('aiwa.jamaah');
@@ -214,6 +214,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::get('master-periode/loadTablePeriode', 'PeriodeController@getData')->name('aiwa.master-periode.load');
     Route::post('master-periode/store', 'PeriodeController@store')->name('aiwa.master-periode.store');
     Route::post('master-periode/{id}/delete', 'PeriodeController@destroy')->name('aiwa.master-periode.destroy');
+    Route::get('master-periode/{id}/show', 'PeriodeController@show')->name('aiwa.master-periode.show');
     Route::put('master-periode/{id}/update', 'PeriodeController@update')->name('aiwa.master-periode.update');
     Route::post('master-periode/{id}/active', 'PeriodeController@active')->name('aiwa.master-periode.active');
 

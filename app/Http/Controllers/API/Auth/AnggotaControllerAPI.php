@@ -128,15 +128,17 @@ class AnggotaControllerAPI extends Controller
 
     public function logout(Request $request)
     {
-        $setNull = User::find($request->input('id'));
-         if ($setNull) {
-            $setNull->update(['device_token' => null]);
-            $status['token'] =  null;
-            $status['status'] =  'success';
-         }else{
-            $user = 'failed';
-         }
-         return response()->json(['response' => $status]);   
+        // $setNull = User::find($request->input('id'));
+        //  if ($setNull) {
+        //     $setNull->update(['device_token' => null]);
+        //     $status['token'] =  null;
+        //     $status['status'] =  'success';
+        //  }else{
+        //     $user = 'failed';
+        //  }
+        $status['token'] =  null;
+        $status['status'] =  'success';
+        return response()->json(['response' => $status]);   
     }
 
 }
