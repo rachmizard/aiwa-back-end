@@ -25,6 +25,7 @@
                                     <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
                                     <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
                                     <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
+                                    <input type="hidden" value="{{ $reminders->cron_jadwal }}" name="cron_jadwal">
                                     <div class="form-group">
                                         <label for="harga_promo">Atur Penjadwalan</label>
                                         <div class="input-group">
@@ -56,6 +57,7 @@
                                     <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
                                     <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
                                     <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
+                                    <input type="hidden" value="{{ $reminders->cron_jadwal }}" name="cron_jadwal">
                                     <div class="form-group">
                                         <label for="harga_promo">Atur Penjadwalan</label>
                                         <div class="input-group">
@@ -87,6 +89,7 @@
                                     <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
                                     <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
                                     <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
+                                    <input type="hidden" value="{{ $reminders->cron_jadwal }}" name="cron_jadwal">
                                     <div class="form-group">
                                         <label for="harga_promo">Atur Penjadwalan</label>
                                         <div class="input-group">
@@ -118,6 +121,7 @@
                                     <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
                                     <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
                                     <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
+                                    <input type="hidden" value="{{ $reminders->cron_jadwal }}" name="cron_jadwal">
                                     <div class="form-group">
                                         <label for="harga_promo">Atur Penjadwalan</label>
                                         <div class="input-group">
@@ -138,7 +142,35 @@
                             </div><!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- end col -->
-
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-clock-o"></i> Sinkronisasi Jadwal</h3></div>
+                            <div class="panel-body">
+                                <form role="form" method="POST" action="{{ route('master-reminder.update', $reminders->id) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" value="{{ $reminders->cron_followup }}" name="cron_followup">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_berangkat }}" name="cron_jamaah_berangkat">
+                                    <input type="hidden" value="{{ $reminders->cron_jamaah_pulang }}" name="cron_jamaah_pulang">
+                                    <input type="hidden" value="{{ $reminders->cron_sinkronisasi }}" name="cron_sinkronisasi">
+                                    <input type="hidden" value="{{ $reminders->cron_jadwal }}" name="cron_jadwal">
+                                    <div class="form-group">
+                                        <label for="harga_promo">Atur Penjadwalan Sinkronisasi</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                            <select name="cron_jadwal" id="" class="form-control">
+                                              <option value="30 * * * *" {{ $reminders->cron_jadwal == '30 * * * *' ? 'selected' : '' }}>Setengah Jam sekali</option>
+                                              <option value="0 */1 * * *" {{ $reminders->cron_jadwal == '0 */1 * * *' ? 'selected' : '' }}>1 Jam sekali</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-info col-md-12">Edit</button>
+                                    </div>
+                                </form>
+                            </div><!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- end col -->
             </div> <!-- END Wraper -->
         </div>
 @push('otherJavascript')

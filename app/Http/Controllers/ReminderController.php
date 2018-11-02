@@ -81,7 +81,8 @@ class ReminderController extends Controller
             'cron_followup' => $request->cron_followup,
             'cron_jamaah_berangkat' => $request->cron_jamaah_berangkat,
             'cron_jamaah_pulang' => $request->cron_jamaah_pulang,
-            'cron_sinkronisasi' => $request->cron_sinkronisasi
+            'cron_sinkronisasi' => $request->cron_sinkronisasi,
+            'cron_jadwal' => $request->cron_jadwal
         ]);
         return redirect()->back()->with('message', 'Penjadwalan notifikasi berhasil di set!');
     }
