@@ -60,9 +60,9 @@ Route::get('/asupkeunjadwal/{periode}', function(Request $request){
                     $data['itinerary'] = $diskon['itinerary'];
                     $data['paket'] = json_encode($diskon['paket']);
                     $data['periode'] = $request->periode;
-                    $validator = DB::table('master_jadwals')->where('id_jadwal', '=', $diskon['id'])->first();
+                    $validator = DB::table('master_jadwals')->where('id_jadwal', '=', $data['id_jadwal'])->first();
                     if ($validator) {
-                        DB::table('master_jadwals')->where('id_jadwal', $validator->id)->update($data);
+                        DB::table('master_jadwals')->where('id_jadwal', $data['id_jadwal'])->update($data);
                     }else{
                         DB::table('master_jadwals')->insert($data);
                     }

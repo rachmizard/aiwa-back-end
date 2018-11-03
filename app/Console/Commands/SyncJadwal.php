@@ -53,6 +53,7 @@ class SyncJadwal extends Command
       // return view('test-api', compact('jadwals'));
       $test = $jadwals['data'];
       $count = count($test);
+      $wadahPeriode = $validator->tahun;
       if (!empty($test)) {
           for ($i=0; $i < $count ; $i++) {
               foreach ($jadwals['data'][$i]['jadwal'] as $key => $diskon) {
@@ -79,10 +80,10 @@ class SyncJadwal extends Command
                   $data['jam_manasik'] = $diskon['jam_manasik'];
                   $data['itinerary'] = $diskon['itinerary'];
                   $data['paket'] = json_encode($diskon['paket']);
-                  $data['periode'] = $validator['tahun'];
+                  $data['periode'] = $wadahPeriode;
                   $validator = DB::table('master_jadwals')->where('id_jadwal', '=', $diskon['id'])->first();
                   if ($validator) {
-                      DB::table('master_jadwals')->where('id_jadwal', $validator->id)->update($data);
+                      DB::table('master_jadwals')->where('id_jadwal', $diskon['id'])->update($data);
                   }else{
                       DB::table('master_jadwals')->insert($data);
                   }
