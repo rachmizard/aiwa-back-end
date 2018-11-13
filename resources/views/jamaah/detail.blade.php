@@ -12,7 +12,7 @@
                     <a href="{{ route('aiwa.jamaah') }}" class="btn btn-sm btn-danger"><i class="fa fa-user"></i> Kembali Ke Halaman Utama</a>
                     <div class="btn-group">
                         <!-- <button id="refreshJamaah" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> Refresh Table</button> -->
-                        <a href="{{ url('/admin/jamaah/download/xlsx') }}" class="btn btn-sm btn-success"><i class="fa fa-download" title="Mendownload semua jamaah tidak berdasarkan periode"></i> Download Semua Jamaah</a>
+                        <a href="{{ route('aiwa.jamaah.download') }}" class="btn btn-sm btn-success"><i class="fa fa-download" title="Mendownload semua jamaah tidak berdasarkan periode"></i> Download Semua Jamaah</a>
                         <button data-target="#import" data-toggle="modal" class="btn btn-sm btn-default"><i class="fa fa-file-excel-o"></i> Import</button>
                     </div>
                 </div>
@@ -70,6 +70,7 @@
                                         <th>nama</th>
                                         <th>tgl_berangkat</th>
                                         <th>tgl_pulang</th>
+                                        <th>nama_marketing</th>
                                         <th>marketing</th>
                                         <th>staff</th>
                                         <th>no_telp</th>
@@ -94,6 +95,7 @@
                                         <td>{{ $jamaah->nama }}</td>
                                         <td>{{ $jamaah->tgl_berangkat }}</td>
                                         <td>{{ $jamaah->tgl_pulang }}</td>
+                                        <td>{{ $jamaah['anggota']['nama'] }}</td>
                                         <td>{{ $jamaah->marketing }}</td>
                                         <td>{{ $jamaah->staff }}</td>
                                         <td>{{ $jamaah->no_telp }}</td>

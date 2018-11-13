@@ -163,14 +163,14 @@ class JamaahController extends Controller
             $validatorDateRange = DB::table('master_periode')->where('judul', $request->get('periode'))->first();
             $dateStart = $validatorDateRange->start;
             $dateEnd = $validatorDateRange->end;
-            $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->where('periode', $request->peride)->get();
+            $jamaahs = Jamaah::orderBy('tgl_berangkat', 'DESC')->where('periode', $request->peride)->get();
           return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
         }else{
             $validatorDateRange = Periode::where('status_periode', 'active')->first();
             $varJay = Periode::find($validatorDateRange['id']);
             $dateStart = $validatorDateRange->start;
             $dateEnd = $validatorDateRange->end;
-            $jamaahs = DB::table('jamaah')->orderBy('tgl_berangkat', 'DESC')->where('periode', $varJay->judul)->get();
+            $jamaahs = Jamaah::orderBy('tgl_berangkat', 'DESC')->where('periode', $varJay->judul)->get();
             return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
         }
     }

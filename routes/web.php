@@ -101,9 +101,14 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
 
     // Import Jamaah Excel
     Route::post('/jamaah/import', 'ImportJamaahController@importExcelJamaah')->name('aiwa.jamaah.store.import');
-    Route::get('/jamaah/download/{type}', 'ImportJamaahController@downloadExcel')->name('aiwa.jamaah.download');
+    Route::get('/jamaah/download/xlsx', 'ImportJamaahController@downloadExcel')->name('aiwa.jamaah.download');
     Route::get('/jamaah/download/format/xlsx', 'DownloadFormatExcelController@downloadFormatJamaah')->name('aiwa.jamaah.format.download');
     // End Import Jamaah
+
+    // Rekap Closing Jamaah
+    Route::get('/jamaah/rekap/closing/', 'RekapClosingAgenController@exportClosing')->name('aiwa.jamaah.rekap.exportClosing');
+    Route::get('/jamaah/rekap/contoh/', 'RekapClosingAgenController@contoh')->name('aiwa.jamaah.rekap.contoh');
+    // End Rekap Closing
 
     // Agen
     Route::get('agenjamaah', 'AgenController@index')->name('aiwa.anggota');

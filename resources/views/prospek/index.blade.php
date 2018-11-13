@@ -138,7 +138,7 @@
                         },
                         order: [ [6, 'desc'] ],
                         "columns": [
-                            { data: "anggota.nama", name: "anggota_id" },
+                            { data: "anggota.nama", name: "anggota.nama" },
                             { data: "pic", name: "pic" },
                             { data: "no_telp", name: "no_telp" },
                             { data: "tgl_keberangkatan", name: "tgl_keberangkatan" },
