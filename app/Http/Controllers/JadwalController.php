@@ -101,19 +101,10 @@ class JadwalController extends Controller
           })
           ->editColumn('tgl_berangkat', function($check){
             if ($check->promo == '1') {
-              return Carbon::parse($check->tgl_berangkat)->format('d/m/Y') . ' <span class="badge badge-sm bg-success">P</span>';
+              return $check->tgl_berangkat . ' <span class="badge badge-sm bg-success">P</span>';
             }else{
-              return Carbon::parse($check->tgl_berangkat)->format('d/m/Y');
+              return $check->tgl_berangkat;
             }
-          })
-          ->editColumn('tgl_pulang', function($check){
-              return Carbon::parse($check->tgl_pulang)->format('d/m/Y');
-          })
-          ->editColumn('tgl_manasik', function($check){
-              return Carbon::parse($check->tgl_manasik)->format('d/m/Y');
-          })
-          ->editColumn('jml_hari', function($check){
-              return $check->jml_hari. ' hari';
           })
           ->editColumn('status', function($check){
               if ($check->status === 'AVAILABLE') {
