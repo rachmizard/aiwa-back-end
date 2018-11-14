@@ -19,8 +19,8 @@ class RekapClosingAgenResource extends Resource
     public function toArray($request)
     {
         // return parent::toArray($request);
-        return [
-            'marketing' => $this->nama,
+        return [    
+            'marketing' => $this->nama,     
             'count' => $this->count()
         ];
     }
@@ -29,4 +29,5 @@ class RekapClosingAgenResource extends Resource
     {
         return Jamaah::where('marketing', $this->id)->where('periode', '1440')->count();
     }
+
 }

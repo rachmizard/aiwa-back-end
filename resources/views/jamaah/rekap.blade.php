@@ -1,30 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang=en>
 <head>
 	<meta charset="UTF-8">
 	<title>Rekap Closing Jamaah</title>
 </head>
 <body>
-	<table>
-		<thead>
-			<tr>
-				<td>Nama Marketing</td>
-				<td>TOTAL</td>
-				@foreach($jadwals as $jadwal)
-					<td>{{ $jadwal['tgl_berangkat'] }}</td>
-				@endforeach
-			</tr>
-		</thead>
-		<tbody>
-			@foreach($agents as $agent)
-			<tr>
-				<td>{{ $agent['nama'] }}</td>
-			@endforeach
-			@foreach($count as $key => $value)
-			<td>{{ json_encode($value, true) }}</td>
-			@endforeach
-			</tr>
-		</tbody>
-	</table>
+        <table border='1'>
+            <tr>
+            <td>KODE</td>
+            <td>NAMA MARKETING</td>
+            <td>TOTAL</td>
+            @foreach ($jadwal as $value) 
+                <td> {{ Carbon\Carbon::parse($value->tgl_berangkat)->format('d-M-Y') }}</td>
+            @endforeach
+            </tr>
+        @foreach ($list_agen as $value) 
+            <tr>
+            <td> {{ $value->id }}</td>
+            <td> {{ $value->nama }}</td>
+            <td> {{ App\Jamaah::where('marketing', $value->id)->where('periode', '1440')->count() }}</td>    
+            @foreach($jadwal as $in)
+            	<td> {{ App\Jamaah::where('marketing', $value->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', '1440')->count() }}</td>    
+            @endforeach
+        @endforeach
+            </tr>
+        }
+        </table>
 </body>
 </html>

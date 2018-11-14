@@ -6,25 +6,19 @@ use App\Http\Resources\RekapClosingAgenResource;
 use App\Jamaah;
 use App\User;
 use App\Master_Jadwal;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Excel;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RekapClosingExport;
+use DB;
 
 class RekapClosingAgenController extends Controller
 {
 
     public function exportClosing()
     {
-    	$data = Master_Jadwal::get();
-    	$agents = User::where('status', 1)->get()->toArray();
-    	$countTotal = RekapClosingAgenResource::collection(User::all());
-    	$totalCount = count($countTotal);
-        return Excel::create('laravelcode', function($excel) use ($data, $agents, $countTotal, $totalCount) {
-            $excel->sheet('mySheet', function($sheet) use ($data, $agents, $countTotal, $totalCount)
-            {
-                $sheet->loadView('jamaah.rekap', array('jadwals' => $data, 'agents' => $agents, 'count' => $countTotal, 'itung' => $totalCount));
-            });
-        })->download('xlsx');
+        ini_set('max_execution_time', 600);
+        return Excel::download(new RekapClosingExport, 'rekap_closing_jamaah.xlsx');
     }
 
     public function contoh()
