@@ -24,7 +24,6 @@
             @endforeach
         @endforeach
             </tr>
-        }
         </table>
 </body>
 </html>
