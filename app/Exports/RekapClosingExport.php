@@ -14,12 +14,18 @@ class RekapClosingExport implements FromView
     /**
     * @return \Illuminate\Support\Collection
     */
+    public function __construct(int $periode)
+    {
+    	$this->periode = $periode;
+    }
+
     public function view(): View
     {
         $users = User::pluck('id')->toArray();
-        $datas = Jamaah::where('periode', '1440')->get();
+        $datas = Jamaah::where('periode', $this->periode)->get();
         $list_agen = User::where('status', 1)->get();
-        $jadwal = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->get();
-        return view('jamaah.rekap', ['list_agen' => $list_agen, 'jadwal' => $jadwal, 'users' => $users, 'datas' => $datas]);
+        $this_periode = $this->periode;
+        $jadwal = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $this->periode)->get();
+        return view('jamaah.rekap', ['list_agen' => $list_agen, 'jadwal' => $jadwal, 'users' => $users, 'datas' => $datas, 'this_periode' => $this_periode]);
     }
 }

@@ -50,6 +50,37 @@
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- col -->
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Rekap Jamaah <i class="fa fa-table"></i></h3></div>
+                            <div class="panel-body">
+
+                                <form class="form-inline" action="{{ route('aiwa.jamaah.rekap.exportClosing') }}" role="form">
+                                    <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan2">Pilih Periode yang akan di rekap</label>
+                                        <select name="periode" id="edan2" class="col-md-4 form-control" style="width: 100%;">
+                                            @foreach($periodes as $periode)
+                                            @if($periode->judul == 'All')
+                                            @else
+                                                <option value="{{ $periode->judul }}" {{ $periode->status_periode == 'active' ? 'selected' : '' }}>{{ $periode->judul }}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <!-- <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan2">Search</label>
+                                        <input type="text" class="form-control" name="search">
+                                    </div> -->
+                                    <button  class="btn btn-success m-l-10"><i class="fa fa-file-excel-o"></i> Rekap</button>
+                                </form>
+
+
+                                <!-- <form class="form-inline" role="form">
+                                    <button id="search-form-agen" " class="btn btn-success m-l-10">Filter</button>
+                                </form> -->
+                            </div> <!-- panel-body -->
+                        </div> <!-- panel -->
+                    </div> <!-- col -->
                 </div> <!-- End row -->
                 <div class="row">
                     <div class="col-sm-12">

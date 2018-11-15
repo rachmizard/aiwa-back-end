@@ -18,9 +18,9 @@
             <tr>
             <td> {{ $value->id }}</td>
             <td> {{ $value->nama }}</td>
-            <td> {{ App\Jamaah::where('marketing', $value->id)->where('periode', '1440')->count() }}</td>    
+            <td> {{ App\Jamaah::where('marketing', $value->id)->where('periode', $this_periode)->count() }}</td>    
             @foreach($jadwal as $in)
-            	<td> {{ App\Jamaah::where('marketing', $value->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', '1440')->count() }}</td>    
+            	<td> {{ App\Jamaah::where('marketing', $value->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>    
             @endforeach
         @endforeach
             </tr>

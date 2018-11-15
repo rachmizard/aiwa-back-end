@@ -15,10 +15,11 @@ use DB;
 class RekapClosingAgenController extends Controller
 {
 
-    public function exportClosing()
+    public function exportClosing(Request $request)
     {
         ini_set('max_execution_time', 600);
-        return Excel::download(new RekapClosingExport, 'rekap_closing_jamaah.xlsx');
+        $periode = $request->periode;
+        return Excel::download(new RekapClosingExport($periode), 'rekap_closing_jamaah_'. $periode .'.xlsx');
     }
 
     public function contoh()
