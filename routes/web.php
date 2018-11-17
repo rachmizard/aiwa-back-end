@@ -336,12 +336,14 @@ Route::get('/faker/prospeks',function(){
 });
 
 Route::get('rekap/{start}/{end}/{paginate}', function($start, $end, $paginate){
-    $users = App\User::pluck('id')->toArray();
+        $users = App\User::pluck('id')->toArray();
         $datas = App\Jamaah::where('periode', '1440')->get();
         $list_agen = App\Rekap::orderBy('total', 'DESC')->where('periode', '1440')->paginate($paginate);
-        $sum_total = App\Rekap::where('periode', '1440')->sum('total');
         $this_periode = '1440';
         $jadwal = App\Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', '1440')->whereBetween('tgl_berangkat', [$start, $end])->get();
+        $count = array();
+        $total_by_periode = array();
+        $total_by_between = App\Jamaah::where('periode', $this_periode)->whereBetween('tgl_berangkat', [$start, $end])->count();
     echo "<table border='1'>";
     echo " <tr>";
     echo " <td>KODE</td>";
@@ -352,18 +354,24 @@ Route::get('rekap/{start}/{end}/{paginate}', function($start, $end, $paginate){
             }
             echo "</tr>";
         foreach ($list_agen as $value) {
+            $total_by_periode = App\Jamaah::where('marketing', $value->anggota->id)->where('periode', $this_periode)->whereBetween('tgl_berangkat', [$start, $end])->count();
             echo "<tr>";
             echo "<td> ". $value->anggota->id ."</td>";
             echo "<td> ". $value->anggota->nama ."</td>";
-            echo "<td> ". $value->total ."</td>";
+            echo "<td> ". $total_by_periode ."</td>";
             foreach($jadwal as $in){
-                echo "<td> ". App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() ."</td>";
+                $count[] = App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count();
+                if ($count[0] == 0) {
+                    echo "<td></td>";
+                }else{
+                    echo "<td> ". App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() ."</td>";
+                }
             }
         }
 echo "            </tr>";
 echo "            <tr>";
 echo "                <td colspan='2'>GRAND TOTAL</td>";
-echo "                <td colspan>". $sum_total ."</td>";
+echo "                <td colspan>". $total_by_between ."</td>";
 echo "            </tr>";
 echo "        </table>
 ". $list_agen->links() ."";

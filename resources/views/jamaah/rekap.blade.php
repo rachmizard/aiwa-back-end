@@ -15,18 +15,23 @@
             @endforeach
             </tr>
         @foreach ($list_agen as $value) 
+        {{ $total_by_periode = App\Jamaah::where('marketing', $value->anggota->id)->where('periode', $this_periode)->whereBetween('tgl_berangkat', [$start, $end])->count() }}
             <tr>
             <td> {{ $value->anggota->id }}</td>
             <td> {{ $value->anggota->nama }}</td>
-            <td> {{ $value->total }}</td>    
+            <td> {{ $total_by_periode }}</td> 
             @foreach($jadwal as $in)
-            	<td> {{ App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>    
+                @if (App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() == 0) 
+                    <td></td>
+                @else
+                    <td> {{ App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>
+                @endif
             @endforeach
         @endforeach
             </tr>
             <tr>
-                <td colspan="3">GRAND TOTAL</td>
-                <td colspan="3">{{ $sum_total }}</td>
+                <td colspan="2">GRAND TOTAL</td>
+                <td>{{ $total_by_between }}</td>
             </tr>
         </table>
 </body>

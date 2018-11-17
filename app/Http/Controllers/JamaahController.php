@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Jamaah;
+use App\Master_Jadwal;
 use App\User;
 use Yajra\Datatables\Datatables;
 use App\LogActivity;
@@ -31,8 +32,9 @@ class JamaahController extends Controller
         // $jamaah = Jamaah::where('status', 'lunas')->get();
         $agents = \App\User::where('status', '=', '1')->get();
         $jamaah = Jamaah::all();
+        $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', Periode::where('status_periode', 'active')->value('judul'))->get();
         $periodes = Periode::orderBy('id', 'DESC')->get();
-        return view('jamaah.index', compact('agents', 'jamaah', 'periodes'));
+        return view('jamaah.index', compact('agents', 'jamaah', 'periodes', 'jadwals'));
     }
 
     // get data by serverside

@@ -19,7 +19,7 @@
                 </div>
                 <!-- Inline Form -->
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title">Filter <i class="fa fa-filter"></i></h3></div>
                             <div class="panel-body">
@@ -50,7 +50,7 @@
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- col -->
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title">Rekap Jamaah <i class="fa fa-table"></i></h3></div>
                             <div class="panel-body">
@@ -59,11 +59,33 @@
                                     <div class="form-group m-l-10">
                                         <label class="sr-only" for="edan2">Pilih Periode yang akan di rekap</label>
                                         <select name="periode" id="edan2" class="col-md-4 form-control" style="width: 100%;">
+                                            <option selected disabled>Periode</option>
                                             @foreach($periodes as $periode)
                                             @if($periode->judul == 'All')
                                             @else
                                                 <option value="{{ $periode->judul }}" {{ $periode->status_periode == 'active' ? 'selected' : '' }}>{{ $periode->judul }}</option>
                                             @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan2"></label>
+                                        <select name="start" id="edan2" class="col-md-4 form-control" style="width: 100%;">
+                                            <option selected disabled>Awal Tanggal Berangkat</option>
+                                            @foreach($jadwals as $jadwal)
+                                                <option value="{{ $jadwal->tgl_berangkat }}">{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group m-l-10">
+                                        <label >sampai</label>
+                                    </div>
+                                    <div class="form-group m-l-10">
+                                        <label class="sr-only" for="edan2"></label>
+                                        <select name="end" id="edan2" class="col-md-4 form-control" style="width: 100%;">
+                                            <option selected disabled>Akhir Tanggal Berangkat</option>
+                                            @foreach($jadwals as $jadwal)
+                                                <option value="{{ $jadwal->tgl_berangkat }}">{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
                                             @endforeach
                                         </select>
                                     </div>

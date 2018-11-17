@@ -15,9 +15,11 @@ class RekapClosingExport implements FromView
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function __construct(int $periode)
+    public function __construct(int $periode, $start, $end)
     {
-    	$this->periode = $periode;
+        $this->periode = $periode;
+        $this->start = $start;
+    	$this->end = $end;
     }
 
     public function view(): View
@@ -25,9 +27,13 @@ class RekapClosingExport implements FromView
         $users = User::pluck('id')->toArray();
         $datas = Jamaah::where('periode', $this->periode)->get();
         $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $this->periode)->get();
-        $sum_total = Rekap::where('periode', $this->periode)->sum('total');
         $this_periode = $this->periode;
-        $jadwal = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $this->periode)->get();
-        return view('jamaah.rekap', ['list_agen' => $list_agen, 'jadwal' => $jadwal, 'users' => $users, 'datas' => $datas, 'this_periode' => $this_periode, 'sum_total' => $sum_total]);
+        $jadwal = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $this_periode)->whereBetween('tgl_berangkat', [$this->start, $this->end])->get();
+        $count = array();
+        $total_by_periode = array();
+        $total_by_between = Jamaah::where('periode', $this_periode)->whereBetween('tgl_berangkat', [$this->start, $this->end])->count();
+        $start = $this->start;
+        $end = $this->end;
+        return view('jamaah.rekap', ['list_agen' => $list_agen, 'jadwal' => $jadwal, 'users' => $users, 'datas' => $datas, 'this_periode' => $this_periode, 'count' => $count, 'total_by_periode' => $total_by_periode, 'total_by_between' => $total_by_between, 'start' => $start, 'end' => $end]);
     }
 }

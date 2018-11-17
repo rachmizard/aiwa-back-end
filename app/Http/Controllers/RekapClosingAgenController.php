@@ -20,6 +20,8 @@ class RekapClosingAgenController extends Controller
     {
         ini_set('max_execution_time', 600);
         $periode = $request->periode;
+        $start = $request->start;
+        $end = $request->end;
         DB::table('rekap_jamaah')->where('periode', $periode)->delete();
         $anggotas = User::where('status', 1)->get();
         foreach ($anggotas as $anggota) {
@@ -28,7 +30,7 @@ class RekapClosingAgenController extends Controller
             $data['periode'] = $periode;
             DB::table('rekap_jamaah')->insert($data);
         }
-        return Excel::download(new RekapClosingExport($periode), 'rekap_closing_jamaah_'. $periode .'.xlsx');
+        return Excel::download(new RekapClosingExport($periode, $start, $end), 'rekap_closing_jamaah_'. $periode .'_'. $start .'_'. $end .'.xlsx');
     }
 
     public function contoh()
