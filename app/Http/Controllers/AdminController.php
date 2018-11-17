@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\LogActivity;
 use App\User;
 use App\Jamaah;
+use App\Master_Jadwal;
 use App\Prospek;
 use Excel;
 use DB;
@@ -120,7 +121,10 @@ class AdminController extends Controller
                 $statsProspekNovember = Prospek::where('anggota_id', $request->agen)->whereMonth('created_at', '11')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
                 $statsProspekDesember = Prospek::where('anggota_id', $request->agen)->whereMonth('created_at', '12')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
 
-                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest'));   
+
+                $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', Periode::where('status_periode', 'active')->value('judul'))->get();
+
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals'));   
             }else{
                 $selectRequest = 'SM140';
                 $now = Carbon::now();
@@ -209,7 +213,10 @@ class AdminController extends Controller
                 $statsProspekNovember = Prospek::where('anggota_id', 'SM140')->whereMonth('created_at', '11')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
                 $statsProspekDesember = Prospek::where('anggota_id', 'SM140')->whereMonth('created_at', '12')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
 
-                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest'));   
+
+                $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', Periode::where('status_periode', 'active')->value('judul'))->get();
+
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals'));   
             }
     }
 
