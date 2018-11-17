@@ -334,3 +334,37 @@ Route::get('/faker/prospeks',function(){
 
         return redirect()->back()->with('message', $limit.' data prospeks has been automatically added!');
 });
+
+Route::get('rekap/{start}/{end}/{paginate}', function($start, $end, $paginate){
+    $users = App\User::pluck('id')->toArray();
+        $datas = App\Jamaah::where('periode', '1440')->get();
+        $list_agen = App\Rekap::orderBy('total', 'DESC')->where('periode', '1440')->paginate($paginate);
+        $sum_total = App\Rekap::where('periode', '1440')->sum('total');
+        $this_periode = '1440';
+        $jadwal = App\Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', '1440')->whereBetween('tgl_berangkat', [$start, $end])->get();
+    echo "<table border='1'>";
+    echo " <tr>";
+    echo " <td>KODE</td>";
+    echo " <td>NAMA MARKETING</td>";
+    echo " <td>TOTAL</td>";
+            foreach ($jadwal as $value) {
+              echo"<td> ". Carbon\Carbon::parse($value->tgl_berangkat)->format('d-M-Y') ."</td>";
+            }
+            echo "</tr>";
+        foreach ($list_agen as $value) {
+            echo "<tr>";
+            echo "<td> ". $value->anggota->id ."</td>";
+            echo "<td> ". $value->anggota->nama ."</td>";
+            echo "<td> ". $value->total ."</td>";
+            foreach($jadwal as $in){
+                echo "<td> ". App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() ."</td>";
+            }
+        }
+echo "            </tr>";
+echo "            <tr>";
+echo "                <td colspan='2'>GRAND TOTAL</td>";
+echo "                <td colspan>". $sum_total ."</td>";
+echo "            </tr>";
+echo "        </table>
+". $list_agen->links() ."";
+});

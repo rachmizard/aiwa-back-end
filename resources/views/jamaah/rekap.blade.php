@@ -16,13 +16,17 @@
             </tr>
         @foreach ($list_agen as $value) 
             <tr>
-            <td> {{ $value->id }}</td>
-            <td> {{ $value->nama }}</td>
-            <td> {{ App\Jamaah::where('marketing', $value->id)->where('periode', $this_periode)->count() }}</td>    
+            <td> {{ $value->anggota->id }}</td>
+            <td> {{ $value->anggota->nama }}</td>
+            <td> {{ $value->total }}</td>    
             @foreach($jadwal as $in)
-            	<td> {{ App\Jamaah::where('marketing', $value->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>    
+            	<td> {{ App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>    
             @endforeach
         @endforeach
+            </tr>
+            <tr>
+                <td colspan="3">GRAND TOTAL</td>
+                <td colspan="3">{{ $sum_total }}</td>
             </tr>
         </table>
 </body>
