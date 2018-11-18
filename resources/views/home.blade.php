@@ -203,21 +203,24 @@
                                             <select name="start" id="edan2" class="col-md-4 form-control" style="width: 100%;">
                                                 <option selected disabled>Awal Tanggal Berangkat</option>
                                                 @foreach($jadwals as $jadwal)
-                                                    <option value="{{ $jadwal->tgl_berangkat }}">{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
+                                                    <option value="{{ $jadwal->tgl_berangkat }}" @if($requestStartDate == $jadwal->tgl_berangkat) selected @endif>{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="form-group m-l-10">
+                                            <label >sampai</label>
                                         </div>
                                         <div class="form-group m-l-10">
                                             <label class="sr-only" for="edan2"></label>
                                             <select name="end" id="edan2" class="col-md-4 form-control" style="width: 100%;">
                                                 <option selected disabled>Akhir Tanggal Berangkat</option>
                                                 @foreach($jadwals as $jadwal)
-                                                    <option value="{{ $jadwal->tgl_berangkat }}" @if($requestStartDate == $jadwal->tgl_berangkat) selected @endif>{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
+                                                    <option value="{{ $jadwal->tgl_berangkat }}" @if($requestEndDate == $jadwal->tgl_berangkat) selected @endif>{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="form-group m-l-10">
-                                            <label >menampilkan</label>
+                                            <label >limit menampilkan data</label>
                                         </div>
                                         <div class="form-group m-l-10">
                                             <label class="sr-only" for="edan2"></label>
@@ -235,18 +238,15 @@
                                         <div class="form-group m-l-10 col-md-offset-4" style="margin-bottom: 10px; margin-top: 10px;">
                                             <button class="btn btn-success"><i class="fa fa-filter"></i> Filter</button>
                                         </div>
-                                        <div class="form-group m-l-10">
-                                            {{ $list_agen->links() }}
-                                        </div>
                                     </form>
                                     <div class="table-responsive vertical">
                                         <table class="table table-bordered table-striped">
                                             <tr>
-                                            <td>KODE</td>
-                                            <td>NAMA MARKETING</td>
-                                            <td>TOTAL</td>
+                                            <th>KODE</th>
+                                            <th>NAMA MARKETING</th>
+                                            <th>TOTAL</th>
                                             @foreach ($jadwal_pikasebeuleun as $value) 
-                                                <td> {{ Carbon\Carbon::parse($value['tgl_berangkat'])->format('d-M-Y') }}</td>
+                                                <th> {{ Carbon\Carbon::parse($value['tgl_berangkat'])->format('d M Y') }}</th>
                                             @endforeach
                                             </tr>
                                         @foreach ($list_agen as $value)
@@ -267,6 +267,9 @@
                                             <tr>
                                                 <td colspan="2">GRAND TOTAL</td>
                                                 <td>{{ $total_by_between }}</td>
+                                            @foreach($jadwal_pikasebeuleun as $key => $on)
+                                                <td>{{ App\Jamaah::where('tgl_berangkat', $on->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>
+                                            @endforeach
                                             </tr>
                                         </table>
                                     </div>

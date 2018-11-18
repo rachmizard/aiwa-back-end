@@ -150,8 +150,8 @@ class AdminController extends Controller
                 }
                 $users = User::pluck('id')->toArray();
                 $datas = Jamaah::where('periode', $requestPeriode)->get();
-                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->paginate($requestMenampilkan);
-                $all_agen = Rekap::where('periode', $requestPeriode)->get();
+                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->skip(0)->take($requestMenampilkan)->get();
+                $all_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
                 $this_periode = '1440';
                 $jadwal_pikasebeuleun = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->get();
                 $count = array();
@@ -273,12 +273,17 @@ class AdminController extends Controller
                 if($request->input('menampilkan')){
                     $requestMenampilkan = $request->input('menampilkan');
                 }else{
-                    $requestMenampilkan = 5;
+                    $requestMenampilkan = '';
+                    if ($request->input('menampilkan') == 0) {
+                      $requestMenampilkan = $request->input('menampilkan');  
+                    }else{
+                      $requestMenampilkan = 5;
+                    }
                 }
                 $users = User::pluck('id')->toArray();
                 $datas = Jamaah::where('periode', $requestPeriode)->get();
-                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->paginate($requestMenampilkan);
-                $all_agen = Rekap::where('periode', $requestPeriode)->get();
+                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->skip(0)->take($requestMenampilkan)->get();
+                $all_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
                 $this_periode = '1440';
                 $jadwal_pikasebeuleun = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->get();
                 $count = array();

@@ -372,6 +372,9 @@ echo "            </tr>";
 echo "            <tr>";
 echo "                <td colspan='2'>GRAND TOTAL</td>";
 echo "                <td colspan>". $total_by_between ."</td>";
+                    foreach ($jadwal as $key => $in) {
+                        echo "<td>". App\Jamaah::where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() ."</td>";
+                    }
 echo "            </tr>";
 echo "        </table>
 ". $list_agen->links() ."";

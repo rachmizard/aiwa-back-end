@@ -34,14 +34,16 @@ class PeriodeController extends Controller
         return $datatables->of($var)
         ->addColumn('action', function($periode){
             return '
-            <div class="btn-group">
-                    <a href="#" data-toggle="modal" data-target="#editPeriodeModal" data-id="'. $periode->id .'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>
-                    <input type="hidden" id="id" value="'. $periode->id .'">
-                    <form action="'. route('aiwa.master-periode.destroy', $periode->id) .'" method="POST">
-                        <input type="hidden" name="_token" value="'. csrf_token() .'">
-                        <button type="submit" onclick="confirmBtn()" class="btn btn-sm btn-danger" title="Hapus"><i class="fa fa-trash"></i></button>
-                    </form>
-            </div>
+                <button data-toggle="modal" data-target="#editPeriodeModal" data-id="'. $periode->id .'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></button>
+                <form method="POST" action="'. route('aiwa.master-periode.active', $periode->id) .'">
+                    <input type="hidden" name="_token" value="'. csrf_token() .'">
+                    <button type="submit" class="btn btn-sm btn-success" ><i class="fa fa-spinner fa-spin"></i> Aktifkan periode ini</button> 
+                </form>
+                <input type="hidden" id="id" value="'. $periode->id .'">
+                <form action="'. route('aiwa.master-periode.destroy', $periode->id) .'" method="POST">
+                    <input type="hidden" name="_token" value="'. csrf_token() .'">
+                    <button type="submit" onclick="confirmBtn()" class="btn btn-sm btn-danger" title="Hapus"><i class="fa fa-trash"></i></button>
+                </form>
                     ';
         })
         ->addColumn('status_periode', function($periode){

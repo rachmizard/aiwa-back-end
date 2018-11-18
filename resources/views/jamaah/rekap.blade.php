@@ -31,7 +31,14 @@
             </tr>
             <tr>
                 <td colspan="2">GRAND TOTAL</td>
-                <td>{{ $total_by_between }}</td>
+                <td>{{ $total_by_between }}</td>    
+            @foreach($jadwal as $on)
+                @if(App\Jamaah::where('tgl_berangkat', $on->tgl_berangkat)->where('periode', $this_periode)->count() == 0)
+                    <td></td>
+                @else
+                    <td>{{ App\Jamaah::where('tgl_berangkat', $on->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>
+                @endif
+            @endforeach
             </tr>
         </table>
 </body>
