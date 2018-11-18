@@ -1,6 +1,11 @@
 @extends('layouts.master')
 @section('content')
-
+<style>
+.vertical {
+  height:450px;
+  overflow-y: scroll;
+}
+</style>
 <!-- Page Content Start -->
             <!-- ================== -->
 
@@ -28,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="portlet"><!-- /primary heading -->
                             <div class="portlet-heading">
                                 <h3 class="portlet-title text-dark text-uppercase">
@@ -68,68 +73,6 @@
                                             </select>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
-                        </div> <!-- /Portlet -->
-                    </div> <!-- end col -->
-                    <div class="col-md-6">
-                        <div class="portlet"><!-- /primary heading -->
-                            <div class="portlet-heading">
-                                <h3 class="portlet-title text-dark text-uppercase">
-                                    TOP TOTAL CLOSING
-                                </h3>
-                                <div class="portlet-widgets">
-                                    <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
-                                    <span class="divider"></span>
-                                    <a data-toggle="collapse" data-parent="#accordion1" href="#top-total-accordion"><i class="ion-minus-round"></i></a>
-                                    <span class="divider"></span>
-                                    <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div id="top-total-accordion" class="panel-collapse collapse in ">
-                                <div class="portlet-body">
-                                    <form class="form-inline" role="form">
-                                        <div class="form-group m-l-10">
-                                            <label class="sr-only" for="edan2"></label>
-                                            <select name="start" id="edan2" class="col-md-4 form-control" style="width: 100%;">
-                                                <option selected disabled>Awal Tanggal Berangkat</option>
-                                                @foreach($jadwals as $jadwal)
-                                                    <option value="{{ $jadwal->tgl_berangkat }}">{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group m-l-10">
-                                            <label >sampai</label>
-                                        </div>
-                                        <div class="form-group m-l-10">
-                                            <label class="sr-only" for="edan2"></label>
-                                            <select name="end" id="edan2" class="col-md-4 form-control" style="width: 100%;">
-                                                <option selected disabled>Akhir Tanggal Berangkat</option>
-                                                @foreach($jadwals as $jadwal)
-                                                    <option value="{{ $jadwal->tgl_berangkat }}">{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <!-- <div class="form-group m-l-10">
-                                            <label class="sr-only" for="edan2">Search</label>
-                                            <input type="text" class="form-control" name="search">
-                                        </div> -->
-                                        <div class="form-group m-l-10 col-md-offset-4" style="margin-bottom: 10px; margin-top: 10px;">
-                                            <button class="btn btn-success"><i class="fa fa-filter"></i> Filter</button>
-                                        </div>
-                                    </form>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <td>Kode</td>
-                                                    <td>Nama Marketing</td>
-                                                    <td>Total</td>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
                                 </div>
                             </div>
                         </div> <!-- /Portlet -->
@@ -227,6 +170,110 @@
                             </div>
                         </div> <!-- /Portlet -->
                     </div>
+
+                    <div class="col-md-12">
+                        <div class="portlet"><!-- /primary heading -->
+                            <div class="portlet-heading">
+                                <h3 class="portlet-title text-dark text-uppercase">
+                                    TOP TOTAL CLOSING
+                                </h3>
+                                <div class="portlet-widgets">
+                                    <!-- <a href="javascript:;" data-toggle="reload"><i class="ion-refresh"></i></a> -->
+                                    <span class="divider"></span>
+                                    <a data-toggle="collapse" data-parent="#accordion1" href="#top-total-accordion"><i class="ion-minus-round"></i></a>
+                                    <span class="divider"></span>
+                                    <!-- <a href="#" data-toggle="remove"><i class="ion-close-round"></i></a> -->
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="top-total-accordion" class="panel-collapse collapse in ">
+                                <div class="portlet-body">
+                                    <form class="form-inline" role="form">
+                                        <div class="form-group m-l-10">
+                                            <label class="sr-only" for="periodeku"></label>
+                                            <select name="periodeRekap" id="periodeku" class="col-md-4 form-control" style="width: 100%;">
+                                                <option selected disabled>Periode</option>
+                                                @foreach($periodes as $periode)
+                                                    <option value="{{ $periode->judul }}" @if($requestPeriode == $periode->judul) selected @endif>{{ $periode->judul }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group m-l-10">
+                                            <label class="sr-only" for="edan2"></label>
+                                            <select name="start" id="edan2" class="col-md-4 form-control" style="width: 100%;">
+                                                <option selected disabled>Awal Tanggal Berangkat</option>
+                                                @foreach($jadwals as $jadwal)
+                                                    <option value="{{ $jadwal->tgl_berangkat }}">{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group m-l-10">
+                                            <label class="sr-only" for="edan2"></label>
+                                            <select name="end" id="edan2" class="col-md-4 form-control" style="width: 100%;">
+                                                <option selected disabled>Akhir Tanggal Berangkat</option>
+                                                @foreach($jadwals as $jadwal)
+                                                    <option value="{{ $jadwal->tgl_berangkat }}" @if($requestStartDate == $jadwal->tgl_berangkat) selected @endif>{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group m-l-10">
+                                            <label >menampilkan</label>
+                                        </div>
+                                        <div class="form-group m-l-10">
+                                            <label class="sr-only" for="edan2"></label>
+                                            <select name="menampilkan" id="edan2" class="col-md-4 form-control" style="width: 100%;">
+                                                <option selected disabled>Menampilkan</option>
+                                                @foreach($all_agen as $key => $list)
+                                                    <option value="{{ $key }}" @if($requestMenampilkan == $key) selected @endif>{{ $key }} agen</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <!-- <div class="form-group m-l-10">
+                                            <label class="sr-only" for="edan2">Search</label>
+                                            <input type="text" class="form-control" name="search">
+                                        </div> -->
+                                        <div class="form-group m-l-10 col-md-offset-4" style="margin-bottom: 10px; margin-top: 10px;">
+                                            <button class="btn btn-success"><i class="fa fa-filter"></i> Filter</button>
+                                        </div>
+                                        <div class="form-group m-l-10">
+                                            {{ $list_agen->links() }}
+                                        </div>
+                                    </form>
+                                    <div class="table-responsive vertical">
+                                        <table class="table table-bordered table-striped">
+                                            <tr>
+                                            <td>KODE</td>
+                                            <td>NAMA MARKETING</td>
+                                            <td>TOTAL</td>
+                                            @foreach ($jadwal_pikasebeuleun as $value) 
+                                                <td> {{ Carbon\Carbon::parse($value['tgl_berangkat'])->format('d-M-Y') }}</td>
+                                            @endforeach
+                                            </tr>
+                                        @foreach ($list_agen as $value)
+                                        <?php $total_by_periode = App\Jamaah::where('marketing', $value['anggota']['id'])->where('periode', $this_periode)->whereBetween('tgl_berangkat', [$start, $end])->count(); ?>
+                                            <tr>
+                                            <td> {{ $value['anggota']['id'] }}</td>
+                                            <td> {{ $value['anggota']['nama'] }}</td>
+                                            <td> {{ $total_by_periode }}</td> 
+                                            @foreach($jadwal_pikasebeuleun as $in)
+                                                @if (App\Jamaah::where('marketing', $value['anggota']['id'])->where('tgl_berangkat', $in['tgl_berangkat'])->where('periode', $this_periode)->count() == 0) 
+                                                    <td></td>
+                                                @else
+                                                    <td> {{ App\Jamaah::where('marketing', $value['anggota']['id'])->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">GRAND TOTAL</td>
+                                                <td>{{ $total_by_between }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- /Portlet -->
+                    </div> <!-- end col -->
                 </div> <!-- End row -->
 
 
