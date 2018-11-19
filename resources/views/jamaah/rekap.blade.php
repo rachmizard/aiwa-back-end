@@ -15,7 +15,7 @@
             @endforeach
             </tr>
         @foreach ($list_agen as $value) 
-        {{ $total_by_periode = App\Jamaah::where('marketing', $value->anggota->id)->where('periode', $this_periode)->whereBetween('tgl_berangkat', [$start, $end])->count() }}
+        <?php  $total_by_periode = App\Jamaah::where('marketing', $value->anggota->id)->where('periode', $this_periode)->whereBetween('tgl_berangkat', [$start, $end])->count();  ?>
             <tr>
             <td> {{ $value->anggota->id }}</td>
             <td> {{ $value->anggota->nama }}</td>

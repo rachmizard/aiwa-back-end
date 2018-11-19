@@ -10,6 +10,7 @@ Use App\Periode;
 use Yajra\Datatables\Datatables;
 use DB;
 use Excel;
+use App\Exports\ExportAgen;
 use Carbon\Carbon;
 
 class AgenController extends Controller
@@ -85,13 +86,7 @@ class AgenController extends Controller
     
     public function downloadExcel($type)
     {
-        $data = User::get()->toArray();
-        return Excel::create('data_agen', function($excel) use ($data) {
-            $excel->sheet('mySheet', function($sheet) use ($data)
-            {
-                $sheet->fromArray($data);
-            });
-        })->download($type);
+        return Excel::download(new ExportAgen, 'data_agen_all.xlsx');
     }
 
     public function filter(Request $request)

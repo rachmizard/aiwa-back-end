@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
+use App\Exports\ExportAgen;
+use App\Exports\ImportAgen;
 use App\Admin;
 use App\Periode;
 use Carbon\Carbon;
@@ -12,7 +14,7 @@ use App\Rekap;
 use App\Jamaah;
 use App\Master_Jadwal;
 use App\Prospek;
-use Excel;
+use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use fcm;
 
@@ -150,7 +152,7 @@ class AdminController extends Controller
                 }
                 $users = User::pluck('id')->toArray();
                 $datas = Jamaah::where('periode', $requestPeriode)->get();
-                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->skip(0)->take($requestMenampilkan)->get();
+                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
                 $all_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
                 $this_periode = '1440';
                 $jadwal_pikasebeuleun = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->get();
@@ -282,7 +284,7 @@ class AdminController extends Controller
                 }
                 $users = User::pluck('id')->toArray();
                 $datas = Jamaah::where('periode', $requestPeriode)->get();
-                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->skip(0)->take($requestMenampilkan)->get();
+                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
                 $all_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
                 $this_periode = '1440';
                 $jadwal_pikasebeuleun = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->get();
@@ -363,67 +365,13 @@ class AdminController extends Controller
     // Export Coding
     public function downloadExcel($type)
     {
-        $data = User::get()->toArray();
-        return Excel::create('data_agen', function($excel) use ($data) {
-            $excel->sheet('mySheet', function($sheet) use ($data)
-            {
-                $sheet->fromArray($data);
-            });
-        })->download($type);
+        return Excel::download(new ExportAgen, 'data_agen_all.xlsx');
     }
 
     // Import COding
     public function importExcel(Request $request)
     {
-        if($request->hasFile('import_file')){
-            $dataLoad = Excel::load($request->file('import_file')->getRealPath(), function ($reader){})->get();
-            if (!empty($dataLoad)) {
-
-                foreach ($dataLoad->toArray() as $key => $row) {
-                    if (!empty($row)) {
-                        $data['id'] = $row['id'];
-                        $data['nama'] = $row['nama'];
-                        $data['email'] = $row['email'];
-                        $data['username'] = $row['username'];
-                        $data['password'] = bcrypt($row['password']);
-                        $data['jenis_kelamin'] = $row['jenis_kelamin'];
-                        $data['no_ktp'] = $row['no_ktp'];
-                        $data['alamat'] = $row['alamat'];
-                        $data['no_telp'] = $row['no_telp'];
-                        $data['status'] = $row['status'];
-                        $data['koordinator'] = $row['koordinator'];
-                        $data['bank'] = $row['bank'];
-                        $data['no_rekening'] = $row['no_rekening'];
-                        $data['fee_reguler'] = $row['fee_reguler'];
-                        $data['fee_promo'] = $row['fee_promo'];
-                        $data['nama_rek_beda'] = $row['nama_rek_beda'];
-                        $data['website'] = $row['website'];
-                        $data['created_at'] = Carbon::now();
-                        $data['updated_at'] = Carbon::now();
-                    }
-                    if(!empty($data)) {
-                        $validator = User::where('id', $data['id'])->first();
-                        if($validator){
-                            DB::table('users')->where('id', $data['id'])->update($data);
-                            // Session::put('message', 'Your file is succesfully updated!');
-                        }else {
-                            if ($data['id'] == null) {
-                                $length = 10;
-                                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                                $charactersLength = strlen($characters);
-                                $randomString = '';
-                                for ($i = 0; $i < $length; $i++) {
-                                    $randomString .= $characters[rand(0, $charactersLength - 1)];
-                                }
-                                $data['id'] = $randomString;
-                            }
-                            DB::table('users')->insert($data);
-                            // Session::put('message', 'Your file is succesfully imported!');
-                        }
-                    }
-                }
-            }
-        }
+        Excel::import(new ImportAgen, request()->file('import_file'));
         return redirect()->route('aiwa.anggota');
     }
 

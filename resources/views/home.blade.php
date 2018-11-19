@@ -219,10 +219,10 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group m-l-10">
+                                        <!-- <div class="form-group m-l-10">
                                             <label >limit menampilkan data</label>
-                                        </div>
-                                        <div class="form-group m-l-10">
+                                        </div> -->
+                                        <!-- <div class="form-group m-l-10">
                                             <label class="sr-only" for="edan2"></label>
                                             <select name="menampilkan" id="edan2" class="col-md-4 form-control" style="width: 100%;">
                                                 <option selected disabled>Menampilkan</option>
@@ -230,7 +230,7 @@
                                                     <option value="{{ $key }}" @if($requestMenampilkan == $key) selected @endif>{{ $key }} agen</option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div> -->
                                         <!-- <div class="form-group m-l-10">
                                             <label class="sr-only" for="edan2">Search</label>
                                             <input type="text" class="form-control" name="search">
