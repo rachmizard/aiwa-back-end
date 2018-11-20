@@ -124,8 +124,13 @@ class AdminController extends Controller
                 $statsProspekNovember = Prospek::where('anggota_id', $request->agen)->whereMonth('created_at', '11')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
                 $statsProspekDesember = Prospek::where('anggota_id', $request->agen)->whereMonth('created_at', '12')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
 
-
+                $jadwal_unique = array();
                 $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', Periode::where('status_periode', 'active')->value('judul'))->get();
+                foreach ($jadwals as $value) {
+                    $jadwal_unique[] = $value->tgl_berangkat;
+                }
+
+                $unique_data_jadwal = array_unique($jadwal_unique);
                 
                 if ($request->input('periodeRekap')) {
                     $requestPeriode = $request->input('periodeRekap');
@@ -169,7 +174,7 @@ class AdminController extends Controller
                 $unique_data = array_unique($tgl_berangkat);
                 $end = $requestEndDate;
 
-                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals', 'users', 'datas', 'list_agen', 'this_periode', 'jadwal_pikasebeuleun', 'count', 'total_by_periode', 'total_by_between', 'start', 'end', 'all_agen', 'requestPeriode', 'requestStartDate', 'requestEndDate', 'requestMenampilkan', 'unique_data'));  
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals', 'users', 'datas', 'list_agen', 'this_periode', 'jadwal_pikasebeuleun', 'count', 'total_by_periode', 'total_by_between', 'start', 'end', 'all_agen', 'requestPeriode', 'requestStartDate', 'requestEndDate', 'requestMenampilkan', 'unique_data', 'unique_data_jadwal'));  
             }else{
                 $selectRequest = 'SM140';
                 $now = Carbon::now();
@@ -259,7 +264,13 @@ class AdminController extends Controller
                 $statsProspekDesember = Prospek::where('anggota_id', 'SM140')->whereMonth('created_at', '12')->whereBetween('created_at', [$startDateJing, $endDateJing])->count();
 
 
+                $jadwal_unique = array();
                 $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', Periode::where('status_periode', 'active')->value('judul'))->get();
+                foreach ($jadwals as $value) {
+                    $jadwal_unique[] = $value->tgl_berangkat;
+                }
+
+                $unique_data_jadwal = array_unique($jadwal_unique);
                 
                 if ($request->input('periodeRekap')) {
                     $requestPeriode = $request->input('periodeRekap');
@@ -308,7 +319,7 @@ class AdminController extends Controller
                 $start = $requestStartDate;
                 $end = $requestEndDate;
 
-                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'unique_data', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals', 'users', 'datas', 'list_agen', 'this_periode', 'jadwal_pikasebeuleun', 'count', 'total_by_periode', 'total_by_between', 'start', 'end', 'all_agen', 'requestPeriode', 'requestStartDate', 'requestEndDate', 'requestMenampilkan'));   
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'unique_data', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals', 'users', 'datas', 'list_agen', 'this_periode', 'jadwal_pikasebeuleun', 'count', 'total_by_periode', 'total_by_between', 'start', 'end', 'all_agen', 'requestPeriode', 'requestStartDate', 'requestEndDate', 'requestMenampilkan', 'unique_data_jadwal'));   
             }
     }
 

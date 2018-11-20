@@ -32,9 +32,15 @@ class JamaahController extends Controller
         // $jamaah = Jamaah::where('status', 'lunas')->get();
         $agents = \App\User::where('status', '=', '1')->get();
         $jamaah = Jamaah::all();
+        $jadwal_unique = array();
         $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', Periode::where('status_periode', 'active')->value('judul'))->get();
+        foreach ($jadwals as $value) {
+            $jadwal_unique[] = $value->tgl_berangkat;
+        }
+
+        $unique_data_jadwal = array_unique($jadwal_unique);
         $periodes = Periode::orderBy('id', 'DESC')->get();
-        return view('jamaah.index', compact('agents', 'jamaah', 'periodes', 'jadwals'));
+        return view('jamaah.index', compact('agents', 'jamaah', 'periodes', 'jadwals', 'unique_data_jadwal'));
     }
 
     // get data by serverside

@@ -72,8 +72,8 @@
                                         <label class="sr-only" for="edan2"></label>
                                         <select name="start" id="edan2" class="col-md-4 form-control" style="width: 100%;">
                                             <option selected disabled>Awal Tanggal Berangkat</option>
-                                            @foreach($jadwals as $jadwal)
-                                                <option value="{{ $jadwal->tgl_berangkat }}">{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
+                                            @foreach($unique_data_jadwal as $jadwal)
+                                                <option value="{{ $jadwal }}">{{ Carbon\Carbon::parse($jadwal)->format('d M Y') }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -84,8 +84,8 @@
                                         <label class="sr-only" for="edan2"></label>
                                         <select name="end" id="edan2" class="col-md-4 form-control" style="width: 100%;">
                                             <option selected disabled>Akhir Tanggal Berangkat</option>
-                                            @foreach($jadwals as $jadwal)
-                                                <option value="{{ $jadwal->tgl_berangkat }}">{{ Carbon\Carbon::parse($jadwal->tgl_berangkat)->format('d M Y') }}</option>
+                                            @foreach($unique_data_jadwal as $jadwal)
+                                                <option value="{{ $jadwal }}">{{ Carbon\Carbon::parse($jadwal)->format('d M Y') }}</option>
                                             @endforeach
                                         </select>
                                     </div>
