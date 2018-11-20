@@ -13,6 +13,21 @@ class Jamaah extends Model
     public $timestamps = true;
     protected $primaryKey = 'id';
 
+    public function setTglBerangkatAttribute($value)
+    {
+        $this->attributes['tgl_berangkat'] =  Carbon::parse($value);
+    }
+
+    public function setTglPulangAttribute($value)
+    {
+        $this->attributes['tgl_pulang'] =  Carbon::parse($value);
+    }
+
+    public function setTglTransferAttribute($value)
+    {
+        $this->attributes['tgl_transfer'] =  Carbon::parse($value);
+    }
+
     public function anggota()
     {
     	return $this->belongsTo(User::class, 'marketing', 'id');

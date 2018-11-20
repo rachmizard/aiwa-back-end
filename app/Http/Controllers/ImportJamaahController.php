@@ -31,7 +31,11 @@ class ImportJamaahController extends Controller
 
     public function importExcelJamaah(Request $request)
     {
-        Excel::import(new JamaahImport, request()->file('import_file_jamaah'));
-        return redirect()->back();
+        try {
+            Excel::import(new JamaahImport, request()->file('import_file_jamaah'));
+            return redirect()->back();
+        } catch (Exception $e) {
+            return redirect()->back()->with('messageError', 'Format ada yang salah, cek lagi terutama format tanggal');
+        }
     }
 }

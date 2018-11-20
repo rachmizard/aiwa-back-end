@@ -29,11 +29,17 @@ class RekapClosingExport implements FromView
         $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $this->periode)->get();
         $this_periode = $this->periode;
         $jadwal = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $this_periode)->whereBetween('tgl_berangkat', [$this->start, $this->end])->get();
+
+        $tgl_berangkat = array();
+        foreach ($jadwal as $value) {
+            $tgl_berangkat[] = $value->tgl_berangkat;
+        }
+        $unique_data = array_unique($tgl_berangkat);
         $count = array();
         $total_by_periode = array();
         $total_by_between = Jamaah::where('periode', $this_periode)->whereBetween('tgl_berangkat', [$this->start, $this->end])->count();
         $start = $this->start;
         $end = $this->end;
-        return view('jamaah.rekap', ['list_agen' => $list_agen, 'jadwal' => $jadwal, 'users' => $users, 'datas' => $datas, 'this_periode' => $this_periode, 'count' => $count, 'total_by_periode' => $total_by_periode, 'total_by_between' => $total_by_between, 'start' => $start, 'end' => $end]);
+        return view('jamaah.rekap', ['list_agen' => $list_agen, 'unique_data' => $unique_data, 'users' => $users, 'datas' => $datas, 'this_periode' => $this_periode, 'count' => $count, 'total_by_periode' => $total_by_periode, 'total_by_between' => $total_by_between, 'start' => $start, 'end' => $end]);
     }
 }

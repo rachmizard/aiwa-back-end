@@ -4,11 +4,14 @@ namespace App\Imports;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use App\User;
 use DB;
 use Carbon\Carbon;
 
-class ImportAgen implements ToCollection
+class ImportAgen implements ToCollection, WithHeadingRow, ShouldQueue, WithChunkReading
 {
     /**
     * @param Collection $collection
@@ -58,5 +61,10 @@ class ImportAgen implements ToCollection
                 }
             }
         }
+    }
+
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 }

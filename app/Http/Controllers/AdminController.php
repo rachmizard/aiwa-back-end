@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Exports\ExportAgen;
-use App\Exports\ImportAgen;
+use App\Imports\ImportAgen;
 use App\Admin;
 use App\Periode;
 use Carbon\Carbon;
@@ -126,7 +126,7 @@ class AdminController extends Controller
 
 
                 $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', Periode::where('status_periode', 'active')->value('judul'))->get();
-            
+                
                 if ($request->input('periodeRekap')) {
                     $requestPeriode = $request->input('periodeRekap');
                 }else{
@@ -160,9 +160,16 @@ class AdminController extends Controller
                 $total_by_periode = array();
                 $total_by_between = Jamaah::where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->count();
                 $start = $requestStartDate;
+                $tgl_berangkat = array();
+
+                foreach ($jadwal_pikasebeuleun as $value) {
+                    $tgl_berangkat[] = $value->tgl_berangkat;
+                }
+
+                $unique_data = array_unique($tgl_berangkat);
                 $end = $requestEndDate;
 
-                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals', 'users', 'datas', 'list_agen', 'this_periode', 'jadwal_pikasebeuleun', 'count', 'total_by_periode', 'total_by_between', 'start', 'end', 'all_agen', 'requestPeriode', 'requestStartDate', 'requestEndDate', 'requestMenampilkan'));  
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals', 'users', 'datas', 'list_agen', 'this_periode', 'jadwal_pikasebeuleun', 'count', 'total_by_periode', 'total_by_between', 'start', 'end', 'all_agen', 'requestPeriode', 'requestStartDate', 'requestEndDate', 'requestMenampilkan', 'unique_data'));  
             }else{
                 $selectRequest = 'SM140';
                 $now = Carbon::now();
@@ -253,7 +260,7 @@ class AdminController extends Controller
 
 
                 $jadwals = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', Periode::where('status_periode', 'active')->value('judul'))->get();
-            
+                
                 if ($request->input('periodeRekap')) {
                     $requestPeriode = $request->input('periodeRekap');
                 }else{
@@ -288,13 +295,20 @@ class AdminController extends Controller
                 $all_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
                 $this_periode = '1440';
                 $jadwal_pikasebeuleun = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->get();
+                $tgl_berangkat = array();
+
+                foreach ($jadwal_pikasebeuleun as $value) {
+                    $tgl_berangkat[] = $value->tgl_berangkat;
+                }
+
+                $unique_data = array_unique($tgl_berangkat);
                 $count = array();
                 $total_by_periode = array();
                 $total_by_between = Jamaah::where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->count();
                 $start = $requestStartDate;
                 $end = $requestEndDate;
 
-                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals', 'users', 'datas', 'list_agen', 'this_periode', 'jadwal_pikasebeuleun', 'count', 'total_by_periode', 'total_by_between', 'start', 'end', 'all_agen', 'requestPeriode', 'requestStartDate', 'requestEndDate', 'requestMenampilkan'));   
+                return view('home', compact('totalAgen', 'totalJamaah', 'totalProspek', 'sumofPotensi', 'sumofKomisi', 'periodes', 'totalJamaahChart', 'stats', 'statsJamaah', 'totalProspekChart', 'idPeriode', 'varJay', 'statsJamaahJanuary', 'statsJamaahFebruary', 'statsJamaahMarch', 'statsJamaahApril', 'statsJamaahMei', 'statsJamaahJune', 'statsJamaahJuly', 'statsJamaahAugust', 'statsJamaahSeptember' ,'statsJamaahOctober', 'statsJamaahNovember', 'statsJamaahDesember', 'statsProspekJanuary', 'statsProspekFebruary', 'statsProspekMarch', 'statsProspekApril', 'statsProspekMei', 'statsProspekJune', 'statsProspekJuly', 'statsProspekAugust', 'unique_data', 'statsProspekSeptember', 'statsProspekOctober', 'statsProspekNovember', 'statsProspekDesember', 'selectRequest', 'jadwals', 'users', 'datas', 'list_agen', 'this_periode', 'jadwal_pikasebeuleun', 'count', 'total_by_periode', 'total_by_between', 'start', 'end', 'all_agen', 'requestPeriode', 'requestStartDate', 'requestEndDate', 'requestMenampilkan'));   
             }
     }
 

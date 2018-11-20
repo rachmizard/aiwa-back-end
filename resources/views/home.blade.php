@@ -238,6 +238,9 @@
                                         <div class="form-group m-l-10 col-md-offset-4" style="margin-bottom: 10px; margin-top: 10px;">
                                             <button class="btn btn-success"><i class="fa fa-filter"></i> Filter</button>
                                         </div>
+                                        <div class="form-group m-l-10">
+                                            <a href="{{ route('aiwa.jamaah.rekap.sinkron') }}" class="btn btn-success"><i class="fa fa-spinner fa-spin"></i> Sinkron Rekapan</a>
+                                        </div>
                                     </form>
                                     <div class="table-responsive vertical">
                                         <table class="table table-bordered table-striped">
@@ -245,8 +248,8 @@
                                             <th>KODE</th>
                                             <th>NAMA MARKETING</th>
                                             <th>TOTAL</th>
-                                            @foreach ($jadwal_pikasebeuleun as $value) 
-                                                <th> {{ Carbon\Carbon::parse($value['tgl_berangkat'])->format('d M Y') }}</th>
+                                            @foreach ($unique_data as $value) 
+                                                <th> {{ Carbon\Carbon::parse($value)->format('d M Y') }}</th>
                                             @endforeach
                                             </tr>
                                         @foreach ($list_agen as $value)
@@ -255,11 +258,11 @@
                                             <td> {{ $value['anggota']['id'] }}</td>
                                             <td> {{ $value['anggota']['nama'] }}</td>
                                             <td> {{ $total_by_periode }}</td> 
-                                            @foreach($jadwal_pikasebeuleun as $in)
-                                                @if (App\Jamaah::where('marketing', $value['anggota']['id'])->where('tgl_berangkat', $in['tgl_berangkat'])->where('periode', $this_periode)->count() == 0) 
+                                            @foreach($unique_data as $in)
+                                                @if (App\Jamaah::where('marketing', $value['anggota']['id'])->where('tgl_berangkat', $in)->where('periode', $this_periode)->count() == 0) 
                                                     <td></td>
                                                 @else
-                                                    <td> {{ App\Jamaah::where('marketing', $value['anggota']['id'])->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>
+                                                    <td> {{ App\Jamaah::where('marketing', $value['anggota']['id'])->where('tgl_berangkat', $in)->where('periode', $this_periode)->count() }}</td>
                                                 @endif
                                             @endforeach
                                         @endforeach
@@ -267,8 +270,12 @@
                                             <tr>
                                                 <td colspan="2">GRAND TOTAL</td>
                                                 <td>{{ $total_by_between }}</td>
-                                            @foreach($jadwal_pikasebeuleun as $key => $on)
-                                                <td>{{ App\Jamaah::where('tgl_berangkat', $on->tgl_berangkat)->where('periode', $this_periode)->count() }}</td>
+                                            @foreach($unique_data as $key => $on)
+                                                @if(App\Jamaah::where('tgl_berangkat', $on)->where('periode', $this_periode)->count() == 0)
+                                                <td></td>
+                                                @else
+                                                <td>{{ App\Jamaah::where('tgl_berangkat', $on)->where('periode', $this_periode)->count() }}</td>
+                                                @endif
                                             @endforeach
                                             </tr>
                                         </table>

@@ -7,6 +7,7 @@ use App\Jamaah;
 use App\User;
 use App\Master_Jadwal;
 use App\Rekap;
+use App\Periode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -36,5 +37,20 @@ class RekapClosingAgenController extends Controller
     public function contoh()
     {
     	return RekapClosingAgenResource::collection(User::all());
+    }
+
+    public function sinkron()
+    {
+        // INi akan mengambil master periode yang aktif
+        $periode = Periode::where('status_periode', 'active')->value('judul');
+        DB::table('rekap_jamaah')->where('periode', $periode)->delete();
+        $anggotas = User::where('status', 1)->get();
+        foreach ($anggotas as $anggota) {
+            $data['anggota_id'] = $anggota->id;
+            $data['total'] = Jamaah::where('marketing', $anggota->id)->where('periode', $periode)->count();
+            $data['periode'] = $periode;
+            DB::table('rekap_jamaah')->insert($data);
+        }
+        return redirect()->back()->with('message', 'Sinkron rekap berhasil di lakukan!');
     }
 }

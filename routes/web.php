@@ -108,6 +108,7 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
     // Rekap Closing Jamaah
     Route::get('/jamaah/rekap/closing/', 'RekapClosingAgenController@exportClosing')->name('aiwa.jamaah.rekap.exportClosing');
     Route::get('/jamaah/rekap/contoh/', 'RekapClosingAgenController@contoh')->name('aiwa.jamaah.rekap.contoh');
+    Route::get('/jamaah/rekap/sinkron/', 'RekapClosingAgenController@sinkron')->name('aiwa.jamaah.rekap.sinkron');
     // End Rekap Closing
 
     // Agen
@@ -344,13 +345,18 @@ Route::get('rekap/{start}/{end}/{paginate}', function($start, $end, $paginate){
         $count = array();
         $total_by_periode = array();
         $total_by_between = App\Jamaah::where('periode', $this_periode)->whereBetween('tgl_berangkat', [$start, $end])->count();
+        $tgl_berangkat = array();
+        foreach ($jadwal as $value) {
+          $tgl_berangkat[] = $value->tgl_berangkat;
+        }
+        $unique_data = array_unique($tgl_berangkat);
     echo "<table border='1'>";
     echo " <tr>";
     echo " <td>KODE</td>";
     echo " <td>NAMA MARKETING</td>";
     echo " <td>TOTAL</td>";
-            foreach ($jadwal as $value) {
-              echo"<td> ". Carbon\Carbon::parse($value->tgl_berangkat)->format('d-M-Y') ."</td>";
+            foreach ($unique_data as $val) {
+                echo"<td> ". Carbon\Carbon::parse($val)->format('d-M-Y') ."</td>";
             }
             echo "</tr>";
         foreach ($list_agen as $value) {
@@ -359,12 +365,12 @@ Route::get('rekap/{start}/{end}/{paginate}', function($start, $end, $paginate){
             echo "<td> ". $value->anggota->id ."</td>";
             echo "<td> ". $value->anggota->nama ."</td>";
             echo "<td> ". $total_by_periode ."</td>";
-            foreach($jadwal as $in){
-                $count[] = App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count();
+            foreach($unique_data as $in){
+                $count[] = App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in)->where('periode', $this_periode)->count();
                 if ($count[0] == 0) {
                     echo "<td></td>";
                 }else{
-                    echo "<td> ". App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() ."</td>";
+                    echo "<td> ". App\Jamaah::where('marketing', $value->anggota->id)->where('tgl_berangkat', $in)->where('periode', $this_periode)->count() ."</td>";
                 }
             }
         }
@@ -372,8 +378,8 @@ echo "            </tr>";
 echo "            <tr>";
 echo "                <td colspan='2'>GRAND TOTAL</td>";
 echo "                <td colspan>". $total_by_between ."</td>";
-                    foreach ($jadwal as $key => $in) {
-                        echo "<td>". App\Jamaah::where('tgl_berangkat', $in->tgl_berangkat)->where('periode', $this_periode)->count() ."</td>";
+                    foreach ($unique_data as $in) {
+                        echo "<td>". App\Jamaah::where('tgl_berangkat', $in)->where('periode', $this_periode)->count() ."</td>";
                     }
 echo "            </tr>";
 echo "        </table>
