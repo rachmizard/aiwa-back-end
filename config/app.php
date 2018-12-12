@@ -166,7 +166,6 @@ return [
         Kawankoding\Fcm\FcmServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-        // Yajra\DataTables\ButtonsServiceProvider::class,
         Benwilkins\FCM\FcmNotificationServiceProvider::class,
 
 

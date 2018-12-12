@@ -23,10 +23,10 @@ class Jamaah extends Model
         $this->attributes['tgl_pulang'] =  Carbon::parse($value);
     }
 
-    public function setTglTransferAttribute($value)
-    {
-        $this->attributes['tgl_transfer'] =  Carbon::parse($value);
-    }
+    // public function setTglTransferAttribute($value)
+    // {
+    //     $this->attributes['tgl_transfer'] =  Carbon::parse($value);
+    // }
 
     public function anggota()
     {

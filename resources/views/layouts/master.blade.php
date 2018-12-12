@@ -7,7 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
         <meta name="author" content="Coderthemes">
+        <!-- CSRF_TOKEN -->
         <meta name="csrf_token" content="{{ csrf_token() }}">
+        <meta id="token" name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="shortcut icon" href="/img/kaaba_Ccl_icon.ico">
 
@@ -40,6 +42,7 @@
 
         <!-- datatables css -->
         <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
 
 
         <!-- Plugins css -->
@@ -61,6 +64,12 @@
           display:none
         }
         </style>
+          <!-- CSRF_TOKEN -->
+          <script>
+              window.Laravel = {!! json_encode([
+                  'csrfToken' => csrf_token(),
+              ]) !!};
+          </script>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
 <!--[if lt IE 9]>
   <script src="js/html5shiv.js"></script>
@@ -91,7 +100,6 @@
 
 
         <!-- js placed at the end of the document so the pages load faster -->
-        <!-- <script src="{{asset('/js/jquery.js')}}"></script> -->
         <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
         <script src="{{asset('/js/bootstrap.min.js')}}"></script>
         <script src="{{asset('/js/modernizr.min.js')}}"></script>
@@ -138,8 +146,11 @@
 
         <!-- datatables -->
         <script src="https://datatables.yajrabox.com/js/jquery.dataTables.min.js"></script>
+        <!-- <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script> -->
+        <!-- <script src="{{ asset('/assets/datatables/jquery.dataTables.min.js') }}"></script> -->
+        <script src="{{ asset('/assets/datatables/dataTables.bootstrap.js')}}"></script>
         <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
-        <script src="{{asset('/assets/datatables/dataTables.bootstrap.js')}}"></script>
+        <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
 
         <!-- Modal-Effect -->
         <script src="{{asset('/assets/modal-effect/js/classie.js')}}"></script>
@@ -160,6 +171,8 @@
         <!-- select2 -->
         <script src="{{asset('assets/select2/select2.min.js')}}" type="text/javascript"></script>
         <!-- Masked Input -->
+        <!-- VUE JS -->
+        <script src="{{ asset('js/app.js') }}"></script>
         <!-- <script src="{{asset('assets/bootstrap-inputmask/bootstrap-inputmask.min.js')}}" type="text/javascript"></script> -->
         @stack('scripts')
         @stack('dataTables')

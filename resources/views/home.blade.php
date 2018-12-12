@@ -9,7 +9,7 @@
 <!-- Page Content Start -->
             <!-- ================== -->
 
-            <div class="wraper container-fluid">
+            <div id="app" class="wraper container-fluid">
                 <div class="page-title">
                     <h3 class="title">Dashboard</h3>
                 </div>
@@ -242,44 +242,7 @@
                                             <a href="{{ route('aiwa.jamaah.rekap.sinkron') }}" class="btn btn-success"><i class="fa fa-spinner fa-spin"></i> Sinkron Rekapan</a>
                                         </div>
                                     </form>
-                                    <div class="table-responsive vertical">
-                                        <table class="table table-bordered table-striped">
-                                            <tr>
-                                            <th>KODE</th>
-                                            <th>NAMA MARKETING</th>
-                                            <th>TOTAL</th>
-                                            @foreach ($unique_data as $value) 
-                                                <th> {{ Carbon\Carbon::parse($value)->format('d M Y') }}</th>
-                                            @endforeach
-                                            </tr>
-                                        @foreach ($list_agen as $value)
-                                        <?php $total_by_periode = App\Jamaah::where('marketing', $value['anggota']['id'])->where('periode', $this_periode)->whereBetween('tgl_berangkat', [$start, $end])->count(); ?>
-                                            <tr>
-                                            <td> {{ $value['anggota']['id'] }}</td>
-                                            <td> {{ $value['anggota']['nama'] }}</td>
-                                            <td> {{ $total_by_periode }}</td> 
-                                            @foreach($unique_data as $in)
-                                                @if (App\Jamaah::where('marketing', $value['anggota']['id'])->where('tgl_berangkat', $in)->where('periode', $this_periode)->count() == 0) 
-                                                    <td></td>
-                                                @else
-                                                    <td> {{ App\Jamaah::where('marketing', $value['anggota']['id'])->where('tgl_berangkat', $in)->where('periode', $this_periode)->count() }}</td>
-                                                @endif
-                                            @endforeach
-                                        @endforeach
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">GRAND TOTAL</td>
-                                                <td>{{ $total_by_between }}</td>
-                                            @foreach($unique_data as $key => $on)
-                                                @if(App\Jamaah::where('tgl_berangkat', $on)->where('periode', $this_periode)->count() == 0)
-                                                <td></td>
-                                                @else
-                                                <td>{{ App\Jamaah::where('tgl_berangkat', $on)->where('periode', $this_periode)->count() }}</td>
-                                                @endif
-                                            @endforeach
-                                            </tr>
-                                        </table>
-                                    </div>
+                                    <dashboard-rekapan-component :periode="'{!! $requestPeriode !!}'" :tglawal="'{!! $requestStartDate !!}'" :tglakhir="'{!! $requestEndDate !!}'"></dashboard-rekapan-component>
                                 </div>
                             </div>
                         </div> <!-- /Portlet -->

@@ -66,19 +66,21 @@
                     <div class="col-sm-6">
                         <div class="panel">
                             <div class="panel-body p-t-10">
-                                <table class="table table-striped" id="itinerary">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>File/Gambar/Video</th>
-                                            <th>Tanggal</th>
-                                            <th>Nama Hotel</th>
-                                            <th>Deskripsi</th>
-                                            <th>Tipe</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="itinerary">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>File/Gambar/Video</th>
+                                                <th>Tanggal</th>
+                                                <th>Nama Hotel</th>
+                                                <th>Deskripsi</th>
+                                                <th>Tipe</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- end col -->

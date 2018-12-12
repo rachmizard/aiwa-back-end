@@ -244,6 +244,13 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::delete('master-sinkronisasi/{id}/delete', 'SinkronisasiController@destroy')->name('aiwa.master-sinkronisasi.destroy');
     Route::get('master-sinkronisasi/loadDataSinkronisasi', 'SinkronisasiController@arjayEdan')->name('aiwa.master-sinkronisasi.load');
 
+    // Dashboard Rekapan //
+    Route::get('getJadwalUnique', 'DashboardRekapanController@getJadwalUnique')->name('aiwa.getJadwalUnique');
+    Route::get('getAllAgents', 'DashboardRekapanController@getAllAgents')->name('aiwa.getAllAgents');
+    Route::get('countRekapan', 'DashboardRekapanController@countRekapan')->name('aiwa.countRekapan');
+    Route::get('getTotalByParams', 'DashboardRekapanController@getTotalByParams')->name('aiwa.getTotalByParams');
+    // End Dashboard Rekapan //
+
     });
 
 // Download apps

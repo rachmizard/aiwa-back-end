@@ -63,7 +63,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-table"></i> Tabel Prospek </h3></div>
                             <div class="panel-body p-t-10">
-                                <table id="prospek" class="table table-striped">
+                                <table id="prospek" class="table table-striped table-responsive">
                                   <thead>
                                     <!-- <th>No</th> -->
                                     <tr>
@@ -123,6 +123,8 @@
                     $.fn.dataTable.ext.errMode = 'none';
                     var table = $('#prospek').DataTable({
                         "stateSave": true,
+                        "scrollX": true,
+                        "scrollY": 500,
                         "searching": true,
                         "processing": true,
                         "serverSide": true,

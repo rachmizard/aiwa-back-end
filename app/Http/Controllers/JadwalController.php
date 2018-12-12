@@ -96,7 +96,7 @@ class JadwalController extends Controller
           ]);
           return Datatables::of($var)
           ->addColumn('action', function($action){
-            return '<a class="btn btn-sm btn-info" href="#" data-toggle="modal" data-target="#paket'. $action->id_jadwal .'">Lihat Paket</a>
+            return '<a class="btn btn-sm btn-info" data-toggle="modal" data-target="#paket'. $action->id_jadwal .'">Lihat Paket</a>
             <a class="btn btn-sm btn-success" href="'. $action->itinerary .'">Download Itinerary</a>';
           })
           ->editColumn('tgl_berangkat', function($check){
