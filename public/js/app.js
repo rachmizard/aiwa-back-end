@@ -43504,21 +43504,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['periode', 'tglawal', 'tglakhir'],
+	props: ['options', 'total', 'periode', 'tglawal', 'tglakhir'],
 	mounted: function mounted() {
-		console.log(this.periode);
+		// console.log(this.periode);// JALAN
 		this.getJadwalUnique();
 		this.getAllAgents();
 		this.countRekapan();
+		// console.log(this.options); // JALAN
+		// console.log(this.total) // JALAN
+		this.grand_total_by_between = this.total;
 	},
 	data: function data() {
 		return {
+			grand_total_by_between: '',
 			tanggal_uniques: [],
 			agents: [],
 			countRekapans: [],
-			getTotalByParams: []
+			getTotalByParams: [],
+			count: []
 		};
 	},
 
@@ -43534,7 +43546,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		getAllAgents: function getAllAgents() {
 			var _this2 = this;
 
-			axios.get('getAllAgents', { params: { requestPeriode: this.periode, requestStartDate: this.tglawal, requestEndDate: this.tglakhir } }).then(function (response) {
+			axios.get('getAllAgents', { params: { requestPeriode: this.periode, start: this.tglawal, end: this.tglakhir } }).then(function (response) {
 				_this2.agents = response.data;
 			});
 		},
@@ -43543,11 +43555,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			axios.get('countRekapan', { params: { requestPeriode: this.periode, requestStartDate: this.tglawal, requestEndDate: this.tglakhir } }).then(function (response) {
 				_this3.countRekapans = response.data;
-			});
-		},
-		getAnggotaId: function getAnggotaId(var1, var2) {
-			axios.get('getTotalByParams', { params: { anggota_id: var1, tgl_berangkat: var2 } }).then(function (response) {
-				return console.log(response.data);
 			});
 		}
 	}
@@ -43589,31 +43596,48 @@ var render = function() {
       _vm._v(" "),
       _c(
         "tbody",
-        _vm._l(_vm.agents.data, function(agent) {
-          return _c(
+        [
+          _vm._l(_vm.agents.data, function(agent) {
+            return _c(
+              "tr",
+              [
+                _c("td", [_vm._v(" " + _vm._s(agent.anggota_id))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(" " + _vm._s(agent.nama))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(" " + _vm._s(agent.total.total_result))]),
+                _vm._v(" "),
+                _vm._l(_vm.countRekapans.data, function(countRekapan) {
+                  return agent.anggota_id == countRekapan.anggota_id
+                    ? _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            countRekapan.total == 0 ? "" : countRekapan.total
+                          )
+                        )
+                      ])
+                    : _vm._e()
+                })
+              ],
+              2
+            )
+          }),
+          _vm._v(" "),
+          _c(
             "tr",
             [
-              _c("td", [_vm._v(" " + _vm._s(agent.anggota_id))]),
+              _c("td", { attrs: { colspan: "2" } }, [_vm._v("GRAND TOTAL")]),
               _vm._v(" "),
-              _c("td", [_vm._v(" " + _vm._s(agent.anggota.nama))]),
+              _c("td", [_vm._v(_vm._s(_vm.grand_total_by_between))]),
               _vm._v(" "),
-              _c("td", [_vm._v(" " + _vm._s(agent.total))]),
-              _vm._v(" "),
-              _vm._l(_vm.countRekapans.data, function(countRekapan) {
-                return agent.anggota_id == countRekapan.anggota_id
-                  ? _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          countRekapan.total == 0 ? "" : countRekapan.total
-                        )
-                      )
-                    ])
-                  : _vm._e()
+              _vm._l(_vm.tanggal_uniques.data, function(tanggal_unique) {
+                return _c("td")
               })
             ],
             2
           )
-        })
+        ],
+        2
       )
     ])
   ])

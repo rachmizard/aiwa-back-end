@@ -157,9 +157,9 @@ class AdminController extends Controller
                 }
                 $users = User::pluck('id')->toArray();
                 $datas = Jamaah::where('periode', $requestPeriode)->get();
-                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
-                $all_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
-                $this_periode = '1440';
+                $list_agen = Rekap::with('anggota')->orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
+                $all_agen = Rekap::with('anggota')->orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
+                $this_periode = $requestPeriode;
                 $jadwal_pikasebeuleun = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->get();
                 $count = array();
                 $total_by_periode = array();
@@ -302,9 +302,9 @@ class AdminController extends Controller
                 }
                 $users = User::pluck('id')->toArray();
                 $datas = Jamaah::where('periode', $requestPeriode)->get();
-                $list_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
-                $all_agen = Rekap::orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
-                $this_periode = '1440';
+                $list_agen = Rekap::with('anggota')->orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
+                $all_agen = Rekap::with('anggota')->orderBy('total', 'DESC')->where('periode', $requestPeriode)->get();
+                $this_periode = $requestPeriode;
                 $jadwal_pikasebeuleun = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $requestPeriode)->whereBetween('tgl_berangkat', [$requestStartDate, $requestEndDate])->get();
                 $tgl_berangkat = array();
 

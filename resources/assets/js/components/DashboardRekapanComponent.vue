@@ -1,4 +1,4 @@
-<template>
+	<template>
     <div class="table-responsive vertical">
         <table class="table table-bordered table-striped">
         	<thead>
@@ -15,9 +15,16 @@
             <tbody>
             	<tr v-for="agent in agents.data">
                     <td> {{ agent.anggota_id }}</td>
-                    <td> {{ agent.anggota.nama }}</td>
-                    <td> {{ agent.total }}</td>
+                    <td> {{ agent.nama }}</td>
+                    <td> {{ agent.total.total_result }}</td>
                     <td v-for="countRekapan in countRekapans.data" v-if="agent.anggota_id == countRekapan.anggota_id">{{ countRekapan.total == 0 ? '' : countRekapan.total }}</td>
+            	</tr>
+            	<tr>
+            		<td colspan="2">GRAND TOTAL</td>
+            		<td>{{ grand_total_by_between }}</td>
+	            	<td v-for="tanggal_unique in tanggal_uniques.data">
+	            		
+	            	</td>
             	</tr>
             </tbody>
         </table>
@@ -25,20 +32,25 @@
 </template>
 <script>
 	export default {
-		props: ['periode', 'tglawal', 'tglakhir'],
+		props: ['options', 'total', 'periode', 'tglawal', 'tglakhir'],
 		mounted(){
-			console.log(this.periode);
+			// console.log(this.periode);// JALAN
 			this.getJadwalUnique();
 			this.getAllAgents();
 			this.countRekapan();
+			// console.log(this.options); // JALAN
+			// console.log(this.total) // JALAN
+			this.grand_total_by_between = this.total; 
 		},
 
 		data(){
 			return {
+				grand_total_by_between: '',
 				tanggal_uniques: [],
 				agents: [],
 				countRekapans: [],
-				getTotalByParams: []
+				getTotalByParams: [],
+				count: []
 			}
 		},
 
@@ -50,7 +62,7 @@
 			},
 
 			getAllAgents(){
-				axios.get('getAllAgents', { params: { requestPeriode: this.periode, requestStartDate: this.tglawal, requestEndDate: this.tglakhir } }).then(response => {
+				axios.get('getAllAgents', { params: { requestPeriode: this.periode, start: this.tglawal, end: this.tglakhir } }).then(response => {
 					this.agents = response.data;
 				});	
 			},
@@ -58,12 +70,6 @@
 			countRekapan(){
 				axios.get('countRekapan',   { params: { requestPeriode: this.periode, requestStartDate: this.tglawal, requestEndDate: this.tglakhir } }).then(response => {
 					this.countRekapans = response.data;
-				})
-			},
-
-			getAnggotaId(var1, var2){
-				axios.get('getTotalByParams', { params: { anggota_id: var1, tgl_berangkat: var2 } }).then(response => {
-					return console.log(response.data);
 				})
 			}
 		}

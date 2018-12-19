@@ -7,6 +7,8 @@ use App\Jamaah;
 use App\Rekap;
 use App\Master_Jadwal;
 use App\Http\Resources\DashboardRekapanResource;
+use App\Http\Resources\AgenWithRekapResource;
+use App\Http\Resources\TotalByTglBerangkatResource;
 use DB;
 
 class DashboardRekapanController extends Controller
@@ -19,14 +21,17 @@ class DashboardRekapanController extends Controller
             $tgl_berangkat[] = \Carbon\Carbon::parse($value->tgl_berangkat)->format('d M Y');
         }
 
-        $unique_data = array_unique($tgl_berangkat);
-        return response()->json(['data' => $unique_data]);
+        // $unique_data = array_unique($tgl_berangkat);
+        // return response()->json(['data' => $unique_data]);
+        $collection = collect($jadwal_pikasebeuleun);
+        return TotalByTglBerangkatResource::collection($collection)->unique('tgl_berangkat');
     }
 
     public function getAllAgents(Request $request)
     {
     	$all_agen = Rekap::with('anggota')->orderBy('total', 'DESC')->where('periode', $request->requestPeriode)->get();
-    	return response()->json(['data' => $all_agen]);
+    	// return response()->json(['data' => $all_agen]);
+        return AgenWithRekapResource::collection($all_agen);
     }
 
     public function countRekapan(Request $request)
@@ -68,5 +73,11 @@ class DashboardRekapanController extends Controller
         return DB::table('total_rekap_per_tanggal')->where('anggota_id', $request->anggota_id)
                                                    ->where('tgl_berangkat', $request->tgl_berangkat)
                                                    ->where('periode', $periode)->get();
+    }
+
+    public function countTotalByBetween(Request $request)
+    {
+        $countTotalByBetween['total'] = Jamaah::where('marketing', $request->anggota_id)->where('periode', $request->periode)->whereBetween('tgl_berangkat', [$request->start, $request->end])->count();
+        return response()->json(['response' => $countTotalByBetween]);
     }
 }

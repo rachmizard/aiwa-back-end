@@ -249,6 +249,7 @@ Route::get('agenjamaah/downloadExcel/{type}', 'AgenController@downloadExcel')->n
     Route::get('getAllAgents', 'DashboardRekapanController@getAllAgents')->name('aiwa.getAllAgents');
     Route::get('countRekapan', 'DashboardRekapanController@countRekapan')->name('aiwa.countRekapan');
     Route::get('getTotalByParams', 'DashboardRekapanController@getTotalByParams')->name('aiwa.getTotalByParams');
+    Route::get('countTotalByBetween', 'DashboardRekapanController@countTotalByBetween')->name('aiwa.countTotalByBetween');
     // End Dashboard Rekapan //
 
     });

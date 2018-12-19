@@ -242,7 +242,7 @@
                                             <a href="{{ route('aiwa.jamaah.rekap.sinkron') }}" class="btn btn-success"><i class="fa fa-spinner fa-spin"></i> Sinkron Rekapan</a>
                                         </div>
                                     </form>
-                                    <dashboard-rekapan-component :periode="'{!! $requestPeriode !!}'" :tglawal="'{!! $requestStartDate !!}'" :tglakhir="'{!! $requestEndDate !!}'"></dashboard-rekapan-component>
+                                    <dashboard-rekapan-component options="{{ $list_agen }}'" :total="'{!! $total_by_between !!}'"  :periode="'{!! $requestPeriode !!}'" :tglawal="'{!! $requestStartDate !!}'" :tglakhir="'{!! $requestEndDate !!}'"></dashboard-rekapan-component>
                                 </div>
                             </div>
                         </div> <!-- /Portlet -->
@@ -255,6 +255,9 @@
             <!-- Page Content Ends -->
             <!-- ================== -->
 @push('otherJavascript')
+
+<!-- VUE JS -->
+<script src="{{ asset('js/app.js') }}"></script>
 <script>
      /* Counter Up */
     $('.counter').counterUp({

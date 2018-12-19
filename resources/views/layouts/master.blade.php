@@ -171,8 +171,6 @@
         <!-- select2 -->
         <script src="{{asset('assets/select2/select2.min.js')}}" type="text/javascript"></script>
         <!-- Masked Input -->
-        <!-- VUE JS -->
-        <script src="{{ asset('js/app.js') }}"></script>
         <!-- <script src="{{asset('assets/bootstrap-inputmask/bootstrap-inputmask.min.js')}}" type="text/javascript"></script> -->
         @stack('scripts')
         @stack('dataTables')
