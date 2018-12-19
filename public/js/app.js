@@ -43580,11 +43580,11 @@ var render = function() {
             _vm._v(" "),
             _c("th", [_vm._v("TOTAL")]),
             _vm._v(" "),
-            _vm._l(_vm.tanggal_uniques.data, function(tanggal_unique) {
+            _vm._l(_vm.tanggal_uniques, function(tanggal_unique, key, index) {
               return _c("th", [
                 _vm._v(
                   "\n\t            \t" +
-                    _vm._s(tanggal_unique) +
+                    _vm._s(tanggal_unique.tgl_berangkat) +
                     "\n\t            "
                 )
               ])
@@ -43630,8 +43630,14 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(_vm.grand_total_by_between))]),
               _vm._v(" "),
-              _vm._l(_vm.tanggal_uniques.data, function(tanggal_unique) {
-                return _c("td")
+              _vm._l(_vm.tanggal_uniques, function(tanggal_unique, key, index) {
+                return _c("td", [
+                  _vm._v(
+                    "\n\t\t            \t" +
+                      _vm._s(tanggal_unique.total_closing) +
+                      "\n\t\t            "
+                  )
+                ])
               })
             ],
             2

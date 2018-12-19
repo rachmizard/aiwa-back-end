@@ -17,14 +17,7 @@ class DashboardRekapanController extends Controller
     {
     	$tgl_berangkat = array();
         $jadwal_pikasebeuleun = Master_Jadwal::orderBy('tgl_berangkat', 'ASC')->where('periode', $request->requestPeriode)->whereBetween('tgl_berangkat', [$request->requestStartDate, $request->requestEndDate])->get();
-        foreach ($jadwal_pikasebeuleun as $value) {
-            $tgl_berangkat[] = \Carbon\Carbon::parse($value->tgl_berangkat)->format('d M Y');
-        }
-
-        // $unique_data = array_unique($tgl_berangkat);
-        // return response()->json(['data' => $unique_data]);
-        $collection = collect($jadwal_pikasebeuleun);
-        return TotalByTglBerangkatResource::collection($collection)->unique('tgl_berangkat');
+        return TotalByTglBerangkatResource::collection($jadwal_pikasebeuleun)->unique('tgl_berangkat');
     }
 
     public function getAllAgents(Request $request)

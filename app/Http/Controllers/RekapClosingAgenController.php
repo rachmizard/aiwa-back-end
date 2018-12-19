@@ -58,24 +58,24 @@ class RekapClosingAgenController extends Controller
         }
 
 
-        DB::table('rekap_jamaah')->where('periode', $periode)->delete();
-        $anggotas = User::where('status', 1)->get();
-        $master_jadwals = Master_Jadwal::where('periode', $periode)->get();
-        $datapertanggal = array();
-        foreach ($anggotas as $anggota) {
-            $data['anggota_id'] = $anggota->id;
-            $data['total'] = Jamaah::where('marketing', $anggota->id)->where('periode', $periode)->count();
-            $data['periode'] = $periode;
-            DB::table('rekap_jamaah')->insert($data);   
-            foreach ($master_jadwals as $master_jadwal) {
-                $datapertanggal['tgl_berangkat'] = $master_jadwal->tgl_berangkat;
-                $datapertanggal['anggota_id'] = $anggota->id;
-                $datapertanggal['total'] = DB::table('jamaah')->where('marketing', $anggota->id)->where('tgl_berangkat', $master_jadwal->tgl_berangkat)->count();
-                $datapertanggal['periode'] = $periode;
-                // Insert total per/date into total_rekap_per_tanggal 
-                DB::table('total_rekap_per_tanggal')->insert($datapertanggal);
-            }
-        }
+        // DB::table('rekap_jamaah')->where('periode', $periode)->delete();
+        // $anggotas = User::where('status', 1)->get();
+        // $master_jadwals = Master_Jadwal::where('periode', $periode)->get();
+        // $datapertanggal = array();
+        // foreach ($anggotas as $anggota) {
+        //     $data['anggota_id'] = $anggota->id;
+        //     $data['total'] = Jamaah::where('marketing', $anggota->id)->where('periode', $periode)->count();
+        //     $data['periode'] = $periode;
+        //     DB::table('rekap_jamaah')->insert($data);   
+        //     foreach ($master_jadwals as $master_jadwal) {
+        //         $datapertanggal['tgl_berangkat'] = $master_jadwal->tgl_berangkat;
+        //         $datapertanggal['anggota_id'] = $anggota->id;
+        //         $datapertanggal['total'] = DB::table('jamaah')->where('marketing', $anggota->id)->where('tgl_berangkat', $master_jadwal->tgl_berangkat)->count();
+        //         $datapertanggal['periode'] = $periode;
+        //         // Insert total per/date into total_rekap_per_tanggal 
+        //         DB::table('total_rekap_per_tanggal')->insert($datapertanggal);
+        //     }
+        // }
 
 
         return redirect()->back()->with('message', 'Sinkron rekap berhasil di lakukan!');

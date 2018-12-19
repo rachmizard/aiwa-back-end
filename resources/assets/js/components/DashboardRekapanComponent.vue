@@ -7,8 +7,8 @@
 	            <th>NAMA MARKETING</th>
 	            <th>TOTAL</th>
 	            <!-- will be for -->
-	            <th v-for="tanggal_unique in tanggal_uniques.data">
-	            	{{ tanggal_unique }}
+	            <th v-for="(tanggal_unique, key, index) in tanggal_uniques">
+	            	{{ tanggal_unique.tgl_berangkat }}
 	            </th>
             </tr>
         	</thead>
@@ -22,9 +22,9 @@
             	<tr>
             		<td colspan="2">GRAND TOTAL</td>
             		<td>{{ grand_total_by_between }}</td>
-	            	<td v-for="tanggal_unique in tanggal_uniques.data">
-	            		
-	            	</td>
+		            <td v-for="(tanggal_unique, key, index) in tanggal_uniques">
+		            	{{ tanggal_unique.total_closing }}
+		            </td>
             	</tr>
             </tbody>
         </table>

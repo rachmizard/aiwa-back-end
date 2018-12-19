@@ -20,12 +20,12 @@ class TotalByTglBerangkatResource extends Resource
         return [
             'tgl_berangkat' => date('d M Y', strtotime($this->tgl_berangkat)),
             'periode' => $periode,
-            'total_closing' => $this->total_closing($this->tgl_berangkat)
+            'total_closing' => $this->total_closing($this->tgl_berangkat, $periode)
         ];
     }
 
-    public function total_closing($tgl_berangkat)
+    public function total_closing($tgl_berangkat, $periode)
     {
-        return $tgl_berangkat;
+        return Jamaah::wherePeriode($periode)->where('tgl_berangkat', $tgl_berangkat)->count();
     }
 }
