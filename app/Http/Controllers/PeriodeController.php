@@ -34,7 +34,7 @@ class PeriodeController extends Controller
         return $datatables->of($var)
         ->addColumn('action', function($periode){
             return '
-                <button data-toggle="modal" data-target="#editPeriodeModal" data-id="'. $periode->id .'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></button>
+                <button data-toggle="modal" data-target="#editPeriodeModal'. $periode->id .'" data-id="'. $periode->id .'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></button>
                 <form method="POST" action="'. route('aiwa.master-periode.active', $periode->id) .'">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
                     <button type="submit" class="btn btn-sm btn-success" ><i class="fa fa-spinner fa-spin"></i> Aktifkan periode ini</button> 

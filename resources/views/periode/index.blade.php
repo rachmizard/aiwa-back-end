@@ -71,8 +71,8 @@
         </div><!-- /.modal -->
 
 
-
-    <div id="editPeriodeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+@foreach($periodes as $periode)
+    <div id="editPeriodeModal{{ $periode->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog"> 
                 <div class="modal-content"> 
                     <div class="modal-header"> 
@@ -80,7 +80,7 @@
                         <h4 class="modal-title"><i class="fa fa-plus"></i> Edit Periode</h4> 
                     </div> 
                     
-                    <form id="updateForm" method="POST">
+                    <form id="updateForm" action="master-periode/{{ $periode->id }}/update" method="POST">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
                         <div class="modal-body"> 
@@ -88,28 +88,29 @@
                                 <div class="col-md-6 col-md-offset-2"> 
                                     <div class="form-group"> 
                                         <label for="">Tahun/Hijirah</label>
-                                        <input type="text" name="judul" class="form-control" id="judulEdit" placeholder="Tahun Hijriah Contoh: 1440" required=""> 
+                                        <input type="text" name="judul" class="form-control" value="{{ $periode->judul }}" placeholder="Tahun Hijriah Contoh: 1440" required=""> 
                                     </div> 
                                     <div class="form-group"> 
                                         <label for="" class="control-label">Tanggal Mulai</label>
-                                        <input type="text" name="start" class="form-control datepicker" id="startEdit" placeholder="Tanggal Mulai..."> 
+                                        <input type="text" name="start" class="form-control datepicker" value="{{ $periode->start }}" placeholder="Tanggal Mulai..."> 
                                     </div> 
                                     <div class="form-group"> 
                                         <label for="" class="control-label">Tanggal Akhir</label>
-                                        <input type="text" name="end" class="form-control datepicker" id="endEdit" placeholder="Tanggal Akhir..."> 
+                                        <input type="text" name="end" value="{{ $periode->end }}" class="form-control datepicker" placeholder="Tanggal Akhir..."> 
                                     </div> 
                                 </div> 
                             </div>
                         </div> 
                         <div class="modal-footer"> 
                             <button type="button" class="btn btn-white" data-dismiss="modal">Close</button> 
-                            <button id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-warning">Simpan</button> 
+                            <button type="submit" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing.." type="submit" class="btn btn-warning">Simpan</button> 
                         </div>
                     </form>
                     <!-- </form> -->
                 </div> 
             </div>
         </div><!-- /.modal -->
+@endforeach
 @push('otherJavascript')
 <!-- sweet alerts -->
 <link href="{{asset('/assets/sweet-alert/sweet-alert.min.css')}}" rel="stylesheet">

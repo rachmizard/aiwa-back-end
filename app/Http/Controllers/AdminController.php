@@ -182,9 +182,11 @@ class AdminController extends Controller
                 $month = $now->month;
                 $day = $now->day;
                 $tahunNow = Carbon::create($year, $month, $day);
-                $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
-                $idPeriode = $period->id;
-                $varJay = Periode::find($period->id);
+                // DI comment sementara waktu, karena bug logic
+                // $period = Periode::whereBetween('start', [$tahunNow->copy()->startOfYear(), $tahunNow->copy()->endOfYear()])->first();
+                $period = Periode::where('status_periode', 'active')->first();
+                $idPeriode = $period['id'];
+                $varJay = Periode::find($period['id']);
                 $startDateJing = $varJay->start;
                 $endDateJing = $varJay->end;
                 $totalJamaah = Jamaah::where('marketing', 'SM140')->whereBetween('tgl_berangkat', [$startDateJing, $endDateJing])->where('periode', $varJay->judul)->get();
