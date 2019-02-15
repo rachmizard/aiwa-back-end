@@ -416,4 +416,70 @@ class JamaahControllerAPI extends Controller
     {
         //
     }
+
+    // SERVICE BUG AT DOWNLOAD JAMAAH BY PERIOD 14-02-2019
+
+    public function jamaahByPeriodeJSON($periode)
+    {
+        if ($periode) {
+
+            $jamaahs = Jamaah::orderBy('tgl_berangkat', 'DESC')->where('periode', $periode)->get();   
+
+            $items = array();
+
+            $returns = array();
+
+            foreach ($jamaahs as $key => $value) {
+
+                $items['id'] = $value->id == null ? '-' : $value->id;
+
+                $items['tgl_daftar'] = $value->tgl_daftar == null ? '-' : $value->tgl_daftar;
+
+                $items['id_umrah'] = $value->id_umrah == null ? '-' : $value->id_umrah;
+
+                $items['id_jamaah'] = $value->id_jamaah == null ? '-' : $value->id_jamaah;
+
+                $items['nama'] = $value->nama == null ? '-' : $value->nama;
+
+                $items['tgl_berangkat'] = $value->tgl_berangkat == null ? '-' : $value->tgl_berangkat;
+
+                $items['tgl_pulang'] = $value->tgl_pulang == null ? '-' : $value->tgl_pulang;
+
+                $items['marketing'] = $value->marketing == null ? '-' : $value->marketing;
+
+                $items['nama_marketing'] = $value->anggota['nama'] == null ? '-' : $value->anggota['nama'];
+
+                $items['staff'] = $value->staff == null ? '-' : $value->staff;
+
+                $items['no_telp'] = $value->no_telp == null ? '-' : $value->no_telp;
+
+                $items['marketing_fee'] = $value->marketing_fee == null ? '-' : $value->marketing_fee;
+
+                $items['diskon_marketing'] = $value->diskon_marketing == null ? '-' : $value->diskon_marketing;
+
+                $items['koordinator'] = $value->koordinator == null ? '-' : $value->koordinator;
+
+                $items['koordinator_fee'] = $value->koordinator_fee == null ? '-' : $value->koordinator_fee;
+
+                $items['top'] = $value->top == null ? '-' : $value->top;
+
+                $items['top_fee'] = $value->top_fee == null ? '-' : $value->top_fee;
+
+                $items['status'] = $value->status == null ? '-' : $value->status;
+
+                $items['tgl_transfer'] = $value->tgl_transfer == null ? '-' : $value->tgl_transfer;
+
+                $items['periode'] = $value->periode == null ? '-' : $value->periode;
+
+                array_push($returns, $items);
+            }
+
+        }else{
+
+            $returns = null;
+
+        }
+
+        return response()->json(['data' => $returns]);
+    }
 }

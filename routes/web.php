@@ -92,10 +92,12 @@ Route::get('/send/{token}', 'AdminController@sendNotify');
     Route::post('/jamaah', 'JamaahController@store')->name('aiwa.jamaah.store');
     Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.edit-form');
     Route::post('/jamaah/{id}/updatecuy', 'JamaahController@update')->name('aiwa.jamaah.updatecuy'); // Will be continued!
-    Route::get('/jamaah/detail/export', 'JamaahController@detailJamaah')->name('aiwa.jamaah.detail');
-    // Route::get('/jamaah/{id}/edit', 'JamaahController@edit')->name('aiwa.jamaah.put');
+    Route::any('/jamaah/detail/export', 'JamaahController@detailJamaah')->name('aiwa.jamaah.detail');
     Route::get('/jamaah/{id}/delete', 'JamaahController@destroy')->name('aiwa.jamaah.delete');
     Route::post('/jamaah/deleteCheckbox', 'JamaahController@destroyMultiple')->name('aiwa.jamaah.delete.checkbox');
+
+    Route::post('/jamaah/download/filter', 'JamaahController@downloadFilter')->name('aiwa.jamaah.downloadFilter');
+
     Route::get('/jamaah/loadTableJamaah', 'JamaahController@getData')->name('aiwa.jamaah.load');
     // End of Jamaah
 

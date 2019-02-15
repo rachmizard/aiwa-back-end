@@ -19,6 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+
+Route::get('/jamaah/by-periode/json/{periode}', 'API\JamaahControllerAPI@jamaahByPeriodeJSON')->name('aiwa.jamaah.jamaahByPeriodeJSON');
+
 // Latihan Diskon
 Route::get('/asupkeunjadwal/{periode}', function(Request $request){
 

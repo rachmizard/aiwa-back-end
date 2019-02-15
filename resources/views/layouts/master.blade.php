@@ -145,12 +145,15 @@
         <script src="{{asset('/assets/sweet-alert/sweet-alert.init.js')}}"></script>
 
         <!-- datatables -->
-        <script src="{{ asset('/assets/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+        <!-- <script src="{{ asset('/assets/datatables/yajra-customize.js') }}"></script> -->
         <!-- <script src="https://datatables.yajrabox.com/js/jquery.dataTables.min.js"></script>  -->
         <!-- <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script> -->
         <!-- <script src="{{ asset('/assets/datatables/jquery.dataTables.min.js') }}"></script> -->
         <script src="{{ asset('/assets/datatables/dataTables.bootstrap.js')}}"></script>
+
         <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
+
         <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
 
         <!-- Modal-Effect -->

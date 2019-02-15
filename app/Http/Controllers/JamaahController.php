@@ -12,8 +12,11 @@ use Auth;
 use App\Periode;
 use Carbon\Carbon;
 use App\MasterNotifikasi;
+use App\Exports\DownloadJamaahFiltered;
 use Excel;
 use DB;
+use Illuminate\Support\Facades\Schema;
+
 class JamaahController extends Controller
 {
     /**
@@ -163,24 +166,96 @@ class JamaahController extends Controller
 
     public function detailJamaah(Request $request)
     {
+        $global_search = false;
+
         $periodes = DB::table('master_periode')->get();
+
         $getIdPeriode = Periode::where('status_periode', 'active')->first();
+
+        $varJay = null;
+
+        $value_global_search = null;
+
+        $requestArray = [];
+
+        $koordinators = User::whereStatus(1)->get();
+
+        $dumb = 'kamu masuk kondisi default';
+
+        // dd($request->all());
+
         if ($request->periode) {
+
+            $requestArray = $request->all();
+
+            $dumb = 'kamu masuk ke kondisi periode dan bisa request ke global search';
+
+            $global_search = true;
+
             $getIdByRequest = Periode::where('judul', $request->periode)->first();
+
             $varJay = Periode::find($getIdByRequest['id']);
+
             $validatorDateRange = DB::table('master_periode')->where('judul', $request->get('periode'))->first();
+
             $dateStart = $validatorDateRange->start;
+
             $dateEnd = $validatorDateRange->end;
-            $jamaahs = Jamaah::orderBy('tgl_berangkat', 'DESC')->where('periode', $request->peride)->get();
-          return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
-        }else{
-            $validatorDateRange = Periode::where('status_periode', 'active')->first();
-            $varJay = Periode::find($validatorDateRange['id']);
-            $dateStart = $validatorDateRange->start;
-            $dateEnd = $validatorDateRange->end;
-            $jamaahs = Jamaah::orderBy('tgl_berangkat', 'DESC')->where('periode', $varJay->judul)->get();
-            return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay'));
+
+            // if ($request->global_search) {
+
+                $dumb = 'kamu masuk ke area global search';
+                $value_global_search = $request->global_search;
+
+                $columns = Schema::getColumnListing('jamaah');
+                // $columns = ['nama', 'id_jamaah', 'id_umrah'];
+
+                $query = Jamaah::select('*');
+
+                if ($request->periode) {
+                    $query->where('periode', $request->periode );
+                }
+
+                if ($request->nama_jamaah) {
+                    $query->where('nama', 'LIKE', '%' . $request->nama_jamaah . '%');
+                }
+
+                if ($request->marketing) {
+                    $query->where(function($q) use ($request) {
+                        $q->where('marketing', 'LIKE', '%' . $request->marketing . '%')
+                            ->orWhereHas('anggota', function($q) use ($request){
+                                $q->where('nama', 'LIKE', '%' . $request->marketing . '%');
+                            });
+                    });
+                }
+
+                if ($request->id_umrah) {
+                    $query->where('id_umrah', '=', $request->id_umrah);
+                }
+
+                if ($request->id_jamaah) {
+                    $query->where('id_jamaah', '=', $request->id_jamaah);
+                }
+
+                if ($request->koordinator) {
+                    $query->whereHas('koordinatorJamaah', function($q) use ($request){
+                        $q->where('id', '=', $request->koordinator);
+                    });
+                }
+
+               $jamaahs = $query->paginate(10);
+
+               $jamaahPaginations = $jamaahs->appends($requestArray)->links();
         }
+
+          return view('jamaah.detail', compact('jamaahs', 'count', 'periodes', 'varJay', 'global_search', 'value_global_search', 'dumb', 'requestArray', 'jamaahPaginations', 'koordinators'));
+    }
+
+    public function downloadFilter(Request $request)
+    {
+        $requestArray = $request->all();
+
+        return Excel::download(new DownloadJamaahFiltered($requestArray['periode'], $requestArray['nama_jamaah'], $requestArray['id_umrah'], $requestArray['id_jamaah'], $requestArray['marketing'], $requestArray['koordinator']), 'hasil_jamaah_' . Carbon::today()->format('dmY') .'.xlsx');
     }
 
     /**

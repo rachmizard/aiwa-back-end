@@ -17,32 +17,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <i class="fa fa-filter"></i> Periode Jamaah
-                            </div>
-                            <div class="panel-body panel-primary">
-                                <div class="col-md-6">
-                                    <form action="" method="GET" id="filter">
-                                        {{ csrf_field() }}
-                                        <div class="form-group">
-                                            <label for="">Periode Grafik</label>
-                                            <select name="periode" id="" class="form-control" onchange="document.getElementById('filter').submit();">
-                                                <option disabled selected>Periode</option>
-                                                @foreach($periodes as $periode)
-                                                <!-- Ini sengaja di kasih kondisi biar si ALL nya ga kedetek -->
-                                                    @if($periode->id != 7)
-                                                         <option value="{{ $periode->judul }}" {{ $periode->judul == $varJay->judul ? 'selected' : '' }}>{{ $periode->judul }}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="fa fa-file-excel-o"></i> Format Jamaah</div>
@@ -52,15 +26,115 @@
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- col -->
+                    <div class="col-md-12">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <i class="fa fa-filter"></i> Filter Jamaah
+                            </div>
+                            <div class="panel-body panel-primary">
+                                <form action="" method="GET" id="filter">
+                                    {{ csrf_field() }}
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Periode Grafik</label>
+                                            <select name="periode" id="" class="form-control">
+                                                <option disabled selected>Periode</option>
+                                                @foreach($periodes as $periode)
+                                                <!-- Ini sengaja di kasih kondisi biar si ALL nya ga kedetek -->
+                                                @php($same = null)
+                                                @php($sameKoordinator = null)
+
+                                                @if(isset($varJay))
+                                                    @php($same = $varJay->judul)
+                                                @endif
+
+                                                @if(isset($requestArray['koordinator']))
+                                                    @php($sameKoordinator = $requestArray['koordinator'])
+                                                @endif
+
+                                                    @if($periode->id != 7)
+                                                         <option value="{{ $periode->judul }}" {{ $periode->judul == $same ? 'selected' : '' }}>{{ $periode->judul }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">NAMA JAMAAH</label>
+                                            <input type="text" name="nama_jamaah" class="form-control" value="{!! isset($requestArray['nama_jamaah']) ? $requestArray['nama_jamaah'] : '' !!}" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">ID UMRAH</label>
+                                            <input type="text" name="id_umrah" class="form-control" value="{!! isset($requestArray['id_umrah']) ? $requestArray['id_umrah'] : '' !!}" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">ID JAMAAH</label>
+                                            <input type="text" name="id_jamaah" class="form-control" value="{!! isset($requestArray['id_jamaah']) ? $requestArray['id_jamaah'] : '' !!}" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">MARKETING</label>
+                                            <input type="text" name="marketing" class="form-control" value="{!! isset($requestArray['marketing']) ? $requestArray['marketing'] : '' !!}" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">NAMA KOORDINATOR</label>
+                                            <select name="koordinator" class="select2" id="">
+                                                <option value="" selected>--CARI--</option>
+                                                @foreach($koordinators as $coordinator)
+                                                    <option value="{!! $coordinator->id !!}" {{ $coordinator->id == $sameKoordinator ? 'selected' : '' }}>{!! $coordinator->nama !!}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <button class="btn btn-md btn-info"><i class="fa fa-search"></i> Filter</button>
+                                            <input type="reset" class="btn btn-md btn-danger">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel">
-                            <div class="panel-heading">
-                                <i class="fa fa-user-circle"></i> Hasil Jamaah Periode {{ $varJay->judul }}
-                            </div>
-                            <div class="panel-body p-t-10">
-                                <table id="jamaah" class="table table-striped">
+                            @if(isset($varJay->judul))
+                                <div class="panel-heading">
+                                    <i class="fa fa-user-circle"></i> Hasil Jamaah Periode {{ $varJay->judul }}
+                                </div>
+                            @endif
+                            @if(isset($jamaahs))
+                                <form action="{!! route('aiwa.jamaah.downloadFilter') !!}" method="POST">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="periode" value="{!! isset($requestArray['periode']) ? $requestArray['periode'] : '' !!}">
+
+                                    <input type="hidden" name="nama_jamaah" value="{!! isset($requestArray['nama_jamaah']) ? $requestArray['nama_jamaah'] : '' !!}">
+
+                                    <input type="hidden" name="id_umrah" value="{!! isset($requestArray['id_umrah']) ? $requestArray['id_umrah'] : '' !!}">
+
+                                    <input type="hidden" name="id_jamaah" value="{!! isset($requestArray['id_jamaah']) ? $requestArray['id_jamaah'] : '' !!}">
+
+                                    <input type="hidden" name="marketing" value="{!! isset($requestArray['marketing']) ? $requestArray['marketing'] : '' !!}">
+
+                                    <input type="hidden" name="koordinator" value="{!! isset($requestArray['koordinator']) ? $requestArray['koordinator'] : '' !!}">
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-md btn-success"><i class="fa fa-file-excel-o"></i> Download</button>
+                                    </div>
+                                </form>
+                            @endif
+                            <div class="table-responsive panel-body p-t-10">
+                                <table class="table table-striped table-bordered">
                                   <thead>
                                     <tr>
                                         <th>id</th>
@@ -86,6 +160,7 @@
                                     </tr>
                                   </thead>
                                   <tbody>
+                                    @if(isset($jamaahs))
                                       @foreach($jamaahs as $jamaah)
                                       <tr>
                                         <td>{{ $jamaah->id }}</td>
@@ -110,8 +185,26 @@
                                         <td>{{ $jamaah->periode }}</td>                                       
                                       </tr>
                                       @endforeach
+                                      @else
+                                      <td colspan="20">
+                                          <div class="text-center">
+                                              Silahkan filter untuk menampilkan data.
+                                          </div>
+                                      </td>
+                                      @endif
                                   </tbody>
                                 </table>
+                                @if(isset($jamaahs))
+                                <div class="col-md-6">
+                                    {!! $jamaahPaginations !!}
+                                </div>
+                                @endif
+
+                                @if(isset($jamaahs))
+                                <div class="col-md-4 mt-5">
+                                    <strong>Total hasil : {!! $jamaahs->total() !!}</strong>
+                                </div>
+                                @endif
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
                     </div> <!-- end col -->
@@ -178,35 +271,11 @@
                         "buttons": [
                             {
                                 extend: 'excel',
-                                text: '<i class="fa fa-file-excel-o"></i> Download Jamaah {{ $varJay->judul }}',
-                                title: 'data_jamaah_{{ $varJay->judul }}'
+                                text: '<i class="fa fa-file-excel-o"></i> Download Jamaah {{ isset($varJay->judul) ? $varJay->judul : '' }}',
+                                title: 'data_jamaah_{{ isset($varJay->judul) ? $varJay->judul : '' }}'
                             }
                         ],
                         "responsive": true,
-                        // "processing": false,
-                        // "serverSide": true,
-                        // "ajax": "{{ route('aiwa.jamaah.load') }}", 
-                        // order: [ [0, 'desc'] ],
-                        // "columns": [
-                        //     { data: "id", name: "id" },
-                        //     { data: "tgl_daftar", name: "tgl_daftar" },
-                        //     { data: "id_umrah", name: "id_umrah" },
-                        //     { data: "id_jamaah", name: "id_jamaah" },
-                        //     { data: "nama", name: "nama" },
-                        //     { data: "tgl_berangkat", name: "tgl_berangkat" },
-                        //     { data: "tgl_pulang", name: "tgl_pulang" },
-                        //     { data: "marketing", name: "marketing" },
-                        //     { data: "staff", name: "staff" },
-                        //     { data: "no_telp", name: "no_telp" },
-                        //     { data: "marketing_fee", name: "marketing_fee" },
-                        //     { data: "diskon_marketing", name: "diskon_marketing" },
-                        //     { data: "koordinator", name: "koordinator" },
-                        //     { data: "koordinator_fee", name: "koordinator_fee" },
-                        //     { data: "top", name: "top" },
-                        //     { data: "top_fee", name: "top_fee" },
-                        //     { data: "status", name: "status" },
-                        //     { data: "tgl_transfer", name: "tgl_transfer" }
-                        // ]
                     }).on('error.dt', function ( e, settings, techNote, message ) {
                          console.log( 'An error has been reported by DataTables: ', message );
                         });;
