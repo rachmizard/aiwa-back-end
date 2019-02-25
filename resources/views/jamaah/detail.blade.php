@@ -48,6 +48,10 @@
                                                     @php($same = $varJay->judul)
                                                 @endif
 
+                                                @if(isset($requestArray['marketing']))
+                                                    @php($sameMarketing = $requestArray['marketing'])
+                                                @endif
+
                                                 @if(isset($requestArray['koordinator']))
                                                     @php($sameKoordinator = $requestArray['koordinator'])
                                                 @endif
@@ -80,7 +84,12 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">MARKETING</label>
-                                            <input type="text" name="marketing" class="form-control" value="{!! isset($requestArray['marketing']) ? $requestArray['marketing'] : '' !!}" autocomplete="off">
+                                            <select name="marketing" class="select2" id="">
+                                                <option value="" selected>--CARI MARKETING--</option>
+                                                @foreach($koordinators as $coordinator)
+                                                    <option value="{!! $coordinator->id !!}" {{ $coordinator->id == $sameMarketing ? 'selected' : '' }}>{!! $coordinator->nama !!}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
