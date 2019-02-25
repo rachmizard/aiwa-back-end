@@ -42,7 +42,10 @@
                                                 @foreach($periodes as $periode)
                                                 <!-- Ini sengaja di kasih kondisi biar si ALL nya ga kedetek -->
                                                 @php($same = null)
+                                                
                                                 @php($sameKoordinator = null)
+
+                                                @php($sameMarketing = null)
 
                                                 @if(isset($varJay))
                                                     @php($same = $varJay->judul)
